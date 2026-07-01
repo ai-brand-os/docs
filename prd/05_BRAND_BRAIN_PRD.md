@@ -41,14 +41,14 @@ Brand Brain is the mechanism that makes "configure once" possible. Without a cle
 
 ## In Scope for MVP Brand Brain
 
-| Entity | Required for Completion? | Cardinality |
-|---|---|---|
-| Organization Profile | Yes | 1 per Organization |
-| Brand Profile (incl. Brand Voice) | Yes | 1 per Organization (MVP: single brand) |
-| Products / Services | Yes (min. 1) | 1..N |
-| Target Audience | Yes (min. 1) | 1..N |
-| Competitors | No (Recommended) | 0..N |
-| Business Goals | No (Recommended) | 1 |
+| Entity                            | Required for Completion? | Cardinality                            |
+| --------------------------------- | ------------------------ | -------------------------------------- |
+| Organization Profile              | Yes                      | 1 per Organization                     |
+| Brand Profile (incl. Brand Voice) | Yes                      | 1 per Organization (MVP: single brand) |
+| Products / Services               | Yes (min. 1)             | 1..N                                   |
+| Target Audience                   | Yes (min. 1)             | 1..N                                   |
+| Competitors                       | No (Recommended)         | 0..N                                   |
+| Business Goals                    | No (Recommended)         | 1                                      |
 
 ## Explicitly Out of Scope for Brand Brain MVP
 
@@ -59,7 +59,7 @@ Deferred to Phase 2+ per `02_PRODUCT_BIBLE.md` Roadmap:
 - Asset (logos, brand guideline files as structured objects)
 - Channel
 - Content (generated output; lives in AI Workspace, not Brand Brain)
-- Multi-brand support (MVP = one Brand per Organization, per `02_PRODUCT_BIBLE.md`: *"The MVP supports one primary brand."*)
+- Multi-brand support (MVP = one Brand per Organization, per `02_PRODUCT_BIBLE.md`: _"The MVP supports one primary brand."_)
 
 If a future feature requests any of these, it must go through the Feature Acceptance Rules in `01_PROJECT_BIBLE.md` before being added here.
 
@@ -93,67 +93,67 @@ Each field below carries a `source` attribute: `manual` (user-typed), `imported`
 
 ## 1. Organization Profile
 
-| Field | Type | Required | Source |
-|---|---|---|---|
-| Organization Name | text | Yes | both |
-| Industry | enum (predefined list + "Other") | Yes | both |
-| Company Size | enum: 1–5 / 6–20 / 21–50 / 50+ | Yes | manual |
-| Website URL | url | No | manual (triggers import) |
-| Primary Region | enum | Yes | manual |
-| Primary Language | enum | Yes | manual |
+| Field             | Type                             | Required | Source                   |
+| ----------------- | -------------------------------- | -------- | ------------------------ |
+| Organization Name | text                             | Yes      | both                     |
+| Industry          | enum (predefined list + "Other") | Yes      | both                     |
+| Company Size      | enum: 1–5 / 6–20 / 21–50 / 50+   | Yes      | manual                   |
+| Website URL       | url                              | No       | manual (triggers import) |
+| Primary Region    | enum                             | Yes      | manual                   |
+| Primary Language  | enum                             | Yes      | manual                   |
 
 ## 2. Brand Profile
 
-| Field | Type | Required | Source |
-|---|---|---|---|
-| Brand Name | text | Yes | both |
-| Mission Statement | text (≤300 chars) | Yes | both |
-| Vision Statement | text (≤300 chars) | No | both |
-| Core Values | list of tags | No | both |
-| Brand Voice — Tone Attributes | multi-select (2–4 from a fixed taxonomy, e.g. Professional, Friendly, Bold, Playful, Authoritative, Minimal) | Yes | manual |
-| Brand Voice — Vocabulary Do's | list of short phrases | No | manual |
-| Brand Voice — Vocabulary Don'ts | list of short phrases | No | manual |
-| Sample Writing (existing content pasted by user) | text block | No | manual |
+| Field                                            | Type                                                                                                         | Required | Source |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | -------- | ------ |
+| Brand Name                                       | text                                                                                                         | Yes      | both   |
+| Mission Statement                                | text (≤300 chars)                                                                                            | Yes      | both   |
+| Vision Statement                                 | text (≤300 chars)                                                                                            | No       | both   |
+| Core Values                                      | list of tags                                                                                                 | No       | both   |
+| Brand Voice — Tone Attributes                    | multi-select (2–4 from a fixed taxonomy, e.g. Professional, Friendly, Bold, Playful, Authoritative, Minimal) | Yes      | manual |
+| Brand Voice — Vocabulary Do's                    | list of short phrases                                                                                        | No       | manual |
+| Brand Voice — Vocabulary Don'ts                  | list of short phrases                                                                                        | No       | manual |
+| Sample Writing (existing content pasted by user) | text block                                                                                                   | No       | manual |
 
 ## 3. Products / Services (repeatable, 1..N)
 
-| Field | Type | Required | Source |
-|---|---|---|---|
-| Name | text | Yes | both |
-| Description | text | Yes | both |
-| Value Proposition | text | Yes | manual |
-| Key Features | list | No | both |
-| Pricing Model | text | No | both |
+| Field             | Type | Required | Source |
+| ----------------- | ---- | -------- | ------ |
+| Name              | text | Yes      | both   |
+| Description       | text | Yes      | both   |
+| Value Proposition | text | Yes      | manual |
+| Key Features      | list | No       | both   |
+| Pricing Model     | text | No       | both   |
 
 ## 4. Target Audience (repeatable, 1..N)
 
-| Field | Type | Required | Source |
-|---|---|---|---|
-| Segment Name | text | Yes | manual |
-| Description | text | Yes | manual |
-| Pain Points | list | Yes | manual |
-| Goals / Motivations | list | No | manual |
+| Field               | Type | Required | Source |
+| ------------------- | ---- | -------- | ------ |
+| Segment Name        | text | Yes      | manual |
+| Description         | text | Yes      | manual |
+| Pain Points         | list | Yes      | manual |
+| Goals / Motivations | list | No       | manual |
 
 ## 5. Competitors (repeatable, 0..N) — Recommended, not required
 
-| Field | Type | Required | Source |
-|---|---|---|---|
-| Competitor Name | text | No | both |
-| Website | url | No | manual |
-| Differentiation Notes | text | No | manual |
+| Field                 | Type | Required | Source |
+| --------------------- | ---- | -------- | ------ |
+| Competitor Name       | text | No       | both   |
+| Website               | url  | No       | manual |
+| Differentiation Notes | text | No       | manual |
 
 ## 6. Business Goals
 
-| Field | Type | Required | Source |
-|---|---|---|---|
-| Primary Goal | enum: Awareness / Lead Gen / Sales / Retention / Other | No | manual |
-| Success Definition | text | No | manual |
+| Field              | Type                                                   | Required | Source |
+| ------------------ | ------------------------------------------------------ | -------- | ------ |
+| Primary Goal       | enum: Awareness / Lead Gen / Sales / Retention / Other | No       | manual |
+| Success Definition | text                                                   | No       | manual |
 
 ---
 
 # Brand Brain Completeness Score
 
-Ties directly to the Success Metric in `01_PRODUCT_DISCOVERY.md`: *Brand Brain Completion > 70%*.
+Ties directly to the Success Metric in `01_PRODUCT_DISCOVERY.md`: _Brand Brain Completion > 70%_.
 
 ## Formula
 
@@ -169,7 +169,7 @@ This weighting is deliberate: a user should be able to hit "Wow Moment" (first g
 
 ## Display Rule
 
-The Completeness Score is shown as a persistent progress indicator in the AI Workspace sidebar. It must never block content generation — Brand Brain can be used for AI generation the moment all *required* fields are filled, even at <100%.
+The Completeness Score is shown as a persistent progress indicator in the AI Workspace sidebar. It must never block content generation — Brand Brain can be used for AI generation the moment all _required_ fields are filled, even at <100%.
 
 ---
 
@@ -228,7 +228,7 @@ Step 5 — First Generation ("Wow Moment")
 - **FR-7**: System shall allow content generation once all Required fields (per data model) are filled, independent of overall Completeness Score.
 - **FR-8**: System shall version every Brand Brain field change through the Knowledge Management Service (no silent overwrites — aligns with ADR-003 in `04_KNOWLEDGE_MANAGEMENT_SERVICE.md`).
 - **FR-9**: System shall allow editing Brand Brain at any time after onboarding, not just during initial setup.
-- **FR-10**: System shall record which fields were AI-imported vs. manually entered, for provenance (aligns with Knowledge domain invariant: *"Every Knowledge item originates from at least one Document"* — manually entered fields originate from a synthetic "User Input" source).
+- **FR-10**: System shall record which fields were AI-imported vs. manually entered, for provenance (aligns with Knowledge domain invariant: _"Every Knowledge item originates from at least one Document"_ — manually entered fields originate from a synthetic "User Input" source).
 
 ---
 
@@ -253,11 +253,11 @@ Step 5 — First Generation ("Wow Moment")
 
 # Success Metrics (inherited from Product Discovery / Market Research)
 
-| Metric | Target |
-|---|---|
-| Brand Brain Completion Rate | > 70% |
-| Time to First Value | < 10 minutes |
-| Activation Rate (reaches Step 5) | > 60% |
+| Metric                           | Target       |
+| -------------------------------- | ------------ |
+| Brand Brain Completion Rate      | > 70%        |
+| Time to First Value              | < 10 minutes |
+| Activation Rate (reaches Step 5) | > 60%        |
 
 ---
 
@@ -266,7 +266,8 @@ Step 5 — First Generation ("Wow Moment")
 - `01_BRAND_BRAIN.md` (Domain Model) — entity definitions and relationships.
 - `04_KNOWLEDGE_MANAGEMENT_SERVICE.md` — persistence, versioning, approval policy.
 - `03_KNOWLEDGE_EXTRACTION_SERVICE.md` — candidate field extraction during import.
-- `02_DOCUMENT_PROCESSING_SERVICE.md` / `01_INGESTION_SERVICE.md` — website/document parsing (see Open Questions on `01_INGESTION_SERVICE.md` overlap).
+- `01_INGESTION_SERVICE.md` (v2.0.0, thin intake layer) — accepts raw website/document input.
+- `02_DOCUMENT_PROCESSING_SERVICE.md` — parses accepted input into structured documents.
 - `05_CONTEXT_ENGINE.md` — downstream consumer of Brand Brain fields.
 
 ---
@@ -277,14 +278,14 @@ Step 5 — First Generation ("Wow Moment")
 - Persona sub-profiles.
 - Campaign / Content / Asset / Channel entities.
 - Dynamic Trust Score for imported fields (MVP uses static confidence from Knowledge Extraction Service only).
-- Human Review workflow for low-confidence imports (MVP: user review during onboarding *is* the review step; no separate admin queue).
+- Human Review workflow for low-confidence imports (MVP: user review during onboarding _is_ the review step; no separate admin queue).
 
 ---
 
 # Open Questions
 
 1. Should **Brand Voice — Tone Attributes** be import-eligible, or always manual? (Currently marked manual-only above — tone is subjective and mis-imported tone could be worse than no tone. Recommend keeping manual-only unless Knowledge Extraction proves reliable here post-MVP.)
-2. `01_INGESTION_SERVICE.md` currently duplicates logic already covered by `02_DOCUMENT_PROCESSING_SERVICE.md` + `03_KNOWLEDGE_EXTRACTION_SERVICE.md` (flagged in prior review). This PRD assumes Ingestion is reduced to a thin intake layer. **Needs Engineering confirmation before Step 2 is built.**
+2. ~~`01_INGESTION_SERVICE.md` duplicates logic covered by Document Processing + Knowledge Extraction.~~ **Resolved 2026-07-01** — `01_INGESTION_SERVICE.md` v2.0.0 reduced to a thin intake layer (validation + forwarding only). No further action needed before Step 2 is built.
 3. Fixed taxonomy for Industry and Tone Attributes needs an actual finite list — not defined in this PRD, needs a short UX/content task before development starts.
 4. Should Competitors support auto-import (e.g. detecting competitor names mentioned on the client's own website), or manual-only for MVP? Recommend manual-only for MVP — low value, adds import complexity.
 

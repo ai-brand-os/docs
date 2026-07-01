@@ -1,12 +1,12 @@
-# Service Specification — Knowledge Engine
+# Service Specification — Ingestion Service
 
 Document
 
-01_KNOWLEDGE_ENGINE.md
+01_INGESTION_SERVICE.md
 
 Version
 
-1.0.0
+2.0.0
 
 Status
 
@@ -22,473 +22,348 @@ P0
 
 ---
 
+# Revision Notice
+
+This document supersedes version 1.0.0.
+
+Version 1.0.0 incorrectly defined a full knowledge pipeline (parsing, entity extraction, relationship extraction, validation, persistence) that duplicated responsibilities already owned by:
+
+- `02_DOCUMENT_PROCESSING_SERVICE.md` — parsing, normalization, chunking
+- `03_KNOWLEDGE_EXTRACTION_SERVICE.md` — entity/relationship extraction, classification
+- `04_KNOWLEDGE_MANAGEMENT_SERVICE.md` — validation, deduplication, conflict detection, persistence
+
+Version 2.0.0 reduces the Ingestion Service to its correct, minimal responsibility: **accepting and validating raw input before handing it to the Document Processing Service.** No processing, interpretation, or persistence logic belongs here.
+
+---
+
 # Purpose
 
-The Knowledge Engine is the only service responsible for transforming raw business information into validated, structured knowledge that can be persisted in Brand Brain.
+The Ingestion Service is the single entry point for raw business information entering AI Brand OS.
 
-It protects the integrity of the Core Domain by ensuring that no unvalidated or inconsistent knowledge enters the Brand Brain.
-
-The Knowledge Engine is an Application Service.
-
-It is not a storage layer.
-
-It is not an AI provider.
-
-It is not responsible for context retrieval.
+It is a **gatekeeper**, not a processor. Its only job is to accept input, confirm it is technically valid, and forward it downstream. It has no knowledge of business meaning.
 
 ---
 
 # Mission
 
-Convert business information into trustworthy organizational intelligence.
+Safely and reliably accept raw content from any supported source and hand it to the Document Processing Service as an unprocessed artifact.
 
 ---
 
 # Responsibilities
 
-The Knowledge Engine is responsible for:
+The Ingestion Service is responsible for:
 
-- Knowledge ingestion
-- Parsing
-- Normalization
-- Classification
-- Entity extraction
-- Relationship extraction
-- Validation
-- Deduplication
-- Versioning
-- Conflict detection
-- Confidence scoring
-- Persistence through Brand Brain application services
+- Accepting uploads (file-based sources)
+- Accepting website URLs for crawling
+- Basic input validation (format, size, encoding, emptiness)
+- Duplicate upload detection (same file/URL submitted twice)
+- Malware scanning (future)
+- Assigning a Source ID and correlation ID
+- Forwarding validated input to the Document Processing Service
+- Reporting ingestion status back to the caller
 
 ---
 
 # Non-Responsibilities
 
-The Knowledge Engine must never:
+The Ingestion Service must never:
 
-- Generate AI responses
+- Parse document content
+- Extract business entities or relationships
+- Interpret semantics
+- Classify information
+- Validate business rules
+- Deduplicate knowledge (as opposed to deduplicating raw uploads)
+- Detect knowledge conflicts
+- Persist Brand Brain or Knowledge Domain data
+- Call LLM providers
 - Retrieve context
-- Select LLM providers
-- Execute prompts
-- Store conversations
-- Manage organizations
-- Manage permissions
+- Generate AI responses
 
-These concerns belong to other services.
+All of the above belong to Document Processing, Knowledge Extraction, or Knowledge Management.
 
 ---
 
-# Inputs
+# Input
 
-The Knowledge Engine accepts information from multiple sources.
+Supported sources (MVP):
 
-Supported inputs include:
+- File upload: PDF, DOCX, Markdown, Plain Text
+- Website URL (single page or shallow crawl, per Brand Brain PRD Step 2)
 
-- Manual forms
-- Website import
-- PDF documents
-- DOCX documents
-- Markdown files
-- Plain text
-- Approved AI outputs
-- API integrations (future)
-- CRM integrations (future)
+Future:
 
-Every input is treated as untrusted until validated.
+- Audio
+- Video
+- Images (OCR)
+- Email
+- API integrations
+- CRM integrations
+
+Every input is treated as untrusted until it passes validation.
 
 ---
 
-# Outputs
+# Output
 
-The Knowledge Engine produces structured knowledge.
+The service produces a **Raw Intake Artifact**, containing:
 
-Outputs include:
+- Source ID
+- Correlation ID
+- Source Type (file / URL)
+- Original filename or URL
+- Raw bytes / raw HTML reference (stored, not parsed)
+- Validation Result
+- Timestamp
 
-- Business entities
-- Relationships
-- Metadata
-- Confidence scores
-- Validation results
-- Version records
-- Domain events
-
-The service never returns raw AI prompts.
+The Raw Intake Artifact contains no interpreted content. It is the input to the Document Processing Service, not to Knowledge Extraction.
 
 ---
 
 # Core Principle
 
-Raw information is not knowledge.
+Ingestion answers one question only: **"Is this safe and valid to process?"**
 
-Only validated and structured information becomes Brand Brain knowledge.
+It never answers: "What does this mean for the business?" — that question belongs entirely downstream.
 
 ---
 
-# Processing Pipeline
-
-Every input follows the same pipeline.
+# Intake Pipeline
 
 ```
-Raw Input
-    ↓
-Parsing
-    ↓
-Normalization
-    ↓
-Classification
-    ↓
-Entity Extraction
-    ↓
-Relationship Extraction
-    ↓
-Validation
-    ↓
-Deduplication
-    ↓
-Conflict Detection
-    ↓
-Confidence Scoring
-    ↓
-Persistence
-    ↓
-Domain Events
+Raw Input (file or URL)
+        │
+        ▼
+Format & Size Validation
+        │
+        ▼
+Encoding Check
+        │
+        ▼
+Duplicate Detection
+        │
+        ▼
+Malware Scan (future)
+        │
+        ▼
+Raw Intake Artifact
+        │
+        ▼
+Forward to Document Processing Service
 ```
 
-No stage may be skipped.
-
----
-
-# Design Principles
-
-## Deterministic
-
-Given identical input and configuration, the service should produce identical results whenever possible.
-
----
-
-## Traceable
-
-Every extracted fact must retain its origin.
-
----
-
-## Explainable
-
-The system should be able to explain why a piece of knowledge exists.
-
----
-
-## Incremental
-
-Knowledge improves continuously rather than being rebuilt from scratch.
-
----
-
-## Safe
-
-The service prefers rejecting uncertain knowledge over polluting Brand Brain.
-
----
-
-# Success Criteria
-
-The Knowledge Engine succeeds when:
-
-- Knowledge quality improves over time.
-- Duplicate information decreases.
-- Confidence scores increase.
-- Manual corrections decline.
-- AI output consistency improves.
-- Brand Brain remains trustworthy.
-
----
-
-Status
-
-Draft
-
----
-
-# Processing Pipeline
-
-Every knowledge ingestion request follows the same deterministic pipeline.
-
-```
-Source
-    ↓
-Input Validation
-    ↓
-Content Parsing
-    ↓
-Normalization
-    ↓
-Chunking
-    ↓
-Entity Extraction
-    ↓
-Relationship Extraction
-    ↓
-Classification
-    ↓
-Deduplication
-    ↓
-Conflict Detection
-    ↓
-Validation
-    ↓
-Confidence Scoring
-    ↓
-Persistence
-    ↓
-Domain Events
-```
-
-Each stage must complete successfully before the next stage begins.
-
----
-
-# Stage 1 — Input Validation
-
-Purpose
-
-Ensure the incoming data is processable.
-
-Validation includes:
-
-- Supported format
-- Maximum file size
-- Character encoding
-- Empty content detection
-- Malware scanning (future)
-- Duplicate upload detection
-
-Failure at this stage terminates the pipeline.
-
----
-
-# Stage 2 — Content Parsing
-
-Purpose
-
-Convert raw content into machine-readable text.
-
-Supported formats
-
-- Plain Text
-- Markdown
-- HTML
-- PDF
-- DOCX
-
-Future
-
-- Audio
-- Video
-- Images
-- OCR
-
-Parsing should preserve structural information where possible.
-
-Examples:
-
-- Headings
-- Lists
-- Tables
-- Links
-
----
-
-# Stage 3 — Normalization
-
-Purpose
-
-Produce a consistent representation of content.
-
-Normalization includes:
-
-- Remove duplicated whitespace
-- Normalize Unicode
-- Standardize punctuation
-- Detect language
-- Normalize dates
-- Normalize currencies
-- Normalize phone numbers
-- Normalize URLs
-
-Normalization must never change semantic meaning.
-
----
-
-# Stage 4 — Chunking
-
-Purpose
-
-Split large documents into logical processing units.
-
-Chunking strategy
-
-Prefer semantic boundaries over fixed token counts.
-
-Priority order:
-
-1. Section
-2. Heading
-3. Paragraph
-4. Sentence
-
-Chunk metadata
-
-- Source ID
-- Chunk ID
-- Position
-- Parent Section
-- Language
-- Estimated Tokens
-
-Chunks are immutable after creation.
-
----
-
-# Stage 5 — Entity Extraction
-
-Purpose
-
-Identify business entities.
-
-Examples
-
-- Product
-- Service
-- Competitor
-- Audience
-- Customer Segment
-- Business Goal
-- Brand Voice
-- Marketing Channel
-- Campaign
-- Pricing Model
-- Industry
-- Region
-
-Each extracted entity must include:
-
-- Type
-- Value
-- Source Reference
-- Confidence
-- Extraction Method
-
----
-
-# Stage 6 — Relationship Extraction
-
-Purpose
-
-Discover relationships between entities.
-
-Examples
-
-Product
-
-↓
-
-Target Audience
-
-Campaign
-
-↓
-
-Business Goal
-
-Competitor
-
-↓
-
-Positioning
-
-Brand Voice
-
-↓
-
-Content Asset
-
-Relationships are first-class citizens.
-
-They are not derived implicitly.
-
----
-
-# Stage 7 — Classification
-
-Purpose
-
-Assign entities to Brand Brain aggregates.
-
-Examples
-
-Mission
-
-↓
-
-Business Profile
-
-Pricing
-
-↓
-
-Product
-
-Tone
-
-↓
-
-Brand Voice
-
-FAQ
-
-↓
-
-Content Asset
-
-Classification must be deterministic whenever rules exist.
-
-AI classification should be used only when deterministic rules are insufficient.
+Each stage is a simple pass/fail gate. There is no branching business logic.
 
 ---
 
 # Validation Rules
 
-Validation occurs after extraction.
+- Supported format (per MVP Scope below)
+- Maximum file size (configurable, Engineering-owned limit)
+- Non-empty content
+- Valid, reachable URL (for website sources)
+- Not a duplicate of a Source ID already ingested for this Organization within a configurable time window
 
-Checks include:
-
-- Required fields
-- Schema validation
-- Entity completeness
-- Relationship integrity
-- Circular reference detection
-- Invalid references
-- Duplicate identifiers
-- Business rule compliance
-
-Validation failures never modify Brand Brain.
+Failure at any stage terminates the intake request and returns a structured error. No partial forwarding occurs.
 
 ---
 
-# Processing Guarantees
+# Design Principles
 
-The pipeline guarantees:
+## Minimal
 
-- Traceability
-- Idempotency
-- Deterministic processing where possible
-- No direct writes to Brand Brain
-- Full auditability
-- Recoverable failures
+The service does the least possible work needed to safely accept input.
 
 ---
 
-Status
+## Stateless Where Possible
 
-Draft
+Beyond the Raw Intake Artifact record, the service holds no long-lived business state.
+
+---
+
+## Fast Fail
+
+Invalid input is rejected immediately, before any downstream service is invoked.
+
+---
+
+## Traceable
+
+Every intake request receives a Correlation ID that follows the artifact through Document Processing, Knowledge Extraction, and Knowledge Management.
+
+---
+
+# Success Criteria
+
+The Ingestion Service succeeds when:
+
+- Invalid input never reaches the Document Processing Service.
+- Every accepted input is traceable via Correlation ID end-to-end.
+- Duplicate submissions are caught before reprocessing wastes compute.
+- The service adds negligible latency to the overall import flow.
+
+---
+
+# Service Interfaces
+
+Primary operations:
+
+- Submit File
+- Submit URL
+- Get Intake Status
+
+The service exposes no internal validation stages.
+
+---
+
+# Upstream Dependencies
+
+The service accepts requests only from:
+
+- Brand Brain onboarding flow (Website Import step, per `05_BRAND_BRAIN_PRD.md`)
+- Future: Batch Import, Scheduled Import
+
+Direct unauthenticated access is prohibited.
+
+---
+
+# Downstream Integrations
+
+The Ingestion Service forwards successfully validated artifacts to:
+
+- Document Processing Service
+
+The service must never communicate directly with:
+
+- Knowledge Extraction Service
+- Knowledge Management Service
+- Brand Brain
+- Context Engine
+- LLM Providers
+
+---
+
+# Security Requirements
+
+- Signed upload URLs
+- File type verification (not just extension — content sniffing)
+- Size limits enforced before storage write
+- Malware scanning (future)
+- Encrypted storage of raw artifacts
+- Organization-scoped access only (no cross-tenant intake)
+
+---
+
+# Observability
+
+Operational metrics:
+
+- Intake requests per source type
+- Validation failure rate
+- Duplicate detection rate
+- Average intake latency
+- Forwarding success rate to Document Processing
+
+Telemetry must never contain raw business content.
+
+---
+
+# Architectural Decisions
+
+## ADR-001 (v2.0.0)
+
+The Ingestion Service performs intake validation only; all parsing and interpretation logic moved to Document Processing and Knowledge Extraction.
+
+Reason:
+
+Version 1.0.0 duplicated pipeline stages already owned by downstream services, creating two competing architectures for the same responsibility. A single entry gatekeeper is simpler to reason about, test, and scale independently from heavier processing workloads.
+
+---
+
+## ADR-002
+
+Duplicate detection at ingestion is based on raw source identity (file hash / URL), not semantic content.
+
+Reason:
+
+Semantic duplicate detection is a knowledge-governance concern and belongs to the Knowledge Management Service, not to intake.
+
+---
+
+# MVP Scope
+
+Included:
+
+- File upload intake (PDF, DOCX, Markdown, Plain Text)
+- Website URL intake
+- Format/size/encoding validation
+- Duplicate upload detection
+- Forwarding to Document Processing Service
+
+---
+
+# Deferred Features
+
+Post-MVP:
+
+- Audio / Video / Image intake
+- OCR pre-check
+- Malware scanning
+- CRM / API integrations
+- Scheduled or batch imports
+
+---
+
+# Definition of Done
+
+The Ingestion Service is complete when:
+
+- All supported source types can be submitted and validated.
+- Invalid input is rejected before reaching Document Processing.
+- Every artifact carries a Correlation ID usable across the full pipeline.
+- No parsing, extraction, or persistence logic exists in this service.
+- Documentation is synchronized with Document Processing, Knowledge Extraction, and Knowledge Management specs.
+
+Implementation containing any parsing or entity extraction logic is considered a violation of this specification.
+
+---
+
+# Related Documents
+
+`02_DOCUMENT_PROCESSING_SERVICE.md`
+
+`05_BRAND_BRAIN_PRD.md`
+
+`03_ENGINEERING_BIBLE.md`
+
+---
+
+# Version History
+
+## Version 2.0.0
+
+Reduced scope to thin intake layer. Removed parsing, entity extraction, relationship extraction, validation, deduplication-of-knowledge, and persistence responsibilities — all reassigned to their correct owning services.
+
+## Version 1.0.0 (Superseded)
+
+Initial draft. Incorrectly scoped as a full knowledge pipeline.
+
+---
+
+# Status
+
+Draft — Supersedes v1.0.0
+
+Version
+
+2.0.0
+
+Effective Date
+
+2026-07-01
+
+---
+
+# END OF DOCUMENT
