@@ -130,7 +130,6 @@ Inside the Domain:
 - Products
 - Audiences
 - Content
-- Campaigns
 - Assets
 - Brand Voice
 - Knowledge
@@ -158,6 +157,12 @@ Examples:
 Organization
 
 The business using AI Brand OS.
+
+Brand
+
+Represents the business identity managed by an Organization.
+
+A Brand owns its Brand Voice and Brand Brain.
 
 Product
 
@@ -478,21 +483,22 @@ Channels influence content format and communication constraints.
 
 Each entity has one authoritative owner.
 
-| Entity | Owner |
-|---------|-------|
-| Organization | Organization |
-| Product | Organization |
-| Service | Organization |
-| Audience | Organization |
-| Persona | Organization |
-| Brand Voice | Organization |
-| Content | Organization |
-| Campaign | Organization |
-| Asset | Organization |
-| Document | Organization |
-| Knowledge | Knowledge Management Service |
-| Competitor | Organization |
-| Channel | Organization |
+| Entity       | Owner                        |
+| ------------ | ---------------------------- |
+| Organization | Organization                 |
+| Product      | Organization                 |
+| Service      | Organization                 |
+| Audience     | Organization                 |
+| Persona      | Organization                 |
+| Brand Voice  | Organization                 |
+| Content      | Organization                 |
+| Campaign     | Organization                 |
+| Asset        | Organization                 |
+| Document     | Organization                 |
+| Knowledge    | Knowledge Management Service |
+| Competitor   | Organization                 |
+| Channel      | Organization                 |
+| Brand        | Organization                 |
 
 ---
 
@@ -546,7 +552,7 @@ Organization
 
 HAS
 
-1 Brand Voice
+1..N Brands
 
 ---
 
@@ -603,6 +609,32 @@ Organization
 USES
 
 1..N Channels
+
+---
+
+# Brand Relationships
+
+Brand
+
+BELONGS TO
+
+1 Organization
+
+---
+
+Brand
+
+HAS
+
+1 Brand Voice
+
+---
+
+Brand
+
+HAS
+
+1..N Knowledge Items
 
 ---
 
@@ -752,7 +784,7 @@ Brand Voice
 
 BELONGS TO
 
-1 Organization
+1 Brand
 
 ---
 
@@ -936,7 +968,7 @@ Knowledge
 
 BELONGS TO
 
-1 Organization
+1 Brand
 
 ---
 
@@ -1278,20 +1310,21 @@ Aggregate boundaries define ownership consistency within the business domain.
 
 Organization is the root aggregate.
 
+Brand is the primary business aggregate within an Organization.
+
 The following entities belong to an Organization:
 
 - Product
 - Service
 - Audience
 - Persona
-- Brand Voice
 - Campaign
 - Content
 - Asset
 - Document
-- Knowledge
 - Competitor
 - Channel
+- Brand
 
 Cross-organization relationships are not permitted.
 
@@ -1310,6 +1343,9 @@ The following business rules must always be true.
 - Every Service belongs to one Organization.
 - Every Campaign belongs to one Organization.
 - AI execution never consumes raw Documents directly.
+- Every Brand belongs to exactly one Organization.
+- Every Brand Voice belongs to exactly one Brand.
+- Every Knowledge item belongs to exactly one Brand.
 
 ---
 
@@ -1350,6 +1386,7 @@ Included:
 - Knowledge
 - Competitor
 - Channel
+- Brand
 
 ---
 

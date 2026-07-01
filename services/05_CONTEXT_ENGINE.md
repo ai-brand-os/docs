@@ -52,6 +52,7 @@ The Context Engine is responsible for:
 - Context compression
 - Context scoring
 - Prompt Context Artifact generation
+- Creating a Context Assembly Job
 
 ---
 
@@ -93,6 +94,7 @@ Containing:
 - Memory
 - Retrieval Metadata
 - Context Score
+- Context Assembly Status
 
 The artifact is optimized for downstream prompt generation.
 
@@ -185,6 +187,7 @@ The Context Engine succeeds when:
 - Brand voice remains consistent.
 - Provenance is maintained.
 - Prompt Context Artifacts are reusable.
+- Every request produces exactly one Prompt Context Artifact.
 
 ---
 
@@ -460,6 +463,7 @@ The Context Engine guarantees:
 - Deterministic execution where possible
 - Minimal redundant context
 - Immutable Prompt Context Artifacts
+- Idempotent context assembly
 
 ---
 
@@ -476,7 +480,7 @@ The Context Engine exposes application interfaces for context assembly.
 Primary operations:
 
 - Build Context
-- Get Context Status
+- Get Context Assembly Job Status
 - Rebuild Context
 
 The service never exposes internal retrieval or ranking stages.
@@ -614,6 +618,8 @@ Operational metrics include:
 - Compression latency
 - Context size
 - Context Quality Score
+- Context Assembly Success Rate
+- Average Context Build Time
 - Retrieval source distribution
 - Cache hit ratio (Future)
 
@@ -706,6 +712,7 @@ The Context Engine is complete when:
 - Context size respects configured budgets.
 - Provenance is preserved.
 - Retrieval strategies are configurable.
+- Every context assembly request produces exactly one traceable Context Assembly Job.
 - Documentation is synchronized.
 
 Implementation without explainable context assembly is considered incomplete.

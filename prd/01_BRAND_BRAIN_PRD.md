@@ -1,6 +1,6 @@
 # AI Brand OS — Brand Brain PRD
 
-Document: **05_BRAND_BRAIN_PRD.md**
+Document: **02_BRAND_BRAIN_PRD.md**
 
 Version: **1.0.0**
 
@@ -71,7 +71,7 @@ If a future feature requests any of these, it must go through the Feature Accept
 01_BRAND_BRAIN.md (Domain Model)
         │
         ▼  (defines business entities & relationships)
-05_BRAND_BRAIN_PRD.md  ← this document
+01_BRAND_BRAIN_PRD.md  ← this document
         │
         ▼  (defines fields, UX, acceptance criteria)
 04_KNOWLEDGE_MANAGEMENT_SERVICE.md   (persists Approved Knowledge Artifacts)
@@ -226,7 +226,7 @@ Step 5 — First Generation ("Wow Moment")
 - **FR-5**: System shall support 1..N repeatable records for Products/Services, Audience, and Competitors.
 - **FR-6**: System shall calculate and persist a Completeness Score after every Brand Brain edit.
 - **FR-7**: System shall allow content generation once all Required fields (per data model) are filled, independent of overall Completeness Score.
-- **FR-8**: System shall version every Brand Brain field change through the Knowledge Management Service (no silent overwrites — aligns with ADR-003 in `04_KNOWLEDGE_MANAGEMENT_SERVICE.md`).
+- **FR-8**: System shall persist every Brand Brain field change through the Knowledge Management Service with full version history. (no silent overwrites — aligns with ADR-003 in `04_KNOWLEDGE_MANAGEMENT_SERVICE.md`).
 - **FR-9**: System shall allow editing Brand Brain at any time after onboarding, not just during initial setup.
 - **FR-10**: System shall record which fields were AI-imported vs. manually entered, for provenance (aligns with Knowledge domain invariant: _"Every Knowledge item originates from at least one Document"_ — manually entered fields originate from a synthetic "User Input" source).
 
@@ -266,7 +266,7 @@ Step 5 — First Generation ("Wow Moment")
 - `01_BRAND_BRAIN.md` (Domain Model) — entity definitions and relationships.
 - `04_KNOWLEDGE_MANAGEMENT_SERVICE.md` — persistence, versioning, approval policy.
 - `03_KNOWLEDGE_EXTRACTION_SERVICE.md` — candidate field extraction during import.
-- `01_INGESTION_SERVICE.md` (v2.0.0, thin intake layer) — accepts raw website/document input.
+- `01_INGESTION_SERVICE.md` — accepts raw website/document input.
 - `02_DOCUMENT_PROCESSING_SERVICE.md` — parses accepted input into structured documents.
 - `05_CONTEXT_ENGINE.md` — downstream consumer of Brand Brain fields.
 
@@ -291,16 +291,6 @@ Step 5 — First Generation ("Wow Moment")
 
 ---
 
-# Recommended Next Task
-
-Per the founder's workflow (Step 3: recommend highest-impact next task):
-
-The four existing Knowledge service specs (Ingestion, Document Processing, Knowledge Extraction, Knowledge Management) were written at Engineering altitude (Stage 4) before a product-level PRD existed for Import. Now that Brand Brain PRD exists and formally depends on them, the next highest-impact task is a short **`07_KNOWLEDGE_IMPORT_PRD.md`** — not a rewrite of those services, but a product-level validation layer: what the user sees during import, what happens on partial success, and what confidence thresholds mean in UX terms. This is smaller than a full PRD and should take a single session.
-
-Second priority after that: `06_AI_WORKSPACE_PRD.md`, since Brand Brain has no purpose without it.
-
----
-
 # Decision Log
 
 ## 2026-07-01
@@ -322,7 +312,7 @@ Second priority after that: `06_AI_WORKSPACE_PRD.md`, since Brand Brain has no p
 
 `03_KNOWLEDGE_EXTRACTION_SERVICE.md`
 
-`06_AI_WORKSPACE_PRD.md` (not yet written)
+`02_AI_WORKSPACE_PRD.md`
 
 `07_KNOWLEDGE_IMPORT_PRD.md` (not yet written — recommended next)
 

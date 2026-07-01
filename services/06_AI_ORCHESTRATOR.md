@@ -53,6 +53,7 @@ The AI Orchestrator is responsible for:
 - Response validation
 - Response artifact generation
 - Execution telemetry
+- Creating an AI Execution Job
 
 ---
 
@@ -99,6 +100,7 @@ Containing
 - Latency
 - Cost
 - Validation Result
+- Execution Status
 
 ---
 
@@ -192,6 +194,7 @@ The AI Orchestrator succeeds when:
 - Model selection is explainable.
 - Responses are validated.
 - Execution is fully observable.
+- Every execution request produces exactly one Response Artifact.
 
 ---
 
@@ -457,6 +460,7 @@ The AI Orchestrator guarantees:
 - Immutable execution artifacts
 - Explainable model selection
 - Observable execution lifecycle
+- Idempotent execution planning
 
 ---
 
@@ -473,7 +477,7 @@ The AI Orchestrator exposes application interfaces for AI execution.
 Primary operations:
 
 - Execute Request
-- Get Execution Status
+- Get AI Execution Job Status
 - Retry Execution
 
 The service never exposes internal execution stages.
@@ -623,6 +627,8 @@ Operational metrics include:
 - Token Usage
 - Estimated Cost
 - Model Distribution
+- Average Planning Time
+- Context Build Duration
 
 Execution telemetry must not contain confidential business information.
 
@@ -710,6 +716,7 @@ The AI Orchestrator is complete when:
 - Responses are validated before delivery.
 - Execution metadata is recorded.
 - Provider independence is maintained.
+- Every execution request produces exactly one traceable AI Execution Job.
 - Documentation is synchronized.
 
 Implementation without provider abstraction is considered incomplete.

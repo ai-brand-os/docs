@@ -53,6 +53,7 @@ The Document Processing Service is responsible for:
 - Chunk generation
 - Chunk optimization
 - Processing quality validation
+- Creating a Processing Job
 
 ---
 
@@ -113,6 +114,7 @@ A Structured Document contains:
 - Metadata
 - Chunks
 - Processing Metadata
+- Processing Status
 
 No business knowledge is produced.
 
@@ -168,6 +170,7 @@ The pipeline guarantees:
 - Recoverable failures
 - Configurable stages
 - Source-independent output
+- Idempotent processing
 
 ---
 
@@ -454,6 +457,7 @@ Each stage reports:
 - Human-readable Message
 - Technical Details
 - Correlation ID
+- Stage Retry Count
 
 The pipeline should stop immediately on unrecoverable errors.
 
@@ -474,7 +478,7 @@ The Document Processing Service exposes application interfaces for processing im
 Primary operations:
 
 - Process Document
-- Get Processing Status
+- Get Processing Job Status
 - Retry Processing
 - Cancel Processing
 
@@ -578,6 +582,8 @@ Examples:
 - Validation Failure Rate
 - Language Distribution
 - Pipeline Throughput
+- Processing Success Rate
+- Retry Rate
 
 Metrics must not contain business-sensitive content.
 
@@ -605,6 +611,7 @@ Pipeline execution must support:
 - Safe retry
 - Partial restart from the failed stage
 - Failure diagnostics
+- Idempotent restart
 - Correlation tracing
 
 Successfully completed stages should not execute again unless explicitly requested.
@@ -703,6 +710,7 @@ The Document Processing Service is complete when:
 - Processing metrics are available.
 - Security requirements are satisfied.
 - Observability is operational.
+- Every processing request produces exactly one Processing Job.
 - Documentation is synchronized.
 
 Implementation without pipeline observability is considered incomplete.
@@ -715,7 +723,7 @@ docs/services/01_INGESTION_SERVICE.md
 
 docs/services/03_KNOWLEDGE_EXTRACTION_SERVICE.md
 
-docs/domain/01_BRAND_BRAIN.md
+docs/domain/01_DOMAIN_MODEL.md
 
 docs/domain/02_ARTIFACT_MODEL.md
 

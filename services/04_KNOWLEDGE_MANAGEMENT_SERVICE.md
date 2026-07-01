@@ -55,6 +55,7 @@ The Knowledge Management Service is responsible for:
 - Knowledge Graph updates
 - Audit logging
 - Domain event publication
+- Creating a Knowledge Management Job
 
 ---
 
@@ -101,6 +102,7 @@ Containing
 - Version Information
 - Audit Metadata
 - Ontology Version
+- Governance Status
 
 Only Approved Knowledge Artifacts may enter the Knowledge Domain.
 
@@ -198,6 +200,7 @@ The Knowledge Management Service succeeds when:
 - Version history remains complete.
 - Every approved fact is fully traceable.
 - The Knowledge Domain remains internally consistent.
+- Every Knowledge Candidate Artifact receives exactly one governance decision.
 
 ---
 
@@ -454,6 +457,7 @@ The service guarantees:
 - Every governance decision is explainable.
 - Policy execution is deterministic.
 - All changes are auditable.
+- Idempotent governance decisions
 
 ---
 
@@ -598,6 +602,8 @@ Operational metrics include:
 - Merge Success Rate
 - Average Knowledge Confidence
 - Governance Latency
+- Governance Success Rate
+- Policy Evaluation Duration
 
 Business content must never be included in telemetry.
 
@@ -702,6 +708,7 @@ The Knowledge Management Service is complete when:
 - Knowledge Confidence is calculated consistently.
 - Domain events are emitted successfully.
 - Documentation is synchronized.
+- Every governance request produces exactly one traceable governance record.
 
 Implementation without immutable version history is considered incomplete.
 

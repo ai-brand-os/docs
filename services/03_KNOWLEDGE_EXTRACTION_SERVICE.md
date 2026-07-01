@@ -53,6 +53,7 @@ The Knowledge Extraction Service is responsible for:
 - Candidate generation
 - Extraction confidence calculation
 - Provenance tracking
+- Creating an Extraction Job
 
 ---
 
@@ -100,6 +101,7 @@ Containing:
 - Candidate Metadata
 - Provenance
 - Extraction Confidence
+- Extraction Status
 
 The output remains provisional until validated.
 
@@ -178,6 +180,7 @@ The Knowledge Extraction Service succeeds when:
 - Provenance is maintained.
 - Candidate knowledge is structurally complete.
 - Downstream validation requires minimal manual correction.
+- Every processed artifact produces exactly one Knowledge Candidate Artifact.
 
 ---
 
@@ -489,7 +492,7 @@ The Knowledge Extraction Service exposes application interfaces for semantic ext
 Primary operations:
 
 - Extract Knowledge
-- Get Extraction Status
+- Get Extraction Job Status
 - Retry Extraction
 
 The service does not expose internal extraction stages.
@@ -615,6 +618,8 @@ Every extraction execution should expose:
 - LLM Usage
 - Confidence Distribution
 - Failure Reasons
+- Extraction Success Rate
+- Retry Count
 
 Operational telemetry must never contain confidential business content.
 
@@ -702,6 +707,7 @@ The Knowledge Extraction Service is complete when:
 - Prompt versions are traceable.
 - Provider independence is maintained.
 - Operational metrics are available.
+- Every extraction request creates exactly one Extraction Job.
 - Documentation is synchronized.
 
 Implementation without provenance tracking is considered incomplete.
@@ -714,7 +720,7 @@ docs/services/02_DOCUMENT_PROCESSING_SERVICE.md
 
 docs/services/04_KNOWLEDGE_MANAGEMENT_SERVICE.md
 
-docs/domain/01_BRAND_BRAIN.md
+docs/domain/01_DOMAIN_MODEL.md
 
 docs/domain/02_ARTIFACT_MODEL.md
 

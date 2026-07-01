@@ -62,6 +62,7 @@ The Ingestion Service is responsible for:
 - Assigning a Source ID and correlation ID
 - Forwarding validated input to the Document Processing Service
 - Reporting ingestion status back to the caller
+- Creating an Intake Job record
 
 ---
 
@@ -115,6 +116,7 @@ The service produces a **Raw Intake Artifact**, containing:
 - Original filename or URL
 - Raw bytes / raw HTML reference (stored, not parsed)
 - Validation Result
+- Intake Status
 - Timestamp
 
 The Raw Intake Artifact contains no interpreted content. It is the input to the Document Processing Service, not to Knowledge Extraction.
@@ -164,6 +166,7 @@ Each stage is a simple pass/fail gate. There is no branching business logic.
 - Non-empty content
 - Valid, reachable URL (for website sources)
 - Not a duplicate of a Source ID already ingested for this Organization within a configurable time window
+- Organization ownership validation
 
 Failure at any stage terminates the intake request and returns a structured error. No partial forwarding occurs.
 
@@ -203,6 +206,7 @@ The Ingestion Service succeeds when:
 - Every accepted input is traceable via Correlation ID end-to-end.
 - Duplicate submissions are caught before reprocessing wastes compute.
 - The service adds negligible latency to the overall import flow.
+- Every accepted request creates exactly one Intake Job.
 
 ---
 
@@ -212,7 +216,7 @@ Primary operations:
 
 - Submit File
 - Submit URL
-- Get Intake Status
+- Get Intake Job Status
 
 The service exposes no internal validation stages.
 
@@ -265,6 +269,8 @@ Operational metrics:
 - Duplicate detection rate
 - Average intake latency
 - Forwarding success rate to Document Processing
+- Failed intake requests
+- Intake retry count
 
 Telemetry must never contain raw business content.
 
@@ -324,6 +330,7 @@ The Ingestion Service is complete when:
 - Invalid input is rejected before reaching Document Processing.
 - Every artifact carries a Correlation ID usable across the full pipeline.
 - No parsing, extraction, or persistence logic exists in this service.
+- Every intake request creates exactly one traceable Intake Job.
 - Documentation is synchronized with Document Processing, Knowledge Extraction, and Knowledge Management specs.
 
 Implementation containing any parsing or entity extraction logic is considered a violation of this specification.

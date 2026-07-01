@@ -26,29 +26,17 @@ Detailed feature specifications belong in PRDs.
 
 # Product Vision
 
-AI Brand OS is building the AI that permanently understands a business.
+AI Brand OS is building the operating system that enables AI to permanently understand a business.
 
-Instead of repeatedly asking users for context, the platform continuously accumulates organizational knowledge and makes every AI interaction more accurate over time.
+Instead of treating AI as a generic assistant, AI Brand OS creates a persistent Brand Brain that continuously learns, organizes, and applies business knowledge to generate consistent, context-aware outputs across every marketing workflow.
 
-The product is designed around a shared intelligence layer rather than isolated AI features.
+The platform serves as the foundation for AI-native marketing applications by combining brand intelligence, structured knowledge, contextual reasoning, and content generation into a unified system.
 
 ---
 
 # Product Mission
 
-Enable every business to build a persistent AI understanding of:
-
-- Organization
-- Brand
-- Products
-- Customers
-- Audience
-- Positioning
-- Marketing Strategy
-- Brand Voice
-- Historical Decisions
-
-This understanding powers every AI capability across the platform.
+Enable every business to build an AI that truly understands its brand, knowledge, products, customers, and communication style, so every AI-generated output remains accurate, consistent, and aligned with the business identity.
 
 ---
 
@@ -91,17 +79,15 @@ Every other module depends on this layer.
 
 # Layer 2 — Core Applications
 
-Core Applications expose the intelligence layer to end users.
+Core Applications provide user-facing experiences built on top of the Core Domain.
 
 Initial applications include:
 
 - AI Workspace
-- AI Chat
-- Content Generation
+  - AI Chat
+  - Content Generation
 
-These applications contain minimal business logic.
-
-They consume intelligence from the Core Domain.
+Applications should remain lightweight and delegate business intelligence to the Core Domain.
 
 ---
 
@@ -180,11 +166,12 @@ Its responsibility is not generating AI outputs.
 
 Its responsibility is enabling AI to understand a business.
 
-The Core Domain consists of three components.
+The Core Domain consists of four components.
 
 - Brand Brain
 - Knowledge Engine
 - Context Engine
+- Memory Engine
 
 ---
 
@@ -264,7 +251,6 @@ The engine validates, classifies, enriches, and links this information before it
 - Validation
 - Entity extraction
 - Relationship mapping
-- Quality scoring
 - Version control
 
 The Knowledge Engine protects the integrity of Brand Brain.
@@ -487,7 +473,6 @@ Capabilities
 - Content Requests
 - Context Preview (Future)
 - History
-- Export
 
 Dependencies
 
@@ -592,6 +577,9 @@ The MVP is successful if users:
 - Return to the platform regularly.
 - Convert to a paid subscription.
 - Trust the platform more over time.
+- Reach first value within 15 minutes.
+- Successfully build an initial Brand Brain.
+- Complete at least one AI-assisted content generation.
 
 The MVP is not intended to maximize feature count.
 
@@ -623,20 +611,6 @@ This protects the architecture from becoming tightly coupled.
 
 ---
 
-# Product Constraints
-
-To preserve focus, the MVP must follow these constraints.
-
-- One primary use case.
-- One intelligence layer.
-- One onboarding flow.
-- One AI workspace.
-- One knowledge model.
-
-Complexity should only increase after Product-Market Fit.
-
----
-
 # Product Roadmap
 
 The roadmap is organized around validated customer value rather than feature quantity.
@@ -657,7 +631,6 @@ Modules
 - Context Engine
 - AI Workspace
 - Content Generation
-- Export
 
 Success Criteria
 
@@ -773,6 +746,7 @@ No module should skip validation.
 Primary KPIs
 
 - Activation Rate
+- Time to First Value
 - Knowledge Completion Rate
 - Weekly Active Organizations
 - Monthly Active Users
@@ -868,18 +842,12 @@ Major Changes
 # Related Documents
 
 01_PROJECT_BIBLE.md
-
-04_POSITIONING.md
-
-05_BRAND_BRAIN_PRD.md
-
-06_AI_WORKSPACE_PRD.md
-
 03_ENGINEERING_BIBLE.md
-
 04_EXECUTION_BIBLE.md
-
-05_AI_MEMORY.md
+04_POSITIONING.md
+05_BRAND_BRAIN_PRD.md
+06_AI_WORKSPACE_PRD.md
+05_AI_MEMORY_BIBLE.md
 
 ---
 

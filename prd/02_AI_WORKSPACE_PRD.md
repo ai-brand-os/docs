@@ -1,6 +1,6 @@
 # PRD — AI Workspace
 
-Document
+Document: **01_AI_WORKSPACE_PRD.md**
 
 01_AI_WORKSPACE.md
 
@@ -181,7 +181,6 @@ The MVP AI Workspace consists of only four capabilities:
 1. Context-aware AI Chat
 2. Content Generation
 3. Conversation History
-4. Export Responses
 
 Everything else is intentionally deferred.
 
@@ -273,7 +272,6 @@ Responsibilities:
 - Render markdown
 - Show citations (Future)
 - Copy response
-- Export response
 
 ---
 
@@ -643,24 +641,6 @@ Users can copy any AI response.
 
 ---
 
-## FR-009 — Export Conversation
-
-### Description
-
-Users can export conversation content.
-
-### MVP Formats
-
-- Markdown
-- Plain Text
-
-Future formats:
-
-- PDF
-- DOCX
-
----
-
 ## FR-010 — Feedback
 
 ### Description
@@ -702,11 +682,17 @@ Every AI request must pass through the Context Engine.
 
 ## BR-004
 
-The Workspace never accesses Brand Brain directly.
+Every AI request must be executed through the AI Orchestrator.
 
 ---
 
 ## BR-005
+
+The Workspace never accesses Brand Brain directly.
+
+---
+
+## BR-006
 
 The Workspace never modifies Brand Brain.
 
@@ -714,7 +700,7 @@ Only the Knowledge Engine may update business knowledge.
 
 ---
 
-## BR-006
+## BR-007
 
 Conversation History is not organizational knowledge.
 
@@ -836,6 +822,7 @@ Core Entities:
 - Workspace Session
 - Conversation
 - Message
+- AI Request
 - AI Response
 - Feedback
 - Export Job
@@ -900,25 +887,17 @@ Direct database access to Brand Brain is prohibited.
 Each conversation can exist in one of the following states:
 
 Draft
-
 ↓
-
 Submitting
-
 ↓
-
+Queued
+↓
 Preparing Context
-
 ↓
-
 Generating
-
 ↓
-
 Completed
-
 ↓
-
 Archived
 
 Failure states:
@@ -1002,6 +981,8 @@ Examples:
 - Export Used
 - Feedback Submitted
 - Error Encountered
+- AI Request Completed
+- AI Request Failed
 
 Telemetry must never include sensitive business content.
 
@@ -1030,6 +1011,10 @@ Average AI Response
 Conversation Save
 
 ≤ 500 ms
+
+Context Retrieval
+
+≤ 1 second
 
 Performance targets should be monitored continuously.
 
@@ -1079,7 +1064,6 @@ The AI Workspace MVP is complete when users can:
 - Receive context-aware AI responses.
 - View conversation history.
 - Delete conversations.
-- Export conversations.
 - Provide response feedback.
 
 Nothing else is required for MVP validation.
@@ -1134,7 +1118,11 @@ These items require customer validation before implementation.
 
 03_KNOWLEDGE_ENGINE.md
 
-04_CONTEXT_ENGINE.md
+04_KNOWLEDGE_MANAGEMENT_SERVICE.md
+
+05_CONTEXT_ENGINE.md
+
+06_AI_ORCHESTRATOR.md
 
 ---
 
