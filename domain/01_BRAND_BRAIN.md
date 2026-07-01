@@ -1,8 +1,8 @@
-# Domain Specification — Brand Brain
+# Domain Model — AI Brand OS
 
 Document
 
-01_BRAND_BRAIN.md
+01_DOMAIN_MODEL.md
 
 Version
 
@@ -14,7 +14,7 @@ Draft
 
 Owner
 
-Product & Architecture
+Architecture
 
 Priority
 
@@ -24,134 +24,192 @@ P0
 
 # Purpose
 
-Brand Brain is the canonical business knowledge model of AI Brand OS.
+This document defines the business domain of AI Brand OS.
 
-It is the single source of truth for everything the platform knows about a business.
+It establishes the core business entities, their responsibilities, relationships and business boundaries.
 
-Brand Brain is not a feature.
+The Domain Model is independent from:
 
-It is the core domain that powers every AI capability across the platform.
+- Database design
+- AI providers
+- APIs
+- Infrastructure
+- Implementation details
 
-Every AI interaction, regardless of application, relies on Brand Brain as the authoritative representation of business understanding.
-
----
-
-# Domain Mission
-
-Transform scattered business information into structured organizational intelligence.
-
-Brand Brain continuously evolves as the business evolves.
-
-It should become increasingly valuable over time.
+It represents the business reality of the platform.
 
 ---
 
-# Problem Statement
+# Mission
 
-Current AI systems repeatedly ask users for:
+Provide a shared business language across Product, Engineering and AI systems.
 
-- company information
-- products
-- customers
-- positioning
-- brand voice
-- objectives
+The Domain Model serves as the foundation for:
 
-Because this knowledge is transient, every conversation starts from zero.
-
-Brand Brain eliminates this repetition by maintaining persistent business understanding.
-
----
-
-# Domain Responsibilities
-
-Brand Brain is responsible for representing business knowledge.
-
-It is responsible for:
-
-- Business Identity
-- Brand Identity
-- Product Knowledge
-- Customer Knowledge
-- Audience Knowledge
-- Positioning
-- Messaging
-- Brand Voice
-- Marketing Strategy
-- Business Goals
-- Historical Decisions
-- Approved Assets
-- Business Terminology
+- Business Ontology
+- Knowledge Graph
+- Service Design
+- API Design
+- Data Modeling
 
 ---
 
 # Domain Principles
 
-## Single Source of Truth
+## Business First
 
-Business knowledge exists only once.
+The domain reflects how organizations manage their brand and knowledge.
 
-Every module references Brand Brain.
-
----
-
-## Structured Knowledge
-
-Knowledge should be represented as structured entities rather than free-form documents whenever possible.
+Technology must adapt to the domain—not the opposite.
 
 ---
 
-## Explainability
+## Technology Independent
 
-Every stored fact should have a known origin.
+The model must not depend on:
 
-Knowledge should always be traceable.
-
----
-
-## Versioning
-
-Business understanding changes.
-
-Brand Brain must preserve historical changes rather than overwrite them silently.
+- SQL
+- NoSQL
+- Vector Databases
+- Graph Databases
+- LLM Providers
 
 ---
 
-## Continuous Improvement
+## Stable Language
 
-Brand Brain becomes more accurate through:
+Entity names should remain stable over time.
 
-- user edits
-- approved AI outputs
-- imported knowledge
-- validated information
-- business feedback
+Implementation may change.
+
+Business language should not.
 
 ---
 
-# Domain Scope
+## Single Meaning
 
-Brand Brain stores business intelligence.
+Every business concept has exactly one definition.
 
-Brand Brain does not:
-
-- generate AI responses
-- execute prompts
-- retrieve context
-- manage conversations
-- interact with LLM providers
-
-Those responsibilities belong to other domains.
+Different services must never redefine the same concept.
 
 ---
 
-# Core Value
+## Explicit Ownership
 
-The value of AI Brand OS grows with the quality of Brand Brain.
+Every business entity has a clear owner.
 
-Generated outputs are temporary.
+Ownership prevents ambiguity across services.
 
-Business understanding compounds.
+---
+
+# Core Domain
+
+AI Brand OS exists to transform organizational knowledge into consistent AI-generated business outputs.
+
+The platform enables organizations to:
+
+- Capture business knowledge
+- Organize institutional knowledge
+- Maintain brand consistency
+- Generate AI-powered content
+- Reuse organizational intelligence
+- Improve content quality over time
+
+The platform does not own customer business processes.
+
+It supports and augments them.
+
+---
+
+# Domain Boundaries
+
+Inside the Domain:
+
+- Organizations
+- Brand Knowledge
+- Products
+- Audiences
+- Content
+- Campaigns
+- Assets
+- Brand Voice
+- Knowledge
+- Documents
+
+Outside the Domain:
+
+- LLM Providers
+- Authentication Systems
+- Billing Systems
+- Payment Providers
+- Notification Services
+- Third-party Integrations
+
+These systems interact with AI Brand OS but are not part of its business domain.
+
+---
+
+# Ubiquitous Language
+
+All stakeholders must use the same terminology.
+
+Examples:
+
+Organization
+
+The business using AI Brand OS.
+
+Product
+
+A commercial offering created by an Organization.
+
+Knowledge
+
+Approved business information available for AI.
+
+Document
+
+A source of business information.
+
+Brand Voice
+
+Rules defining how an organization communicates.
+
+Audience
+
+A group of people the organization communicates with.
+
+Content
+
+Any reusable communication artifact produced for an audience.
+
+Campaign
+
+A coordinated marketing initiative.
+
+Asset
+
+Reusable business resources.
+
+Every service must adopt these definitions without modification.
+
+---
+
+# Domain Scope (MVP)
+
+The MVP focuses on:
+
+- Organizations
+- Documents
+- Knowledge
+- Brand Voice
+- Products
+- Audiences
+- Content
+- Assets
+- Campaigns
+
+Additional business concepts may be introduced after MVP.
 
 ---
 
@@ -161,367 +219,834 @@ Draft
 
 ---
 
-# Domain Model
+# Core Domain Entities
 
-Brand Brain is a structured collection of interconnected business knowledge.
+The following entities represent the core business concepts of AI Brand OS.
 
-It is not a single document.
-
-It is not a collection of prompts.
-
-It is a living domain model representing how a business thinks about itself.
+Each entity has a single business responsibility and a clearly defined ownership.
 
 ---
 
-# Aggregate Root
+# Organization
 
-The Aggregate Root of the domain is:
+## Description
 
-Brand
+Represents a business using AI Brand OS.
 
-Every knowledge entity belongs to exactly one Brand.
+The Organization is the top-level domain entity.
 
-No knowledge entity may exist outside a Brand.
+All other business entities belong to exactly one Organization.
 
----
+## Owns
 
-# Domain Structure
-
-```
-Brand
-│
-├── Brand Identity
-├── Business Profile
-├── Products & Services
-├── Customer Segments
-├── Target Audiences
-├── Competitors
-├── Positioning
-├── Brand Voice
-├── Marketing Strategy
-├── Business Goals
-├── Business Terminology
-├── Content Assets
-├── Knowledge Sources
-└── Decisions
-```
+- Brand Voice
+- Products
+- Services
+- Audiences
+- Campaigns
+- Content
+- Assets
+- Knowledge
+- Documents
 
 ---
 
-# Core Entities
+# Product
 
-## Brand
+## Description
 
-Represents a business brand.
+Represents a commercial offering provided by an Organization.
 
-Attributes
+Products are one of the primary sources of business knowledge.
 
-- Brand ID
-- Organization ID
-- Name
-- Industry
-- Region
-- Primary Language
-- Timezone
-- Status
+## Business Responsibilities
 
-Brand is the Aggregate Root.
+- Define value proposition
+- Describe features
+- Define positioning
+- Define pricing strategy
+- Define messaging
 
----
+Products may evolve over time.
 
-## Business Profile
-
-Represents the overall business.
-
-Examples
-
-- mission
-- vision
-- values
-- company description
-- business model
-
-One Brand owns one Business Profile.
+Historical knowledge should remain traceable.
 
 ---
 
-## Product
+# Service
 
-Represents a product or service.
+## Description
 
-Attributes
+Represents a non-product commercial offering.
 
-- Name
-- Description
-- Features
-- Benefits
-- Pricing Model
-- Target Customer
-- Lifecycle Status
+Services share many characteristics with Products but differ in delivery model.
 
-A Brand may contain many Products.
+Examples:
 
----
-
-## Customer Segment
-
-Represents a group of customers.
-
-Examples
-
-- Startups
-- Marketing Agencies
-- SaaS Companies
-
-Each segment may reference:
-
-- pain points
-- goals
-- objections
-- buying motivations
+- Consulting
+- Agency Services
+- Coaching
+- Maintenance
+- Training
 
 ---
 
-## Audience
+# Audience
 
-Represents communication audiences.
+## Description
 
-Examples
+Represents a target customer group.
 
-- CEOs
-- Developers
-- Marketing Managers
+An Audience defines who the organization communicates with.
 
-Audience is distinct from Customer Segment.
+Audience knowledge influences:
 
-One customer may include multiple audiences.
-
----
-
-## Competitor
-
-Represents a competitor.
-
-Stored Information
-
-- strengths
-- weaknesses
-- positioning
-- differentiation
-- pricing observations
+- Messaging
+- Tone
+- Content
+- Campaigns
 
 ---
 
-## Positioning
+# Persona
 
-Defines how the Brand differentiates itself.
+## Description
 
-Examples
+Represents a detailed profile within an Audience.
 
-- value proposition
-- unique advantages
-- messaging pillars
-- positioning statement
+A Persona provides richer business context for AI generation.
 
-Only one active Positioning exists per Brand.
-
-Historical versions remain available.
+Personas are optional in MVP but supported by the domain model.
 
 ---
 
-## Brand Voice
+# Brand Voice
 
-Defines communication style.
+## Description
 
-Includes
+Represents the communication principles of an Organization.
 
-- tone
-- vocabulary
-- writing rules
-- forbidden phrases
-- personality traits
-- formatting preferences
+Brand Voice defines:
 
----
+- Tone
+- Style
+- Vocabulary
+- Writing rules
+- Messaging principles
 
-## Marketing Strategy
+Brand Voice is organizational knowledge.
 
-Represents strategic marketing knowledge.
-
-Examples
-
-- channels
-- campaigns
-- objectives
-- priorities
-- messaging themes
+It is not generated content.
 
 ---
 
-## Business Goal
+# Content
 
-Represents measurable business objectives.
+## Description
 
-Examples
+Represents reusable communication artifacts created for an Audience.
 
-- increase leads
-- improve retention
-- expand internationally
+Examples:
 
-Goals influence AI recommendations.
+- Blog articles
+- Social posts
+- Emails
+- Landing pages
+- Advertisements
+- Video scripts
+- Case studies
 
----
-
-## Business Terminology
-
-Defines approved business vocabulary.
-
-Examples
-
-Preferred words
-
-Forbidden words
-
-Product names
-
-Internal abbreviations
-
-Industry terminology
+Content may be AI-generated, human-authored or collaboratively created.
 
 ---
 
-## Content Asset
+# Campaign
 
-Represents reusable approved content.
+## Description
 
-Examples
+Represents a coordinated marketing initiative.
 
-- website copy
-- product descriptions
-- FAQs
-- successful campaigns
+Campaigns organize content around a shared business objective.
 
-Approved content may become reusable knowledge.
+Campaigns may target:
+
+- Products
+- Services
+- Audiences
+- Channels
 
 ---
 
-## Knowledge Source
+# Asset
 
-Represents the origin of knowledge.
+## Description
 
-Possible Types
+Represents reusable business resources.
+
+Examples:
+
+- Logos
+- Images
+- PDFs
+- Brand guidelines
+- Sales materials
+- Presentations
+- Videos
+
+Assets provide supporting business context.
+
+---
+
+# Document
+
+## Description
+
+Represents an imported source of organizational knowledge.
+
+Examples:
+
+- PDFs
+- DOCX
+- PPTX
+- Web Pages
+- Notion exports
+- Google Docs
+- Markdown files
+
+Documents are inputs to the knowledge pipeline.
+
+Documents themselves are not business knowledge.
+
+---
+
+# Knowledge
+
+## Description
+
+Represents validated organizational knowledge extracted from one or more Documents.
+
+Knowledge is the primary business asset consumed by AI.
+
+Knowledge always has:
+
+- Provenance
+- Confidence
+- Ownership
+- Version history
+
+Only approved Knowledge is available for AI execution.
+
+---
+
+# Competitor
+
+## Description
+
+Represents a competing organization or offering relevant to business strategy.
+
+Competitor knowledge supports:
+
+- Positioning
+- Differentiation
+- Comparative messaging
+- Strategic analysis
+
+Competitors are optional during MVP but included in the domain model for future expansion.
+
+---
+
+# Channel
+
+## Description
+
+Represents a communication medium used by an Organization.
+
+Examples:
 
 - Website
-- PDF
-- Document
-- Manual Input
-- AI Conversation
-- API Import
+- LinkedIn
+- Instagram
+- X
+- Email
+- YouTube
 
-Every fact must reference at least one Knowledge Source.
+Channels influence content format and communication constraints.
 
 ---
 
-## Decision
+# Domain Ownership
 
-Represents important business decisions.
+Each entity has one authoritative owner.
 
-Examples
+| Entity | Owner |
+|---------|-------|
+| Organization | Organization |
+| Product | Organization |
+| Service | Organization |
+| Audience | Organization |
+| Persona | Organization |
+| Brand Voice | Organization |
+| Content | Organization |
+| Campaign | Organization |
+| Asset | Organization |
+| Document | Organization |
+| Knowledge | Knowledge Management Service |
+| Competitor | Organization |
+| Channel | Organization |
 
-- positioning changes
-- pricing decisions
-- rebranding
-- product launches
+---
 
-Historical decisions provide long-term business context.
+Status
+
+Draft
 
 ---
 
 # Entity Relationships
 
-Brand
+The Domain Model defines conceptual relationships between business entities.
 
-↓
+Relationships describe business meaning.
 
-Business Profile
+They do not define database implementation.
 
-↓
+---
 
-Products
+# Relationship Principles
 
-↓
+Relationships represent business reality.
 
-Customer Segments
+They are independent from storage technology.
 
-↓
+All relationships are directional.
 
-Audiences
+Every relationship has explicit business meaning.
 
-↓
+---
 
-Positioning
+# Organization Relationships
 
-↓
+Organization
+
+HAS
+
+1..N Products
+
+---
+
+Organization
+
+HAS
+
+1..N Services
+
+---
+
+Organization
+
+HAS
+
+1 Brand Voice
+
+---
+
+Organization
+
+HAS
+
+1..N Audiences
+
+---
+
+Organization
+
+HAS
+
+1..N Campaigns
+
+---
+
+Organization
+
+HAS
+
+1..N Content Assets
+
+---
+
+Organization
+
+HAS
+
+1..N Documents
+
+---
+
+Organization
+
+HAS
+
+1..N Knowledge Items
+
+---
+
+Organization
+
+HAS
+
+0..N Competitors
+
+---
+
+Organization
+
+USES
+
+1..N Channels
+
+---
+
+# Product Relationships
+
+Product
+
+TARGETS
+
+1..N Audiences
+
+---
+
+Product
+
+HAS
+
+0..N Personas
+
+---
+
+Product
+
+USES
+
+1 Brand Voice
+
+---
+
+Product
+
+GENERATES
+
+0..N Content Assets
+
+---
+
+Product
+
+BELONGS TO
+
+1 Organization
+
+---
+
+Product
+
+MAY APPEAR IN
+
+0..N Campaigns
+
+---
+
+# Service Relationships
+
+Service
+
+TARGETS
+
+1..N Audiences
+
+---
+
+Service
+
+USES
+
+1 Brand Voice
+
+---
+
+Service
+
+GENERATES
+
+0..N Content Assets
+
+---
+
+Service
+
+BELONGS TO
+
+1 Organization
+
+---
+
+# Audience Relationships
+
+Audience
+
+BELONGS TO
+
+1 Organization
+
+---
+
+Audience
+
+HAS
+
+0..N Personas
+
+---
+
+Audience
+
+CONSUMES
+
+0..N Content Assets
+
+---
+
+Audience
+
+IS TARGET OF
+
+0..N Campaigns
+
+---
+
+# Persona Relationships
+
+Persona
+
+BELONGS TO
+
+1 Audience
+
+---
+
+Persona
+
+INFLUENCES
+
+Messaging
+
+Tone
+
+Content Strategy
+
+---
+
+# Brand Voice Relationships
 
 Brand Voice
 
-↓
+BELONGS TO
 
-Marketing Strategy
-
-↓
-
-Business Goals
-
-↓
-
-Content Assets
-
-↓
-
-Knowledge Sources
-
-↓
-
-Decisions
-
-Relationships are many-to-many where appropriate and should remain explicit.
+1 Organization
 
 ---
 
-# Value Objects
+Brand Voice
 
-The following concepts should be modeled as Value Objects rather than Entities.
+GUIDES
 
-- Tone of Voice
-- Language
-- Region
-- Industry
-- Target Market
-- Messaging Pillar
-- Pricing Model
-- Business Objective
+Products
 
-Value Objects are immutable.
+Services
 
-Changes create new instances.
+Campaigns
+
+Content
 
 ---
 
-# Domain Invariants
+# Campaign Relationships
 
-The following rules must always hold.
+Campaign
 
-- Every Brand Brain belongs to exactly one Brand.
-- Every knowledge entity has a known source.
-- Every entity is versioned.
-- Deleted knowledge is soft-deleted.
-- Historical revisions remain accessible.
-- AI never modifies Brand Brain directly.
-- Only the Knowledge Engine may persist changes.
-- Every entity has ownership and timestamps.
+PROMOTES
 
-Violation of these rules is considered data corruption.
+1..N Products
+
+OR
+
+1..N Services
+
+---
+
+Campaign
+
+TARGETS
+
+1..N Audiences
+
+---
+
+Campaign
+
+USES
+
+1..N Channels
+
+---
+
+Campaign
+
+PRODUCES
+
+0..N Content Assets
+
+---
+
+# Content Relationships
+
+Content
+
+BELONGS TO
+
+1 Organization
+
+---
+
+Content
+
+SUPPORTS
+
+1 Campaign
+
+(optional)
+
+---
+
+Content
+
+PROMOTES
+
+0..1 Product
+
+---
+
+Content
+
+PROMOTES
+
+0..1 Service
+
+---
+
+Content
+
+USES
+
+1 Brand Voice
+
+---
+
+Content
+
+TARGETS
+
+1 Audience
+
+---
+
+Content
+
+MAY REFERENCE
+
+0..N Knowledge Items
+
+---
+
+# Asset Relationships
+
+Asset
+
+BELONGS TO
+
+1 Organization
+
+---
+
+Asset
+
+SUPPORTS
+
+Products
+
+Services
+
+Campaigns
+
+Content
+
+---
+
+# Document Relationships
+
+Document
+
+BELONGS TO
+
+1 Organization
+
+---
+
+Document
+
+PRODUCES
+
+1..N Knowledge Items
+
+after approval
+
+---
+
+Document
+
+MAY REFERENCE
+
+Products
+
+Services
+
+Campaigns
+
+Assets
+
+Audiences
+
+Competitors
+
+---
+
+# Knowledge Relationships
+
+Knowledge
+
+BELONGS TO
+
+1 Organization
+
+---
+
+Knowledge
+
+ORIGINATES FROM
+
+1..N Documents
+
+---
+
+Knowledge
+
+MAY DESCRIBE
+
+Products
+
+Services
+
+Audiences
+
+Competitors
+
+Campaigns
+
+Assets
+
+Brand Voice
+
+Channels
+
+---
+
+Knowledge
+
+IS USED BY
+
+Context Engine
+
+---
+
+Knowledge
+
+HAS
+
+Provenance
+
+Version
+
+Confidence
+
+---
+
+# Competitor Relationships
+
+Competitor
+
+COMPETES WITH
+
+Products
+
+Services
+
+Organization
+
+---
+
+Competitor
+
+MAY TARGET
+
+Shared Audiences
+
+---
+
+# Channel Relationships
+
+Channel
+
+BELONGS TO
+
+1 Organization
+
+---
+
+Channel
+
+DISTRIBUTES
+
+Content
+
+---
+
+Channel
+
+IS USED BY
+
+Campaigns
+
+---
+
+# Relationship Constraints
+
+Relationships describe business meaning only.
+
+Storage implementation is defined separately.
+
+Ontology definitions extend these relationships.
+
+Knowledge Graph implementations materialize these relationships.
 
 ---
 
@@ -531,30 +1056,71 @@ Draft
 
 ---
 
-# Knowledge Lifecycle
+# Entity Lifecycle
 
-Every piece of knowledge follows a controlled lifecycle before becoming trusted business intelligence.
+Each business entity follows a defined lifecycle.
 
-Knowledge is never considered authoritative immediately after ingestion.
+The lifecycle describes business evolution rather than technical implementation.
 
 ---
 
-# Knowledge Flow
+## Organization
 
-```
-Source
-
-↓
-
-Ingested
+Created
 
 ↓
 
-Parsed
+Configured
 
 ↓
 
-Structured
+Operational
+
+↓
+
+Archived
+
+---
+
+## Product
+
+Draft
+
+↓
+
+Active
+
+↓
+
+Updated
+
+↓
+
+Retired
+
+---
+
+## Service
+
+Draft
+
+↓
+
+Active
+
+↓
+
+Updated
+
+↓
+
+Retired
+
+---
+
+## Audience
+
+Defined
 
 ↓
 
@@ -562,510 +1128,274 @@ Validated
 
 ↓
 
+Refined
+
+↓
+
+Archived
+
+---
+
+## Persona
+
+Draft
+
+↓
+
+Validated
+
+↓
+
+Updated
+
+↓
+
+Archived
+
+---
+
+## Brand Voice
+
+Draft
+
+↓
+
 Approved
 
 ↓
 
-Stored in Brand Brain
+Applied
 
 ↓
 
-Used by Context Engine
+Revised
+
+---
+
+## Campaign
+
+Planned
 
 ↓
 
-User Feedback
+Active
 
 ↓
 
-Knowledge Improvement
-```
+Completed
 
-Knowledge continuously evolves through this loop.
+↓
 
----
-
-# Knowledge States
-
-Each Knowledge Entity must have exactly one state.
-
-## Draft
-
-The knowledge has been created but not yet validated.
-
-Characteristics
-
-- Editable
-- Not used for AI context
-- Visible only internally
+Archived
 
 ---
 
-## Pending Validation
-
-The knowledge has been structured but awaits validation.
-
-Characteristics
-
-- Awaiting automated or manual review
-- Not yet trusted
-
----
-
-## Approved
-
-The knowledge is trusted.
-
-Characteristics
-
-- Used by Context Engine
-- Eligible for AI generation
-- Included in search
-
----
-
-## Deprecated
-
-Knowledge remains available historically but should no longer influence AI responses.
-
-Examples
-
-- Old pricing
-- Previous positioning
-- Retired products
-
----
-
-## Archived
-
-Historical knowledge retained for audit purposes.
-
-Excluded from active retrieval.
-
----
-
-# Validation Pipeline
-
-Every knowledge item passes through validation.
-
-Validation may include:
-
-- Schema validation
-- Duplicate detection
-- Source verification
-- Consistency checks
-- Relationship validation
-- Human approval (when required)
-
-Knowledge that fails validation must never enter Brand Brain.
-
----
-
-# Confidence Score
-
-Every Knowledge Entity has a Confidence Score.
-
-Range
-
-0–100
-
-Factors
-
-- Source reliability
-- Number of confirming sources
-- Freshness
-- Human approval
-- Usage frequency
-- Positive feedback
-- Consistency with existing knowledge
-
-The Context Engine should prioritize higher-confidence knowledge.
-
----
-
-# Source Ranking
-
-Knowledge Sources have trust levels.
-
-Example order:
-
-1. Manually approved business data
-2. Official website
-3. Internal documentation
-4. Imported documents
-5. Approved AI outputs
-6. User conversations
-
-Source ranking influences the Confidence Score but does not determine it alone.
-
----
-
-# Versioning
-
-Brand Brain never overwrites knowledge.
-
-Each change creates a new version.
-
-Every version stores:
-
-- Version ID
-- Previous Version
-- Author
-- Source
-- Timestamp
-- Change Summary
-
-Historical versions remain accessible for auditing and future analysis.
-
----
-
-# Conflict Resolution
-
-Conflicting knowledge must not overwrite existing approved knowledge automatically.
-
-When conflicts occur:
-
-1. Detect the conflict.
-2. Preserve both versions.
-3. Mark the conflict.
-4. Request validation when necessary.
-5. Promote the approved version.
-
-The system should always prefer preserving information over destructive replacement.
-
----
-
-# Merge Strategy
-
-Duplicate knowledge should be merged only when:
-
-- They refer to the same business concept.
-- The merge does not remove unique information.
-- Relationships remain valid.
-
-Every merge operation must be reversible.
-
----
-
-# Knowledge Freshness
-
-Knowledge becomes less reliable over time.
-
-Each entity should maintain:
-
-- Last Updated
-- Last Verified
-- Freshness Score
-- Recommended Review Date
-
-Stale knowledge should gradually lose retrieval priority until revalidated.
-
----
-
-# Human Oversight
-
-Certain knowledge categories require explicit human approval before activation.
-
-Examples include:
-
-- Brand Positioning
-- Pricing
-- Legal Statements
-- Compliance Information
-- Mission & Vision
-- Core Messaging
-
-The approval policy should be configurable per entity type.
-
----
-
-# Auditability
-
-Every knowledge change must be traceable.
-
-The audit log should record:
-
-- Who made the change
-- What changed
-- Why it changed (if provided)
-- When it changed
-- Source of the change
-
-Audit records are immutable.
-
----
-
-# Business Rules
-
-- No approved knowledge may be silently overwritten.
-- Every approved entity must have at least one valid source.
-- Every knowledge entity must remain versioned.
-- Confidence Score must be recalculated after every approved change.
-- Deprecated knowledge must never be returned unless explicitly requested.
-
----
-
-Status
+## Content
 
 Draft
 
----
+↓
 
-# Domain Events
-
-Brand Brain emits domain events whenever business knowledge changes.
-
-These events allow other domains to react without creating direct dependencies.
-
-Core Events
-
-- BrandCreated
-- BrandUpdated
-- KnowledgeCreated
-- KnowledgeUpdated
-- KnowledgeApproved
-- KnowledgeRejected
-- KnowledgeDeprecated
-- KnowledgeArchived
-- KnowledgeMerged
-- KnowledgeRestored
-- KnowledgeDeleted
-- SourceAdded
-- SourceRemoved
-- BrandVoiceUpdated
-- PositioningUpdated
-- MarketingStrategyUpdated
-- BusinessGoalUpdated
-
-Consumers of these events include:
-
-- Knowledge Engine
-- Context Engine
-- AI Workspace
-- Analytics
-- Notification Service
-- Future Automation Engine
-
----
-
-# Integration Boundaries
-
-Brand Brain exposes business capabilities through well-defined application services.
-
-Allowed Consumers
-
-- AI Workspace
-- Knowledge Engine
-- Context Engine
-- Import Service
-- Analytics
-- Future AI Applications
-
-Forbidden Access
-
-The following are not permitted:
-
-- Direct database queries from feature modules
-- Direct writes from AI providers
-- Manual updates bypassing domain validation
-- Cross-module mutations without application services
-
-All interactions must pass through the domain layer.
-
----
-
-# Retrieval Rules
-
-Brand Brain does not retrieve knowledge.
-
-Knowledge retrieval is the exclusive responsibility of the Context Engine.
-
-Brand Brain provides:
-
-- Structured entities
-- Relationships
-- Metadata
-- Version history
-- Confidence information
-
-The Context Engine decides:
-
-- What to retrieve
-- How much to retrieve
-- Retrieval priority
-- Token optimization
-
-This separation keeps the domain independent from AI implementation details.
-
----
-
-# Authorization Rules
-
-Every Brand Brain belongs to exactly one Brand.
-
-Permissions inherit from:
-
-Organization
+Generated
 
 ↓
 
-Brand
+Reviewed
 
 ↓
 
-Brand Brain
+Published
 
-MVP Roles
+↓
 
-Owner
-
-- Full access
-
-Admin
-
-- Create
-- Update
-- Approve
-- Archive
-
-Member
-
-- Read
-- Suggest changes
-- Upload knowledge
-
-Future Roles
-
-- Reviewer
-- Compliance
-- Auditor
-- External Contributor
-
-Approval permissions should remain configurable.
+Archived
 
 ---
 
-# Non-Functional Requirements
+## Asset
 
-Brand Brain must be:
+Created
 
-Reliable
+↓
 
-Every operation must preserve data integrity.
+Approved
 
----
+↓
 
-Consistent
+Available
 
-Business rules must always be enforced.
+↓
 
----
-
-Traceable
-
-Every fact must have a known origin.
+Archived
 
 ---
 
-Scalable
+## Document
 
-The model should support millions of knowledge entities without structural redesign.
+Imported
 
----
+↓
 
-Extensible
+Processed
 
-New entity types should be introduced without breaking existing aggregates.
+↓
 
----
+Extracted
 
-Observable
+↓
 
-Domain events, validation failures, and lifecycle transitions should be measurable.
-
----
-
-# Future Evolution
-
-The domain is intentionally designed to support future capabilities.
-
-Examples
-
-- Knowledge Graph visualization
-- Semantic search
-- Cross-brand intelligence
-- AI-assisted knowledge curation
-- Automatic contradiction detection
-- Recommendation engine
-- Strategic insights
-- Predictive business analysis
-
-These capabilities should extend the existing model rather than replace it.
+Archived
 
 ---
 
-# Success Metrics
+## Knowledge
 
-Brand Brain succeeds when:
+Extracted
 
-- Business knowledge grows continuously.
-- Confidence scores improve over time.
-- AI responses become increasingly consistent.
-- Knowledge reuse increases.
-- Duplicate information decreases.
-- Manual prompting requirements decline.
-- Customer trust in AI outputs increases.
+↓
+
+Reviewed
+
+↓
+
+Approved
+
+↓
+
+Versioned
+
+↓
+
+Deprecated
+
+Only approved Knowledge is available for AI execution.
+
+---
+
+# Aggregate Boundaries
+
+Aggregate boundaries define ownership consistency within the business domain.
+
+Organization is the root aggregate.
+
+The following entities belong to an Organization:
+
+- Product
+- Service
+- Audience
+- Persona
+- Brand Voice
+- Campaign
+- Content
+- Asset
+- Document
+- Knowledge
+- Competitor
+- Channel
+
+Cross-organization relationships are not permitted.
+
+---
+
+# Domain Invariants
+
+The following business rules must always be true.
+
+- Every entity belongs to exactly one Organization.
+- Every Knowledge item originates from at least one Document.
+- Only approved Knowledge may be used by AI.
+- Every Content item follows exactly one Brand Voice.
+- Every Document belongs to one Organization.
+- Every Product belongs to one Organization.
+- Every Service belongs to one Organization.
+- Every Campaign belongs to one Organization.
+- AI execution never consumes raw Documents directly.
+
+---
+
+# High-Level Domain Events
+
+The domain produces business events describing significant business changes.
+
+Examples include:
+
+- Organization Created
+- Product Created
+- Product Updated
+- Brand Voice Approved
+- Document Imported
+- Knowledge Approved
+- Campaign Started
+- Campaign Completed
+- Content Published
+
+Detailed event contracts are defined separately within the Architecture documentation.
+
+---
+
+# MVP Scope
+
+Included:
+
+- Organization
+- Product
+- Service
+- Audience
+- Persona
+- Brand Voice
+- Campaign
+- Content
+- Asset
+- Document
+- Knowledge
+- Competitor
+- Channel
+
+---
+
+# Out of Scope
+
+The following concepts are intentionally excluded from the MVP domain model:
+
+- Billing
+- Credits
+- Subscription Plans
+- Authentication
+- Notifications
+- AI Providers
+- Prompt Artifacts
+- Response Artifacts
+- Workflow Execution
+- Infrastructure Components
+
+These concerns belong to other architectural layers and are not part of the core business domain.
 
 ---
 
 # Definition of Done
 
-The Brand Brain domain is considered complete when:
+The Domain Model is considered complete when:
 
-- Domain model is implemented.
-- Business rules are enforced.
-- Lifecycle states are supported.
-- Versioning is operational.
-- Audit logging is complete.
-- Domain events are emitted correctly.
-- Authorization is enforced.
-- Documentation remains synchronized.
-
-Implementation without governance is considered incomplete.
-
----
-
-# Open Questions
-
-The following topics require validation before implementation:
-
-- Automatic entity extraction thresholds
-- Human approval workflow depth
-- Confidence score weighting model
-- Multi-language knowledge synchronization
-- Cross-brand knowledge sharing
-- Knowledge expiration policies
-- AI-generated knowledge approval strategy
-
-These questions should be answered through iterative product validation.
+- Core business entities are defined.
+- Entity responsibilities are unambiguous.
+- Business relationships are documented.
+- Domain invariants are established.
+- Entity lifecycles are documented.
+- Shared business terminology is consistent across the platform.
 
 ---
 
 # Related Documents
 
+02_BUSINESS_ONTOLOGY.md
+
+03_KNOWLEDGE_GRAPH.md
+
 01_PROJECT_BIBLE.md
 
 02_PRODUCT_BIBLE.md
 
-docs/prd/01_AI_WORKSPACE.md
-
-docs/domain/02_KNOWLEDGE_ENGINE.md
-
-docs/domain/03_CONTEXT_ENGINE.md
-
 03_ENGINEERING_BIBLE.md
-
-04_EXECUTION_BIBLE.md
 
 ---
 
@@ -1073,20 +1403,16 @@ docs/domain/03_CONTEXT_ENGINE.md
 
 ## Version 1.0.0
 
-Initial production-ready Brand Brain Domain Specification.
+Initial production-ready Domain Model for AI Brand OS.
 
 Defines:
 
-- Domain purpose
-- Aggregate model
-- Entity model
-- Business rules
-- Knowledge lifecycle
-- Governance
-- Domain events
-- Integration boundaries
-- Authorization
-- Non-functional requirements
+- Core business entities
+- Business relationships
+- Aggregate boundaries
+- Entity lifecycles
+- Domain invariants
+- High-level domain events
 
 ---
 

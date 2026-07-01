@@ -144,12 +144,12 @@ Included
 - Knowledge Base
 - AI Workspace
 - Caption Generation
-- Image Generation
 - Manual Review
 - Export
 
 Excluded
 
+- Image Generation
 - Publishing
 - Calendar
 - AI Characters

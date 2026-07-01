@@ -1,499 +1,900 @@
-# 02_PRODUCT_BIBLE.md
-
 # AI Brand OS — Product Bible
 
-Version: 1.1.0
+Document: 02_PRODUCT_BIBLE.md
+
+Version: 2.0.0
 
 Status: Active
 
 Last Updated: 2026-06-29
 
+Owner: Product
+
 ---
 
-# Changelog
+# Purpose
 
-## Version 1.1.0
+This document defines the product architecture, domain boundaries, module hierarchy, MVP scope, and long-term evolution of AI Brand OS.
 
-### Updated
+It serves as the authoritative reference for product planning and functional design.
 
-- Refined product strategy
-- Separated Vision from MVP
-- Reduced MVP scope
-- Introduced Beachhead Market
-- Removed Publishing from MVP
-- Added AI Workspace concept
-- Added Product Discovery outputs
-- Introduced MoSCoW prioritization
+Implementation details belong in the Engineering Bible.
+
+Detailed feature specifications belong in PRDs.
 
 ---
 
 # Product Vision
 
-AI Brand OS is an AI-native platform that becomes the persistent marketing brain of every business.
+AI Brand OS is building the AI that permanently understands a business.
 
-Businesses configure their brand once.
+Instead of repeatedly asking users for context, the platform continuously accumulates organizational knowledge and makes every AI interaction more accurate over time.
 
-AI continuously understands, remembers and applies that knowledge across every future workflow.
-
-This vision extends far beyond content generation.
+The product is designed around a shared intelligence layer rather than isolated AI features.
 
 ---
 
 # Product Mission
 
-Enable businesses to stop repeating brand information to AI.
+Enable every business to build a persistent AI understanding of:
 
-Instead, create one persistent Brand Brain that powers every AI interaction.
+- Organization
+- Brand
+- Products
+- Customers
+- Audience
+- Positioning
+- Marketing Strategy
+- Brand Voice
+- Historical Decisions
 
----
-
-# Core Product Strategy
-
-Everything starts from **Brand Brain**.
-
-Every AI capability must consume Brand Brain.
-
-No module owns business knowledge independently.
-
-Brand Brain is the product.
-
-Everything else is an application built on top of it.
-
----
-
-# Core Customer Problem
-
-Today's AI tools forget.
-
-Businesses repeatedly explain:
-
-- their products
-- their audience
-- their tone
-- their goals
-- their positioning
-
-Every new conversation starts from zero.
-
-This creates:
-
-- inconsistent outputs
-- wasted time
-- poor quality
-- higher operational cost
-
----
-
-# Product Hypothesis
-
-If businesses can configure their brand once and AI permanently remembers it...
-
-then they will:
-
-- create content faster
-- trust AI outputs more
-- produce more consistent marketing
-- become willing to pay a monthly subscription
-
-This is the primary hypothesis that MVP must validate.
-
----
-
-# Beachhead Market
-
-Initial target customers
-
-- Small Businesses
-- E-commerce Stores
-- Marketing Freelancers
-- Small Agencies
-- Content Creators
-
-Future markets are intentionally postponed.
-
----
-
-# Ideal Customer Profile
-
-Company Size
-
-1–20 employees
-
-Characteristics
-
-- publishes content regularly
-- already uses ChatGPT
-- struggles with consistency
-- has limited marketing resources
-- values automation over customization
-
----
-
-# Value Proposition
-
-Configure your brand once.
-
-AI remembers it forever.
-
-Generate brand-aware marketing content without repeating context.
-
----
-
-# Product Principles
-
-Every feature must
-
-- reduce repetitive work
-- strengthen Brand Brain
-- increase consistency
-- save measurable time
-- create customer value
-- be simple to understand
-- be simple to maintain
+This understanding powers every AI capability across the platform.
 
 ---
 
 # Product Architecture
 
-```
-Brand Brain
+The product is organized into four layers.
 
-↓
+```text
+AI Brand OS
 
-Knowledge Base
-
-↓
-
-AI Workspace
-
-↓
-
-Generation
-
-↓
-
-Review
-
-↓
-
-Export
+├── Core Domain
+│
+├── Core Applications
+│
+├── Platform Services
+│
+└── Future Applications
 ```
 
-Everything depends on Brand Brain.
+Each layer has a distinct responsibility.
 
 ---
 
-# Long-Term Product Modules
+# Layer 1 — Core Domain
+
+The Core Domain represents the primary intellectual property of AI Brand OS.
+
+It contains the intelligence layer that differentiates the platform.
+
+Components:
 
 - Brand Brain
-- Knowledge Base
-- Character Engine
-- Content Planner
-- Copy Agent
-- Image Agent
-- Video Agent
-- Publishing Engine
-- Community Agent
-- Sales Agent
-- Analytics Engine
-- Learning Engine
+- Knowledge Engine
+- Context Engine
+- Memory Engine
 
-These modules belong to the long-term vision.
+Every other module depends on this layer.
 
 ---
 
-# MVP Modules
+# Layer 2 — Core Applications
 
-Version 1.0
+Core Applications expose the intelligence layer to end users.
+
+Initial applications include:
+
+- AI Workspace
+- AI Chat
+- Content Generation
+
+These applications contain minimal business logic.
+
+They consume intelligence from the Core Domain.
+
+---
+
+# Layer 3 — Platform Services
+
+Platform Services support the operation of the product.
+
+Modules include:
 
 - Authentication
 - Organizations
-- Brands
-- Brand Brain
-- Knowledge Base
-- AI Workspace
-- Caption Generation
-- Image Generation
-- Manual Approval
-- Export
+- Billing
+- User Management
+- Settings
+- Notifications
+- File Storage
 
-Nothing else.
+These services should remain independent from business intelligence.
 
 ---
 
-# AI Workspace
+# Layer 4 — Future Applications
 
-The AI Workspace becomes the central working area.
+Future applications extend the platform without changing the intelligence layer.
 
-Users can:
+Examples include:
 
-- ask marketing questions
-- generate captions
-- generate campaign ideas
-- generate images
-- generate product copy
+- Campaign Planner
+- SEO Assistant
+- Email Generator
+- Ads Generator
+- Landing Page Builder
+- AI Agents
+- Automation
+- Analytics
 
-Every request automatically uses Brand Brain.
+Each application must consume the existing intelligence layer rather than creating its own knowledge model.
 
-Users never manually inject context.
+---
+
+# Core Product Principle
+
+Business understanding is the product.
+
+Applications are merely different ways of using that understanding.
+
+---
+
+# Product Boundaries
+
+AI Brand OS owns:
+
+- Business Intelligence
+- Organizational Knowledge
+- Context Generation
+- Memory
+- AI Orchestration
+
+AI Brand OS does not attempt to own:
+
+- Foundation AI Models
+- CRM
+- CMS
+- Social Publishing
+- Graphic Design
+
+These may integrate in the future but are not core responsibilities.
+
+---
+
+# Core Domain
+
+The Core Domain represents the unique intellectual property of AI Brand OS.
+
+Its responsibility is not generating AI outputs.
+
+Its responsibility is enabling AI to understand a business.
+
+The Core Domain consists of three components.
+
+- Brand Brain
+- Knowledge Engine
+- Context Engine
 
 ---
 
 # Brand Brain
 
-Stores
+## Purpose
 
-- Company Information
-- Brand DNA
-- Tone of Voice
+Brand Brain is the canonical knowledge model of a business.
+
+It contains structured, validated, and continuously evolving business intelligence.
+
+Brand Brain is the primary strategic asset of AI Brand OS.
+
+---
+
+## Responsibilities
+
+Brand Brain stores and organizes information about:
+
+- Organization
+- Brand
 - Products
 - Services
-- Audience
+- Customers
+- Target Audience
+- Positioning
+- Brand Voice
 - Competitors
-- Goals
-- FAQs
-- Brand Assets
-- Knowledge References
+- Marketing Strategy
+- Business Goals
+- Historical Decisions
+- Approved Content
+- Key Terminology
 
-Brand Brain becomes the permanent memory layer.
-
----
-
-# Knowledge Base
-
-Supports
-
-- PDF
-- DOCX
-- TXT
-- Markdown
-- Website URL
-- FAQs
-
-Knowledge is indexed for semantic retrieval.
+It represents the single source of truth for business understanding.
 
 ---
 
-# User Journey
+## Design Principles
 
-1. Sign Up
+Brand Brain must be:
 
-↓
+- Structured
+- Versioned
+- Searchable
+- Explainable
+- Continuously improving
 
-2. Create Organization
-
-↓
-
-3. Create Brand
-
-↓
-
-4. Complete Brand Brain
-
-↓
-
-5. Upload Knowledge
-
-↓
-
-6. Open AI Workspace
-
-↓
-
-7. Generate Content
-
-↓
-
-8. Review
-
-↓
-
-9. Export
-
-End of MVP.
+Every AI capability depends on its quality.
 
 ---
 
-# MoSCoW Prioritization
+# Knowledge Engine
 
-## MUST
+## Purpose
+
+The Knowledge Engine transforms raw information into structured intelligence.
+
+Raw inputs may include:
+
+- Website content
+- Documents
+- PDFs
+- User input
+- AI conversations
+- Approved outputs
+
+The engine validates, classifies, enriches, and links this information before it becomes part of Brand Brain.
+
+---
+
+## Responsibilities
+
+- Knowledge ingestion
+- Classification
+- Deduplication
+- Validation
+- Entity extraction
+- Relationship mapping
+- Quality scoring
+- Version control
+
+The Knowledge Engine protects the integrity of Brand Brain.
+
+---
+
+# Context Engine
+
+## Purpose
+
+The Context Engine prepares optimal AI context for every interaction.
+
+Rather than sending the entire Brand Brain to an LLM, it selects only the most relevant information.
+
+---
+
+## Responsibilities
+
+- Context retrieval
+- Context ranking
+- Context compression
+- Prompt assembly
+- Token optimization
+- AI provider abstraction
+
+The goal is to maximize response quality while minimizing token usage.
+
+---
+
+# Domain Relationships
+
+Business Knowledge
+
+↓
+
+Knowledge Engine
+
+↓
+
+Brand Brain
+
+↓
+
+Context Engine
+
+↓
+
+LLM
+
+↓
+
+AI Response
+
+↓
+
+User Feedback
+
+↓
+
+Knowledge Engine
+
+This continuous loop enables the platform to improve over time.
+
+---
+
+# Domain Rules
+
+The following rules are mandatory.
+
+Brand Brain is the only source of business truth.
+
+Knowledge enters Brand Brain only through the Knowledge Engine.
+
+All AI requests pass through the Context Engine.
+
+Applications must never bypass the Core Domain.
+
+---
+
+# Strategic Importance
+
+The Core Domain is the primary competitive advantage of AI Brand OS.
+
+Every future product capability should strengthen this layer rather than replace or duplicate it.
+
+---
+
+# Success Criteria
+
+The Core Domain succeeds when:
+
+- Business understanding continuously improves.
+- AI responses become more accurate over time.
+- Context quality increases.
+- Customer trust increases.
+- Switching costs increase due to accumulated intelligence.
+
+---
+
+# Product Modules
+
+The product is composed of independent but interconnected modules.
+
+Each module has a clear responsibility and communicates through the shared intelligence layer.
+
+---
+
+# Core Modules
+
+## Authentication
+
+Purpose
+
+Manage user authentication and authorization.
+
+Responsibilities
+
+- Sign up
+- Login
+- Password management
+- Session management
+- Identity verification
+
+---
+
+## Organizations
+
+Purpose
+
+Represent a company or workspace.
+
+Responsibilities
+
+- Organization management
+- Team membership
+- Ownership
+- Subscription assignment
+
+---
+
+## Brand
+
+Purpose
+
+Represent a single brand inside an organization.
+
+Responsibilities
+
+- Brand profile
+- Brand settings
+- Language
+- Region
+- Industry
+- Default AI configuration
+
+One organization may contain multiple brands in future releases.
+
+The MVP supports one primary brand.
+
+---
+
+## Brand Brain
+
+Purpose
+
+Store the structured intelligence of the brand.
+
+Dependencies
+
+- Knowledge Engine
+- Context Engine
+
+Status
+
+Core MVP Module
+
+---
+
+## Knowledge Engine
+
+Purpose
+
+Transform raw knowledge into structured business intelligence.
+
+Dependencies
+
+- Brand Brain
+
+Status
+
+Core MVP Module
+
+---
+
+## Context Engine
+
+Purpose
+
+Generate optimized AI context for every request.
+
+Dependencies
+
+- Brand Brain
+
+Status
+
+Core MVP Module
+
+---
+
+## AI Workspace
+
+Purpose
+
+Provide the primary interface for interacting with AI.
+
+Capabilities
+
+- AI Chat
+- Content Requests
+- Context Preview (Future)
+- History
+- Export
+
+Dependencies
+
+- Context Engine
+
+Status
+
+Core MVP Module
+
+---
+
+## Content Generation
+
+Purpose
+
+Generate business-aware marketing content.
+
+Supported MVP Outputs
+
+- Blog Posts
+- Social Media Posts
+- Email Drafts
+- Product Descriptions
+- Marketing Copy
+
+Every generation must consume Brand Brain context.
+
+---
+
+# Platform Modules
+
+The following modules support the platform but do not contain business intelligence.
 
 - Authentication
 - Organizations
-- Brands
+- Billing
+- User Management
+- Settings
+- File Storage
+- Notifications
+- Memory Service
+
+---
+
+# Future Modules
+
+These modules are intentionally excluded from the MVP.
+
+- Campaign Planner
+- SEO Assistant
+- Ads Generator
+- Email Campaigns
+- Landing Page Builder
+- AI Agents
+- Workflow Automation
+- Integrations
+- Analytics
+- Marketplace
+
+Each future module must consume the Core Domain.
+
+---
+
+# MVP Scope
+
+The MVP exists to validate one assumption:
+
+Businesses are willing to pay for AI that understands their business.
+
+Included Modules
+
+- Authentication
+- Organizations
+- Brand
 - Brand Brain
-- Knowledge Base
+- Knowledge Engine
+- Context Engine
 - AI Workspace
-- Caption Generation
-- Image Generation
-- Manual Approval
-- Export
+- Content Generation
 
----
-
-## SHOULD
-
-- Content Calendar
-- Prompt Templates
-- Brand Assets Library
-
----
-
-## COULD
+Excluded Modules
 
 - Publishing
-- Team Members
-- Analytics Dashboard
+- Scheduling
+- Collaboration
+- CRM
+- Analytics
+- AI Agents
+- Marketplace
+- Integrations
+- Image Generation
 
 ---
 
-## WON'T
+# MVP Success Criteria
 
-Version 1
+The MVP is successful if users:
 
-- Video Generation
-- AI Characters
-- Comment Automation
-- DM Automation
-- AI Sales Agent
-- Learning Engine
-- Marketplace
-- API
-- Enterprise Features
+- Complete onboarding.
+- Build a usable Brand Brain.
+- Generate context-aware content.
+- Return to the platform regularly.
+- Convert to a paid subscription.
+- Trust the platform more over time.
+
+The MVP is not intended to maximize feature count.
+
+Its purpose is learning and validation.
+
+---
+
+# Module Dependency Rules
+
+The dependency direction is fixed.
+
+Platform Services
+
+↓
+
+Core Domain
+
+↓
+
+Core Applications
+
+↓
+
+Future Applications
+
+Reverse dependencies are not allowed.
+
+This protects the architecture from becoming tightly coupled.
+
+---
+
+# Product Constraints
+
+To preserve focus, the MVP must follow these constraints.
+
+- One primary use case.
+- One intelligence layer.
+- One onboarding flow.
+- One AI workspace.
+- One knowledge model.
+
+Complexity should only increase after Product-Market Fit.
 
 ---
 
 # Product Roadmap
 
-## Phase 0
+The roadmap is organized around validated customer value rather than feature quantity.
 
-Discovery
+## Phase 1 — MVP
 
-↓
+Objective
 
-Validation
+Validate that businesses are willing to pay for AI that understands their business.
 
----
+Modules
 
-## Phase 1
-
-Focused MVP
-
+- Authentication
+- Organizations
+- Brand
 - Brand Brain
-- Knowledge
+- Knowledge Engine
+- Context Engine
 - AI Workspace
+- Content Generation
+- Export
+
+Success Criteria
+
+- Successful onboarding
+- Active Brand Brain usage
+- High-quality context-aware outputs
+- Paying customers
+- Strong customer retention
 
 ---
 
-## Phase 2
+## Phase 2 — Team Collaboration
 
-Marketing Automation
+Objective
 
-- Publishing
-- Calendar
-- Analytics
+Expand usage from individuals to teams.
 
----
+Potential Modules
 
-## Phase 3
-
-AI Employees
-
-- Community Agent
-- Sales Agent
-- Learning Engine
+- Multi-brand support
+- Team collaboration
+- Shared workspaces
+- Roles & permissions
+- Approval workflows
 
 ---
 
-## Phase 4
+## Phase 3 — Marketing Intelligence
 
-AI Brand Operating System
+Objective
 
-Complete autonomous marketing platform.
+Turn accumulated knowledge into actionable marketing insights.
 
----
+Potential Modules
 
-# Success Metrics
-
-Activation Rate
-
-Target
-
-60%
-
----
-
-Time To First Value
-
-Less than 10 minutes
+- Campaign Planner
+- SEO Assistant
+- Email Campaigns
+- Ads Assistant
+- Landing Page Generator
+- Content Calendar
 
 ---
 
-Weekly Active Users
+## Phase 4 — AI Automation
 
-Greater than 50%
+Objective
 
----
+Allow AI to execute repetitive marketing workflows.
 
-Brand Completion Rate
+Potential Modules
 
-Greater than 70%
-
----
-
-Generated Content
-
-Primary engagement metric
+- Workflow Automation
+- AI Agents
+- Integrations
+- Scheduled Tasks
+- External Tool Actions
 
 ---
 
-Paid Conversion
+## Phase 5 — Business Intelligence Platform
 
-Primary business metric
+Objective
 
----
+Become the intelligence layer for the entire business.
 
-Retention (Week 4)
+Potential Modules
 
-Greater than 30%
-
----
-
-AI Cost
-
-Less than 20% of subscription revenue
+- Strategic Recommendations
+- Decision Support
+- Predictive Insights
+- Cross-functional AI
+- Enterprise Capabilities
 
 ---
 
-# Product Rules
+# Release Strategy
 
-Never build features without validation.
+Every release should improve at least one of the following:
 
-Never increase MVP scope without evidence.
+- Customer activation
+- Customer retention
+- Intelligence quality
+- Context quality
+- Revenue
+- Product simplicity
 
-Every new feature must strengthen Brand Brain.
-
-Prefer customer value over engineering elegance.
-
-Prefer shipping over perfection.
-
-The MVP validates the product.
-
-Later versions build the platform.
+Avoid releasing features that only increase complexity.
 
 ---
 
-# Open Questions
+# Product Lifecycle
 
-- Pricing model
-- Credit system
-- AI provider routing
-- Website crawling depth
-- Export formats
-- Multi-language strategy
-- Brand onboarding experience
-- Knowledge synchronization strategy
+Every module follows the same lifecycle.
+
+1. Discovery
+2. Validation
+3. PRD
+4. UX Design
+5. Technical Design
+6. Development
+7. Internal Testing
+8. Beta Release
+9. General Availability
+10. Continuous Improvement
+
+No module should skip validation.
 
 ---
 
-END OF DOCUMENT
+# Product KPIs
+
+Primary KPIs
+
+- Activation Rate
+- Knowledge Completion Rate
+- Weekly Active Organizations
+- Monthly Active Users
+- Paid Conversion Rate
+- Customer Retention
+- Net Revenue Retention
+- Customer Satisfaction
+
+Operational KPIs
+
+- Average Onboarding Time
+- Knowledge Processing Time
+- Context Retrieval Latency
+- AI Response Quality
+- Export Usage
+- Brand Brain Completeness
+
+---
+
+# Product Constraints
+
+The following constraints intentionally limit product scope.
+
+- One shared intelligence layer.
+- One primary onboarding flow.
+- One Brand Brain per brand.
+- One AI Workspace experience.
+- AI-provider agnostic architecture.
+- Knowledge-first design.
+
+These constraints may evolve only after Product-Market Fit.
+
+---
+
+# Product Governance
+
+Product decisions should follow this order.
+
+1. Customer Value
+2. Project Bible
+3. Product Bible
+4. Approved PRDs
+5. Engineering Constraints
+
+No feature should be approved because a competitor offers it.
+
+---
+
+# Decision Log
+
+Major product decisions should be documented.
+
+Each decision must include:
+
+- Date
+- Decision
+- Reason
+- Alternatives Considered
+- Expected Impact
+
+Historical decisions should never be silently overwritten.
+
+---
+
+# Definition of Product Success
+
+AI Brand OS succeeds when:
+
+- Businesses trust the platform as their primary AI workspace.
+- Brand Brain becomes the organization's source of truth.
+- AI outputs improve measurably over time.
+- Customers become increasingly dependent on accumulated intelligence rather than generated content.
+- The platform demonstrates strong retention and willingness to pay.
+
+---
+
+# Version History
+
+## Version 2.0.0
+
+Major Changes
+
+- Reorganized product around Domain-Driven Design principles.
+- Introduced layered product architecture.
+- Established Brand Brain as the core product asset.
+- Defined Knowledge Engine and Context Engine responsibilities.
+- Reduced MVP scope to validation-focused modules.
+- Added roadmap based on customer validation stages.
+- Introduced governance, KPIs, and product lifecycle.
+
+---
+
+# Related Documents
+
+01_PROJECT_BIBLE.md
+
+04_POSITIONING.md
+
+05_BRAND_BRAIN_PRD.md
+
+06_AI_WORKSPACE_PRD.md
+
+03_ENGINEERING_BIBLE.md
+
+04_EXECUTION_BIBLE.md
+
+05_AI_MEMORY.md
+
+---
+
+# Status
+
+Approved
+
+Version
+
+2.0.0
+
+Effective Date
+
+2026-06-29
+
+---
+
+# END OF DOCUMENT

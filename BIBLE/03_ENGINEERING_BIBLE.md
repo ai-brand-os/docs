@@ -26,37 +26,37 @@ Every architectural decision must support long-term growth.
 
 ## Frontend
 
-* Next.js
-* TypeScript
-* Tailwind CSS
-* React Query (TanStack Query)
-* React Hook Form
-* Zod
-* shadcn/ui
+- Next.js
+- TypeScript
+- Tailwind CSS
+- React Query (TanStack Query)
+- React Hook Form
+- Zod
+- shadcn/ui
 
 ---
 
 ## Backend
 
-* Laravel
-* PHP 8+
-* REST API
-* Laravel Queues
-* Laravel Scheduler
+- Laravel
+- PHP 8+
+- REST API
+- Laravel Queues
+- Laravel Scheduler
 
 ---
 
 ## Workers
 
-* Go
+- Go
 
 Responsibilities:
 
-* AI Jobs
-* Video Processing
-* Image Processing
-* Queue Consumers
-* Heavy Background Tasks
+- AI Jobs
+- Video Processing
+- Image Processing
+- Queue Consumers
+- Heavy Background Tasks
 
 ---
 
@@ -64,23 +64,23 @@ Responsibilities:
 
 Primary
 
-* MySQL
+- MySQL
 
 Cache
 
-* Redis
+- Redis
 
 Vector Database
 
-* Qdrant
+- Qdrant
 
 Object Storage
 
-* Cloudflare R2
+- Cloudflare R2
 
 Search (Future)
 
-* Meilisearch
+- Meilisearch
 
 ---
 
@@ -138,38 +138,38 @@ External Services
 
 # Core Services
 
-* Authentication
-* Organizations
-* Brands
-* Brand Brain
-* Knowledge Base
-* Characters
-* AI Generation
-* Publishing
-* Analytics
+- Authentication
+- Organizations
+- Brands
+- Brand Brain
+- Knowledge Base
+- Knowledge Engine
+- Context Engine
+- AI Workspace
+- Content Generation
 
 ---
 
 # API Principles
 
-* REST First
-* Versioned APIs
-* Stateless
-* Consistent Responses
-* Resource-Based Endpoints
-* Pagination
-* Filtering
-* Validation
-* Rate Limiting
+- REST First
+- Versioned APIs
+- Stateless
+- Consistent Responses
+- Resource-Based Endpoints
+- Pagination
+- Filtering
+- Validation
+- Rate Limiting
 
 ---
 
 # Authentication
 
-* JWT / Sanctum
-* Refresh Tokens
-* Role Based Access Control
-* Organization Isolation
+- JWT / Sanctum
+- Refresh Tokens
+- Role Based Access Control
+- Organization Isolation
 
 ---
 
@@ -177,14 +177,14 @@ External Services
 
 Roles
 
-* Owner
-* Admin
-* Editor
-* Viewer
+- Owner
+- Admin
+- Editor
+- Viewer
 
 Future
 
-* Custom Roles
+- Custom Roles
 
 ---
 
@@ -208,11 +208,11 @@ No cross-tenant access.
 
 # Database Principles
 
-* Normalize business data.
-* Avoid duplicate records.
-* Use foreign keys.
-* Soft deletes where appropriate.
-* UUIDs for public identifiers.
+- Normalize business data.
+- Avoid duplicate records.
+- Use foreign keys.
+- Soft deletes where appropriate.
+- UUIDs for public identifiers.
 
 ---
 
@@ -220,13 +220,13 @@ No cross-tenant access.
 
 Queues
 
-* AI Generation
-* Image Jobs
-* Video Jobs
-* Publishing
-* Notifications
-* Imports
-* Webhooks
+- AI Generation
+- Image Jobs
+- Video Jobs
+- Publishing
+- Notifications
+- Imports
+- Webhooks
 
 Heavy jobs must never block API requests.
 
@@ -236,13 +236,13 @@ Heavy jobs must never block API requests.
 
 Providers
 
-* OpenAI
-* Claude
-* Gemini
+- OpenAI
+- Claude
+- Gemini
 
 Future
 
-* Self-hosted Models
+- Self-hosted Models
 
 AI abstraction layer required.
 
@@ -266,13 +266,13 @@ Prompt changes must be tracked.
 
 Character data includes:
 
-* Identity
-* Face
-* Style
-* Prompt Template
-* Negative Prompt
-* Seed (when supported)
-* Reference Assets
+- Identity
+- Face
+- Style
+- Prompt Template
+- Negative Prompt
+- Seed (when supported)
+- Reference Assets
 
 ---
 
@@ -280,12 +280,12 @@ Character data includes:
 
 Supports
 
-* PDFs
-* Website Crawling
-* DOCX
-* TXT
-* Markdown
-* FAQs
+- PDFs
+- Website Crawling
+- DOCX
+- TXT
+- Markdown
+- FAQs
 
 Embeddings stored in Qdrant.
 
@@ -297,12 +297,12 @@ Handled by Go.
 
 Examples
 
-* AI Generation
-* Video Rendering
-* Image Rendering
-* Webhook Processing
-* Scheduled Jobs
-* Analytics Processing
+- AI Generation
+- Video Rendering
+- Image Rendering
+- Webhook Processing
+- Scheduled Jobs
+- Analytics Processing
 
 ---
 
@@ -326,11 +326,11 @@ Standard Error Format
 
 Levels
 
-* Debug
-* Info
-* Warning
-* Error
-* Critical
+- Debug
+- Info
+- Warning
+- Error
+- Critical
 
 Centralized logging required.
 
@@ -340,39 +340,39 @@ Centralized logging required.
 
 Track
 
-* API Response Time
-* Queue Length
-* Worker Health
-* AI Latency
-* Error Rate
-* Storage Usage
+- API Response Time
+- Queue Length
+- Worker Health
+- AI Latency
+- Error Rate
+- Storage Usage
 
 ---
 
 # Security
 
-* HTTPS Everywhere
-* Encrypted Secrets
-* Signed URLs
-* Input Validation
-* Output Escaping
-* Rate Limiting
-* CSRF Protection
-* XSS Protection
-* SQL Injection Protection
+- HTTPS Everywhere
+- Encrypted Secrets
+- Signed URLs
+- Input Validation
+- Output Escaping
+- Rate Limiting
+- CSRF Protection
+- XSS Protection
+- SQL Injection Protection
 
 ---
 
 # Coding Standards
 
-* SOLID
-* DRY
-* KISS
-* Clean Architecture
-* Repository Pattern (only when useful)
-* Service Layer
-* DTOs
-* Dependency Injection
+- SOLID
+- DRY
+- KISS
+- Clean Architecture
+- Repository Pattern (only when useful)
+- Service Layer
+- DTOs
+- Dependency Injection
 
 ---
 
@@ -436,15 +436,15 @@ chore:
 
 Backend
 
-* Unit Tests
-* Feature Tests
-* API Tests
+- Unit Tests
+- Feature Tests
+- API Tests
 
 Frontend
 
-* Unit Tests
-* Component Tests
-* E2E (Future)
+- Unit Tests
+- Component Tests
+- E2E (Future)
 
 ---
 
@@ -511,4 +511,3 @@ Prefer boring, proven technologies.
 ---
 
 END OF DOCUMENT
-

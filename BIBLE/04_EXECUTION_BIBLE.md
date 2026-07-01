@@ -114,12 +114,12 @@ Included
 - Knowledge Base
 - AI Workspace
 - Caption Generation
-- Image Generation
 - Manual Approval
 - Export
 
 Excluded
 
+- Image Generation
 - Publishing
 - Content Calendar
 - Video Generation
