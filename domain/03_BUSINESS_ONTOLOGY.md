@@ -375,7 +375,7 @@ Reason: Adding "Manufacturing" to the Industry list should not require the same 
 
 "Business Goals" is modeled as an attribute group on `Brand`, not a standalone entity type.
 
-Reason: `01_DOMAIN_MODEL.md` does not define a Business Goals aggregate. Introducing one unilaterally at the ontology layer would violate the documentation hierarchy (Domain Model is Product-owned and higher-priority than this Architecture-owned document). This is a stopgap; Product should confirm or formally extend the Domain Model.
+Reason: `01_DOMAIN_MODEL.md` does not define a Business Goals aggregate. Introducing one unilaterally at the ontology layer would violate the documentation hierarchy (Domain Model is Product-owned and higher-priority than this Architecture-owned document). This is a Confirmed;
 
 ## ADR-004
 

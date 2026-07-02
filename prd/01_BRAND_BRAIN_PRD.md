@@ -2,7 +2,7 @@
 
 Document: **01_BRAND_BRAIN_PRD.md**
 
-Version: **1.0.0**
+Version: **1.1.0**
 
 Status: Approved
 
