@@ -68,7 +68,7 @@ If a future feature requests any of these, it must go through the Feature Accept
 # Relationship to Other Documents
 
 ```text
-01_BRAND_BRAIN.md (Domain Model)
+01_DOMAIN_MODEL.md (Domain Model)
         │
         ▼  (defines business entities & relationships)
 01_BRAND_BRAIN_PRD.md  ← this document
@@ -263,7 +263,7 @@ Step 5 — First Generation ("Wow Moment")
 
 # Dependencies
 
-- `01_BRAND_BRAIN.md` (Domain Model) — entity definitions and relationships.
+- `01_DOMAIN_MODEL.md` (Domain Model) — entity definitions and relationships.
 - `04_KNOWLEDGE_MANAGEMENT_SERVICE.md` — persistence, versioning, approval policy.
 - `03_KNOWLEDGE_EXTRACTION_SERVICE.md` — candidate field extraction during import.
 - `01_INGESTION_SERVICE.md` — accepts raw website/document input.
@@ -304,7 +304,7 @@ Step 5 — First Generation ("Wow Moment")
 
 # Related Documents
 
-`01_BRAND_BRAIN.md` (Domain Model)
+`01_DOMAIN_MODEL.md` (Domain Model)
 
 `02_PRODUCT_BIBLE.md`
 

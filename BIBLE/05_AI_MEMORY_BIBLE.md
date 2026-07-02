@@ -1,14 +1,23 @@
 # AI Brand OS — AI Memory
 
-Version: 1.1.0
+Version: 1.2.0
 
 Status: Active
 
-Last Updated: 2026-06-29
+Last Updated: 2026-07-02
 
 ---
 
 # Changelog
+
+## Version 1.2.0
+
+### Updated
+
+- Synced Session Memory (Completed / Next) with actual project state — was listing already-completed work as "Next"
+- Registered Business Ontology and Artifact Model as completed drafts
+- Added new Confirmed Product Decision: Business Goals modeled as Brand attribute group, not a new entity
+- Flagged Brand Brain PRD approval as the current blocking priority
 
 ## Version 1.1.0
 
@@ -123,6 +132,10 @@ Approved
 - Multi-tenant SaaS
 - Subscription business model
 - Validation-first strategy
+- Ingestion Service reduced to thin intake layer (v2.0.0) — no parsing/extraction/persistence logic in Ingestion
+- Business Ontology entity types locked 1:1 to Domain Model naming — no parallel terminology
+- "Business Goals" modeled as an attribute group on Brand, not a new Domain Model entity (pending Product confirmation)
+- Single shared Artifact base contract across all six Core Domain services (Ingestion, Document Processing, Knowledge Extraction, Knowledge Management, Context Engine, AI Orchestrator)
 
 Rejected
 
@@ -130,6 +143,7 @@ Rejected
 - Publishing in Version 1
 - Building automation before validation
 - Feature-first planning
+- Ontology validation using AI/LLM judgment (kept deterministic-only in MVP, per Knowledge Management Service "Trust First" principle)
 
 ---
 
@@ -254,27 +268,27 @@ Always identify trade-offs.
 
 Priority 1
 
-Complete Product Discovery
+Resolve Brand Brain PRD Founder approval (current blocker)
 
 Priority 2
 
-Market Research
+Architecture review of Business Ontology and Artifact Model
 
 Priority 3
 
-Competitor Analysis
+Fix known broken cross-file references across PRD/domain docs
 
 Priority 4
 
-Brand Brain PRD
+Write Knowledge Import PRD (07)
 
 Priority 5
 
-AI Workspace PRD
+Database Design
 
 Priority 6
 
-Architecture Design
+System Architecture / API Design
 
 Priority 7
 
@@ -289,12 +303,14 @@ High
 - Scope Creep
 - Weak Differentiation
 - Building Too Early
+- PRD approval sequencing (AI Workspace PRD approved ahead of its Brand Brain PRD dependency)
 
 Medium
 
 - AI Cost
 - Knowledge Quality
 - User Activation
+- Broken cross-file references (filenames only, not scope — see Execution Bible Known Risks)
 
 Low
 
@@ -313,14 +329,22 @@ Completed
 - Product Positioning finalized
 - Brand Brain selected as the foundation
 - Publishing removed from MVP
-
-Next
-
 - Product Discovery
 - Market Research
 - Competitor Analysis
-- Brand Brain PRD
-- AI Workspace PRD
+- Domain Model (`domain/01_DOMAIN_MODEL.md`)
+- AI Workspace PRD (approved)
+- Brand Brain PRD (drafted, pending Founder approval)
+- Ingestion Service, Document Processing Service, Knowledge Extraction Service, Knowledge Management Service, Context Engine, AI Orchestrator — all six Core Domain service specs
+- Business Ontology (`domain/03_BUSINESS_ONTOLOGY.md`) — drafted, resolves prior gap where Knowledge Extraction/Management referenced an undefined ontology
+- Artifact Model (`domain/02_ARTIFACT_MODEL.md`) — drafted, resolves prior gap where all six Core Domain services referenced an undefined artifact contract
+
+Next
+
+- Brand Brain PRD Founder approval
+- Business Ontology / Artifact Model Architecture review
+- Fix broken cross-references (Brand Brain PRD, AI Workspace PRD, Domain Model)
+- Knowledge Import PRD
 - Database Design
 - System Architecture
 

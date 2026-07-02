@@ -1427,8 +1427,6 @@ The Domain Model is considered complete when:
 
 02_BUSINESS_ONTOLOGY.md
 
-03_KNOWLEDGE_GRAPH.md
-
 01_PROJECT_BIBLE.md
 
 02_PRODUCT_BIBLE.md
