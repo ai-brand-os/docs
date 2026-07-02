@@ -1377,16 +1377,17 @@ Included:
 - Product
 - Service
 - Audience
-- Persona
 - Brand Voice
-- Campaign
-- Content
-- Asset
 - Document
 - Knowledge
 - Competitor
-- Channel
 - Brand
+
+<!-- - Content
+- Asset
+- Persona
+- Campaign
+- Channel -->
 
 ---
 

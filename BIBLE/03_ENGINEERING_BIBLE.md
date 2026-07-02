@@ -144,6 +144,10 @@ External Services
 - Brand Brain
 - Knowledge Base
 - Knowledge Engine
+  ├── Ingestion Service
+  ├── Document Processing Service
+  ├── Knowledge Extraction Service
+  └── Knowledge Management Service
 - Context Engine
 - AI Workspace
 - Content Generation

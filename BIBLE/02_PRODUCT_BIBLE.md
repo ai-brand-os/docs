@@ -70,6 +70,10 @@ Components:
 
 - Brand Brain
 - Knowledge Engine
+  ├── Ingestion Service
+  ├── Document Processing Service
+  ├── Knowledge Extraction Service
+  └── Knowledge Management Service
 - Context Engine
 - Memory Engine
 
@@ -170,6 +174,10 @@ The Core Domain consists of four components.
 
 - Brand Brain
 - Knowledge Engine
+  ├── Ingestion Service
+  ├── Document Processing Service
+  ├── Knowledge Extraction Service
+  └── Knowledge Management Service
 - Context Engine
 - Memory Engine
 
@@ -228,7 +236,14 @@ Every AI capability depends on its quality.
 
 ## Purpose
 
-The Knowledge Engine transforms raw information into structured intelligence.
+Knowledge Engine is the knowledge acquisition capability of AI Brand OS.
+
+It is implemented by four independent services:
+
+- Ingestion Service
+- Document Processing Service
+- Knowledge Extraction Service
+- Knowledge Management Service
 
 Raw inputs may include:
 
@@ -421,6 +436,10 @@ Store the structured intelligence of the brand.
 Dependencies
 
 - Knowledge Engine
+  ├── Ingestion Service
+  ├── Document Processing Service
+  ├── Knowledge Extraction Service
+  └── Knowledge Management Service
 - Context Engine
 
 Status
@@ -549,6 +568,10 @@ Included Modules
 - Brand
 - Brand Brain
 - Knowledge Engine
+  ├── Ingestion Service
+  ├── Document Processing Service
+  ├── Knowledge Extraction Service
+  └── Knowledge Management Service
 - Context Engine
 - AI Workspace
 - Content Generation
@@ -628,6 +651,10 @@ Modules
 - Brand
 - Brand Brain
 - Knowledge Engine
+  ├── Ingestion Service
+  ├── Document Processing Service
+  ├── Knowledge Extraction Service
+  └── Knowledge Management Service
 - Context Engine
 - AI Workspace
 - Content Generation
@@ -845,8 +872,8 @@ Major Changes
 03_ENGINEERING_BIBLE.md
 04_EXECUTION_BIBLE.md
 04_POSITIONING.md
-05_BRAND_BRAIN_PRD.md
-06_AI_WORKSPACE_PRD.md
+01_BRAND_BRAIN_PRD.md
+02_AI_WORKSPACE_PRD.md
 05_AI_MEMORY_BIBLE.md
 
 ---

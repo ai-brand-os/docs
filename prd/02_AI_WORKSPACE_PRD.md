@@ -1,6 +1,6 @@
 # PRD — AI Workspace
 
-Document: **01_AI_WORKSPACE_PRD.md**
+Document: **02_AI_WORKSPACE_PRD.md**
 
 01_AI_WORKSPACE.md
 
@@ -151,6 +151,10 @@ The AI Workspace depends on:
 
 - Brand Brain
 - Knowledge Engine
+  ├── Ingestion Service
+  ├── Document Processing Service
+  ├── Knowledge Extraction Service
+  └── Knowledge Management Service
 - Context Engine
 - Authentication
 - Organizations

@@ -1,8 +1,8 @@
 # AI Brand OS — Positioning
 
-Document: 04_POSITIONING.md
+Document: **04_POSITIONING.md**
 
-Version: 1.0.0
+Version: **1.0.0**
 
 Status: Draft
 
@@ -943,7 +943,7 @@ Completed
 
 # Next Document
 
-docs/05_BRAND_BRAIN_PRD.md
+01_BRAND_BRAIN_PRD.md
 
 Objective
 

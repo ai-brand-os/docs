@@ -341,7 +341,7 @@ Implementation containing any parsing or entity extraction logic is considered a
 
 `02_DOCUMENT_PROCESSING_SERVICE.md`
 
-`05_BRAND_BRAIN_PRD.md`
+`01_BRAND_BRAIN_PRD.md`
 
 `03_ENGINEERING_BIBLE.md`
 

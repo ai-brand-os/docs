@@ -1,6 +1,6 @@
 # AI Brand OS — Brand Brain PRD
 
-Document: **02_BRAND_BRAIN_PRD.md**
+Document: **01_BRAND_BRAIN_PRD.md**
 
 Version: **1.0.0**
 
@@ -256,7 +256,7 @@ Step 5 — First Generation ("Wow Moment")
 | Metric                           | Target       |
 | -------------------------------- | ------------ |
 | Brand Brain Completion Rate      | > 70%        |
-| Time to First Value              | < 10 minutes |
+| Time to First Value              | < 15 minutes |
 | Activation Rate (reaches Step 5) | > 60%        |
 
 ---
