@@ -87,7 +87,7 @@ Validate the business idea, finalize the MVP, and complete all product and archi
 ## Engineering
 
 - Domain Model complete
-- Business Ontology drafted (pending review)
+- Business Ontology Approved (for Architecture & Engineering Design)
 - Artifact Model drafted (pending review)
 - Six Core Domain service specs complete (Ingestion, Document Processing, Knowledge Extraction, Knowledge Management, Context Engine, AI Orchestrator)
 - Database design not started
@@ -113,7 +113,7 @@ Success Criteria
 - ✅ MVP approved (Product Bible v2.0.0)
 - ⏳ Brand Brain PRD — pending Founder approval
 - ✅ AI Workspace PRD approved
-- ⏳ Business Ontology — pending Architecture/Product review
+- ✅ Business Ontology — Approved for Architecture & Engineering Design
 - ⏳ Artifact Model — pending Architecture review
 
 ---
@@ -159,7 +159,7 @@ Excluded
 - ⏳ Brand Brain PRD approval
 - ✅ AI Workspace PRD
 - ✅ Domain Model
-- ⏳ Business Ontology approval
+- ✅ Business Ontology Approved for Architecture & Engineering Design
 - ⏳ Artifact Model approval
 - ✅ Knowledge Engine service specs (4 services)
 - ✅ Context Engine spec
@@ -234,7 +234,7 @@ Excluded
 - Knowledge Management Service spec
 - Context Engine spec
 - AI Orchestrator spec
-- Business Ontology (drafted, pending review)
+- Business Ontology (Approved for Architecture & Engineering Design)
 - Artifact Model (drafted, pending review)
 
 ---
@@ -260,7 +260,11 @@ Excluded
 - Scope Creep
 - Building Too Much Before Validation
 - Weak Product Differentiation
-- **PRD approval sequencing** — `02_AI_WORKSPACE_PRD.md` is Approved, but its primary dependency `01_BRAND_BRAIN_PRD.md` is still Draft/Pending. AI Workspace depends on Brand Brain's data model; if Brand Brain scope changes during Founder review, AI Workspace PRD may need re-approval.
+- **Backend framework changeover risk.** NestJS decision reverses an
+  already-Approved Laravel decision. No code was written against Laravel,
+  so risk is purely planning-cost, not rework-cost. Ensure no remaining
+  document references Laravel/Eloquent-specific patterns before Database
+  Design begins.
 
 ## Medium
 
@@ -294,7 +298,8 @@ Frontend
 
 Backend
 
-- Laravel
+- NestJS (TypeScript) — changed from Laravel, 2026-07-02, see Engineering
+  Bible ADR
 
 Workers
 
@@ -302,7 +307,7 @@ Workers
 
 Database
 
-- PostgreSQL
+- PostgreSQL — changed from MySQL, 2026-07-02, see Engineering Bible ADR
 
 Vector Database
 
@@ -323,7 +328,7 @@ MVP Strategy
 Domain & Ontology
 
 - Domain Model finalized (`domain/01_DOMAIN_MODEL.md`)
-- Business Ontology drafted, entity types locked to Domain Model 1:1 (`domain/03_BUSINESS_ONTOLOGY.md`)
+- Business Ontology Approved for Architecture & Engineering Design, entity types locked to Domain Model 1:1 (`domain/03_BUSINESS_ONTOLOGY.md`)
 - Artifact Model drafted, single base contract for all six Core Domain services (`domain/02_ARTIFACT_MODEL.md`)
 
 ---
@@ -540,9 +545,9 @@ AI
 | Competitor Analysis          | ✅ Completed                                      |
 | Positioning                  | ✅ Completed                                      |
 | Domain Model                 | ✅ Approved for Architecture & Engineering Design |
-| Business Ontology            | ⏳ Draft — Pending Architecture & Product Review  |
+| Business Ontology            | ✅ Approved for Architecture & Engineering Design |
 | Artifact Model               | ⏳ Draft — Pending Architecture Review            |
-| Brand Brain PRD              | ⏳ Draft — Pending Founder Approval               |
+| Brand Brain PRD              | ✅ Approved for Engineering Design                |
 | AI Workspace PRD             | ✅ Approved for Engineering Design                |
 | Ingestion Service            | ✅ Draft v2.0.0                                   |
 | Document Processing Service  | ✅ Approved for Architecture & Engineering Design |
@@ -556,12 +561,40 @@ AI
 
 # Immediate Next Steps
 
-1. Resolve Brand Brain PRD Founder approval — currently the single biggest blocker to Architecture phase sign-off.
-2. Route Business Ontology and Artifact Model through Architecture review; confirm the "Business Goals" modeling decision with Product.
-3. Fix the five broken cross-file references listed under Known Risks (Medium).
-4. Lock Industry and Tone Attribute taxonomies with Product/UX (currently proposed-only in Business Ontology).
+1. Merge this session's document updates (Brand Brain PRD, Business
+   Ontology, Engineering Bible, AI Memory Bible).
+2. Fix the five broken cross-file references listed under Known Risks
+   (Medium) — still outstanding, not addressed this session.
+3. Begin Database Design: PostgreSQL schema derived from Domain Model +
+   Business Ontology (Entity/Attribute/Relationship Registries) +
+   Artifact Model (Base Artifact Contract + 7 concrete types).
+4. Begin API Design (NestJS module boundaries, mapped 1:1 to the six Core
+   Domain services already specified).
 5. Write `07_KNOWLEDGE_IMPORT_PRD.md`.
-6. Begin Database Design and API Design once the above are cleared.
+
+---
+
+## 2026-07-02 (continued)
+
+Decision
+
+Backend framework changed Laravel → NestJS. Database changed MySQL →
+PostgreSQL. Full reasoning in `03_ENGINEERING_BIBLE.md` ADR
+"Backend Framework & Database (2026-07-02)".
+
+---
+
+Decision
+
+Brand Brain PRD approved for Engineering Design. All four Open Questions
+resolved in-session with Founder.
+
+---
+
+Decision
+
+Business Ontology approved for Architecture & Engineering Design. All
+three Open Items resolved in-session with Founder.
 
 ---
 

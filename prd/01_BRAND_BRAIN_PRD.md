@@ -4,13 +4,13 @@ Document: **01_BRAND_BRAIN_PRD.md**
 
 Version: **1.1.0**
 
-Status: Approved
+Status: Approved for Engineering Design
 
 Owner: Product
 
 Priority: P0
 
-Last Updated: 2026-07-01
+Last Updated: 2026-07-02
 
 ---
 
@@ -282,12 +282,30 @@ Step 5 — First Generation ("Wow Moment")
 
 ---
 
-# Open Questions
+# Resolved Questions (formerly Open Questions)
 
-1. Should **Brand Voice — Tone Attributes** be import-eligible, or always manual? (Currently marked manual-only above — tone is subjective and mis-imported tone could be worse than no tone. Recommend keeping manual-only unless Knowledge Extraction proves reliable here post-MVP.)
-2. ~~`01_INGESTION_SERVICE.md` duplicates logic covered by Document Processing + Knowledge Extraction.~~ **Resolved 2026-07-01** — `01_INGESTION_SERVICE.md` v2.0.0 reduced to a thin intake layer (validation + forwarding only). No further action needed before Step 2 is built.
-3. Fixed taxonomy for Industry and Tone Attributes needs an actual finite list — not defined in this PRD, needs a short UX/content task before development starts.
-4. Should Competitors support auto-import (e.g. detecting competitor names mentioned on the client's own website), or manual-only for MVP? Recommend manual-only for MVP — low value, adds import complexity.
+1. **Brand Voice — Tone Attributes import eligibility.** RESOLVED:
+   manual-only, permanently. This is now enforced as a hard Domain
+   Constraint in `03_BUSINESS_ONTOLOGY.md`, not just a UX preference — any
+   Knowledge Candidate Artifact attempting to set `toneAttributes` with
+   `provenance.extractionMethod != user_input` fails Ontology Validation
+   unconditionally.
+
+2. **Ingestion Service scope duplication.** RESOLVED 2026-07-01 — see prior
+   entry, `01_INGESTION_SERVICE.md` v2.0.0.
+
+3. **Industry / Tone Attribute taxonomies.** RESOLVED: locked as v1 lists,
+   see `03_BUSINESS_ONTOLOGY.md` Controlled Vocabulary Registry. One
+   addition made to the Industry list: `Beauty & Personal Care`, added
+   because the Beachhead Market explicitly includes e-commerce brands
+   (`02_MARKET_RESEARCH.md`, Segment B) that don't fit cleanly under
+   "Fashion & Apparel" or "Home & Lifestyle". Locked as PATCH-versioned —
+   future additions do not require Founder approval, only Architecture
+   review, per Ontology Governance rules.
+
+4. **Competitor auto-import.** RESOLVED: manual-only for MVP, per original
+   recommendation in this document. Low value relative to import
+   complexity added.
 
 ---
 
@@ -299,6 +317,12 @@ Step 5 — First Generation ("Wow Moment")
 - Onboarding flow approved as Hybrid (auto-import + short manual form).
 - Knowledge Import mechanics kept out of this PRD; will be covered by a dedicated `07_KNOWLEDGE_IMPORT_PRD.md`.
 - Persona, Campaign, Asset, Channel, Content confirmed deferred past MVP for Brand Brain purposes.
+
+## 2026-07-02
+
+- Brand Brain PRD approved for Engineering Design. All four Open Questions
+  resolved (see Resolved Questions section above).
+- Business Ontology approved in the same session — see its own Decision Log.
 
 ---
 

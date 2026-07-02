@@ -6,7 +6,7 @@ Document
 
 Version
 
-1.0.0
+1.1.0
 
 Status
 
@@ -264,11 +264,11 @@ Cardinality is read as `Source → Target`. All relationships are directional; a
 
 # 4. Controlled Vocabulary Registry
 
-The Brand Brain PRD flags two taxonomies as undefined ("Open Question #3"). This ontology proposes starter lists to unblock development. **These lists are Draft and require explicit Product/UX sign-off before being locked for MVP** — they are proposals, not approved final content.
+The Brand Brain PRD flags two taxonomies as undefined ("Open Question #3"). This ontology proposes starter lists to unblock development. **These lists are Draft and require explicit Product/UX sign-off before being locked for MVP** — they are proposals, not approved final content. (approved after checking)
 
-## Industry Taxonomy (proposed)
+## Industry Taxonomy
 
-E-commerce & Retail · Professional Services · SaaS & Technology · Health & Wellness · Food & Beverage · Education & Coaching · Real Estate · Finance & Insurance · Marketing & Creative Agencies · Fashion & Apparel · Home & Lifestyle · Travel & Hospitality · Nonprofit & Community · Manufacturing & Industrial · Other
+E-commerce & Retail · Professional Services · SaaS & Technology · Health & Wellness · Food & Beverage · Education & Coaching · Real Estate · Finance & Insurance · Marketing & Creative Agencies · Fashion & Apparel . Beauty & Personal Care · Home & Lifestyle · Travel & Hospitality · Nonprofit & Community · Manufacturing & Industrial · Other
 
 ## Tone Attributes Taxonomy (proposed)
 
@@ -349,11 +349,25 @@ Persona, Content, Campaign, Asset, Channel.
 
 ---
 
-# Open Items Requiring Founder / Product Decision
+# Resolved Items (formerly Open Items)
 
-1. **Business Goals modeling** (see Attribute Registry, Brand section) — confirm attribute-group approach is acceptable, or elevate to a first-class entity in the Domain Model.
-2. **Industry and Tone Attributes taxonomies** — the lists above are proposals; need explicit Product/UX approval before Engineering builds against them (directly resolves Brand Brain PRD Open Question #3).
-3. **Reserved entity promotion policy** — no process yet exists for promoting a Reserved entity (e.g. Persona) to Active. Recommend this be defined alongside the Phase 2 roadmap kickoff, not now.
+1. **Business Goals modeling.** RESOLVED: confirmed as an attribute group
+   on `Brand` (ADR-003), not a standalone entity. This is now a Confirmed
+   Decision, not a stopgap — Campaign remains Reserved (not Active), so no
+   current requirement exists for multiple goals per campaign. Revisit only
+   if/when Campaign is promoted to Active in a future Phase, per Ontology
+   Governance (would be a MINOR version change at that time).
+
+2. **Industry and Tone Attributes taxonomies.** RESOLVED: both locked as v1
+   Controlled Vocabularies. See Brand Brain PRD Resolved Questions #3 for
+   the one addition made (`Beauty & Personal Care`). Future vocabulary
+   additions are PATCH-level per ADR-002 — Architecture review only, no
+   Founder gate required.
+
+3. **Reserved entity promotion policy.** Still deferred, as recommended —
+   to be defined alongside Phase 2 roadmap kickoff, not now. This does not
+   block MVP approval since no Reserved entity is required for Brand Brain
+   MVP scope.
 
 ---
 
@@ -432,13 +446,23 @@ Defines:
 
 ---
 
+## Version 1.1.0
+
+- Approved for Architecture & Engineering Design.
+- All three Open Items resolved (see Resolved Items section).
+- Industry Taxonomy: added `Beauty & Personal Care`.
+- ADR-003 (Business Goals as Brand attribute group) upgraded from stopgap
+  to Confirmed Decision.
+
+---
+
 # Status
 
 Draft — Pending Architecture & Product Review
 
 Version
 
-1.0.0
+1.1.0
 
 Effective Date
 

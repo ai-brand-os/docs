@@ -2,7 +2,7 @@
 
 # AI Brand OS — Engineering Bible
 
-Version: 1.0.0
+Version: 1.1.0
 
 Status: Active
 
@@ -38,11 +38,11 @@ Every architectural decision must support long-term growth.
 
 ## Backend
 
-- Laravel
-- PHP 8+
+- NestJS
+- TypeScript
 - REST API
-- Laravel Queues
-- Laravel Scheduler
+- BullMQ (Redis-backed queues)
+- Prisma or TypeORM (ORM — final choice deferred to Database Design phase)
 
 ---
 
@@ -91,13 +91,13 @@ Next.js
       │
  REST API
       │
-Laravel Backend
+NestJS Backend
       │
  ├── PostgreSQL
  ├── Redis
  ├── Qdrant
  ├── Cloudflare R2
- └── Queue
+ └── Queue (BullMQ)
 
           │
 
@@ -513,5 +513,65 @@ Every architecture decision should be documented.
 Prefer boring, proven technologies.
 
 ---
+
+## ADR — Backend Framework & Database (2026-07-02)
+
+### Decision
+
+Backend framework changed from Laravel (PHP) to NestJS (TypeScript).
+Primary database changed from MySQL to PostgreSQL.
+
+### Context
+
+Original v1.0.0 Engineering Bible approved Laravel + MySQL. This decision
+was made without a founder-background variable factored in.
+
+### Reason — Database (MySQL → PostgreSQL)
+
+The Artifact Model (`domain/02_ARTIFACT_MODEL.md`) defines every one of the
+seven artifact types with a semi-structured `payload` field, plus versioned,
+append-only records (Knowledge Candidate, Approved Knowledge, Provenance).
+PostgreSQL's native JSONB with GIN indexing supports this shape significantly
+better than MySQL's JSON type, both for query performance and for future
+optional consolidation with pgvector. Switching cost is near-zero: Database
+Design had not yet started at time of decision.
+
+### Reason — Backend Framework (Laravel → NestJS)
+
+Founder has 9 years of frontend engineering experience (TypeScript/JavaScript
+ecosystem) and no prior backend experience. The learning curve for backend
+_concepts_ (data modeling, auth flows, queues, multi-tenancy, caching) is
+equivalent regardless of framework language. The learning curve for backend
+_syntax and ecosystem_, however, is substantially lower in NestJS given
+existing TypeScript fluency, versus Laravel requiring simultaneous PHP
+acquisition. Additional benefit: a single language across Next.js frontend
+and NestJS backend allows shared types/DTOs and reduces context-switching
+overhead for a solo/small founding team.
+
+### Alternatives Considered
+
+- Keep Laravel: rejected. Laravel's batteries-included ecosystem (Sanctum,
+  Cashier, Eloquent) is a real productivity advantage, but it is outweighed
+  by the founder's zero PHP fluency against 9 years of TypeScript fluency.
+  NestJS has production-grade equivalents (Passport.js / `@nestjs/passport`,
+  Prisma or TypeORM, Stripe SDK directly, BullMQ for queues on the existing
+  Redis instance).
+
+### Expected Impact
+
+- No change to Domain Model, Business Ontology, or Artifact Model — these
+  are framework-agnostic by design (per Domain Model's "Technology
+  Independent" principle).
+- Database Design phase should proceed directly against PostgreSQL.
+- ORM choice (Prisma vs TypeORM) is deferred to Database Design — not
+  decided in this session.
+
+### Supersedes
+
+This entry supersedes the original Backend/Database rows in the "Decisions
+→ Approved" table of `04_EXECUTION_BIBLE.md` version 1.2.0. That entry is
+NOT deleted — see the corresponding Execution Bible update below, which
+preserves the original decision as historical record per Product Bible's
+"Historical decisions should never be silently overwritten" rule.
 
 END OF DOCUMENT

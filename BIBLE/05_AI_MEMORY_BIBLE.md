@@ -1,6 +1,6 @@
 # AI Brand OS — AI Memory
 
-Version: 1.2.0
+Version: 1.3.0
 
 Status: Active
 
@@ -135,7 +135,14 @@ Approved
 - Ingestion Service reduced to thin intake layer (v2.0.0) — no parsing/extraction/persistence logic in Ingestion
 - Business Ontology entity types locked 1:1 to Domain Model naming — no parallel terminology
 - "Business Goals" modeled as an attribute group on Brand, not a new Domain Model entity (pending Product confirmation)
-- Single shared Artifact base contract across all six Core Domain services (Ingestion, Document Processing, Knowledge Extraction, Knowledge Management, Context Engine, AI Orchestrator)
+- Single shared Artifact base contract across all six Core Domain services (Ingestion, Document Processing, Knowledge
+  Extraction, Knowledge Management, Context Engine, AI Orchestrator)
+- Backend framework: NestJS (reversed from Laravel, 2026-07-02)
+- Database: PostgreSQL (reversed from MySQL, 2026-07-02)
+- Brand Brain PRD: fully approved, all Open Questions closed
+- Business Ontology: fully approved, all Open Items closed
+- Industry Taxonomy includes Beauty & Personal Care (added to match
+  Beachhead e-commerce segment)
 
 Rejected
 
@@ -198,7 +205,9 @@ Frontend
 
 Backend
 
-- Laravel
+- NestJS (TypeScript) — changed from Laravel 2026-07-02; founder has 9
+  years frontend/TypeScript experience and no prior backend experience,
+  favoring same-language stack over Laravel's batteries-included ecosystem
 
 Workers
 
@@ -206,7 +215,8 @@ Workers
 
 Database
 
-- PostgreSQL
+- PostgreSQL — changed from MySQL 2026-07-02; JSONB fits the Artifact
+  Model's semi-structured payloads better than MySQL JSON
 
 Cache
 
@@ -268,15 +278,16 @@ Always identify trade-offs.
 
 Priority 1
 
-Resolve Brand Brain PRD Founder approval (current blocker)
+Fix remaining broken cross-file references (Known Risk, Medium)
 
 Priority 2
 
-Architecture review of Business Ontology and Artifact Model
+Database Design (PostgreSQL schema from Domain Model + Ontology +
+Artifact Model)
 
 Priority 3
 
-Fix known broken cross-file references across PRD/domain docs
+API Design (NestJS module boundaries)
 
 Priority 4
 
@@ -338,15 +349,16 @@ Completed
 - Ingestion Service, Document Processing Service, Knowledge Extraction Service, Knowledge Management Service, Context Engine, AI Orchestrator — all six Core Domain service specs
 - Business Ontology (`domain/03_BUSINESS_ONTOLOGY.md`) — drafted, resolves prior gap where Knowledge Extraction/Management referenced an undefined ontology
 - Artifact Model (`domain/02_ARTIFACT_MODEL.md`) — drafted, resolves prior gap where all six Core Domain services referenced an undefined artifact contract
+- Backend framework reversed to NestJS; database reversed to PostgreSQL
+- Brand Brain PRD Open Questions resolved and approved
+- Business Ontology Open Items resolved and approved
 
 Next
 
-- Brand Brain PRD Founder approval
-- Business Ontology / Artifact Model Architecture review
-- Fix broken cross-references (Brand Brain PRD, AI Workspace PRD, Domain Model)
+- Fix broken cross-references
+- PostgreSQL schema design
+- NestJS module/API design
 - Knowledge Import PRD
-- Database Design
-- System Architecture
 
 ---
 
