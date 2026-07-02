@@ -64,7 +64,7 @@ Responsibilities:
 
 Primary
 
-- MySQL
+- PostgreSQL
 
 Cache
 
@@ -93,7 +93,7 @@ Next.js
       │
 Laravel Backend
       │
- ├── MySQL
+ ├── PostgreSQL
  ├── Redis
  ├── Qdrant
  ├── Cloudflare R2

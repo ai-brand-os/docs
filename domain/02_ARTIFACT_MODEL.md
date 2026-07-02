@@ -121,7 +121,7 @@ Every artifact must be traceable to its origin and to the logic version that pro
 
 ## Storage-Agnostic
 
-This contract says nothing about whether an artifact is stored in MySQL, Qdrant, R2, or elsewhere. That decision belongs to the Engineering Bible / implementation layer per artifact type.
+This contract says nothing about whether an artifact is stored in PostgreSQL, Qdrant, R2, or elsewhere. That decision belongs to the Engineering Bible / implementation layer per artifact type.
 
 ---
 

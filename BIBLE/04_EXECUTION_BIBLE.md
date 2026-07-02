@@ -302,7 +302,7 @@ Workers
 
 Database
 
-- MySQL
+- PostgreSQL
 
 Vector Database
 

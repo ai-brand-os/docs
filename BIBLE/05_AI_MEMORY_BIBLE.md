@@ -206,7 +206,7 @@ Workers
 
 Database
 
-- MySQL
+- PostgreSQL
 
 Cache
 

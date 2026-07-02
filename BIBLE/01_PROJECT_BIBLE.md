@@ -83,6 +83,10 @@ AI Brand OS
 │
 ├── Brand Brain
 ├── Knowledge Engine
+    ├── Ingestion
+    ├── Document Processing
+    ├── Knowledge Extraction
+    └── Knowledge Management
 ├── Context Engine
 ├── Memory Engine
 ├── AI Workspace
@@ -287,7 +291,6 @@ Included:
 - AI Workspace
 - Context-Aware Chat
 - Content Generation
-- Export
 
 Excluded:
 
@@ -300,6 +303,7 @@ Excluded:
 - Integrations
 - Collaboration
 - Image Generation
+- Export
 
 These features are intentionally postponed until Product-Market Fit is validated.
 
