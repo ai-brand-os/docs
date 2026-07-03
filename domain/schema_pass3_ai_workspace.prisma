@@ -1,0 +1,139 @@
+// ============================================================
+// AI Brand OS — Database Schema (Prisma)
+// Phase: Database Design — Pass 3 (AI Workspace Domain)
+// Depends on: Pass 1 (User, Organization, Brand), Pass 2 (Artifact)
+// Source of truth: 02_AI_WORKSPACE_PRD.md, domain/02_ARTIFACT_MODEL.md
+//
+// TWO DESIGN DEVIATIONS FROM A LITERAL READING OF 02_AI_WORKSPACE_PRD.md
+// — both flagged for a documentation correction pass, not silent choices:
+//
+// 1. NO `WorkspaceSession` TABLE.
+//    The PRD's Domain Model lists it as the root of the entity hierarchy,
+//    but no Functional Requirement or Acceptance Criterion ever reads or
+//    writes one — the actual required state (current User + Organization
+//    + Brand) is a client-side/JWT concern, not a persisted aggregate.
+//    Adding it now would be exactly the kind of pre-validation
+//    over-engineering Project Bible Rule 6 warns against.
+//
+// 2. NO SEPARATE `AIRequest` / `AIResponse` TABLES.
+//    These map 1:1 onto Prompt Context Artifact -> Prompt Artifact ->
+//    Response Artifact, already fully modeled in the unified `artifacts`
+//    table (Pass 2). Duplicating them here would violate Domain Model's
+//    "Single Meaning" principle (two definitions of the same concept in
+//    two documents). Message links to the Artifacts table via
+//    `correlationId` (full chain) and `responseArtifactId` (execution
+//    metadata: tokens, cost, latency, model, validation result).
+//
+// MERGE NOTE: when combining all passes into one schema.prisma, add these
+// back-relation fields to their respective models:
+//   Organization  -> conversations  Conversation[]
+//   Brand         -> conversations  Conversation[]
+//   User          -> conversations  Conversation[]
+// ============================================================
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+// Mirrors the Conversation Lifecycle in 02_AI_WORKSPACE_PRD.md, but
+// attached to the individual ASSISTANT Message being generated — not to
+// the whole Conversation. A Conversation spans many turns and must not
+// lock into a terminal state after its first response (a literal reading
+// of the PRD's "Conversation Lifecycle" diagram would imply this, which
+// is a PRD wording issue to fix in a follow-up pass).
+enum MessageStatus {
+  DRAFT
+  SUBMITTING
+  QUEUED
+  PREPARING_CONTEXT
+  GENERATING
+  COMPLETED
+  FAILED
+  CANCELLED
+  TIMEOUT
+}
+
+enum FeedbackRating {
+  HELPFUL
+  NOT_HELPFUL
+}
+
+enum ExportJobStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model Conversation {
+  id              String    @id @default(uuid()) @db.Uuid
+  organizationId  String    @map("organization_id") @db.Uuid
+  brandId         String    @map("brand_id") @db.Uuid   // BR-002: exactly one Brand
+  createdByUserId String    @map("created_by_user_id") @db.Uuid
+  title           String?   // auto-generated from first message if null
+  lastActivityAt  DateTime  @default(now()) @map("last_activity_at") // FR-006: ordered by latest activity
+  deletedAt       DateTime? @map("deleted_at") // soft delete per Engineering Bible "Soft deletes where appropriate"
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  // Restrict, not Cascade/SetNull: no "delete Brand" flow is defined
+  // anywhere in the Bible yet (Brand's own lifecycle isn't even listed in
+  // 01_DOMAIN_MODEL.md's Entity Lifecycle section — flagged separately).
+  // Restrict is the safe default until that gap is resolved.
+  brand           Brand        @relation(fields: [brandId], references: [id], onDelete: Restrict)
+  createdBy       User         @relation(fields: [createdByUserId], references: [id])
+  messages        Message[]
+
+  @@index([organizationId, brandId])
+  @@index([createdByUserId])
+  @@index([lastActivityAt])
+  @@map("conversations")
+}
+
+model Message {
+  id               String         @id @default(uuid()) @db.Uuid
+  conversationId   String         @map("conversation_id") @db.Uuid
+  role             MessageRole
+  content          String         @db.Text // denormalized final text — avoids reading artifacts.payload JSONB on every render
+  status           MessageStatus  @default(COMPLETED) // USER messages complete immediately on validation; ASSISTANT messages progress through the enum
+  correlationId    String?        @map("correlation_id") @db.Uuid // set on submit; links this turn's full artifact chain
+  responseArtifactId String?      @map("response_artifact_id") @db.Uuid // FK into artifacts table, RESPONSE type only, ASSISTANT messages only
+  isLowContext     Boolean        @default(false) @map("is_low_context") // EC-004: Context Engine returned no context
+  createdAt        DateTime       @default(now()) @map("created_at")
+
+  conversation     Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  feedback         Feedback?
+
+  @@index([conversationId, createdAt])
+  @@index([correlationId])
+  @@map("messages")
+}
+
+model Feedback {
+  id        String         @id @default(uuid()) @db.Uuid
+  messageId String         @unique @map("message_id") @db.Uuid // @unique enforces "duplicate voting is prevented" (FR-010) — MVP is single-user per conversation, no per-user vote tracking needed (multi-user collaboration is an explicit Non-Goal)
+  rating    FeedbackRating
+  createdAt DateTime       @default(now()) @map("created_at")
+
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@map("feedback")
+}
+
+model ExportJob {
+  id              String          @id @default(uuid()) @db.Uuid
+  conversationId  String          @map("conversation_id") @db.Uuid
+  requestedByUserId String        @map("requested_by_user_id") @db.Uuid
+  status          ExportJobStatus @default(PENDING)
+  fileUrl         String?         @map("file_url") // Cloudflare R2 reference, populated on COMPLETED
+  createdAt       DateTime        @default(now()) @map("created_at")
+  completedAt     DateTime?       @map("completed_at")
+
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  requestedBy     User         @relation(fields: [requestedByUserId], references: [id])
+
+  @@index([conversationId])
+  @@map("export_jobs")
+}
+

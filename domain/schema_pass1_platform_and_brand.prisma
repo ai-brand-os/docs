@@ -1,0 +1,205 @@
+// ============================================================
+// AI Brand OS — Database Schema (Prisma)
+// Phase: Database Design — Pass 1 (Platform Services + Brand)
+// Source of truth: domain/01_DOMAIN_MODEL.md, domain/03_BUSINESS_ONTOLOGY.md,
+//                  prd/01_BRAND_BRAIN_PRD.md
+// Deferred to Pass 2: Product, Service, Audience, Competitor, Document,
+//                     Knowledge, and all Artifact Model tables.
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// Platform Services (not part of Core Domain — see Product Bible Layer 3)
+// ============================================================
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  fullName     String   @map("full_name")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  memberships  OrganizationMember[]
+
+  @@map("users")
+}
+
+// Role list follows Engineering Bible (Owner/Admin/Editor/Viewer) as the
+// canonical source, per this session's reconciliation with AI Workspace PRD.
+// FLAGGED: 02_AI_WORKSPACE_PRD.md currently lists Owner/Admin/Member —
+// needs to be updated to match in a follow-up documentation pass.
+enum OrgRole {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model Organization {
+  id              String        @id @default(uuid()) @db.Uuid
+  name            String
+  industry        Industry
+  companySize     CompanySize   @map("company_size")
+  websiteUrl      String?       @map("website_url")
+  primaryRegion   String        @map("primary_region")
+  primaryLanguage String        @map("primary_language")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  members         OrganizationMember[]
+
+  // MVP constraint: exactly 1 Brand per Organization.
+  // Enforced here via @unique on Brand.organizationId (see below).
+  // Per Business Ontology cardinality note: this becomes 1:N in Phase 2
+  // (multi-brand) — that change requires an ontology MINOR version bump,
+  // not just a schema migration.
+  brand           Brand?
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  role           OrgRole
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId]) // a user has exactly one role per org
+  @@index([organizationId])
+  @@index([userId])
+  @@map("organization_members")
+}
+
+// ============================================================
+// Controlled Vocabularies
+// Source: domain/03_BUSINESS_ONTOLOGY.md — Controlled Vocabulary Registry
+// Versioning note: these are PATCH-level per Ontology ADR-002. Adding a
+// value here does NOT require Founder approval, only Architecture review —
+// but it IS a schema migration (Postgres enums require ALTER TYPE).
+// ============================================================
+
+enum CompanySize {
+  SIZE_1_5
+  SIZE_6_20
+  SIZE_21_50
+  SIZE_50_PLUS
+}
+
+enum Industry {
+  ECOMMERCE_RETAIL
+  PROFESSIONAL_SERVICES
+  SAAS_TECHNOLOGY
+  HEALTH_WELLNESS
+  FOOD_BEVERAGE
+  EDUCATION_COACHING
+  REAL_ESTATE
+  FINANCE_INSURANCE
+  MARKETING_CREATIVE_AGENCIES
+  FASHION_APPAREL
+  BEAUTY_PERSONAL_CARE
+  HOME_LIFESTYLE
+  TRAVEL_HOSPITALITY
+  NONPROFIT_COMMUNITY
+  MANUFACTURING_INDUSTRIAL
+  OTHER
+}
+
+enum ToneAttribute {
+  PROFESSIONAL
+  FRIENDLY
+  BOLD
+  PLAYFUL
+  AUTHORITATIVE
+  MINIMAL
+  EMPATHETIC
+  CONFIDENT
+  WITTY
+  FORMAL
+  WARM
+  DIRECT
+}
+
+enum PrimaryGoal {
+  AWARENESS
+  LEAD_GEN
+  SALES
+  RETENTION
+  OTHER
+}
+
+// ============================================================
+// Core Domain — Brand
+// Source: prd/01_BRAND_BRAIN_PRD.md §2, domain/03_BUSINESS_ONTOLOGY.md
+// "Business Goals" modeled as attribute group on Brand per Ontology ADR-003
+// (Confirmed Decision, not standalone entity).
+// ============================================================
+
+enum BrandStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+model Brand {
+  id                String       @id @default(uuid()) @db.Uuid
+  organizationId    String       @unique @map("organization_id") @db.Uuid
+  status            BrandStatus  @default(DRAFT)
+  name              String
+  missionStatement  String       @map("mission_statement") // PRD: <=300 chars, enforce at app layer
+  visionStatement   String?      @map("vision_statement")  // PRD: <=300 chars, enforce at app layer
+  coreValues        String[]     @default([]) @map("core_values")
+  sampleWriting     String?      @map("sample_writing") @db.Text
+
+  // Business Goals attribute group (Ontology ADR-003)
+  primaryGoal       PrimaryGoal? @map("primary_goal")
+  successDefinition String?      @map("success_definition")
+
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  brandVoice        BrandVoice?
+
+  @@map("brands")
+}
+
+model BrandVoice {
+  id              String          @id @default(uuid()) @db.Uuid
+  brandId         String          @unique @map("brand_id") @db.Uuid
+  toneAttributes  ToneAttribute[] @map("tone_attributes")
+  vocabularyDos   String[]        @default([]) @map("vocabulary_dos")
+  vocabularyDonts String[]        @default([]) @map("vocabulary_donts")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  brand           Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
+
+  @@map("brand_voices")
+}
+
+// ============================================================
+// Post-migration raw SQL required (Prisma cannot express these natively):
+//
+// 1. Enforce 2–4 cardinality on BrandVoice.tone_attributes:
+//    ALTER TABLE brand_voices
+//    ADD CONSTRAINT tone_attributes_cardinality
+//    CHECK (array_length(tone_attributes, 1) BETWEEN 2 AND 4);
+//
+// 2. toneAttributes must NEVER be set with imported provenance — this is
+//    a Knowledge Management Service / Ontology Validation concern (app
+//    layer), not enforceable as a DB constraint. Documented here so the
+//    constraint isn't lost when Knowledge tables are added in Pass 2.
+// ============================================================

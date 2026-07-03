@@ -6,7 +6,7 @@ Document: **02_AI_WORKSPACE_PRD.md**
 
 Version
 
-1.0.0
+1.1.0
 
 Status
 
@@ -19,6 +19,8 @@ Product
 Priority
 
 P0
+
+Last Updated: 2026-07-02
 
 ---
 
@@ -762,13 +764,16 @@ Response is marked as low-context internally.
 
 ## EC-005
 
-Brand deleted during conversation.
+Brand archived during conversation.
 
 Expected Result
 
 Conversation becomes read-only.
 
 User is prompted to select another Brand.
+
+(Revised 2026-07-02: "archived," not "deleted" — Brand has no hard-delete
+path. See `01_DOMAIN_MODEL.md` Brand Lifecycle, added this session.)
 
 ---
 
@@ -821,17 +826,27 @@ Draft
 
 The AI Workspace manages interaction, not business knowledge.
 
-Core Entities:
+Core Entities (persisted in this domain):
 
-- Workspace Session
 - Conversation
 - Message
-- AI Request
-- AI Response
 - Feedback
 - Export Job
 
-The following entities belong to other domains and are referenced only by ID:
+The following are explicitly NOT separate AI Workspace entities, despite
+earlier drafts of this document listing them. They are fully modeled in
+`02_ARTIFACT_MODEL.md` and referenced from Message, not duplicated here
+(see `domain/04_DATABASE_DESIGN.md` ADR-003 and ADR-004 for the full
+reasoning):
+
+- ~~Workspace Session~~ — no FR or AC in this document ever reads/writes
+  one; the required state (current User + Organization + Brand) lives in
+  the authenticated session, not a persisted aggregate.
+- ~~AI Request~~ — maps to Prompt Context Artifact + Prompt Artifact.
+- ~~AI Response~~ — maps to Response Artifact.
+
+The following entities belong to other domains and are referenced only by
+ID:
 
 - Organization
 - Brand
@@ -842,19 +857,18 @@ The following entities belong to other domains and are referenced only by ID:
 
 # Entity Relationships
 
-Workspace Session
-
-↓
-
-Conversation (1:N)
+Conversation
 
 ↓
 
 Messages (1:N)
 
-↓
+Each Message with role=Assistant carries a `correlationId` and
+`responseArtifactId` pointing into the Artifact Model's pipeline
+(`Prompt Context Artifact → Prompt Artifact → Response Artifact`) for full
+execution detail (tokens, cost, latency, model, validation).
 
-AI Response (1:1)
+Message
 
 ↓
 
@@ -944,27 +958,42 @@ These events enable future analytics and automation without coupling the Workspa
 
 # Permissions
 
-Workspace permissions are inherited from Organization and Brand membership.
+Workspace permissions are inherited from Organization membership.
+The canonical role set is defined in `03_ENGINEERING_BIBLE.md`
+(Authorization section) and applies platform-wide — AI Workspace does not
+define its own roles.
 
-MVP Roles
+MVP Roles (applied to AI Workspace actions)
 
 Owner
 
-- Full access
+- Full access: create, read, delete any conversation in the Brand
 
 Admin
 
-- Full access
+- Full access: create, read, delete any conversation in the Brand
 
-Member
+Editor
 
 - Create conversations
 - Read conversations
-- Delete own conversations
+- Delete own conversations only
+
+Viewer
+
+- Read conversations only
+- Cannot create or delete conversations
+
+Note: Viewer is promoted from "Future Role" (v1.0.0 of this document) to
+an MVP role in this revision, since it is a base Organization role per
+Engineering Bible and requires no additional AI Workspace-specific work —
+it is a pure read filter on existing queries. This does not reintroduce
+real-time multi-user collaboration (still a Non-Goal); Viewer is for
+stakeholders (e.g., an agency client) who need visibility without edit
+rights, not simultaneous co-editing of a conversation.
 
 Future Roles
 
-- Viewer
 - Reviewer
 - Guest
 
@@ -1147,6 +1176,17 @@ Defines:
 - Performance targets
 - Definition of Done
 
+## Version 1.1.0
+
+- Removed WorkspaceSession, AIRequest, AIResponse as AI Workspace-owned
+  entities — corrected to reference Artifact Model directly, per
+  `domain/04_DATABASE_DESIGN.md` ADR-003 / ADR-004.
+- Permissions section rewritten to use the canonical Engineering Bible
+  role set (Owner/Admin/Editor/Viewer) instead of a locally-defined
+  Member role. Viewer promoted from Future to MVP.
+- EC-005 corrected: "Brand deleted" → "Brand archived", aligned to new
+  Brand Lifecycle in `01_DOMAIN_MODEL.md`.
+
 ---
 
 # Status
@@ -1155,7 +1195,7 @@ Approved for Engineering Design
 
 Version
 
-1.0.0
+1.1.0
 
 Effective Date
 

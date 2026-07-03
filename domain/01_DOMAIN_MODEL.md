@@ -1204,6 +1204,28 @@ Revised
 
 ---
 
+## Brand
+
+Draft
+
+↓
+
+Active
+
+↓
+
+Archived
+
+A Brand is Draft until all Brand Brain Required fields are filled (per
+`01_BRAND_BRAIN_PRD.md` FR-7). It becomes Active once complete — this is
+also the point at which content generation becomes available. Brand is
+never hard-deleted; removal is modeled as Archived, consistent with the
+platform's "knowledge compounds, is never discarded" principle already
+applied to Knowledge and Artifact records. Conversations referencing an
+Archived Brand become read-only (see `02_AI_WORKSPACE_PRD.md` EC-005).
+
+---
+
 ## Campaign
 
 Planned

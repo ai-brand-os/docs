@@ -1,0 +1,261 @@
+// ============================================================
+// AI Brand OS — Database Schema (Prisma)
+// Phase: Database Design — Pass 2 (Core Domain + Artifact Model)
+// Depends on: schema_pass1_platform_and_brand.prisma (User, Organization,
+//             OrganizationMember, Brand, BrandVoice)
+// Source of truth: domain/01_DOMAIN_MODEL.md, domain/02_ARTIFACT_MODEL.md,
+//                  domain/03_BUSINESS_ONTOLOGY.md
+// Deferred to Pass 3: AI Workspace domain (WorkspaceSession, Conversation,
+//                     Message, Feedback, ExportJob) — separate bounded
+//                     context per 02_AI_WORKSPACE_PRD.md.
+// ============================================================
+
+// ============================================================
+// SECTION A — Unified Artifact Pipeline
+//
+// Design decision: ONE polymorphic table, not seven.
+// Reason: 02_ARTIFACT_MODEL.md ADR-001 explicitly defines a single Base
+// Artifact Contract shared by all 6 producing services specifically so
+// that lineage-tracing and observability tooling is built once. Seven
+// separate tables would duplicate the base columns seven times and
+// contradict that ADR. Postgres JSONB (the reason PostgreSQL was chosen
+// over MySQL, per Engineering Bible ADR 2026-07-02) is exactly the right
+// tool for the type-specific `payload` field this table needs.
+// ============================================================
+
+enum ArtifactType {
+  RAW_INTAKE
+  PROCESSING_INTERMEDIATE // one of the 9 Document Processing pipeline stages
+  STRUCTURED_DOCUMENT     // final output of Document Processing
+  KNOWLEDGE_CANDIDATE
+  APPROVED_KNOWLEDGE
+  PROMPT_CONTEXT
+  PROMPT
+  RESPONSE
+}
+
+enum ProducingService {
+  INGESTION
+  DOCUMENT_PROCESSING
+  KNOWLEDGE_EXTRACTION
+  KNOWLEDGE_MANAGEMENT
+  CONTEXT_ENGINE
+  AI_ORCHESTRATOR
+}
+
+enum ArtifactStatus {
+  CREATED
+  VALID
+  INVALID
+  SUPERSEDED
+  ARCHIVED
+}
+
+model Artifact {
+  id               String           @id @default(uuid()) @db.Uuid
+  artifactType     ArtifactType     @map("artifact_type")
+  parentArtifactId String?          @map("parent_artifact_id") @db.Uuid // null only for RAW_INTAKE
+  correlationId    String           @map("correlation_id") @db.Uuid    // constant across the full chain
+  organizationId   String           @map("organization_id") @db.Uuid
+  producingService ProducingService @map("producing_service")
+  producingStage   String           @map("producing_stage")
+  schemaVersion    String           @map("schema_version") // semver, e.g. "1.0.0"
+  status           ArtifactStatus   @default(CREATED)
+  payload          Json             // type-specific structure — see Artifact Type Catalog in domain/02_ARTIFACT_MODEL.md
+  createdAt        DateTime         @default(now()) @map("created_at")
+
+  parent           Artifact?  @relation("ArtifactLineage", fields: [parentArtifactId], references: [id])
+  children         Artifact[] @relation("ArtifactLineage")
+
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([correlationId])
+  @@index([organizationId, artifactType])
+  @@index([parentArtifactId])
+  @@map("artifacts")
+}
+
+// Post-migration raw SQL required (Prisma cannot express GIN indexes on
+// Json columns in all versions consistently — verify Prisma version
+// supports `@@index([payload(ops: JsonbPathOps)], type: Gin)` natively;
+// if not, apply manually):
+//
+//   CREATE INDEX artifacts_payload_gin_idx ON artifacts USING GIN (payload);
+//
+// Cross-tenant lineage protection (Artifact Model Security section —
+// "Cross-tenant artifact linkage is invalid and must be rejected at write
+// time") CANNOT be expressed as a Postgres FK constraint since it requires
+// comparing organizationId across the self-referencing parent/child rows.
+// Must be enforced via a trigger or exclusively at the NestJS service
+// layer. Recommendation: enforce at service layer for MVP (simpler to
+// test/debug while learning the stack); revisit as a DB trigger only if
+// an incident proves the app-layer check insufficient.
+
+// ============================================================
+// SECTION B — Core Domain Business Entities
+// These are the CURRENT VALIDATED STATE tables — what the AI Workspace
+// and Context Engine actually query at runtime. They are populated /
+// updated only when an APPROVED_KNOWLEDGE artifact is produced for them
+// (never written to directly by Extraction). `sourceArtifactId` traces
+// back to the Artifact that most recently justified the current values —
+// this is how FR-10 in 01_BRAND_BRAIN_PRD.md ("record which fields were
+// AI-imported vs. manually entered") is satisfied without re-parsing JSONB
+// on every read.
+// ============================================================
+
+enum RecordSource {
+  MANUAL
+  IMPORTED
+  BOTH
+}
+
+model Product {
+  id                String       @id @default(uuid()) @db.Uuid
+  organizationId    String       @map("organization_id") @db.Uuid
+  name              String
+  description       String       @db.Text
+  valueProposition  String       @map("value_proposition") @db.Text
+  keyFeatures       String[]     @default([]) @map("key_features")
+  pricingModel      String?      @map("pricing_model")
+  source            RecordSource @default(MANUAL)
+  sourceArtifactId  String?      @map("source_artifact_id") @db.Uuid
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("products")
+}
+
+model Service {
+  id                String       @id @default(uuid()) @db.Uuid
+  organizationId    String       @map("organization_id") @db.Uuid
+  name              String
+  description       String       @db.Text
+  valueProposition  String       @map("value_proposition") @db.Text
+  keyFeatures       String[]     @default([]) @map("key_features")
+  pricingModel      String?      @map("pricing_model")
+  source            RecordSource @default(MANUAL)
+  sourceArtifactId  String?      @map("source_artifact_id") @db.Uuid
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("services")
+}
+
+model Audience {
+  id               String       @id @default(uuid()) @db.Uuid
+  organizationId   String       @map("organization_id") @db.Uuid
+  segmentName      String       @map("segment_name")
+  description      String       @db.Text
+  painPoints       String[]     @map("pain_points")
+  goals            String[]     @default([])
+  source           RecordSource @default(MANUAL)
+  sourceArtifactId String?      @map("source_artifact_id") @db.Uuid
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("audiences")
+}
+
+model Competitor {
+  id                    String       @id @default(uuid()) @db.Uuid
+  organizationId        String       @map("organization_id") @db.Uuid
+  name                  String?
+  website               String?
+  differentiationNotes  String?      @map("differentiation_notes") @db.Text
+  source                RecordSource @default(MANUAL)
+  sourceArtifactId      String?      @map("source_artifact_id") @db.Uuid
+  createdAt             DateTime     @default(now()) @map("created_at")
+  updatedAt             DateTime     @updatedAt @map("updated_at")
+
+  organization          Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("competitors")
+}
+
+enum DocumentSourceType {
+  UPLOAD
+  URL
+}
+
+enum DocumentProcessingStatus {
+  IMPORTED
+  PROCESSED
+  EXTRACTED
+  ARCHIVED
+}
+
+model Document {
+  id                     String                    @id @default(uuid()) @db.Uuid
+  organizationId         String                    @map("organization_id") @db.Uuid
+  correlationId          String                    @map("correlation_id") @db.Uuid // ties this Document to its full Artifact chain
+  sourceType             DocumentSourceType         @map("source_type")
+  originalFilenameOrUrl  String                    @map("original_filename_or_url")
+  processingStatus       DocumentProcessingStatus  @default(IMPORTED) @map("processing_status")
+  latestArtifactId       String?                   @map("latest_artifact_id") @db.Uuid // points at current STRUCTURED_DOCUMENT artifact
+  createdAt              DateTime                  @default(now()) @map("created_at")
+  updatedAt              DateTime                  @updatedAt @map("updated_at")
+
+  organization           Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([correlationId])
+  @@map("documents")
+}
+
+// ============================================================
+// SECTION C — Knowledge Index
+// This IS the "Knowledge" entity from 01_DOMAIN_MODEL.md / Ontology —
+// a first-class record with its own lifecycle (Extracted -> Reviewed ->
+// Approved -> Versioned -> Deprecated), distinct from the business
+// tables' own lifecycle. Exists so the Context Engine can query "all
+// Knowledge for Brand X" generically without knowing Product vs Audience
+// schema differences (Context Engine Non-Responsibility: never touches
+// Knowledge Domain directly — it consumes this index via Knowledge
+// Management Service).
+// ============================================================
+
+enum KnowledgeEntityType {
+  ORGANIZATION
+  BRAND
+  BRAND_VOICE
+  PRODUCT
+  SERVICE
+  AUDIENCE
+  COMPETITOR
+  DOCUMENT
+  // Reserved types (Persona, Content, Campaign, Asset, Channel) are
+  // deliberately excluded here per Ontology: "Candidates referencing a
+  // Reserved entity type fail Ontology Validation and are routed to
+  // Reject." They must never reach this table.
+}
+
+model KnowledgeIndex {
+  id                  String              @id @default(uuid()) @db.Uuid
+  organizationId      String              @map("organization_id") @db.Uuid
+  brandId             String              @map("brand_id") @db.Uuid
+  describesEntityType KnowledgeEntityType @map("describes_entity_type")
+  describesEntityId   String              @map("describes_entity_id") @db.Uuid // polymorphic FK — no DB-level referential integrity possible across tables; enforced at service layer
+  knowledgeConfidence Int                 @map("knowledge_confidence") // 0-100
+  ontologyVersion     String              @map("ontology_version")
+  latestArtifactId    String              @map("latest_artifact_id") @db.Uuid  // current APPROVED_KNOWLEDGE artifact
+  status              ArtifactStatus      @default(VALID)                       // reuses artifact lifecycle states
+  createdAt           DateTime            @default(now()) @map("created_at")
+  updatedAt           DateTime            @updatedAt @map("updated_at")
+
+  organization        Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  brand                Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, brandId])
+  @@index([describesEntityType, describesEntityId])
+  @@map("knowledge_index")
+}

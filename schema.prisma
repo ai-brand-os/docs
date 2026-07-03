@@ -1,0 +1,601 @@
+// ============================================================
+// AI Brand OS — Database Schema (Prisma)
+// Phase: Database Design — Pass 1 (Platform Services + Brand)
+// Source of truth: domain/01_DOMAIN_MODEL.md, domain/03_BUSINESS_ONTOLOGY.md,
+//                  prd/01_BRAND_BRAIN_PRD.md
+// Deferred to Pass 2: Product, Service, Audience, Competitor, Document,
+//                     Knowledge, and all Artifact Model tables.
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// Platform Services (not part of Core Domain — see Product Bible Layer 3)
+// ============================================================
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  fullName     String   @map("full_name")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  memberships  OrganizationMember[]
+
+  @@map("users")
+}
+
+// Role list follows Engineering Bible (Owner/Admin/Editor/Viewer) as the
+// canonical source, per this session's reconciliation with AI Workspace PRD.
+// FLAGGED: 02_AI_WORKSPACE_PRD.md currently lists Owner/Admin/Member —
+// needs to be updated to match in a follow-up documentation pass.
+enum OrgRole {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model Organization {
+  id              String        @id @default(uuid()) @db.Uuid
+  name            String
+  industry        Industry
+  companySize     CompanySize   @map("company_size")
+  websiteUrl      String?       @map("website_url")
+  primaryRegion   String        @map("primary_region")
+  primaryLanguage String        @map("primary_language")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  members         OrganizationMember[]
+
+  // MVP constraint: exactly 1 Brand per Organization.
+  // Enforced here via @unique on Brand.organizationId (see below).
+  // Per Business Ontology cardinality note: this becomes 1:N in Phase 2
+  // (multi-brand) — that change requires an ontology MINOR version bump,
+  // not just a schema migration.
+  brand           Brand?
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @map("organization_id") @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  role           OrgRole
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId]) // a user has exactly one role per org
+  @@index([organizationId])
+  @@index([userId])
+  @@map("organization_members")
+}
+
+// ============================================================
+// Controlled Vocabularies
+// Source: domain/03_BUSINESS_ONTOLOGY.md — Controlled Vocabulary Registry
+// Versioning note: these are PATCH-level per Ontology ADR-002. Adding a
+// value here does NOT require Founder approval, only Architecture review —
+// but it IS a schema migration (Postgres enums require ALTER TYPE).
+// ============================================================
+
+enum CompanySize {
+  SIZE_1_5
+  SIZE_6_20
+  SIZE_21_50
+  SIZE_50_PLUS
+}
+
+enum Industry {
+  ECOMMERCE_RETAIL
+  PROFESSIONAL_SERVICES
+  SAAS_TECHNOLOGY
+  HEALTH_WELLNESS
+  FOOD_BEVERAGE
+  EDUCATION_COACHING
+  REAL_ESTATE
+  FINANCE_INSURANCE
+  MARKETING_CREATIVE_AGENCIES
+  FASHION_APPAREL
+  BEAUTY_PERSONAL_CARE
+  HOME_LIFESTYLE
+  TRAVEL_HOSPITALITY
+  NONPROFIT_COMMUNITY
+  MANUFACTURING_INDUSTRIAL
+  OTHER
+}
+
+enum ToneAttribute {
+  PROFESSIONAL
+  FRIENDLY
+  BOLD
+  PLAYFUL
+  AUTHORITATIVE
+  MINIMAL
+  EMPATHETIC
+  CONFIDENT
+  WITTY
+  FORMAL
+  WARM
+  DIRECT
+}
+
+enum PrimaryGoal {
+  AWARENESS
+  LEAD_GEN
+  SALES
+  RETENTION
+  OTHER
+}
+
+// ============================================================
+// Core Domain — Brand
+// Source: prd/01_BRAND_BRAIN_PRD.md §2, domain/03_BUSINESS_ONTOLOGY.md
+// "Business Goals" modeled as attribute group on Brand per Ontology ADR-003
+// (Confirmed Decision, not standalone entity).
+// ============================================================
+
+model Brand {
+  id                String       @id @default(uuid()) @db.Uuid
+  organizationId    String       @unique @map("organization_id") @db.Uuid
+  name              String
+  missionStatement  String       @map("mission_statement") // PRD: <=300 chars, enforce at app layer
+  visionStatement   String?      @map("vision_statement")  // PRD: <=300 chars, enforce at app layer
+  coreValues        String[]     @default([]) @map("core_values")
+  sampleWriting     String?      @map("sample_writing") @db.Text
+
+  // Business Goals attribute group (Ontology ADR-003)
+  primaryGoal       PrimaryGoal? @map("primary_goal")
+  successDefinition String?      @map("success_definition")
+
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  brandVoice        BrandVoice?
+
+  @@map("brands")
+}
+
+model BrandVoice {
+  id              String          @id @default(uuid()) @db.Uuid
+  brandId         String          @unique @map("brand_id") @db.Uuid
+  toneAttributes  ToneAttribute[] @map("tone_attributes")
+  vocabularyDos   String[]        @default([]) @map("vocabulary_dos")
+  vocabularyDonts String[]        @default([]) @map("vocabulary_donts")
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  brand           Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
+
+  @@map("brand_voices")
+}
+
+// ============================================================
+// Post-migration raw SQL required (Prisma cannot express these natively):
+//
+// 1. Enforce 2–4 cardinality on BrandVoice.tone_attributes:
+//    ALTER TABLE brand_voices
+//    ADD CONSTRAINT tone_attributes_cardinality
+//    CHECK (array_length(tone_attributes, 1) BETWEEN 2 AND 4);
+//
+// 2. toneAttributes must NEVER be set with imported provenance — this is
+//    a Knowledge Management Service / Ontology Validation concern (app
+//    layer), not enforceable as a DB constraint. Documented here so the
+//    constraint isn't lost when Knowledge tables are added in Pass 2.
+// ============================================================
+
+// ============================================================
+// AI Brand OS — Database Schema (Prisma)
+// Phase: Database Design — Pass 2 (Core Domain + Artifact Model)
+// Depends on: schema_pass1_platform_and_brand.prisma (User, Organization,
+//             OrganizationMember, Brand, BrandVoice)
+// Source of truth: domain/01_DOMAIN_MODEL.md, domain/02_ARTIFACT_MODEL.md,
+//                  domain/03_BUSINESS_ONTOLOGY.md
+// Deferred to Pass 3: AI Workspace domain (WorkspaceSession, Conversation,
+//                     Message, Feedback, ExportJob) — separate bounded
+//                     context per 02_AI_WORKSPACE_PRD.md.
+// ============================================================
+
+// ============================================================
+// SECTION A — Unified Artifact Pipeline
+//
+// Design decision: ONE polymorphic table, not seven.
+// Reason: 02_ARTIFACT_MODEL.md ADR-001 explicitly defines a single Base
+// Artifact Contract shared by all 6 producing services specifically so
+// that lineage-tracing and observability tooling is built once. Seven
+// separate tables would duplicate the base columns seven times and
+// contradict that ADR. Postgres JSONB (the reason PostgreSQL was chosen
+// over MySQL, per Engineering Bible ADR 2026-07-02) is exactly the right
+// tool for the type-specific `payload` field this table needs.
+// ============================================================
+
+enum ArtifactType {
+  RAW_INTAKE
+  PROCESSING_INTERMEDIATE // one of the 9 Document Processing pipeline stages
+  STRUCTURED_DOCUMENT     // final output of Document Processing
+  KNOWLEDGE_CANDIDATE
+  APPROVED_KNOWLEDGE
+  PROMPT_CONTEXT
+  PROMPT
+  RESPONSE
+}
+
+enum ProducingService {
+  INGESTION
+  DOCUMENT_PROCESSING
+  KNOWLEDGE_EXTRACTION
+  KNOWLEDGE_MANAGEMENT
+  CONTEXT_ENGINE
+  AI_ORCHESTRATOR
+}
+
+enum ArtifactStatus {
+  CREATED
+  VALID
+  INVALID
+  SUPERSEDED
+  ARCHIVED
+}
+
+model Artifact {
+  id               String           @id @default(uuid()) @db.Uuid
+  artifactType     ArtifactType     @map("artifact_type")
+  parentArtifactId String?          @map("parent_artifact_id") @db.Uuid // null only for RAW_INTAKE
+  correlationId    String           @map("correlation_id") @db.Uuid    // constant across the full chain
+  organizationId   String           @map("organization_id") @db.Uuid
+  producingService ProducingService @map("producing_service")
+  producingStage   String           @map("producing_stage")
+  schemaVersion    String           @map("schema_version") // semver, e.g. "1.0.0"
+  status           ArtifactStatus   @default(CREATED)
+  payload          Json             // type-specific structure — see Artifact Type Catalog in domain/02_ARTIFACT_MODEL.md
+  createdAt        DateTime         @default(now()) @map("created_at")
+
+  parent           Artifact?  @relation("ArtifactLineage", fields: [parentArtifactId], references: [id])
+  children         Artifact[] @relation("ArtifactLineage")
+
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([correlationId])
+  @@index([organizationId, artifactType])
+  @@index([parentArtifactId])
+  @@map("artifacts")
+}
+
+// Post-migration raw SQL required (Prisma cannot express GIN indexes on
+// Json columns in all versions consistently — verify Prisma version
+// supports `@@index([payload(ops: JsonbPathOps)], type: Gin)` natively;
+// if not, apply manually):
+//
+//   CREATE INDEX artifacts_payload_gin_idx ON artifacts USING GIN (payload);
+//
+// Cross-tenant lineage protection (Artifact Model Security section —
+// "Cross-tenant artifact linkage is invalid and must be rejected at write
+// time") CANNOT be expressed as a Postgres FK constraint since it requires
+// comparing organizationId across the self-referencing parent/child rows.
+// Must be enforced via a trigger or exclusively at the NestJS service
+// layer. Recommendation: enforce at service layer for MVP (simpler to
+// test/debug while learning the stack); revisit as a DB trigger only if
+// an incident proves the app-layer check insufficient.
+
+// ============================================================
+// SECTION B — Core Domain Business Entities
+// These are the CURRENT VALIDATED STATE tables — what the AI Workspace
+// and Context Engine actually query at runtime. They are populated /
+// updated only when an APPROVED_KNOWLEDGE artifact is produced for them
+// (never written to directly by Extraction). `sourceArtifactId` traces
+// back to the Artifact that most recently justified the current values —
+// this is how FR-10 in 01_BRAND_BRAIN_PRD.md ("record which fields were
+// AI-imported vs. manually entered") is satisfied without re-parsing JSONB
+// on every read.
+// ============================================================
+
+enum RecordSource {
+  MANUAL
+  IMPORTED
+  BOTH
+}
+
+model Product {
+  id                String       @id @default(uuid()) @db.Uuid
+  organizationId    String       @map("organization_id") @db.Uuid
+  name              String
+  description       String       @db.Text
+  valueProposition  String       @map("value_proposition") @db.Text
+  keyFeatures       String[]     @default([]) @map("key_features")
+  pricingModel      String?      @map("pricing_model")
+  source            RecordSource @default(MANUAL)
+  sourceArtifactId  String?      @map("source_artifact_id") @db.Uuid
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("products")
+}
+
+model Service {
+  id                String       @id @default(uuid()) @db.Uuid
+  organizationId    String       @map("organization_id") @db.Uuid
+  name              String
+  description       String       @db.Text
+  valueProposition  String       @map("value_proposition") @db.Text
+  keyFeatures       String[]     @default([]) @map("key_features")
+  pricingModel      String?      @map("pricing_model")
+  source            RecordSource @default(MANUAL)
+  sourceArtifactId  String?      @map("source_artifact_id") @db.Uuid
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("services")
+}
+
+model Audience {
+  id               String       @id @default(uuid()) @db.Uuid
+  organizationId   String       @map("organization_id") @db.Uuid
+  segmentName      String       @map("segment_name")
+  description      String       @db.Text
+  painPoints       String[]     @map("pain_points")
+  goals            String[]     @default([])
+  source           RecordSource @default(MANUAL)
+  sourceArtifactId String?      @map("source_artifact_id") @db.Uuid
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime     @updatedAt @map("updated_at")
+
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("audiences")
+}
+
+model Competitor {
+  id                    String       @id @default(uuid()) @db.Uuid
+  organizationId        String       @map("organization_id") @db.Uuid
+  name                  String?
+  website               String?
+  differentiationNotes  String?      @map("differentiation_notes") @db.Text
+  source                RecordSource @default(MANUAL)
+  sourceArtifactId      String?      @map("source_artifact_id") @db.Uuid
+  createdAt             DateTime     @default(now()) @map("created_at")
+  updatedAt             DateTime     @updatedAt @map("updated_at")
+
+  organization          Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@map("competitors")
+}
+
+enum DocumentSourceType {
+  UPLOAD
+  URL
+}
+
+enum DocumentProcessingStatus {
+  IMPORTED
+  PROCESSED
+  EXTRACTED
+  ARCHIVED
+}
+
+model Document {
+  id                     String                    @id @default(uuid()) @db.Uuid
+  organizationId         String                    @map("organization_id") @db.Uuid
+  correlationId          String                    @map("correlation_id") @db.Uuid // ties this Document to its full Artifact chain
+  sourceType             DocumentSourceType         @map("source_type")
+  originalFilenameOrUrl  String                    @map("original_filename_or_url")
+  processingStatus       DocumentProcessingStatus  @default(IMPORTED) @map("processing_status")
+  latestArtifactId       String?                   @map("latest_artifact_id") @db.Uuid // points at current STRUCTURED_DOCUMENT artifact
+  createdAt              DateTime                  @default(now()) @map("created_at")
+  updatedAt              DateTime                  @updatedAt @map("updated_at")
+
+  organization           Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([correlationId])
+  @@map("documents")
+}
+
+// ============================================================
+// SECTION C — Knowledge Index
+// This IS the "Knowledge" entity from 01_DOMAIN_MODEL.md / Ontology —
+// a first-class record with its own lifecycle (Extracted -> Reviewed ->
+// Approved -> Versioned -> Deprecated), distinct from the business
+// tables' own lifecycle. Exists so the Context Engine can query "all
+// Knowledge for Brand X" generically without knowing Product vs Audience
+// schema differences (Context Engine Non-Responsibility: never touches
+// Knowledge Domain directly — it consumes this index via Knowledge
+// Management Service).
+// ============================================================
+
+enum KnowledgeEntityType {
+  ORGANIZATION
+  BRAND
+  BRAND_VOICE
+  PRODUCT
+  SERVICE
+  AUDIENCE
+  COMPETITOR
+  DOCUMENT
+  // Reserved types (Persona, Content, Campaign, Asset, Channel) are
+  // deliberately excluded here per Ontology: "Candidates referencing a
+  // Reserved entity type fail Ontology Validation and are routed to
+  // Reject." They must never reach this table.
+}
+
+model KnowledgeIndex {
+  id                  String              @id @default(uuid()) @db.Uuid
+  organizationId      String              @map("organization_id") @db.Uuid
+  brandId             String              @map("brand_id") @db.Uuid
+  describesEntityType KnowledgeEntityType @map("describes_entity_type")
+  describesEntityId   String              @map("describes_entity_id") @db.Uuid // polymorphic FK — no DB-level referential integrity possible across tables; enforced at service layer
+  knowledgeConfidence Int                 @map("knowledge_confidence") // 0-100
+  ontologyVersion     String              @map("ontology_version")
+  latestArtifactId    String              @map("latest_artifact_id") @db.Uuid  // current APPROVED_KNOWLEDGE artifact
+  status              ArtifactStatus      @default(VALID)                       // reuses artifact lifecycle states
+  createdAt           DateTime            @default(now()) @map("created_at")
+  updatedAt           DateTime            @updatedAt @map("updated_at")
+
+  organization        Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  brand                Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId, brandId])
+  @@index([describesEntityType, describesEntityId])
+  @@map("knowledge_index")
+}
+
+
+// ============================================================
+// AI Brand OS — Database Schema (Prisma)
+// Phase: Database Design — Pass 3 (AI Workspace Domain)
+// Depends on: Pass 1 (User, Organization, Brand), Pass 2 (Artifact)
+// Source of truth: 02_AI_WORKSPACE_PRD.md, domain/02_ARTIFACT_MODEL.md
+//
+// TWO DESIGN DEVIATIONS FROM A LITERAL READING OF 02_AI_WORKSPACE_PRD.md
+// — both flagged for a documentation correction pass, not silent choices:
+//
+// 1. NO `WorkspaceSession` TABLE.
+//    The PRD's Domain Model lists it as the root of the entity hierarchy,
+//    but no Functional Requirement or Acceptance Criterion ever reads or
+//    writes one — the actual required state (current User + Organization
+//    + Brand) is a client-side/JWT concern, not a persisted aggregate.
+//    Adding it now would be exactly the kind of pre-validation
+//    over-engineering Project Bible Rule 6 warns against.
+//
+// 2. NO SEPARATE `AIRequest` / `AIResponse` TABLES.
+//    These map 1:1 onto Prompt Context Artifact -> Prompt Artifact ->
+//    Response Artifact, already fully modeled in the unified `artifacts`
+//    table (Pass 2). Duplicating them here would violate Domain Model's
+//    "Single Meaning" principle (two definitions of the same concept in
+//    two documents). Message links to the Artifacts table via
+//    `correlationId` (full chain) and `responseArtifactId` (execution
+//    metadata: tokens, cost, latency, model, validation result).
+//
+// MERGE NOTE: when combining all passes into one schema.prisma, add these
+// back-relation fields to their respective models:
+//   Organization  -> conversations  Conversation[]
+//   Brand         -> conversations  Conversation[]
+//   User          -> conversations  Conversation[]
+// ============================================================
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+// Mirrors the Conversation Lifecycle in 02_AI_WORKSPACE_PRD.md, but
+// attached to the individual ASSISTANT Message being generated — not to
+// the whole Conversation. A Conversation spans many turns and must not
+// lock into a terminal state after its first response (a literal reading
+// of the PRD's "Conversation Lifecycle" diagram would imply this, which
+// is a PRD wording issue to fix in a follow-up pass).
+enum MessageStatus {
+  DRAFT
+  SUBMITTING
+  QUEUED
+  PREPARING_CONTEXT
+  GENERATING
+  COMPLETED
+  FAILED
+  CANCELLED
+  TIMEOUT
+}
+
+enum FeedbackRating {
+  HELPFUL
+  NOT_HELPFUL
+}
+
+enum ExportJobStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model Conversation {
+  id              String    @id @default(uuid()) @db.Uuid
+  organizationId  String    @map("organization_id") @db.Uuid
+  brandId         String    @map("brand_id") @db.Uuid   // BR-002: exactly one Brand
+  createdByUserId String    @map("created_by_user_id") @db.Uuid
+  title           String?   // auto-generated from first message if null
+  lastActivityAt  DateTime  @default(now()) @map("last_activity_at") // FR-006: ordered by latest activity
+  deletedAt       DateTime? @map("deleted_at") // soft delete per Engineering Bible "Soft deletes where appropriate"
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  // Restrict, not Cascade/SetNull: no "delete Brand" flow is defined
+  // anywhere in the Bible yet (Brand's own lifecycle isn't even listed in
+  // 01_DOMAIN_MODEL.md's Entity Lifecycle section — flagged separately).
+  // Restrict is the safe default until that gap is resolved.
+  brand           Brand        @relation(fields: [brandId], references: [id], onDelete: Restrict)
+  createdBy       User         @relation(fields: [createdByUserId], references: [id])
+  messages        Message[]
+
+  @@index([organizationId, brandId])
+  @@index([createdByUserId])
+  @@index([lastActivityAt])
+  @@map("conversations")
+}
+
+model Message {
+  id               String         @id @default(uuid()) @db.Uuid
+  conversationId   String         @map("conversation_id") @db.Uuid
+  role             MessageRole
+  content          String         @db.Text // denormalized final text — avoids reading artifacts.payload JSONB on every render
+  status           MessageStatus  @default(COMPLETED) // USER messages complete immediately on validation; ASSISTANT messages progress through the enum
+  correlationId    String?        @map("correlation_id") @db.Uuid // set on submit; links this turn's full artifact chain
+  responseArtifactId String?      @map("response_artifact_id") @db.Uuid // FK into artifacts table, RESPONSE type only, ASSISTANT messages only
+  isLowContext     Boolean        @default(false) @map("is_low_context") // EC-004: Context Engine returned no context
+  createdAt        DateTime       @default(now()) @map("created_at")
+
+  conversation     Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  feedback         Feedback?
+
+  @@index([conversationId, createdAt])
+  @@index([correlationId])
+  @@map("messages")
+}
+
+model Feedback {
+  id        String         @id @default(uuid()) @db.Uuid
+  messageId String         @unique @map("message_id") @db.Uuid // @unique enforces "duplicate voting is prevented" (FR-010) — MVP is single-user per conversation, no per-user vote tracking needed (multi-user collaboration is an explicit Non-Goal)
+  rating    FeedbackRating
+  createdAt DateTime       @default(now()) @map("created_at")
+
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@map("feedback")
+}
+
+model ExportJob {
+  id              String          @id @default(uuid()) @db.Uuid
+  conversationId  String          @map("conversation_id") @db.Uuid
+  requestedByUserId String        @map("requested_by_user_id") @db.Uuid
+  status          ExportJobStatus @default(PENDING)
+  fileUrl         String?         @map("file_url") // Cloudflare R2 reference, populated on COMPLETED
+  createdAt       DateTime        @default(now()) @map("created_at")
+  completedAt     DateTime?       @map("completed_at")
+
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  requestedBy     User         @relation(fields: [requestedByUserId], references: [id])
+
+  @@index([conversationId])
+  @@map("export_jobs")
+}
+

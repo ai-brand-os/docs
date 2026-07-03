@@ -271,12 +271,6 @@ Excluded
 - AI Costs
 - RAG Quality
 - Knowledge Extraction Accuracy
-- **Broken cross-file references** found during documentation review:
-  - `01_BRAND_BRAIN_PRD.md` references `01_BRAND_BRAIN.md` (Domain Model) — actual filename is `domain/01_DOMAIN_MODEL.md`.
-  - `01_BRAND_BRAIN_PRD.md` references `06_AI_WORKSPACE_PRD.md` — actual filename is `02_AI_WORKSPACE_PRD.md`.
-  - `02_AI_WORKSPACE_PRD.md` references `02_BRAND_BRAIN_MANAGER.md` and `03_KNOWLEDGE_ENGINE.md` — neither file exists in the repo.
-  - `domain/01_DOMAIN_MODEL.md` references `02_BUSINESS_ONTOLOGY.md` — the ontology's actual filename is `domain/03_BUSINESS_ONTOLOGY.md`; a Knowledge Graph document does not exist and is not currently planned.
-  - None of these affect approved scope decisions — they are filename/reference errors only — but should be corrected before onboarding new engineers who will navigate the docs literally.
 
 ## Low
 
@@ -556,6 +550,7 @@ AI
 | Context Engine               | ✅ Approved for Architecture & Engineering Design |
 | AI Orchestrator              | ✅ Approved for Architecture & Engineering Design |
 | Knowledge Import PRD (07)    | ❌ Not yet written                                |
+| Database Design              | ⏳ Draft — Pending Architecture Review            |
 
 ---
 
@@ -595,6 +590,37 @@ Decision
 
 Business Ontology approved for Architecture & Engineering Design. All
 three Open Items resolved in-session with Founder.
+
+## 2026-07-02 (continued, part 4)
+
+Decision
+
+Database Design has been officially documented (`domain/04_DATABASE_DESIGN.md`, v1.0.0, Draft — Pending Architecture Review). 06 ADRs (Architecture Decision Records) have been registered, the most critical being: utilizing a single unified `artifacts` table instead of seven separate tables, and deprecating `AIRequest`/`AIResponse` in favor of directly utilizing the `Artifact Model`.
+
+**Flagged (New, Medium)**  
+Three documentation gaps that must be resolved in a single corrective pass:
+
+1. **Role enum mismatch**
+2. **Lack of a defined lifecycle for `Brand`**
+3. **The need to revise the "Domain Model" section in `02_AI_WORKSPACE_PRD.md`**
+
+Here is the clear, professional English translation:
+
+---
+
+## 2026-07-02 (continued, part 5)
+
+**Decision**  
+The three documentation gaps flagged in `domain/04_DATABASE_DESIGN.md` have been resolved:
+
+1. **Role enum was unified** — `Owner/Admin/Editor/Viewer` is now canonical in `02_AI_WORKSPACE_PRD.md` v1.1.0 (replacing the previous local `Member`).
+2. **Brand Lifecycle was defined** (`Draft → Active → Archived`) in `01_DOMAIN_MODEL.md`; Schema Pass 1 was patched (added `status` field).
+3. `02_AI_WORKSPACE_PRD.md` v1.1.0: **WorkspaceSession and AIRequest/AIResponse were removed**, references now point to the Artifact Model; **EC-005 was updated accordingly**.
+
+**Expected Impact**  
+No documentation gaps remain from the Database Design phase. Ready to begin **API Design**.
+
+---
 
 ---
 
