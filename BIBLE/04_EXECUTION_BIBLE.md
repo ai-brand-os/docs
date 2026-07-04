@@ -69,55 +69,6 @@ Validate the business idea, finalize the MVP, and complete all product and archi
 
 ---
 
-# Current Focus
-
-## Product
-
-- MVP fully defined (Brand Brain PRD, AI Workspace PRD drafted)
-- Pending: Brand Brain PRD Founder approval
-- Pending: Knowledge Import PRD (07)
-
-## Business
-
-- Customer Pain validated via Market Research
-- ICP defined
-- Pricing hypothesis documented (not yet tested)
-- Go-to-Market strategy documented
-
-## Engineering
-
-- Domain Model complete
-- Business Ontology Approved (for Architecture & Engineering Design)
-- Artifact Model drafted (pending review)
-- Six Core Domain service specs complete (Ingestion, Document Processing, Knowledge Extraction, Knowledge Management, Context Engine, AI Orchestrator)
-- Database design not started
-- API design not started
-
----
-
-# Current Milestone
-
-Milestone 1
-
-Validated MVP
-
-Status
-
-Nearly Complete — blocked on Brand Brain PRD approval and foundational architecture review
-
-Success Criteria
-
-- ✅ Product Discovery completed
-- ✅ Market Research completed
-- ✅ Competitor Analysis completed
-- ✅ MVP approved (Product Bible v2.0.0)
-- ⏳ Brand Brain PRD — pending Founder approval
-- ✅ AI Workspace PRD approved
-- ✅ Business Ontology — Approved for Architecture & Engineering Design
-- ⏳ Artifact Model — pending Architecture review
-
----
-
 # Current MVP Scope
 
 Included
@@ -156,17 +107,17 @@ Excluded
 - ✅ Market Research
 - ✅ Competitor Analysis
 - ✅ Positioning
-- ⏳ Brand Brain PRD approval
+- ✅ Brand Brain PRD approval
 - ✅ AI Workspace PRD
 - ✅ Domain Model
 - ✅ Business Ontology Approved for Architecture & Engineering Design
-- ⏳ Artifact Model approval
+- ✅ Artifact Model approval
 - ✅ Knowledge Engine service specs (4 services)
 - ✅ Context Engine spec
 - ✅ AI Orchestrator spec
-- Database Design
-- System Architecture / API Design
-- Knowledge Import PRD (`07_KNOWLEDGE_IMPORT_PRD.md`) — not yet written
+- ✅ Database Design
+- ✅ System Architecture / API Design
+- ✅ Knowledge Import PRD (`03_KNOWLEDGE_IMPORT_PRD.md`)
 
 ---
 
@@ -540,7 +491,7 @@ AI
 | Positioning                  | ✅ Completed                                      |
 | Domain Model                 | ✅ Approved for Architecture & Engineering Design |
 | Business Ontology            | ✅ Approved for Architecture & Engineering Design |
-| Artifact Model               | ⏳ Draft — Pending Architecture Review            |
+| Artifact Model               | ✅ Approved for Engineering Design                |
 | Brand Brain PRD              | ✅ Approved for Engineering Design                |
 | AI Workspace PRD             | ✅ Approved for Engineering Design                |
 | Ingestion Service            | ✅ Draft v2.0.0                                   |
@@ -565,7 +516,7 @@ AI
    Artifact Model (Base Artifact Contract + 7 concrete types).
 4. Begin API Design (NestJS module boundaries, mapped 1:1 to the six Core
    Domain services already specified).
-5. Write `07_KNOWLEDGE_IMPORT_PRD.md`.
+5. Write `03_KNOWLEDGE_IMPORT_PRD.md`.
 
 ---
 

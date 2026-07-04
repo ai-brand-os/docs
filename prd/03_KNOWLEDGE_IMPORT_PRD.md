@@ -1,6 +1,6 @@
 # AI Brand OS — Knowledge Import PRD
 
-Document: **07_KNOWLEDGE_IMPORT_PRD.md**
+Document: **03_KNOWLEDGE_IMPORT_PRD.md**
 
 Version: **1.0.0**
 
@@ -350,20 +350,6 @@ Defines:
 - Two-Gate Model (governance vs. user confirmation), made explicit
 - Functional requirements, business rules, edge cases
 - Explicit MVP deferral list, matching upstream service specs
-
----
-
-# Status
-
-Draft — Pending Founder Approval
-
-Version
-
-1.0.0
-
-Effective Date
-
-Pending
 
 ---
 

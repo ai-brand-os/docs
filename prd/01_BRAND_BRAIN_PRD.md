@@ -20,8 +20,8 @@ This document defines the functional requirements, data model, onboarding flow, 
 
 Brand Brain is the structured representation of a business that every AI interaction consumes. This PRD defines what Brand Brain **contains** and **how a user builds it**. It does not define:
 
-- How knowledge is extracted from documents/websites (see Knowledge Engine service specs and the forthcoming `07_KNOWLEDGE_IMPORT_PRD.md`).
-- How AI Workspace consumes Brand Brain to generate content (see `06_AI_WORKSPACE_PRD.md`, not yet written).
+- How knowledge is extracted from documents/websites (see Knowledge Engine service specs and the forthcoming `03_KNOWLEDGE_IMPORT_PRD.md`).
+- How AI Workspace consumes Brand Brain to generate content.
 
 This separation is intentional (Founder Decision, 2026-07-01): Brand Brain is the **data product**. Import is the **acquisition mechanism**. Keeping them separate protects both documents from scope bleed.
 
@@ -315,7 +315,7 @@ Step 5 — First Generation ("Wow Moment")
 
 - Brand Brain MVP scope fixed to: Organization, Brand Profile, Products/Services, Audience (required) + Competitors, Business Goals (recommended, non-blocking).
 - Onboarding flow approved as Hybrid (auto-import + short manual form).
-- Knowledge Import mechanics kept out of this PRD; will be covered by a dedicated `07_KNOWLEDGE_IMPORT_PRD.md`.
+- Knowledge Import mechanics kept out of this PRD; will be covered by a dedicated `03_KNOWLEDGE_IMPORT_PRD.md`.
 - Persona, Campaign, Asset, Channel, Content confirmed deferred past MVP for Brand Brain purposes.
 
 ## 2026-07-02
@@ -338,21 +338,7 @@ Step 5 — First Generation ("Wow Moment")
 
 `02_AI_WORKSPACE_PRD.md`
 
-`07_KNOWLEDGE_IMPORT_PRD.md` (not yet written — recommended next)
-
----
-
-# Status
-
-Draft — Pending Founder Approval
-
-Version
-
-1.0.0
-
-Effective Date
-
-Pending
+`03_KNOWLEDGE_IMPORT_PRD.md`
 
 ---
 

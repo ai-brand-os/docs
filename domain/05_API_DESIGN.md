@@ -56,7 +56,7 @@ This matters because it resolves an ambiguity none of the six specs settled expl
 01_INGESTION_SERVICE.md ... 06_AI_ORCHESTRATOR.md   (internal module contracts)
 02_AI_WORKSPACE_PRD.md         (Conversation/Message endpoints)
 01_BRAND_BRAIN_PRD.md          (Brand Brain field endpoints)
-07_KNOWLEDGE_IMPORT_PRD.md     (import job endpoints)
+03_KNOWLEDGE_IMPORT_PRD.md     (import job endpoints)
 domain/04_DATABASE_DESIGN.md   (underlying tables each endpoint reads/writes)
         │
         ▼
@@ -92,7 +92,7 @@ AppModule
     └── KnowledgeImportModule       (orchestrates KnowledgeEngineModule on behalf of the UI)
 ```
 
-`KnowledgeImportModule` is a thin Core Application module, not a Core Domain one — it exists specifically to implement `07_KNOWLEDGE_IMPORT_PRD.md`'s UX contract (job status polling, one-job-in-flight rule, candidate review) on top of the four Knowledge Engine modules. This keeps the PRD's product-layer rules (BR-1 through BR-5) out of the Core Domain modules, which must stay UX-agnostic per every service spec's own Non-Responsibilities section.
+`KnowledgeImportModule` is a thin Core Application module, not a Core Domain one — it exists specifically to implement `03_KNOWLEDGE_IMPORT_PRD.md`'s UX contract (job status polling, one-job-in-flight rule, candidate review) on top of the four Knowledge Engine modules. This keeps the PRD's product-layer rules (BR-1 through BR-5) out of the Core Domain modules, which must stay UX-agnostic per every service spec's own Non-Responsibilities section.
 
 ---
 
@@ -102,59 +102,59 @@ Everything not listed here is DI-only, per the Core Architectural Clarification.
 
 ## Auth (Platform)
 
-| Method | Path | Notes |
-| --- | --- | --- |
-| POST | `/auth/signup` | Creates User + Organization (Owner role) in one step — Brand created separately in onboarding, not here |
-| POST | `/auth/login` | Returns access + refresh JWT pair |
-| POST | `/auth/refresh` | Rotates refresh token |
-| POST | `/auth/logout` | Revokes refresh token |
+| Method | Path            | Notes                                                                                                   |
+| ------ | --------------- | ------------------------------------------------------------------------------------------------------- |
+| POST   | `/auth/signup`  | Creates User + Organization (Owner role) in one step — Brand created separately in onboarding, not here |
+| POST   | `/auth/login`   | Returns access + refresh JWT pair                                                                       |
+| POST   | `/auth/refresh` | Rotates refresh token                                                                                   |
+| POST   | `/auth/logout`  | Revokes refresh token                                                                                   |
 
 ## Organizations (Platform)
 
-| Method | Path | Notes |
-| --- | --- | --- |
-| GET | `/organizations` | Lists all Organizations the authenticated user belongs to (org switcher) — see ADR-005 |
-| POST | `/organizations` | Creates an additional Organization; caller becomes Owner. Distinct from the Organization auto-created at signup — see ADR-005 |
-| GET | `/organizations/:id` | |
-| PATCH | `/organizations/:id` | Industry, company size, region, language |
-| GET | `/organizations/:id/members` | |
-| POST | `/organizations/:id/members` | Deferred to Phase 2 per Product Bible (no multi-user invite flow in MVP) — endpoint reserved, not implemented |
+| Method | Path                         | Notes                                                                                                                         |
+| ------ | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| GET    | `/organizations`             | Lists all Organizations the authenticated user belongs to (org switcher) — see ADR-005                                        |
+| POST   | `/organizations`             | Creates an additional Organization; caller becomes Owner. Distinct from the Organization auto-created at signup — see ADR-005 |
+| GET    | `/organizations/:id`         |                                                                                                                               |
+| PATCH  | `/organizations/:id`         | Industry, company size, region, language                                                                                      |
+| GET    | `/organizations/:id/members` |                                                                                                                               |
+| POST   | `/organizations/:id/members` | Deferred to Phase 2 per Product Bible (no multi-user invite flow in MVP) — endpoint reserved, not implemented                 |
 
 ## Brand Brain (`BrandModule`)
 
-| Method | Path | Notes |
-| --- | --- | --- |
-| POST | `/organizations/:id/brand` | MVP: fails if a Brand already exists (enforces Ontology 1:1 cardinality) |
-| GET | `/organizations/:id/brand` | Includes `completenessScore` (computed, not stored — see ADR-002) |
-| PATCH | `/organizations/:id/brand` | Mission, vision, core values, business goals |
-| PATCH | `/organizations/:id/brand/voice` | Tone attributes, vocabulary — always `source: manual` server-side, regardless of request body (Ontology hard constraint) |
-| POST | `/brands/:id/products` | |
-| GET | `/brands/:id/products` | |
-| PATCH | `/brands/:id/products/:productId` | |
-| DELETE | `/brands/:id/products/:productId` | |
-| *(identical pattern for `/brands/:id/services`, `/brands/:id/audiences`, `/brands/:id/competitors`)* | | |
+| Method                                                                                               | Path                              | Notes                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| POST                                                                                                 | `/organizations/:id/brand`        | MVP: fails if a Brand already exists (enforces Ontology 1:1 cardinality)                                                 |
+| GET                                                                                                  | `/organizations/:id/brand`        | Includes `completenessScore` (computed, not stored — see ADR-002)                                                        |
+| PATCH                                                                                                | `/organizations/:id/brand`        | Mission, vision, core values, business goals                                                                             |
+| PATCH                                                                                                | `/organizations/:id/brand/voice`  | Tone attributes, vocabulary — always `source: manual` server-side, regardless of request body (Ontology hard constraint) |
+| POST                                                                                                 | `/brands/:id/products`            |                                                                                                                          |
+| GET                                                                                                  | `/brands/:id/products`            |                                                                                                                          |
+| PATCH                                                                                                | `/brands/:id/products/:productId` |                                                                                                                          |
+| DELETE                                                                                               | `/brands/:id/products/:productId` |                                                                                                                          |
+| _(identical pattern for `/brands/:id/services`, `/brands/:id/audiences`, `/brands/:id/competitors`)_ |                                   |                                                                                                                          |
 
 ## Knowledge Import (`KnowledgeImportModule`)
 
-| Method | Path | Notes |
-| --- | --- | --- |
-| POST | `/brands/:id/import` | Body: `{ sourceType: "url" \| "file", url? }` or multipart file. Rejects with 409 if a job is already in-flight (PRD BR-2) |
-| GET | `/brands/:id/import-jobs/:correlationId` | Returns one of the UX-facing Job Lifecycle states from `07_KNOWLEDGE_IMPORT_PRD.md` — resolved by reading the latest `Artifact` row for that `correlationId`, not a dedicated status table (Database Design ADR-001) |
-| GET | `/brands/:id/import-jobs/:correlationId/candidates` | Returns only `AutoApproved` candidates (Gate 1 already passed) |
-| PATCH | `/brands/:id/import-jobs/:correlationId/candidates/:candidateId` | Body: `{ action: "confirm" \| "edit" \| "delete", value? }` — this is Gate 2 |
+| Method | Path                                                             | Notes                                                                                                                                                                                                                |
+| ------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | `/brands/:id/import`                                             | Body: `{ sourceType: "url" \| "file", url? }` or multipart file. Rejects with 409 if a job is already in-flight (PRD BR-2)                                                                                           |
+| GET    | `/brands/:id/import-jobs/:correlationId`                         | Returns one of the UX-facing Job Lifecycle states from `03_KNOWLEDGE_IMPORT_PRD.md` — resolved by reading the latest `Artifact` row for that `correlationId`, not a dedicated status table (Database Design ADR-001) |
+| GET    | `/brands/:id/import-jobs/:correlationId/candidates`              | Returns only `AutoApproved` candidates (Gate 1 already passed)                                                                                                                                                       |
+| PATCH  | `/brands/:id/import-jobs/:correlationId/candidates/:candidateId` | Body: `{ action: "confirm" \| "edit" \| "delete", value? }` — this is Gate 2                                                                                                                                         |
 
 ## AI Workspace (`AIWorkspaceModule`)
 
-| Method | Path | Notes |
-| --- | --- | --- |
-| POST | `/brands/:id/conversations` | |
-| GET | `/brands/:id/conversations` | Ordered by `lastActivityAt` (FR-006) |
-| GET | `/conversations/:id` | Restores messages |
-| DELETE | `/conversations/:id` | Soft delete (Database Design ADR-006) |
-| POST | `/conversations/:id/messages` | Body: `{ content: string }`. Response: Server-Sent Events stream (see ADR-003 below) |
-| POST | `/messages/:id/feedback` | Body: `{ rating: "helpful" \| "not_helpful" }`. 409 on duplicate (unique constraint on `feedback.messageId`) |
-| POST | `/conversations/:id/export` | Creates an `ExportJob` |
-| GET | `/export-jobs/:id` | |
+| Method | Path                          | Notes                                                                                                        |
+| ------ | ----------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| POST   | `/brands/:id/conversations`   |                                                                                                              |
+| GET    | `/brands/:id/conversations`   | Ordered by `lastActivityAt` (FR-006)                                                                         |
+| GET    | `/conversations/:id`          | Restores messages                                                                                            |
+| DELETE | `/conversations/:id`          | Soft delete (Database Design ADR-006)                                                                        |
+| POST   | `/conversations/:id/messages` | Body: `{ content: string }`. Response: Server-Sent Events stream (see ADR-003 below)                         |
+| POST   | `/messages/:id/feedback`      | Body: `{ rating: "helpful" \| "not_helpful" }`. 409 on duplicate (unique constraint on `feedback.messageId`) |
+| POST   | `/conversations/:id/export`   | Creates an `ExportJob`                                                                                       |
+| GET    | `/export-jobs/:id`            |                                                                                                              |
 
 ---
 
@@ -194,7 +194,7 @@ Every query is scoped by `organizationId` (and `brandId` where applicable) at th
 
 **Decision:** Only `AuthModule`, `OrganizationsModule`, `BrandModule`, `KnowledgeImportModule`, and `AIWorkspaceModule` expose HTTP controllers. `IngestionModule` through `AIOrchestratorModule` are DI-only.
 
-**Reason:** Every one of the six Core Domain service specs already restricts its own upstream callers (e.g., Ingestion Service: *"Direct user access is prohibited... accepts requests only from Brand Brain onboarding flow / Knowledge Import"*). Giving them HTTP controllers anyway would mean maintaining an unused public contract for six services that explicitly forbid direct external access.
+**Reason:** Every one of the six Core Domain service specs already restricts its own upstream callers (e.g., Ingestion Service: _"Direct user access is prohibited... accepts requests only from Brand Brain onboarding flow / Knowledge Import"_). Giving them HTTP controllers anyway would mean maintaining an unused public contract for six services that explicitly forbid direct external access.
 
 ## ADR-002 — Completeness Score Is Computed, Not Stored
 
@@ -212,13 +212,13 @@ Every query is scoped by `organizationId` (and `brandId` where applicable) at th
 
 **Decision:** `POST /organizations` allows an already-authenticated user to create additional Organizations beyond the one auto-created at signup. `organization_members` (Pass 1 schema) already models this as many-to-many, so no schema change is required — only the missing endpoint.
 
-**Reason:** This was an initial oversight in this document's first draft — the Auth section's signup endpoint implicitly assumed one Organization per user for life. That assumption directly conflicts with the Marketing Freelancer and Small Agency personas in `02_MARKET_RESEARCH.md` Segment C, who are explicitly part of the Beachhead Market specifically *because* they manage multiple clients/brands simultaneously. Since MVP constrains Brand to 1:1 with Organization (Ontology cardinality), a freelancer with multiple clients necessarily needs multiple Organizations — one per client. Deferring this to Phase 2 would mean the MVP fails a primary persona it was explicitly built to serve, not a nice-to-have.
+**Reason:** This was an initial oversight in this document's first draft — the Auth section's signup endpoint implicitly assumed one Organization per user for life. That assumption directly conflicts with the Marketing Freelancer and Small Agency personas in `02_MARKET_RESEARCH.md` Segment C, who are explicitly part of the Beachhead Market specifically _because_ they manage multiple clients/brands simultaneously. Since MVP constrains Brand to 1:1 with Organization (Ontology cardinality), a freelancer with multiple clients necessarily needs multiple Organizations — one per client. Deferring this to Phase 2 would mean the MVP fails a primary persona it was explicitly built to serve, not a nice-to-have.
 
-**Scope boundary:** This does not reopen the Organization membership *invite* flow (`POST /organizations/:id/members` stays deferred — that's collaboration, a different feature). It only allows a single user to create and own multiple Organizations independently, with no cross-user sharing implied.
+**Scope boundary:** This does not reopen the Organization membership _invite_ flow (`POST /organizations/:id/members` stays deferred — that's collaboration, a different feature). It only allows a single user to create and own multiple Organizations independently, with no cross-user sharing implied.
 
 ## ADR-004 — `KnowledgeImportModule` as a Core Application, Not Core Domain
 
-**Decision:** The PRD-specific rules from `07_KNOWLEDGE_IMPORT_PRD.md` (one-job-in-flight, UX-facing Job Lifecycle mapping, Two-Gate Model surfacing) live in a new `KnowledgeImportModule` in the Core Application layer, not inside any of the four Knowledge Engine modules.
+**Decision:** The PRD-specific rules from `03_KNOWLEDGE_IMPORT_PRD.md` (one-job-in-flight, UX-facing Job Lifecycle mapping, Two-Gate Model surfacing) live in a new `KnowledgeImportModule` in the Core Application layer, not inside any of the four Knowledge Engine modules.
 
 **Reason:** Every Knowledge Engine service spec's Non-Responsibilities section explicitly forbids UX/product-layer concerns leaking into that service. Placing PRD rules there would violate specs already Approved for Architecture & Engineering Design. `KnowledgeImportModule` depends on (imports) the four Knowledge Engine modules but adds no business logic of its own beyond orchestration and status derivation.
 
@@ -272,7 +272,7 @@ The API Design is complete when:
 
 `02_AI_WORKSPACE_PRD.md`
 
-`07_KNOWLEDGE_IMPORT_PRD.md`
+`03_KNOWLEDGE_IMPORT_PRD.md`
 
 `domain/04_DATABASE_DESIGN.md`
 

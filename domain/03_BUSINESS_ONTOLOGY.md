@@ -10,7 +10,7 @@ Version
 
 Status
 
-Draft — Pending Architecture & Product Review
+Approved
 
 Owner
 
@@ -453,20 +453,6 @@ Defines:
 - Industry Taxonomy: added `Beauty & Personal Care`.
 - ADR-003 (Business Goals as Brand attribute group) upgraded from stopgap
   to Confirmed Decision.
-
----
-
-# Status
-
-Draft — Pending Architecture & Product Review
-
-Version
-
-1.1.0
-
-Effective Date
-
-Pending
 
 ---
 
