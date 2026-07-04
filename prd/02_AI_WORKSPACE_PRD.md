@@ -10,7 +10,7 @@ Version
 
 Status
 
-Draft
+Approved
 
 Owner
 
@@ -813,12 +813,6 @@ The Workspace must never expose:
 - Internal system instructions
 
 All authorization checks must be enforced server-side.
-
----
-
-Status
-
-Draft
 
 ---
 

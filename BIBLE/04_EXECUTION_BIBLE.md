@@ -358,21 +358,36 @@ Decision
 
 Created `domain/02_ARTIFACT_MODEL.md` — single base artifact contract for Ingestion, Document Processing, Knowledge Extraction, Knowledge Management, Context Engine, and AI Orchestrator. Resolves a foundational gap where five P0 services referenced an undefined artifact contract.
 
----
-
-Decision
-
 Created `domain/03_BUSINESS_ONTOLOGY.md` — formal entity/relationship/attribute schema referenced by Knowledge Extraction (classification) and Knowledge Management (ontology validation). Resolves a foundational gap where two P0 services referenced an undefined ontology.
 
 Expected Impact
 
 Unblocks implementation of Knowledge Extraction Stage 4 (Entity Classification) and Knowledge Management Stage 3 (Ontology Validation), both previously non-implementable without this document.
 
+"Business Goals" modeled as an attribute group on Brand rather than a new Domain Model entity, pending Product confirmation.
+
 ---
+
+## 2026-07-04
 
 Decision
 
-"Business Goals" modeled as an attribute group on Brand rather than a new Domain Model entity, pending Product confirmation.
+Marketing/SEO website (Home, Pricing, About Us, Contact Us, and other SEO-oriented pages) is explicitly deferred, not part of current MVP design/build scope.
+
+Reason
+
+Not a documented MVP module. Product Bible's four layers (Core Domain, Core Applications, Platform Services, Future Applications) and this document's own "Current MVP Scope" list contain no marketing website module — building it now would be undocumented scope addition, the same category of risk already flagged for the Knowledge Base screen.
+Pricing Model is an open, unvalidated hypothesis (see Open Questions below). A Pricing page built now would either publish unvalidated numbers or need a full rebuild once pricing is confirmed.
+Go-To-Market sequencing (discovery/02_MARKET_RESEARCH.md) places SEO/Content Marketing as Priority 1–2 acquisition channels for the Public Beta / Paid Growth phase, not Private Alpha (10–20 users, direct outreach/communities). Building SEO pages now has no near-term audience and no compounding benefit yet — SEO takes months to produce traffic regardless of when it's built.
+The product itself is not yet functional (still in Component Kit / pre-Development). Marketing copy for Home/About would have no real customer proof points (testimonials, usage data) to draw from yet.
+
+Revisit trigger
+
+Reopen this decision once: (a) core MVP (Auth, Brand Brain, Knowledge Base, AI Workspace) is functional and in Private Alpha, and (b) Pricing Model moves from hypothesis to validated decision.
+
+Alternative considered and not adopted for now
+
+A single minimal waitlist/coming-soon page (not a full multi-page site) was raised as a lower-cost option for early signal-gathering. Not rejected outright, but not scheduled — separate decision if/when the founder wants to test outreach before Private Alpha starts.
 
 ---
 
