@@ -549,8 +549,8 @@ AI
 | Knowledge Management Service | ✅ Approved for Architecture & Engineering Design |
 | Context Engine               | ✅ Approved for Architecture & Engineering Design |
 | AI Orchestrator              | ✅ Approved for Architecture & Engineering Design |
-| Knowledge Import PRD (07)    | ❌ Not yet written                                |
-| Database Design              | ⏳ Draft — Pending Architecture Review            |
+| Knowledge Import PRD (07)    | ✅ Approved for Engineering Design                |
+| Database Design              | ✅ Completed                                      |
 
 ---
 
