@@ -10,7 +10,7 @@ Version
 
 Status
 
-Draft — Pending Architecture Review
+Approved
 
 Owner
 
@@ -290,20 +290,6 @@ Defines:
 - Minimal public REST surface (5 controller-owning modules out of 9 total)
 - Request/response conventions (error format, auth, multi-tenancy enforcement)
 - 4 Architectural Decisions, including the SSE-over-WebSocket and computed-not-stored Completeness Score calls
-
----
-
-# Status
-
-Draft — Pending Architecture Review
-
-Version
-
-1.0.0
-
-Effective Date
-
-Pending
 
 ---
 
