@@ -243,7 +243,7 @@ Included in this API Design:
 
 The API Design is complete when:
 
-- Every Functional Requirement in `01_BRAND_BRAIN_PRD.md`, `07_KNOWLEDGE_IMPORT_PRD.md`, and `02_AI_WORKSPACE_PRD.md` maps to exactly one endpoint above.
+- Every Functional Requirement in `01_BRAND_BRAIN_PRD.md`, `03_KNOWLEDGE_IMPORT_PRD.md`, and `02_AI_WORKSPACE_PRD.md` maps to exactly one endpoint above.
 - No Core Domain service gains a public controller that its own spec's Upstream Dependencies section forbids.
 - Every endpoint's authorization path resolves to the canonical role enum, with no per-module role redefinition.
 - Documentation is synchronized with `domain/04_DATABASE_DESIGN.md` (no endpoint implies a table that doesn't exist, and no table lacks an endpoint if the PRDs require one).

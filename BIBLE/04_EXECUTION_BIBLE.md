@@ -484,7 +484,7 @@ AI
 | Product Bible                | ✅ Approved (v2.0.0)                              |
 | Engineering Bible            | ✅ Complete (v1.0.0)                              |
 | Execution Bible              | ✅ Updated (v1.2.0)                               |
-| AI Memory                    | ⏳ Sync pending (see companion update)            |
+| AI Memory                    | ✅ Approved                                       |
 | Product Discovery            | ✅ Completed                                      |
 | Market Research              | ✅ Completed                                      |
 | Competitor Analysis          | ✅ Completed                                      |
@@ -494,14 +494,15 @@ AI
 | Artifact Model               | ✅ Approved for Engineering Design                |
 | Brand Brain PRD              | ✅ Approved for Engineering Design                |
 | AI Workspace PRD             | ✅ Approved for Engineering Design                |
-| Ingestion Service            | ✅ Draft v2.0.0                                   |
+| Ingestion Service            | ✅ Approved                                       |
 | Document Processing Service  | ✅ Approved for Architecture & Engineering Design |
 | Knowledge Extraction Service | ✅ Approved for Architecture & Engineering Design |
 | Knowledge Management Service | ✅ Approved for Architecture & Engineering Design |
 | Context Engine               | ✅ Approved for Architecture & Engineering Design |
 | AI Orchestrator              | ✅ Approved for Architecture & Engineering Design |
-| Knowledge Import PRD (07)    | ✅ Approved for Engineering Design                |
-| Database Design              | ✅ Completed                                      |
+| Knowledge Import PRD         | ✅ Approved for Engineering Design                |
+| Database Design              | ✅ Approved                                       |
+| API Design                   | ✅ Approved                                       |
 
 ---
 
