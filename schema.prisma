@@ -147,9 +147,16 @@ enum PrimaryGoal {
 // (Confirmed Decision, not standalone entity).
 // ============================================================
 
+enum BrandStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
 model Brand {
   id                String       @id @default(uuid()) @db.Uuid
   organizationId    String       @unique @map("organization_id") @db.Uuid
+  status            BrandStatus  @default(DRAFT)
   name              String
   missionStatement  String       @map("mission_statement") // PRD: <=300 chars, enforce at app layer
   visionStatement   String?      @map("vision_statement")  // PRD: <=300 chars, enforce at app layer
@@ -459,7 +466,6 @@ model KnowledgeIndex {
   @@map("knowledge_index")
 }
 
-
 // ============================================================
 // AI Brand OS — Database Schema (Prisma)
 // Phase: Database Design — Pass 3 (AI Workspace Domain)
@@ -598,4 +604,3 @@ model ExportJob {
   @@index([conversationId])
   @@map("export_jobs")
 }
-
