@@ -1,14 +1,24 @@
 # AI Brand OS — Execution Bible
 
-Version: 1.2.0
+Version: 1.3.0
 
 Status: Active
 
-Last Updated: 2026-07-02
+Last Updated: 2026-07-07
 
 ---
 
 # Changelog
+
+## Version 1.3.0
+
+### Updated
+
+- Closed Sprint 0 (planning/design complete); opened Sprint 1 (Authentication + Organizations)
+- Rewrote Sprint Tasks for Sprint 1 — moved all completed design-phase items to Done
+- Verified and resolved the five broken cross-file references (now enumerated under Known Risks → Resolved)
+- Recorded the schema pass-file merge into a single `schema.prisma`
+- Refreshed Immediate Next Steps and the Release Plan current-phase pointer
 
 ## Version 1.2.0
 
@@ -39,7 +49,7 @@ Last Updated: 2026-07-02
 
 Project Phase
 
-Phase 0 — Discovery & Product Validation → transitioning into Phase 1 (Architecture)
+Phase 1 — Architecture complete → entering Development (Sprint 1: Auth + Organizations)
 
 Project Health
 
@@ -53,7 +63,7 @@ Overall Progress
 
 # Current Sprint
 
-Sprint 0
+Sprint 1
 
 Status
 
@@ -61,11 +71,11 @@ Active
 
 Duration
 
-Planning & Validation
+Development — Foundation
 
 Objective
 
-Validate the business idea, finalize the MVP, and complete all product and architecture documentation before writing production code.
+Implement the platform foundation: Authentication and Organizations. Sprint 0 (planning, product, and architecture documentation) is closed — all P0 design documents are approved.
 
 ---
 
@@ -151,20 +161,16 @@ Excluded
 
 ## Todo
 
-- Resolve Brand Brain PRD founder approval
-- Review Business Ontology and Artifact Model with Engineering
-- Fix broken cross-references identified in documentation review (see Known Risks)
-- Write Knowledge Import PRD
-- Lock Industry / Tone Attribute taxonomies (proposed in Business Ontology, needs Product/UX sign-off)
-- Design Database
-- Design APIs
+- Select task-management connector (Jira / Linear / ClickUp — note: ClickUp is already connected to the workspace)
+- Resolve Component Kit issues (border-radius standardization; error states → Ember token)
+- Authentication implementation
+- Organizations implementation
 
 ---
 
 ## In Progress
 
-- Founder review of Brand Brain PRD
-- Architecture review of Business Ontology / Artifact Model
+_(empty at Sprint 1 start)_
 
 ---
 
@@ -177,16 +183,22 @@ Excluded
 - Product Discovery
 - Market Research
 - Competitor Analysis
-- Domain Model
-- AI Workspace PRD (approved)
+- Domain Model (Approved for Architecture & Engineering Design)
+- Business Ontology (Approved for Architecture & Engineering Design)
+- Artifact Model (Approved for Engineering Design)
+- Brand Brain PRD (Approved for Engineering Design)
+- AI Workspace PRD (Approved for Engineering Design)
+- Knowledge Import PRD (Approved for Engineering Design)
 - Ingestion Service spec (v2.0.0)
 - Document Processing Service spec
 - Knowledge Extraction Service spec
 - Knowledge Management Service spec
 - Context Engine spec
 - AI Orchestrator spec
-- Business Ontology (Approved for Architecture & Engineering Design)
-- Artifact Model (drafted, pending review)
+- Database Design (Approved)
+- API Design (Approved)
+- Schema merge (Passes 1–3 → single `schema.prisma`); pass files retired
+- Fixed the five broken cross-file references (see Known Risks → Resolved)
 
 ---
 
@@ -226,6 +238,15 @@ Excluded
 ## Low
 
 - UI Complexity
+
+## Resolved (2026-07-07)
+
+- **Five broken cross-file references** (previously tracked as an outstanding item but never enumerated) — all identified and fixed this session:
+  1. `prd/02_AI_WORKSPACE_PRD.md` title alias `01_AI_WORKSPACE.md` — removed
+  2. `prd/02_AI_WORKSPACE_PRD.md` Related Documents → `02_BRAND_BRAIN_MANAGER.md` (nonexistent) — replaced with current canonical paths
+  3. `prd/02_AI_WORKSPACE_PRD.md` Related Documents → `03_KNOWLEDGE_ENGINE.md` (nonexistent) — replaced with current canonical paths
+  4. `domain/01_DOMAIN_MODEL.md` Related Documents → `02_BUSINESS_ONTOLOGY.md` — corrected to `03_BUSINESS_ONTOLOGY.md`
+  5. `services/01_INGESTION_SERVICE.md` Upstream Dependencies → `05_BRAND_BRAIN_PRD.md` — corrected to `01_BRAND_BRAIN_PRD.md`
 
 ---
 
@@ -391,6 +412,18 @@ A single minimal waitlist/coming-soon page (not a full multi-page site) was rais
 
 ---
 
+## 2026-07-07
+
+Decision
+
+The three schema pass files were merged into a single `schema.prisma`. Required back-relations were added (Prisma mandates two-sided relations: User → conversations/exportJobs, Organization → artifacts/products/services/audiences/competitors/documents/knowledgeIndex/conversations, Brand → knowledgeIndex/conversations, Conversation → exportJobs). Post-migration SQL notes were consolidated into one section (5 items: 2 raw SQL constraints, 3 app-layer constraints). The pass files (`schema_pass1/2/3`) were retired — single source of truth.
+
+Sprint 1 documentation correction pass applied: AI Workspace PRD → v1.1.1 (status markers, State Management split into per-Message + Conversation lifecycles, Related Documents); Domain Model status reconciled to a single approved marker; all five broken cross-file references fixed.
+
+Sprint 0 closed (planning and architecture documentation complete); Sprint 1 (Authentication + Organizations) opened.
+
+---
+
 # Sprint Log
 
 Sprint 0
@@ -406,6 +439,10 @@ Finish planning before implementation.
 Status Update (2026-07-02)
 
 Core Domain service specs and foundational architecture documents (Domain Model, Business Ontology, Artifact Model) are complete in draft form. Remaining blockers before Sprint 1 (Architecture/Database Design) can start: Brand Brain PRD founder approval, Business Ontology / Artifact Model review, and resolution of the broken cross-references listed under Known Risks.
+
+Status Update (2026-07-07)
+
+Sprint 0 closed. All P0 planning, product, and architecture documents are approved (Domain Model, Business Ontology, Artifact Model, Brand Brain PRD, AI Workspace PRD, Knowledge Import PRD, Database Design, API Design). Schema merged into a single `schema.prisma`; the three pass files retired. All five broken cross-file references fixed. Sprint 1 (Authentication + Organizations) opened.
 
 ---
 
@@ -425,11 +462,11 @@ PRDs
 
 ↓
 
-Architecture ← **current phase**
+Architecture
 
 ↓
 
-Development
+Development ← **current phase**
 
 ↓
 
@@ -523,16 +560,15 @@ AI
 
 # Immediate Next Steps
 
-1. Merge this session's document updates (Brand Brain PRD, Business
-   Ontology, Engineering Bible, AI Memory Bible).
-2. Fix the five broken cross-file references listed under Known Risks
-   (Medium) — still outstanding, not addressed this session.
-3. Begin Database Design: PostgreSQL schema derived from Domain Model +
-   Business Ontology (Entity/Attribute/Relationship Registries) +
-   Artifact Model (Base Artifact Contract + 7 concrete types).
-4. Begin API Design (NestJS module boundaries, mapped 1:1 to the six Core
-   Domain services already specified).
-5. Write `03_KNOWLEDGE_IMPORT_PRD.md`.
+1. Select the task-management connector for Sprint 1 tracking (ClickUp is
+   already connected to the workspace).
+2. Resolve outstanding Component Kit issues (border-radius standardization;
+   error states → Ember token).
+3. Begin Authentication implementation.
+4. Begin Organizations implementation.
+
+(Sprint 0 planning/design work — Database Design, API Design, Knowledge
+Import PRD, and the five broken cross-file references — is complete.)
 
 ---
 

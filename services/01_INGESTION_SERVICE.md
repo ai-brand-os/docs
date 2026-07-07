@@ -226,7 +226,7 @@ The service exposes no internal validation stages.
 
 The service accepts requests only from:
 
-- Brand Brain onboarding flow (Website Import step, per `05_BRAND_BRAIN_PRD.md`)
+- Brand Brain onboarding flow (Website Import step, per `01_BRAND_BRAIN_PRD.md`)
 - Future: Batch Import, Scheduled Import
 
 Direct unauthenticated access is prohibited.
