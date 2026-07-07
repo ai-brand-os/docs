@@ -1,10 +1,34 @@
 // ============================================================
-// AI Brand OS — Database Schema (Prisma)
-// Phase: Database Design — Pass 1 (Platform Services + Brand)
-// Source of truth: domain/01_DOMAIN_MODEL.md, domain/03_BUSINESS_ONTOLOGY.md,
-//                  prd/01_BRAND_BRAIN_PRD.md
-// Deferred to Pass 2: Product, Service, Audience, Competitor, Document,
-//                     Knowledge, and all Artifact Model tables.
+// AI Brand OS — Database Schema (Prisma) — MERGED (Passes 1–3)
+// Source of truth: domain/01_DOMAIN_MODEL.md, domain/02_ARTIFACT_MODEL.md,
+//                  domain/03_BUSINESS_ONTOLOGY.md, prd/01_BRAND_BRAIN_PRD.md,
+//                  prd/02_AI_WORKSPACE_PRD.md
+// Merge date: 2026-07-07
+// Merge changes vs. the three pass files (structural only, no semantic changes):
+//   - Added required back-relations (Prisma relations are mandatory two-sided):
+//       User          -> conversations, exportJobs
+//       Organization  -> artifacts, products, services, audiences,
+//                        competitors, documents, knowledgeIndex, conversations
+//       Brand         -> knowledgeIndex, conversations
+//       Conversation  -> exportJobs
+//   - Consolidated all "post-migration raw SQL" notes into one section at
+//     the end of this file.
+//   - All design-deviation flags from the pass headers are preserved below.
+//
+// FLAGGED (carried over from pass files — pending documentation pass):
+//   1. 02_AI_WORKSPACE_PRD.md lists roles Owner/Admin/Member; Engineering
+//      Bible (canonical) says Owner/Admin/Editor/Viewer. Schema follows the
+//      Engineering Bible.
+//   2. NO `WorkspaceSession` table (PRD lists it, but no FR/AC ever reads or
+//      writes one — session state is a client-side/JWT concern).
+//   3. NO separate `AIRequest`/`AIResponse` tables — they map 1:1 onto
+//      Prompt Context / Prompt / Response artifacts in the unified
+//      `artifacts` table. Message links via correlationId +
+//      responseArtifactId.
+//   4. MessageStatus models per-Message lifecycle, not per-Conversation
+//      (PRD "Conversation Lifecycle" wording issue to fix).
+//   5. Brand has no defined delete flow in 01_DOMAIN_MODEL.md — hence
+//      onDelete: Restrict on Conversation.brand until resolved.
 // ============================================================
 
 generator client {
@@ -15,6 +39,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 
 // ============================================================
 // Platform Services (not part of Core Domain — see Product Bible Layer 3)
@@ -28,13 +53,15 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  memberships  OrganizationMember[]
+  memberships   OrganizationMember[]
+  conversations Conversation[]
+  exportJobs    ExportJob[]
 
   @@map("users")
 }
 
 // Role list follows Engineering Bible (Owner/Admin/Editor/Viewer) as the
-// canonical source, per this session's reconciliation with AI Workspace PRD.
+// canonical source, per reconciliation with AI Workspace PRD.
 // FLAGGED: 02_AI_WORKSPACE_PRD.md currently lists Owner/Admin/Member —
 // needs to be updated to match in a follow-up documentation pass.
 enum OrgRole {
@@ -45,15 +72,15 @@ enum OrgRole {
 }
 
 model Organization {
-  id              String        @id @default(uuid()) @db.Uuid
+  id              String      @id @default(uuid()) @db.Uuid
   name            String
   industry        Industry
-  companySize     CompanySize   @map("company_size")
-  websiteUrl      String?       @map("website_url")
-  primaryRegion   String        @map("primary_region")
-  primaryLanguage String        @map("primary_language")
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
+  companySize     CompanySize @map("company_size")
+  websiteUrl      String?     @map("website_url")
+  primaryRegion   String      @map("primary_region")
+  primaryLanguage String      @map("primary_language")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
 
   members         OrganizationMember[]
 
@@ -63,6 +90,15 @@ model Organization {
   // (multi-brand) — that change requires an ontology MINOR version bump,
   // not just a schema migration.
   brand           Brand?
+
+  artifacts       Artifact[]
+  products        Product[]
+  services        Service[]
+  audiences       Audience[]
+  competitors     Competitor[]
+  documents       Document[]
+  knowledgeIndex  KnowledgeIndex[]
+  conversations   Conversation[]
 
   @@map("organizations")
 }
@@ -173,6 +209,9 @@ model Brand {
   organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   brandVoice        BrandVoice?
 
+  knowledgeIndex    KnowledgeIndex[]
+  conversations     Conversation[]
+
   @@map("brands")
 }
 
@@ -191,33 +230,7 @@ model BrandVoice {
 }
 
 // ============================================================
-// Post-migration raw SQL required (Prisma cannot express these natively):
-//
-// 1. Enforce 2–4 cardinality on BrandVoice.tone_attributes:
-//    ALTER TABLE brand_voices
-//    ADD CONSTRAINT tone_attributes_cardinality
-//    CHECK (array_length(tone_attributes, 1) BETWEEN 2 AND 4);
-//
-// 2. toneAttributes must NEVER be set with imported provenance — this is
-//    a Knowledge Management Service / Ontology Validation concern (app
-//    layer), not enforceable as a DB constraint. Documented here so the
-//    constraint isn't lost when Knowledge tables are added in Pass 2.
-// ============================================================
-
-// ============================================================
-// AI Brand OS — Database Schema (Prisma)
-// Phase: Database Design — Pass 2 (Core Domain + Artifact Model)
-// Depends on: schema_pass1_platform_and_brand.prisma (User, Organization,
-//             OrganizationMember, Brand, BrandVoice)
-// Source of truth: domain/01_DOMAIN_MODEL.md, domain/02_ARTIFACT_MODEL.md,
-//                  domain/03_BUSINESS_ONTOLOGY.md
-// Deferred to Pass 3: AI Workspace domain (WorkspaceSession, Conversation,
-//                     Message, Feedback, ExportJob) — separate bounded
-//                     context per 02_AI_WORKSPACE_PRD.md.
-// ============================================================
-
-// ============================================================
-// SECTION A — Unified Artifact Pipeline
+// Unified Artifact Pipeline
 //
 // Design decision: ONE polymorphic table, not seven.
 // Reason: 02_ARTIFACT_MODEL.md ADR-001 explicitly defines a single Base
@@ -281,24 +294,8 @@ model Artifact {
   @@map("artifacts")
 }
 
-// Post-migration raw SQL required (Prisma cannot express GIN indexes on
-// Json columns in all versions consistently — verify Prisma version
-// supports `@@index([payload(ops: JsonbPathOps)], type: Gin)` natively;
-// if not, apply manually):
-//
-//   CREATE INDEX artifacts_payload_gin_idx ON artifacts USING GIN (payload);
-//
-// Cross-tenant lineage protection (Artifact Model Security section —
-// "Cross-tenant artifact linkage is invalid and must be rejected at write
-// time") CANNOT be expressed as a Postgres FK constraint since it requires
-// comparing organizationId across the self-referencing parent/child rows.
-// Must be enforced via a trigger or exclusively at the NestJS service
-// layer. Recommendation: enforce at service layer for MVP (simpler to
-// test/debug while learning the stack); revisit as a DB trigger only if
-// an incident proves the app-layer check insufficient.
-
 // ============================================================
-// SECTION B — Core Domain Business Entities
+// Core Domain Business Entities
 // These are the CURRENT VALIDATED STATE tables — what the AI Workspace
 // and Context Engine actually query at runtime. They are populated /
 // updated only when an APPROVED_KNOWLEDGE artifact is produced for them
@@ -404,7 +401,7 @@ model Document {
   id                     String                    @id @default(uuid()) @db.Uuid
   organizationId         String                    @map("organization_id") @db.Uuid
   correlationId          String                    @map("correlation_id") @db.Uuid // ties this Document to its full Artifact chain
-  sourceType             DocumentSourceType         @map("source_type")
+  sourceType             DocumentSourceType        @map("source_type")
   originalFilenameOrUrl  String                    @map("original_filename_or_url")
   processingStatus       DocumentProcessingStatus  @default(IMPORTED) @map("processing_status")
   latestArtifactId       String?                   @map("latest_artifact_id") @db.Uuid // points at current STRUCTURED_DOCUMENT artifact
@@ -419,7 +416,7 @@ model Document {
 }
 
 // ============================================================
-// SECTION C — Knowledge Index
+// Knowledge Index
 // This IS the "Knowledge" entity from 01_DOMAIN_MODEL.md / Ontology —
 // a first-class record with its own lifecycle (Extracted -> Reviewed ->
 // Approved -> Versioned -> Deprecated), distinct from the business
@@ -453,13 +450,13 @@ model KnowledgeIndex {
   describesEntityId   String              @map("describes_entity_id") @db.Uuid // polymorphic FK — no DB-level referential integrity possible across tables; enforced at service layer
   knowledgeConfidence Int                 @map("knowledge_confidence") // 0-100
   ontologyVersion     String              @map("ontology_version")
-  latestArtifactId    String              @map("latest_artifact_id") @db.Uuid  // current APPROVED_KNOWLEDGE artifact
-  status              ArtifactStatus      @default(VALID)                       // reuses artifact lifecycle states
+  latestArtifactId    String              @map("latest_artifact_id") @db.Uuid // current APPROVED_KNOWLEDGE artifact
+  status              ArtifactStatus      @default(VALID)                     // reuses artifact lifecycle states
   createdAt           DateTime            @default(now()) @map("created_at")
   updatedAt           DateTime            @updatedAt @map("updated_at")
 
   organization        Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  brand                Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  brand               Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
 
   @@index([organizationId, brandId])
   @@index([describesEntityType, describesEntityId])
@@ -467,36 +464,11 @@ model KnowledgeIndex {
 }
 
 // ============================================================
-// AI Brand OS — Database Schema (Prisma)
-// Phase: Database Design — Pass 3 (AI Workspace Domain)
-// Depends on: Pass 1 (User, Organization, Brand), Pass 2 (Artifact)
-// Source of truth: 02_AI_WORKSPACE_PRD.md, domain/02_ARTIFACT_MODEL.md
-//
-// TWO DESIGN DEVIATIONS FROM A LITERAL READING OF 02_AI_WORKSPACE_PRD.md
-// — both flagged for a documentation correction pass, not silent choices:
-//
-// 1. NO `WorkspaceSession` TABLE.
-//    The PRD's Domain Model lists it as the root of the entity hierarchy,
-//    but no Functional Requirement or Acceptance Criterion ever reads or
-//    writes one — the actual required state (current User + Organization
-//    + Brand) is a client-side/JWT concern, not a persisted aggregate.
-//    Adding it now would be exactly the kind of pre-validation
-//    over-engineering Project Bible Rule 6 warns against.
-//
-// 2. NO SEPARATE `AIRequest` / `AIResponse` TABLES.
-//    These map 1:1 onto Prompt Context Artifact -> Prompt Artifact ->
-//    Response Artifact, already fully modeled in the unified `artifacts`
-//    table (Pass 2). Duplicating them here would violate Domain Model's
-//    "Single Meaning" principle (two definitions of the same concept in
-//    two documents). Message links to the Artifacts table via
-//    `correlationId` (full chain) and `responseArtifactId` (execution
-//    metadata: tokens, cost, latency, model, validation result).
-//
-// MERGE NOTE: when combining all passes into one schema.prisma, add these
-// back-relation fields to their respective models:
-//   Organization  -> conversations  Conversation[]
-//   Brand         -> conversations  Conversation[]
-//   User          -> conversations  Conversation[]
+// AI Workspace Domain
+// Source: 02_AI_WORKSPACE_PRD.md, domain/02_ARTIFACT_MODEL.md
+// See FLAGGED items 2–4 in the file header for the two intentional
+// deviations from a literal PRD reading (no WorkspaceSession table,
+// no AIRequest/AIResponse tables) and the MessageStatus placement note.
 // ============================================================
 
 enum MessageRole {
@@ -536,7 +508,7 @@ enum ExportJobStatus {
 model Conversation {
   id              String    @id @default(uuid()) @db.Uuid
   organizationId  String    @map("organization_id") @db.Uuid
-  brandId         String    @map("brand_id") @db.Uuid   // BR-002: exactly one Brand
+  brandId         String    @map("brand_id") @db.Uuid // BR-002: exactly one Brand
   createdByUserId String    @map("created_by_user_id") @db.Uuid
   title           String?   // auto-generated from first message if null
   lastActivityAt  DateTime  @default(now()) @map("last_activity_at") // FR-006: ordered by latest activity
@@ -552,6 +524,7 @@ model Conversation {
   brand           Brand        @relation(fields: [brandId], references: [id], onDelete: Restrict)
   createdBy       User         @relation(fields: [createdByUserId], references: [id])
   messages        Message[]
+  exportJobs      ExportJob[]
 
   @@index([organizationId, brandId])
   @@index([createdByUserId])
@@ -560,18 +533,18 @@ model Conversation {
 }
 
 model Message {
-  id               String         @id @default(uuid()) @db.Uuid
-  conversationId   String         @map("conversation_id") @db.Uuid
-  role             MessageRole
-  content          String         @db.Text // denormalized final text — avoids reading artifacts.payload JSONB on every render
-  status           MessageStatus  @default(COMPLETED) // USER messages complete immediately on validation; ASSISTANT messages progress through the enum
-  correlationId    String?        @map("correlation_id") @db.Uuid // set on submit; links this turn's full artifact chain
-  responseArtifactId String?      @map("response_artifact_id") @db.Uuid // FK into artifacts table, RESPONSE type only, ASSISTANT messages only
-  isLowContext     Boolean        @default(false) @map("is_low_context") // EC-004: Context Engine returned no context
-  createdAt        DateTime       @default(now()) @map("created_at")
+  id                 String        @id @default(uuid()) @db.Uuid
+  conversationId     String        @map("conversation_id") @db.Uuid
+  role               MessageRole
+  content            String        @db.Text // denormalized final text — avoids reading artifacts.payload JSONB on every render
+  status             MessageStatus @default(COMPLETED) // USER messages complete immediately on validation; ASSISTANT messages progress through the enum
+  correlationId      String?       @map("correlation_id") @db.Uuid // set on submit; links this turn's full artifact chain
+  responseArtifactId String?       @map("response_artifact_id") @db.Uuid // FK into artifacts table, RESPONSE type only, ASSISTANT messages only
+  isLowContext       Boolean       @default(false) @map("is_low_context") // EC-004: Context Engine returned no context
+  createdAt          DateTime      @default(now()) @map("created_at")
 
-  conversation     Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  feedback         Feedback?
+  conversation       Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  feedback           Feedback?
 
   @@index([conversationId, createdAt])
   @@index([correlationId])
@@ -590,17 +563,46 @@ model Feedback {
 }
 
 model ExportJob {
-  id              String          @id @default(uuid()) @db.Uuid
-  conversationId  String          @map("conversation_id") @db.Uuid
-  requestedByUserId String        @map("requested_by_user_id") @db.Uuid
-  status          ExportJobStatus @default(PENDING)
-  fileUrl         String?         @map("file_url") // Cloudflare R2 reference, populated on COMPLETED
-  createdAt       DateTime        @default(now()) @map("created_at")
-  completedAt     DateTime?       @map("completed_at")
+  id                String          @id @default(uuid()) @db.Uuid
+  conversationId    String          @map("conversation_id") @db.Uuid
+  requestedByUserId String          @map("requested_by_user_id") @db.Uuid
+  status            ExportJobStatus @default(PENDING)
+  fileUrl           String?         @map("file_url") // Cloudflare R2 reference, populated on COMPLETED
+  createdAt         DateTime        @default(now()) @map("created_at")
+  completedAt       DateTime?       @map("completed_at")
 
-  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  requestedBy     User         @relation(fields: [requestedByUserId], references: [id])
+  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  requestedBy       User         @relation(fields: [requestedByUserId], references: [id])
 
   @@index([conversationId])
   @@map("export_jobs")
 }
+
+// ============================================================
+// POST-MIGRATION RAW SQL REQUIRED (consolidated from all passes)
+// Prisma cannot express these natively — apply after `prisma migrate`:
+//
+// 1. Enforce 2–4 cardinality on BrandVoice.tone_attributes:
+//      ALTER TABLE brand_voices
+//      ADD CONSTRAINT tone_attributes_cardinality
+//      CHECK (array_length(tone_attributes, 1) BETWEEN 2 AND 4);
+//
+// 2. GIN index on artifacts.payload (verify whether your Prisma version
+//    supports `@@index([payload(ops: JsonbPathOps)], type: Gin)` natively;
+//    if not, apply manually):
+//      CREATE INDEX artifacts_payload_gin_idx ON artifacts USING GIN (payload);
+//
+// APP-LAYER CONSTRAINTS (not enforceable in the DB, must live in NestJS):
+//
+// 3. toneAttributes must NEVER be set with imported provenance — this is
+//    a Knowledge Management Service / Ontology Validation concern.
+//
+// 4. Cross-tenant lineage protection (Artifact Model Security section —
+//    "Cross-tenant artifact linkage is invalid and must be rejected at
+//    write time") cannot be a Postgres FK constraint (requires comparing
+//    organizationId across self-referencing parent/child rows). Enforce at
+//    the NestJS service layer for MVP; revisit as a DB trigger only if an
+//    incident proves the app-layer check insufficient.
+//
+// 5. missionStatement / visionStatement <=300 chars (Brand Brain PRD).
+// ============================================================
