@@ -13,22 +13,16 @@
 //       Conversation  -> exportJobs
 //   - Consolidated all "post-migration raw SQL" notes into one section at
 //     the end of this file.
-//   - All design-deviation flags from the pass headers are preserved below.
+//   - Design-deviation flags from the pass headers have been reconciled
+//     with the documentation; only the open MessageStatus wording item
+//     below remains.
 //
-// FLAGGED (carried over from pass files — pending documentation pass):
-//   1. 02_AI_WORKSPACE_PRD.md lists roles Owner/Admin/Member; Engineering
-//      Bible (canonical) says Owner/Admin/Editor/Viewer. Schema follows the
-//      Engineering Bible.
-//   2. NO `WorkspaceSession` table (PRD lists it, but no FR/AC ever reads or
-//      writes one — session state is a client-side/JWT concern).
-//   3. NO separate `AIRequest`/`AIResponse` tables — they map 1:1 onto
-//      Prompt Context / Prompt / Response artifacts in the unified
-//      `artifacts` table. Message links via correlationId +
-//      responseArtifactId.
-//   4. MessageStatus models per-Message lifecycle, not per-Conversation
-//      (PRD "Conversation Lifecycle" wording issue to fix).
-//   5. Brand has no defined delete flow in 01_DOMAIN_MODEL.md — hence
-//      onDelete: Restrict on Conversation.brand until resolved.
+// FLAGGED (open documentation item, tracked for the AI Workspace PRD
+// correction pass):
+//   MessageStatus models the per-Message generation lifecycle, NOT a
+//   per-Conversation lifecycle. 02_AI_WORKSPACE_PRD.md's "Conversation
+//   Lifecycle" / "State Management" wording still implies the latter and
+//   is being corrected to match this schema.
 // ============================================================
 
 generator client {
@@ -62,8 +56,7 @@ model User {
 
 // Role list follows Engineering Bible (Owner/Admin/Editor/Viewer) as the
 // canonical source, per reconciliation with AI Workspace PRD.
-// FLAGGED: 02_AI_WORKSPACE_PRD.md currently lists Owner/Admin/Member —
-// needs to be updated to match in a follow-up documentation pass.
+// Canonical role set per 03_ENGINEERING_BIBLE.md; 02_AI_WORKSPACE_PRD.md v1.1.0 conforms.
 enum OrgRole {
   OWNER
   ADMIN
@@ -466,9 +459,12 @@ model KnowledgeIndex {
 // ============================================================
 // AI Workspace Domain
 // Source: 02_AI_WORKSPACE_PRD.md, domain/02_ARTIFACT_MODEL.md
-// See FLAGGED items 2–4 in the file header for the two intentional
-// deviations from a literal PRD reading (no WorkspaceSession table,
-// no AIRequest/AIResponse tables) and the MessageStatus placement note.
+// Two intentional, now-reconciled deviations from a literal early-draft PRD
+// reading: no WorkspaceSession table and no AIRequest/AIResponse tables
+// (both map onto the unified artifacts table — see 02_AI_WORKSPACE_PRD.md
+// Domain Model and domain/04_DATABASE_DESIGN.md ADR-003 / ADR-004).
+// MessageStatus models the per-Message generation lifecycle — see its
+// enum comment below.
 // ============================================================
 
 enum MessageRole {
@@ -517,10 +513,10 @@ model Conversation {
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
   organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  // Restrict, not Cascade/SetNull: no "delete Brand" flow is defined
-  // anywhere in the Bible yet (Brand's own lifecycle isn't even listed in
-  // 01_DOMAIN_MODEL.md's Entity Lifecycle section — flagged separately).
-  // Restrict is the safe default until that gap is resolved.
+  // Restrict is now guaranteed-safe by design: Brand is never hard-deleted
+  // (01_DOMAIN_MODEL.md Brand Lifecycle — removal is modeled as
+  // status=ARCHIVED). Archived Brand → conversations become read-only per
+  // EC-005; the FK never needs to fire.
   brand           Brand        @relation(fields: [brandId], references: [id], onDelete: Restrict)
   createdBy       User         @relation(fields: [createdByUserId], references: [id])
   messages        Message[]
