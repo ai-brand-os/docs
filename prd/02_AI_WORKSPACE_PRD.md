@@ -2,15 +2,13 @@
 
 Document: **02_AI_WORKSPACE_PRD.md**
 
-01_AI_WORKSPACE.md
-
 Version
 
-1.1.0
+1.1.1
 
 Status
 
-Approved
+Approved for Engineering Design
 
 Owner
 
@@ -189,12 +187,6 @@ The MVP AI Workspace consists of only four capabilities:
 3. Conversation History
 
 Everything else is intentionally deferred.
-
----
-
-Status
-
-Draft
 
 ---
 
@@ -496,12 +488,6 @@ Minimum MVP requirements:
 - Mobile usability
 
 Accessibility is considered a core product quality requirement.
-
----
-
-Status
-
-Draft
 
 ---
 
@@ -896,7 +882,16 @@ Direct database access to Brand Brain is prohibited.
 
 # State Management
 
-Each conversation can exist in one of the following states:
+Two distinct lifecycles are modeled here. They must not be conflated: the
+generation states below belong to an individual assistant **Message**
+(one generation turn), not to the Conversation. A Conversation spans many
+turns and must never lock into a terminal state after its first response.
+This is implemented as `MessageStatus` on the `messages` table — see
+`domain/04_DATABASE_DESIGN.md` (ADR-006) and `schema.prisma`.
+
+## Message (generation) states
+
+Applies to each assistant message as it is produced:
 
 Draft
 ↓
@@ -909,14 +904,24 @@ Preparing Context
 Generating
 ↓
 Completed
-↓
-Archived
 
 Failure states:
 
 - Failed
 - Cancelled
 - Timeout
+
+(User messages complete immediately on validation and do not traverse the
+generation states.)
+
+## Conversation states
+
+The Conversation itself has a minimal lifecycle:
+
+Active
+↓
+Deleted (soft delete via `deletedAt`, per `domain/04_DATABASE_DESIGN.md`
+ADR-006)
 
 State transitions must be deterministic and recoverable.
 
@@ -1133,23 +1138,35 @@ These items require customer validation before implementation.
 
 # Related Documents
 
-01_PROJECT_BIBLE.md
+BIBLE/01_PROJECT_BIBLE.md
 
-02_PRODUCT_BIBLE.md
+BIBLE/02_PRODUCT_BIBLE.md
 
-03_ENGINEERING_BIBLE.md
+BIBLE/03_ENGINEERING_BIBLE.md
 
-04_EXECUTION_BIBLE.md
+BIBLE/04_EXECUTION_BIBLE.md
 
-02_BRAND_BRAIN_MANAGER.md
+prd/01_BRAND_BRAIN_PRD.md
 
-03_KNOWLEDGE_ENGINE.md
+prd/03_KNOWLEDGE_IMPORT_PRD.md
 
-04_KNOWLEDGE_MANAGEMENT_SERVICE.md
+services/01_INGESTION_SERVICE.md
 
-05_CONTEXT_ENGINE.md
+services/02_DOCUMENT_PROCESSING_SERVICE.md
 
-06_AI_ORCHESTRATOR.md
+services/03_KNOWLEDGE_EXTRACTION_SERVICE.md
+
+services/04_KNOWLEDGE_MANAGEMENT_SERVICE.md
+
+services/05_CONTEXT_ENGINE.md
+
+services/06_AI_ORCHESTRATOR.md
+
+domain/02_ARTIFACT_MODEL.md
+
+domain/04_DATABASE_DESIGN.md
+
+domain/05_API_DESIGN.md
 
 ---
 
@@ -1181,6 +1198,16 @@ Defines:
 - EC-005 corrected: "Brand deleted" → "Brand archived", aligned to new
   Brand Lifecycle in `01_DOMAIN_MODEL.md`.
 
+## Version 1.1.1
+
+- Status markers reconciled: single `Approved for Engineering Design`
+  status; removed the two stray mid-document `Status: Draft` blocks and
+  the leftover `01_AI_WORKSPACE.md` title alias.
+- State Management corrected to two distinct lifecycles — per-Message
+  generation states + Conversation soft-delete (Active → Deleted) — per
+  `domain/04_DATABASE_DESIGN.md` ADR-006.
+- Related Documents updated to current canonical filenames/paths.
+
 ---
 
 # Status
@@ -1189,11 +1216,11 @@ Approved for Engineering Design
 
 Version
 
-1.1.0
+1.1.1
 
 Effective Date
 
-2026-06-29
+2026-07-07
 
 ---
 
