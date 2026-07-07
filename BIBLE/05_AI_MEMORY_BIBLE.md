@@ -1,14 +1,22 @@
 # AI Brand OS — AI Memory
 
-Version: 1.3.0
+Version: 1.4.0
 
 Status: Active
 
-Last Updated: 2026-07-02
+Last Updated: 2026-07-07
 
 ---
 
 # Changelog
+
+## Version 1.4.0
+
+### Updated
+
+- Refreshed Current Priorities to Sprint 1 (was a full phase stale — listed already-completed Database/API Design and used the retired Knowledge Import PRD numbering, now `03_KNOWLEDGE_IMPORT_PRD.md`)
+- Updated Session Memory: appended Database Design, API Design, Knowledge Import PRD, Design Foundations, Component Kit, and the schema merge to Completed; replaced Next with Sprint 1 items
+- Marked PRD approval sequencing and broken cross-file references as mitigated/resolved
 
 ## Version 1.2.0
 
@@ -278,32 +286,25 @@ Always identify trade-offs.
 
 Priority 1
 
-Fix remaining broken cross-file references (Known Risk, Medium)
+Sprint 1 documentation correction pass (status reconciliation, State
+Management fix, broken-reference fixes, schema merge record)
 
 Priority 2
 
-Database Design (PostgreSQL schema from Domain Model + Ontology +
-Artifact Model)
+Task-management connector selection + Sprint 1 task breakdown
 
 Priority 3
 
-API Design (NestJS module boundaries)
+Component Kit fixes (border-radius standardization; error states → Ember
+token)
 
 Priority 4
 
-Write Knowledge Import PRD (07)
+Authentication implementation
 
 Priority 5
 
-Database Design
-
-Priority 6
-
-System Architecture / API Design
-
-Priority 7
-
-Implementation
+Organizations implementation
 
 ---
 
@@ -314,18 +315,21 @@ High
 - Scope Creep
 - Weak Differentiation
 - Building Too Early
-- PRD approval sequencing (AI Workspace PRD approved ahead of its Brand Brain PRD dependency)
 
 Medium
 
 - AI Cost
 - Knowledge Quality
 - User Activation
-- Broken cross-file references (filenames only, not scope — see Execution Bible Known Risks)
 
 Low
 
 - UI Complexity
+
+Mitigated / Resolved
+
+- PRD approval sequencing (was High) — mitigated. The Knowledge Import PRD explicitly closed the Brand Brain PRD dependency gap before API Design proceeded; all PRDs are now approved in dependency order.
+- Broken cross-file references (was Medium) — resolved 2026-07-07. All five identified and fixed; see Execution Bible Known Risks → Resolved.
 
 ---
 
@@ -352,13 +356,20 @@ Completed
 - Backend framework reversed to NestJS; database reversed to PostgreSQL
 - Brand Brain PRD Open Questions resolved and approved
 - Business Ontology Open Items resolved and approved
+- Database Design (`domain/04_DATABASE_DESIGN.md`) — approved
+- API Design (`domain/05_API_DESIGN.md`) — approved
+- Knowledge Import PRD (`prd/03_KNOWLEDGE_IMPORT_PRD.md`) — approved
+- Design Foundations
+- Component Kit (drafted; fixes pending — see Sprint 1)
+- Schema merge (Passes 1–3 → single `schema.prisma`); pass files retired
+- Sprint 1 documentation correction pass
 
 Next
 
-- Fix broken cross-references
-- PostgreSQL schema design
-- NestJS module/API design
-- Knowledge Import PRD
+- Select task-management connector (ClickUp already connected)
+- Component Kit fixes
+- Authentication implementation
+- Organizations implementation
 
 ---
 
