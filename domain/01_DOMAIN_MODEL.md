@@ -10,7 +10,7 @@ Version
 
 Status
 
-Draft
+Approved for Architecture & Engineering Design
 
 Owner
 
@@ -215,12 +215,6 @@ The MVP focuses on:
 - Campaigns
 
 Additional business concepts may be introduced after MVP.
-
----
-
-Status
-
-Draft
 
 ---
 
@@ -499,12 +493,6 @@ Each entity has one authoritative owner.
 | Competitor   | Organization                 |
 | Channel      | Organization                 |
 | Brand        | Organization                 |
-
----
-
-Status
-
-Draft
 
 ---
 
@@ -1082,12 +1070,6 @@ Knowledge Graph implementations materialize these relationships.
 
 ---
 
-Status
-
-Draft
-
----
-
 # Entity Lifecycle
 
 Each business entity follows a defined lifecycle.
@@ -1447,7 +1429,7 @@ The Domain Model is considered complete when:
 
 # Related Documents
 
-02_BUSINESS_ONTOLOGY.md
+03_BUSINESS_ONTOLOGY.md
 
 01_PROJECT_BIBLE.md
 
