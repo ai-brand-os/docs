@@ -4,7 +4,7 @@ Document: **02_AI_WORKSPACE_PRD.md**
 
 Version
 
-1.1.1
+1.1.2
 
 Status
 
@@ -18,7 +18,7 @@ Priority
 
 P0
 
-Last Updated: 2026-07-02
+Last Updated: 2026-07-15
 
 ---
 
@@ -242,8 +242,6 @@ The MVP interface consists of four primary areas.
 
 Responsibilities:
 
-- Organization selector
-- Brand selector
 - User menu
 - Settings
 - New conversation
@@ -254,10 +252,15 @@ Responsibilities:
 
 Responsibilities:
 
-- Conversation history
+- Organization Switcher (top) — see `design/01_COMPONENT_KIT.md`
+- Section divider separating org-level from brand-scoped navigation
+- Brand-scoped navigation: Brand Brain, Knowledge Base, AI Workspace, Settings
+- Conversation history (nested under AI Workspace)
 - Search conversations (Future)
 - Pin conversation (Future)
 - Delete conversation
+
+Switching Organization is a full context reset, not a partial state update — the active Brand, brand-scoped navigation, and conversation history all belong to the previous Organization and are discarded.
 
 ---
 
@@ -1168,6 +1171,8 @@ domain/04_DATABASE_DESIGN.md
 
 domain/05_API_DESIGN.md
 
+design/01_COMPONENT_KIT.md
+
 ---
 
 # Version History
@@ -1208,6 +1213,20 @@ Defines:
   `domain/04_DATABASE_DESIGN.md` ADR-006.
 - Related Documents updated to current canonical filenames/paths.
 
+## Version 1.1.2
+
+- Organization selector and Brand selector moved from Header to Sidebar,
+  per the Component Kit v1.0.0 Organization Switcher spec
+  (`design/01_COMPONENT_KIT.md`, 2026-07-15). Reason: multi-org navigation
+  needs to be visually separated from brand-scoped actions; a Header
+  holding both org-level and brand-level controls conflated the two.
+- Sidebar Responsibilities restructured: Organization Switcher at top,
+  section divider, then brand-scoped navigation (Brand Brain, Knowledge
+  Base, AI Workspace, Settings), with conversation history nested under
+  AI Workspace.
+- Recorded that switching Organization is a full context reset, not a
+  partial state update.
+
 ---
 
 # Status
@@ -1216,11 +1235,11 @@ Approved for Engineering Design
 
 Version
 
-1.1.1
+1.1.2
 
 Effective Date
 
-2026-07-07
+2026-07-15
 
 ---
 
