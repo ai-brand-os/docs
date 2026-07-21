@@ -624,7 +624,42 @@ The three documentation gaps flagged in `domain/04_DATABASE_DESIGN.md` have been
 No documentation gaps remain from the Database Design phase. Ready to begin **API Design**.
 
 ---
+# SESSION PATCH — 2026-07-22
 
+Apply to: `BIBLE/04_EXECUTION_BIBLE.md`
+Merge into Decision Log + Sprint Tasks, then discard this file (per Single-Source-of-Truth discipline).
+
+---
+
+## Decision Log Entry
+
+**Decision**
+Opened a parallel "Technical Hardening" workstream, running alongside the Customer Validation interviews (`869e3parv`). Scope is strictly non-feature: automated testing, CI/CD, and security review of what's already built (Auth + Organizations). Three tasks created in Sprint 1 list (`901219343892`):
+
+- `869e7p33t` — Testing: Auth + Organizations multi-tenancy isolation suite (High)
+- `869e7p34x` — CI/CD: automated pipeline, lint + test + build (High, waiting_on `869e7p33t`)
+- `869e7p35p` — Security hardening: Auth + multi-tenancy checklist (High)
+
+**Reason**
+All Sprint 1 feature tasks are complete (9/10; only the interview-gate task remains open). Founder asked to move technical work forward in parallel with interviews. The only feature-shaped work left is Sprint 2 (Brand Brain), which is explicitly gated by the Customer Validation decision (`869e3parv`) and cannot proceed without violating that gate and the "Building Too Much Before Validation" risk already logged as High. Testing, CI/CD, and security hardening on Auth/Organizations are architecturally sound to do now regardless of validation outcome — they harden what's already built rather than extend product scope, so they carry none of the beachhead-market risk the gate exists to protect against.
+
+**Scope boundary (explicit)**
+- IN: tests, pipeline, security review of Auth + Organizations modules
+- OUT: any Brand/Brand Brain module work, any Sprint 2 endpoint implementation, deployment/hosting decisions, monitoring/observability (deferred — see below)
+
+**Deferred, with trigger**
+Monitoring/observability setup — deferred until Public Beta / real traffic exists. Revisit trigger: first external user session, or CI/CD task landing (whichever comes first should prompt a re-check, not an automatic start).
+
+---
+
+## Sprint Tasks — Update
+
+Move to **In Progress** (Sprint 1 list, parallel to Customer Validation):
+- Testing: Auth + Organizations multi-tenancy isolation suite
+- CI/CD: automated pipeline (lint + test + build)
+- Security hardening: Auth + multi-tenancy checklist
+
+No change to Sprint 2 gate status — still blocked on `869e3parv`.
 ---
 
 END OF DOCUMENT
