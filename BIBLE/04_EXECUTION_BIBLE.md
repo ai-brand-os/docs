@@ -1,14 +1,22 @@
 # AI Brand OS — Execution Bible
 
-Version: 1.3.0
+Version: 1.4.0
 
 Status: Active
 
-Last Updated: 2026-07-07
+Last Updated: 2026-07-15
 
 ---
 
 # Changelog
+
+## Version 1.4.0
+
+### Updated
+
+- Added Decision Log entry (2026-07-15): Organization Switcher relocated to Sidebar, not Header
+- Recorded the org-id-in-URL-path routing convention (`/[local]/[orgId]/...`) as a **new architectural decision** — previously undocumented; not yet homed in `domain/05_API_DESIGN.md`
+- Registered `design/01_COMPONENT_KIT.md` (v1.0.0, Draft) in Documentation Status
 
 ## Version 1.3.0
 
@@ -424,6 +432,40 @@ Sprint 0 closed (planning and architecture documentation complete); Sprint 1 (Au
 
 ---
 
+## 2026-07-15
+
+Decision
+
+Organization Switcher relocated to Sidebar (not Header).
+
+Reason
+
+Multi-org navigation needs to be visually separated from brand-scoped actions. A Header holding the Organization selector, the Brand selector, and brand-level actions side by side conflated two different questions — *which Organization am I in* versus *what am I doing inside it* — with no visual boundary between them. Placing the Organization Switcher at the top of the Sidebar, above a section divider, makes that boundary structural: everything below the divider is brand-scoped and is invalidated when the element above it changes. Claude Design output validated this pattern.
+
+Scope
+
+Layout and component decision only. `prd/02_AI_WORKSPACE_PRD.md` → v1.1.2 (Header/Sidebar responsibilities); new `design/01_COMPONENT_KIT.md` v1.0.0 (Organization Switcher spec + section divider pattern, composing existing tokens — no new tokens). No new endpoints implied; `domain/05_API_DESIGN.md`'s endpoint list is unchanged. `GET /organizations` (already specified, per ADR-005) is sufficient to populate the switcher.
+
+---
+
+Decision
+
+Organization id in the URL path is the source of truth for "current Organization" — route shape `/[local]/[orgId]/...`.
+
+Status
+
+**New architectural decision.** Not previously documented anywhere. `domain/05_API_DESIGN.md` specifies `organizationId` scoping at the repository layer (Multi-Tenancy) and multi-org membership (ADR-005), but is silent on how the frontend resolves the current Organization. This entry records the decision; it does not yet have a home in the API Design document.
+
+Reason
+
+The Organization Switcher's context-reset behavior needs a single unambiguous source for "current Organization." URL-as-source-of-truth makes switching a navigation rather than a state mutation, makes org context shareable and deep-linkable, and makes the full context reset fall out of the route change instead of requiring manual teardown of client state. The alternative — current Organization held in client state or a cookie — would let the URL and the visible Organization disagree, which is a tenant-isolation hazard at the UI layer.
+
+Follow-up
+
+Confirm whether this belongs in `domain/05_API_DESIGN.md` (frontend routing convention alongside the Multi-Tenancy section) or in a separate frontend architecture document that does not exist yet. Not actioned here — the API Design endpoint list was explicitly out of scope for this change.
+
+---
+
 # Sprint Log
 
 Sprint 0
@@ -535,7 +577,7 @@ AI
 | Project Bible                | ✅ Approved (v2.0.0)                              |
 | Product Bible                | ✅ Approved (v2.0.0)                              |
 | Engineering Bible            | ✅ Complete (v1.0.0)                              |
-| Execution Bible              | ✅ Updated (v1.2.0)                               |
+| Execution Bible              | ✅ Updated (v1.4.0)                               |
 | AI Memory                    | ✅ Approved                                       |
 | Product Discovery            | ✅ Completed                                      |
 | Market Research              | ✅ Completed                                      |
@@ -555,6 +597,7 @@ AI
 | Knowledge Import PRD         | ✅ Approved for Engineering Design                |
 | Database Design              | ✅ Approved                                       |
 | API Design                   | ✅ Approved                                       |
+| Component Kit                | 🟡 Draft (v1.0.0 — Organization Switcher only)    |
 
 ---
 
