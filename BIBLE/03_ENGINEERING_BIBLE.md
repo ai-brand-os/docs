@@ -1,5 +1,11 @@
 # 03_ENGINEERING_BIBLE.md
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 # AI Brand OS — Engineering Bible
 
 Version: 1.1.0
@@ -213,9 +219,13 @@ No cross-tenant access.
 # Database Principles
 
 - Normalize business data.
+- Field knowledge follows [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md): approved Artifact snapshots are canonical values, BrandBrainRevision holds approval/history/completeness metadata, and current business tables/KnowledgeIndex are transactional projections. No silent AI replacement or independent score/provenance store.
 - Avoid duplicate records.
 - Use foreign keys.
-- Soft deletes where appropriate.
+- Soft deletes where appropriate: Conversation.deletedAt means inaccessible and pending physical deletion, not completed erasure.
+- Apply [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md) to API filters, transaction races, explicit generation-artifact ownership, durable purge/retries, shared knowledge safeguards and backup restore replay.
+- Proposed active-system removal within 30 days requires legal/operational approval; backups have a separately approved expiration schedule and are not erased immediately.
+- Conversation→Message→Feedback cascades apply only to physical removal; Restrict FKs protect artifact lineage and prevent Organization/Brand/User deletion from bypassing the conversation purge.
 - UUIDs for public identifiers.
 
 ---
@@ -563,8 +573,7 @@ overhead for a solo/small founding team.
   are framework-agnostic by design (per Domain Model's "Technology
   Independent" principle).
 - Database Design phase should proceed directly against PostgreSQL.
-- ORM choice (Prisma vs TypeORM) is deferred to Database Design — not
-  decided in this session.
+- Historical ORM deferral is superseded by Database Design ADR-005: Prisma is the chosen ORM. The installed Prisma 7 / repository datasource syntax compatibility issue remains open; ORM selection does not resolve deployment configuration.
 
 ### Supersedes
 

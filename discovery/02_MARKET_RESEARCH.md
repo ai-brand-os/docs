@@ -1,5 +1,11 @@
 # AI Brand OS — Market Research
 
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Commercial boundary (2026-10-13): [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md). MVP serves one business, one Organization, one Brand and one Owner. Starter/Pro are proposed pricing tests; Agency portfolios, subscriptions, multiple clients and teams are Phase 2 proposals. Segment ratings and price estimates are research hypotheses; competitor audiences/prices do not confer AI Brand OS entitlements or prove customer payments.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document: **02_MARKET_RESEARCH.md**
 
 Version: **1.0.0**
@@ -255,16 +261,17 @@ Business Size
 
 ## Serviceable Obtainable Market (SOM)
 
-Initial target
+Proposed MVP recruitment
 
-- Marketing freelancers
-- Small agencies
-- E-commerce brands
-- Small businesses
+- Small businesses managing one Brand
+- E-commerce businesses managing one Brand
+- Freelancers/creators only for their own or one authorized business within the same limit
+
+Agency subscriptions and multi-client/team workflows are Phase 2 research, excluded from this MVP obtainable-market promise.
 
 Objective
 
-Acquire the first 100 paying customers.
+Test paid demand from the first single-business cohorts; 100 paying customers is an aspirational objective, not evidence of current customers or validated prices.
 
 After validating retention:
 
@@ -311,7 +318,7 @@ The competitive moat should be:
 
 # Part 1 Conclusions
 
-## Validated
+## Research conclusions — not customer-payment validation
 
 ✅ AI marketing is a rapidly growing software category.
 
@@ -420,40 +427,15 @@ Primary Target
 
 ---
 
-## Segment C — Marketing Freelancers ⭐⭐⭐⭐⭐
+## Segment C — Marketing Freelancers — conditional MVP fit / Phase 2 portfolio research
 
-Pain
-
-- مدیریت همزمان چند برند
-- Promptهای مختلف
-- Context Switching
-
-این گروه بیشترین استفاده روزانه را خواهند داشت.
-
-Likelihood to Pay
-
-★★★★★
-
-Recommendation
-
-Primary Target
+MVP fit is limited to a freelancer’s own business or one authorized business within the one-Organization/one-Brand/one-Owner boundary. Simultaneous client/Brand management and context switching are Phase 2 needs, not MVP capabilities. Likelihood-to-pay ratings are hypotheses awaiting actual payments.
 
 ---
 
-## Segment D — Small Agencies ⭐⭐⭐⭐☆
+## Segment D — Small Agencies — Phase 2 research
 
-Pain
-
-- خروجی تیم یکدست نیست.
-- Onboarding هر مشتری زمان‌بر است.
-
-Likelihood to Pay
-
-★★★★☆
-
-Recommendation
-
-Secondary Target
+Multi-client onboarding, consistent team output, subscriptions and agency dashboards require client isolation, billing ownership, roles and context/knowledge isolation. Agency is not launch-ready. An agency testing its own single Brand is testing the single-business MVP, not an agency portfolio product. Willingness to pay remains unvalidated.
 
 ---
 
@@ -480,32 +462,15 @@ Not MVP
 
 ---
 
-# Beachhead Market Validation
+# Beachhead Market Hypothesis
 
-پس از بررسی بازار، Beachhead مناسب به شکل زیر است:
+MVP recruitment targets a small business or e-commerce business managing one Brand within one Organization. Freelancers/creators may participate for their own Brand or one authorized business only. Multi-client freelancers and agencies are Phase 2 research cohorts.
 
-```text
-Marketing Freelancers
-
-+
-
-Small Agencies
-
-+
-
-E-commerce Businesses
-```
-
-دلیل:
-
-- تولید محتوای روزانه
-- استفاده فعلی از AI
-- آمادگی برای پرداخت
-- نیاز بالا به Consistency
+Daily content use, existing AI familiarity and consistency pain are recruitment hypotheses; they do not establish paid demand. Validate activation, actual payment and retention for this exact single-business scope. See COMMERCIAL_PACKAGING.md.
 
 ---
 
-# Ideal Customer Profile (Validated)
+# Ideal Customer Profile (Proposed; customer-payment validation pending)
 
 Company Size
 
@@ -715,23 +680,9 @@ AI Brand OS حافظه، دانش، هویت برند و Workflow را فراه�
 
 ---
 
-# Pricing Expectations
+# Pricing Expectations — historical hypotheses
 
-بر اساس الگوی قیمت‌گذاری ابزارهای موجود در بازار:
-
-Starter
-
-20–30 USD / Month
-
-Professional
-
-40–70 USD / Month
-
-Agency
-
-100+ USD / Month
-
-**نکته:** این‌ها فرضیه اولیه هستند و در Part 4 با تحلیل رقبا اعتبارسنجی خواهند شد.
+Early estimates of Starter $20–30/month, Professional $40–70/month and Agency $100+/month were research hypotheses, not validated prices. The canonical current proposal is Starter $19–29/month and Pro $49–59/month, both for one Organization/Brand/Owner, in COMMERCIAL_PACKAGING.md. Agency estimates are Phase 2 exploration only; no launch-ready Agency offer exists. Competitor comparisons cannot substitute for actual customer payment evidence.
 
 ---
 
@@ -1181,7 +1132,7 @@ Brand Brain به یک **Platform Asset** تبدیل می‌شود، نه صرف�
 
 # Part 3 Conclusions
 
-## Validated
+## Research conclusions — not customer-payment validation
 
 - بازار از نظر ابزارهای تولید محتوا اشباع شده است.
 - بازار از نظر Brand Intelligence هنوز فرصت رشد دارد.
@@ -1225,7 +1176,9 @@ Status: Draft
 
 ---
 
-# Competitor Pricing Snapshot
+# Competitor Pricing Snapshot — historical, unverified benchmark estimates
+
+These archived estimates are not verified current competitor offers and do not validate AI Brand OS pricing. Do not use them as an AI Brand OS price list.
 
 | Product    |    Entry Plan |                        Mid Plan | Enterprise |
 | ---------- | ------------: | ------------------------------: | ---------: |
@@ -1239,60 +1192,29 @@ Status: Draft
 
 ---
 
-# Pricing Insights
+# Pricing Insights — assumptions to test with customer payments
 
 مشاهدات مهم:
 
-- بازار قیمت ۲۰ تا ۵۰ دلار را برای ابزارهای AI پذیرفته است.
+- فرضیه: مشتریان هدف ممکن است برای MVP تک‌برند حاضر به پرداخت باشند؛ بازه‌های قیمت بدون شواهد پرداخت مشتری تأیید نشده‌اند.
 - تیم‌ها حاضرند برای Workflow کامل بیشتر از یک Chat Interface پرداخت کنند.
 - قیمت پایین‌تر از بازار الزاماً مزیت نیست.
 - قیمت‌گذاری بر اساس ارزش ادراک‌شده، مهم‌تر از قیمت‌گذاری بر اساس هزینه API است.
 
 ---
 
-# Recommended Pricing Strategy
+# Proposed Pricing Tests — not validated or launch-ready
 
-## MVP
+Canonical packaging: [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md).
 
-### Starter
+| Proposed test | Historical test range | Scope / status |
+| --- | --- | --- |
+| Starter | $19–29/month | One business, one Organization, one Brand, one Owner; same seven MVP features; payment evidence pending |
+| Pro | $49–59/month | Same limits/features; premium allowances/differentiation not established; payment evidence pending |
+| Agency | $99–149/month exploratory only | Phase 2 research; Agency subscriptions, client portfolios, multi-brand management and teams excluded from MVP |
+| Enterprise | Unset | Later research; no launch price/entitlements |
 
-Target
-
-Freelancers
-
-Price Hypothesis
-
-**$19–29/month**
-
----
-
-### Pro
-
-Target
-
-Small Businesses
-
-Price Hypothesis
-
-**$49–59/month**
-
----
-
-### Agency
-
-Target
-
-Small Agencies
-
-Price Hypothesis
-
-**$99–149/month**
-
----
-
-Enterprise
-
-Post-MVP
+All amounts are proposed hypotheses. No unlimited brands, clients, seats, storage, knowledge or memory are promised by any MVP offer.
 
 ---
 
@@ -1317,25 +1239,13 @@ Fair Usage Limits
 
 ---
 
-# What Should NOT Be Metered
+# Limits and Metering — proposed, not unlimited entitlements
 
-در MVP بهتر است این موارد نامحدود یا با سقف بسیار بالا باشند:
+The MVP account limit is one accessible Organization, one Brand and one Owner under both Starter and Pro hypotheses. This is a fixed product boundary, not a usage-metering choice.
 
-- Brands
-- Knowledge
-- Brand Assets
-- AI Memory
-- Prompt History
+Knowledge/storage, source uploads, AI generation and conversation history require measured limits and disclosure before a paid offer. Not charging per fact does not mean unlimited storage/history or override deletion/retention. Fair-use and premium allowances remain unset. Brand Assets, image generation and future AI credit packs are outside MVP and must not appear as launch entitlements.
 
-این‌ها باعث افزایش Lock-in می‌شوند.
-
----
-
-# What Can Be Limited
-
-- Image Generation
-- Heavy AI Tasks
-- Monthly AI Credits (در آینده)
+See COMMERCIAL_PACKAGING.md; no Agency subscription or unlimited-client offer is supported.
 
 ---
 
@@ -1343,13 +1253,7 @@ Fair Usage Limits
 
 ## Beachhead Strategy
 
-تمرکز فقط روی یک بازار.
-
-اولین بازار:
-
-- Marketing Freelancers
-- Small Agencies
-- E-commerce Businesses
+Recruit a single-business Owner from small businesses and e-commerce businesses creating marketing content regularly. Freelancers/creators may participate for their own Brand or one authorized business, with no additional client Organizations or teams. Agency/multi-client research is Phase 2; it does not define the MVP acquisition promise.
 
 ---
 
@@ -1411,6 +1315,8 @@ Content خود محصول را می‌فروشد.
 
 # Go-To-Market Strategy
 
+The phase numbers below are cohort/release stages, not Product Roadmap feature phases. Beta cohort expansion does not enable Agency subscriptions, multiple Organizations/Brands or team collaboration. All pricing remains proposed pending scoped payment evidence.
+
 ## Phase 1
 
 Private Alpha
@@ -1459,31 +1365,9 @@ MRR
 
 # Activation Strategy
 
-کاربر باید در کمتر از ۱۰ دقیقه اولین ارزش را دریافت کند.
+Proposed TTFV goals: median ≤10 minutes and p90 ≤15 minutes, not observed results. Start at initial onboarding entry and stop at the first usable presented output grounded in approved knowledge, per PRODUCT_METRICS.md. Signup, import completion, score ≥70 and first token do not activate a user.
 
-Target Flow
-
-Signup
-
-↓
-
-Create Brand
-
-↓
-
-Upload Knowledge
-
-↓
-
-Generate First Caption
-
-↓
-
-"Wow Moment"
-
-اگر این مرحله طولانی شود،
-
-Activation کاهش خواهد یافت.
+Flow: enter setup → create sole Brand Brain → optionally import one source → explicitly approve/edit facts → show weighted completeness and separate readiness → present a useful partial approved Brief, or generate/present business-aware output once ready → QualifiedFirstValue. Failed/abandoned sessions remain in the cohort under the documented rules; clocks do not reset on return.
 
 ---
 
@@ -1551,17 +1435,15 @@ Brand Brain موتور این چرخه است.
 
 ## Hypothesis 1
 
-Customers will complete Brand Brain onboarding.
+Hypothesis: eligible Owners will reach effective generation readiness within seven days.
 
-Success Target
-
-70%
+Proposed goal (not observed): >70% readiness completion rate across eligible mature-cohort starts. This is not a 70-point completeness threshold; all mandatory fields/approvals remain required.
 
 ---
 
 ## Hypothesis 2
 
-Users trust AI outputs more after Brand Brain completion.
+Hypothesis: users trust outputs grounded in approved Brand Brain facts more after readiness; trust remains separately measured and does not follow automatically from a score.
 
 Measure
 
@@ -1658,17 +1540,17 @@ Measure every feature before expanding.
 
 ---
 
-# Success Metrics
+# Success Metrics — proposed goals, not observed results
 
-Activation
+Seven-day activation rate (QualifiedFirstValue / eligible mature-cohort starts)
 
-> 60%
+Proposed goal >60%; not observed, per PRODUCT_METRICS.md.
 
 ---
 
-Brand Completion
+Seven-day readiness completion rate (ever ready / eligible mature-cohort starts)
 
-> 70%
+Proposed goal >70%; not a ≥70-point field-score gate.
 
 ---
 
@@ -2013,7 +1895,7 @@ The product should own the **knowledge layer**, not compete on commodity AI gene
 
 ## Before Development
 
-- Finalize pricing hypothesis
+- Record Starter/Pro single-business pricing hypotheses and validate actual payment evidence; do not announce Agency launch readiness
 - Validate onboarding flow
 - Define success metrics
 - Design information architecture
@@ -2102,9 +1984,9 @@ Proceed only with a disciplined MVP focused on validating Brand Brain.
 
 This document is considered complete when:
 
-- Market opportunity is validated.
+- A market opportunity is proposed; paid demand, tier pricing and retention require customer evidence.
 - Beachhead market is defined.
-- Pricing hypothesis is documented.
+- Pricing hypotheses are documented, not validated; no customer-payment evidence for these tiers is supplied here.
 - Go-To-Market strategy is established.
 - Key assumptions are explicit.
 - Product direction is aligned with business strategy.

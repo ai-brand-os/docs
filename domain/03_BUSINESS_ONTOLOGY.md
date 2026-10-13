@@ -1,5 +1,9 @@
 # Business Ontology — AI Brand OS
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 03_BUSINESS_ONTOLOGY.md
@@ -63,7 +67,7 @@ Provide one machine-checkable, versioned definition of "what a valid piece of bu
 
 Attribute-level field definitions for Organization, Brand, Product/Service, Audience, and Competitor are **inherited directly from `01_BRAND_BRAIN_PRD.md`** (Brand Brain Data Model section) rather than redefined here. This document adds the structural rules (types, relationships, cardinality) around those fields. If the two documents ever diverge on a field, the Brand Brain PRD is authoritative for UX/data-entry scope, and this document must be updated to match — per Decision Priority in `01_PROJECT_BIBLE.md` (Approved PRDs rank above Engineering-owned reference documents).
 
-**Dependency risk:** `01_BRAND_BRAIN_PRD.md` is currently `Draft — Pending Founder Approval`. This ontology inherits its attribute definitions from that PRD's current draft. If the PRD's field list changes before approval, this document's Entity Attribute tables must be updated in the same revision cycle.
+**Dependency reconciliation: fixed.** Brand Brain PRD records engineering-design approval (its 2026-07-02 decision). The current attribute/provenance contract remains synchronized with that PRD and KNOWLEDGE_PROVENANCE.md; future field changes require coordinated ontology/version updates. Design approval does not prove implementation.
 
 ---
 
@@ -127,7 +131,7 @@ The ontology is composed of four registries:
 
 # 2. Attribute Registry
 
-Attribute definitions for Active entity types. Fields marked "PRD" are sourced verbatim from `01_BRAND_BRAIN_PRD.md` and must be kept in sync with it.
+Attribute definitions for Active entity types. Fields marked PRD follow the Brand Brain PRD. “Source” is allowed input origin, not stored provenance; both means manual or imported may be proposed. Material facts use MANUAL/IMPORTED/DERIVED field metadata under [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md). DERIVED claims on otherwise import-eligible fields require an explicitly supported derivation rule, evidence/inputs and approval and cannot bypass manual-only restrictions; merely classifying an existing derived claim does not enable automatic knowledge inference.
 
 ## Organization
 
@@ -161,7 +165,7 @@ Source: Brand Brain PRD §2 (Brand Profile), excluding Brand Voice fields (model
 | primaryGoal       | enum: `Awareness / Lead Gen / Sales / Retention / Other` | No       | manual |
 | successDefinition | text                                                     | No       | manual |
 
-This is a formal ontology decision (see ADR-003) and should be flagged to Product for confirmation during Brand Brain PRD approval — if Product intends Business Goals to become a first-class entity in Phase 2 (e.g. to support multiple goals per Campaign), the Domain Model must be updated first.
+**Fixed for MVP:** Business Goals is a confirmed Brand attribute group (ADR-003 and Resolved Items #1). Future promotion to a standalone entity requires a separately authorized ontology/domain revision; it is not a pending MVP approval.
 
 ## BrandVoice
 
@@ -204,7 +208,7 @@ Source: Brand Brain PRD §5
 
 | Attribute            | Type | Required | Source |
 | -------------------- | ---- | -------- | ------ |
-| name                 | text | No       | both   |
+| name                 | text | No       | manual |
 | website              | url  | No       | manual |
 | differentiationNotes | text | No       | manual |
 
@@ -264,13 +268,13 @@ Cardinality is read as `Source → Target`. All relationships are directional; a
 
 # 4. Controlled Vocabulary Registry
 
-The Brand Brain PRD flags two taxonomies as undefined ("Open Question #3"). This ontology proposes starter lists to unblock development. **These lists are Draft and require explicit Product/UX sign-off before being locked for MVP** — they are proposals, not approved final content. (approved after checking)
+**Taxonomy reconciliation: fixed.** Industry and Tone Attributes are locked v1 vocabularies per Brand Brain PRD Resolved Question #3 and this document’s Resolved Items #2. Future changes follow the existing versioned governance; no initial lock-in question remains open.
 
 ## Industry Taxonomy
 
 E-commerce & Retail · Professional Services · SaaS & Technology · Health & Wellness · Food & Beverage · Education & Coaching · Real Estate · Finance & Insurance · Marketing & Creative Agencies · Fashion & Apparel . Beauty & Personal Care · Home & Lifestyle · Travel & Hospitality · Nonprofit & Community · Manufacturing & Industrial · Other
 
-## Tone Attributes Taxonomy (proposed)
+## Tone Attributes Taxonomy (locked v1)
 
 Professional · Friendly · Bold · Playful · Authoritative · Minimal · Empathetic · Confident · Witty · Formal · Warm · Direct
 
@@ -296,9 +300,9 @@ These formalize `01_DOMAIN_MODEL.md`'s Domain Invariants section into rules the 
 - Every `Knowledge` instance must carry exactly one `brandId`.
 - Every `Brand` instance must carry exactly one `organizationId`.
 - Every `BrandVoice` instance must carry exactly one `brandId`, and every `Brand` must resolve to exactly one `BrandVoice`.
-- Every `Knowledge` instance must resolve to at least one `Document` via `ORIGINATES FROM`, **or** carry a `provenance.source = "user_input"` marker for manually entered fields (per Brand Brain PRD FR-10).
+- Every material fact has one origin: MANUAL (author/time), IMPORTED (same-tenant source Artifact + Document and available location), or DERIVED (pinned input fact revisions/evidence and derivation version). Imported/derived facts may not impersonate manual-only input; a Document is not fabricated for a manual fact. Typed JSON reference validation and retention coordination are mandatory per KNOWLEDGE_PROVENANCE.md.
 - `describesEntityType` on a `Knowledge` instance must reference an **Active** entity type. Candidates referencing a **Reserved** entity type fail Ontology Validation and are routed to `Reject`, not `Human Review` (reserved types have no governance policy defined yet).
-- `BrandVoice.toneAttributes` may never be set by a Knowledge Candidate Artifact whose provenance is `imported`; only `manual` provenance is valid for this attribute.
+- BrandVoice.toneAttributes requires MANUAL origin; IMPORTED and DERIVED attempts fail. All fact keys must be unique, typed and valid under the revision’s ontology. Approved fact approval/verification refs resolve to same-Brand approved revisions, and derivation refs cannot form cycles.
 - Cross-organization relationships are forbidden. Any relationship whose source and target entities resolve to different `organizationId` values fails validation unconditionally.
 
 ---
@@ -319,7 +323,7 @@ Ontology changes follow the Documentation Hierarchy in `01_PROJECT_BIBLE.md`: th
 
 ## Backward Compatibility
 
-Approved Knowledge is immutable (per Knowledge Management Service). Ontology version bumps never retroactively re-validate existing Knowledge. Ontology Validation logic must be capable of running multiple ontology-version rule sets concurrently for as long as any Approved Knowledge references an older version.
+Approved Knowledge is immutable (per Knowledge Management Service). Historical snapshots retain their original ontology and are not rewritten by version bumps. Selecting/restoring facts for current generation requires explicit current-ontology compatibility validation; incompatible mandatory facts block effective readiness until an approved mapped revision is created. Ontology Validation logic must be capable of running multiple ontology-version rule sets concurrently for as long as any Approved Knowledge references an older version.
 
 ---
 
@@ -449,10 +453,30 @@ Defines:
 ## Version 1.1.0
 
 - Approved for Architecture & Engineering Design.
-- All three Open Items resolved (see Resolved Items section).
+- Historical summary corrected: Business Goals and taxonomies are resolved; Reserved-entity promotion policy remains deferred/open (Resolved Items #3).
 - Industry Taxonomy: added `Beauty & Personal Care`.
 - ADR-003 (Business Goals as Brand attribute group) upgraded from stopgap
   to Confirmed Decision.
+
+---
+
+## Field provenance and revision invariants
+
+BrandBrainRevision and completeness metadata are persistence/product contracts, not new business entity types. The authoritative approved snapshot has field origin/evidence, APPROVED status, valueRevisionId, supersedesValueRevisionId, verifiedInRevisionId and optional verificationDueAt. Approval/verification actor and time resolve through revisions; no mutable per-field approval copies exist. Candidate PENDING_REVIEW/REJECTED facts never update current state. Completeness uses the fixed versioned calculation in KNOWLEDGE_PROVENANCE.md; readiness additionally checks mandatory approved facts and current Brand status. History restoration appends an approved revision; it never rewinds the active pointer or rewrites old ontology data.
+
+---
+
+## Commercial cardinality and future Agency isolation
+
+[COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md) fixes MVP to one accessible Organization and one Brand after onboarding for the sole Owner account, regardless of Starter/Pro pricing hypothesis. Brand.organizationId @unique preserves at most one Brand row per Organization during setup; application onboarding requires one before readiness. OrgRole/membership shape and an agency industry enum grant neither multi-Organization access nor a paid agency entitlement.
+
+A future Agency portfolio can link separate client Organizations while each retains one Brand. Several memberships only grant independently authorized tenant access; billing ownership, portfolio relationships, seats/client allowances, roles, switching and knowledge isolation need their own product/schema design. Multiple Brands within one Organization require a separately approved Phase 2 cardinality/uniqueness migration. Historical fact/source/revision and Context Engine tenant ownership cannot be relaxed merely because an agency pays a bill.
+
+---
+
+## Measurement rule versioning
+
+Completeness calculation v2 and readiness use [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). Mandatory facts are typed, approved and source-valid; ≥70 points never relaxes those invariants. Historical ontology/calculation snapshots remain inspectable, while current compatibility/readiness changes require explicit approved reevaluation. Optional points cannot validate a missing mandatory fact.
 
 ---
 

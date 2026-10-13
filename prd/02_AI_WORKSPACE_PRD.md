@@ -1,14 +1,16 @@
 # PRD — AI Workspace
 
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document: **02_AI_WORKSPACE_PRD.md**
 
 Version
 
-1.1.2
+1.2.0 — integrated working revision
 
 Status
 
-Approved for Engineering Design
+Draft — Pending Engineering Review (D-REV-02; integrated dependency and release gates disclosed)
 
 Owner
 
@@ -18,7 +20,7 @@ Priority
 
 P0
 
-Last Updated: 2026-07-15
+Last Updated: 2026-10-13 (audit date; historical baseline records retained)
 
 ---
 
@@ -77,7 +79,7 @@ These capabilities belong to future releases.
 
 ## Marketing Freelancer
 
-Needs fast, context-aware content creation for multiple clients.
+Needs fast, context-aware content creation. MVP serves one client Brand; a multiple-client portfolio is Phase 2.
 
 ---
 
@@ -87,9 +89,9 @@ Needs marketing assistance without repeatedly explaining the business.
 
 ---
 
-## Marketing Team
+## Marketing Team — Phase 2 persona
 
-Needs consistent AI outputs across team members.
+Needs consistent AI outputs across team members; shared access is excluded from MVP.
 
 ---
 
@@ -116,7 +118,7 @@ AI Brand OS starts with business understanding.
 The AI Workspace succeeds when users:
 
 - Complete onboarding successfully.
-- Begin chatting within minutes.
+- Reach first usable presented approved-grounded output under proposed TTFV goals median ≤10 minutes and p90 ≤15 minutes (PRODUCT_METRICS.md; not observed).
 - Receive noticeably context-aware responses.
 - Prefer AI Brand OS over generic AI tools for business tasks.
 - Return frequently because the system improves over time.
@@ -150,7 +152,7 @@ Those responsibilities belong to the Core Domain.
 The AI Workspace depends on:
 
 - Brand Brain
-- Knowledge Engine
+- Knowledge Engine (integrated import UX decisions D-IMP-01/02/03 remain pending; see DECISION_REGISTER.md)
   ├── Ingestion Service
   ├── Document Processing Service
   ├── Knowledge Extraction Service
@@ -180,13 +182,7 @@ Its role is orchestration and interaction.
 
 # MVP Definition
 
-The MVP AI Workspace consists of only four capabilities:
-
-1. Context-aware AI Chat
-2. Content Generation
-3. Conversation History
-
-Everything else is intentionally deferred.
+The Workspace supports context-aware chat and content drafts, conversation history and deletion, response copying, and helpful/not-helpful feedback. These implement canonical features MVP-05 and MVP-06. Approved Brand Brief copying belongs to Brand Brain (MVP-07). File exports are Phase 2.
 
 ---
 
@@ -207,9 +203,9 @@ The MVP user journey consists of six stages.
 ```
 Login
     ↓
-Select Organization
+Load sole Organization
     ↓
-Select Brand
+Load sole Brand
     ↓
 Open AI Workspace
     ↓
@@ -218,7 +214,7 @@ Ask AI
 Receive Context-Aware Response
 ```
 
-If Brand Brain is incomplete, the user should be guided to enrich it before expecting high-quality results.
+If Brand Brain is incomplete, show mandatory missing fields/readiness reasons and retain useful setup/review/history plus a visibly partial approved Brief. New business-aware generation remains unavailable until mandatory approvals are satisfied, regardless of score.
 
 ---
 
@@ -252,15 +248,15 @@ Responsibilities:
 
 Responsibilities:
 
-- Organization Switcher (top) — see `design/01_COMPONENT_KIT.md`
+- Static Organization label (top); dropdown switching is Phase 2 — see `design/01_COMPONENT_KIT.md`
 - Section divider separating org-level from brand-scoped navigation
-- Brand-scoped navigation: Brand Brain, Knowledge Base, AI Workspace, Settings
+- Brand-scoped navigation: Brand Brain, AI Workspace, Settings; dedicated Knowledge Base placement is proposed pending [D-IMP-03](../DECISION_REGISTER.md#d-imp-03)
 - Conversation history (nested under AI Workspace)
 - Search conversations (Future)
 - Pin conversation (Future)
 - Delete conversation
 
-Switching Organization is a full context reset, not a partial state update — the active Brand, brand-scoped navigation, and conversation history all belong to the previous Organization and are discarded.
+In Phase 2, switching Organization is a full context reset, not a partial state update — the active Brand, brand-scoped navigation, and conversation history all belong to the previous Organization and are discarded.
 
 ---
 
@@ -291,43 +287,20 @@ The input should remain minimal during the MVP.
 
 # Conversation Lifecycle
 
-Every conversation follows the same lifecycle.
+A Conversation is a persisted multi-turn container scoped to one Organization and Brand. It is created before its first accepted turn, can hold many user/assistant Messages, and remains Active after any individual generation finishes, fails, times out or is cancelled. There is no Conversation-level COMPLETED/GENERATING/FAILED enum or terminal “Conversation Saved” state. Each accepted turn/history change is persisted during normal operation; feedback is optional and never a prerequisite for saving.
 
-```
-Idle
-
-↓
-
-User Input
-
-↓
-
-Request Validation
-
-↓
-
-Context Retrieval
-
-↓
-
-LLM Request
-
-↓
-
-Streaming Response
-
-↓
-
-User Feedback
-
-↓
-
-Conversation Saved
+```mermaid
+stateDiagram-v2
+    [*] --> Active: create persistent container
+    Active --> Active: append turn / assistant attempt ends / feedback
+    Active --> PendingPhysicalDeletion: authorized delete commits deletedAt
+    PendingPhysicalDeletion --> PhysicallyRemoved: verified active-system purge
+    PhysicallyRemoved --> [*]
 ```
 
-The Workspace never constructs context directly.
+Active means the row is not pending deletion, not that all requests are allowed. Brand archival or failed business readiness can make an existing Active container read-only for new generation; these are access conditions, not generation terminal states. Normal reads still enforce tenant and deletion checks. PendingPhysicalDeletion denies all normal content access and has no MVP restore transition. Purge retries/holds remain pending; backup expiry is separate from active-system removal, per [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md).
 
-It delegates that responsibility to the Context Engine.
+A turn’s workflow is request acceptance → context preparation → model generation → durable response, with streaming as a transport effect. MessageStatus tracks that individual assistant attempt; it does not change the Conversation lifecycle. The Workspace delegates context construction to Context Engine. See [State Management](#state-management) for the exact enum and transitions.
 
 ---
 
@@ -357,7 +330,6 @@ Displays:
 - AI responses
 - Streaming tokens
 - Copy action
-- Export action
 
 ---
 
@@ -500,7 +472,7 @@ Accessibility is considered a core product quality requirement.
 
 ### Description
 
-The authenticated user can open the AI Workspace after selecting an Organization and Brand.
+The authenticated user can open the AI Workspace after loading the account’s sole Organization and Brand.
 
 ### Preconditions
 
@@ -515,7 +487,7 @@ The authenticated user can open the AI Workspace after selecting an Organization
 - Current Organization is displayed.
 - Current Brand is displayed.
 - Conversation list is loaded.
-- Prompt input is enabled.
+- Prompt input is enabled only when effective Brand Brain business readiness and runtime request gates pass; show missing mandatory fields/readiness reasons separately from completeness score. See KNOWLEDGE_PROVENANCE.md.
 
 ---
 
@@ -566,7 +538,7 @@ The Workspace requests an AI response using business-aware context.
 - Context is retrieved automatically.
 - Response begins streaming as soon as available.
 - Markdown is rendered correctly.
-- Response is attached to the current conversation.
+- Response is attached to its assistant Message in the current Conversation; durable validation/response linkage and COMPLETED commit together. The parent remains Active and can accept later turns when request gates pass.
 
 The Workspace must never build context itself.
 
@@ -603,7 +575,7 @@ Users can access previous conversations.
 - Conversations are ordered by latest activity.
 - Selecting a conversation restores its messages.
 - History loads incrementally.
-- Deleted conversations are removed from the list.
+- Deleted conversations are removed from the list; direct and nested API access is also denied immediately, even before physical purge.
 
 ---
 
@@ -611,14 +583,18 @@ Users can access previous conversations.
 
 ### Description
 
-Users may permanently delete a conversation.
+The authorized Owner may confirm deletion of a Conversation. Deletion immediately denies normal access and requests physical removal; it does not report completed erasure. The canonical design and proposed policy are [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md).
 
 ### Acceptance Criteria
 
-- Confirmation is required.
-- Conversation disappears immediately.
-- Associated operational memory is removed.
-- Brand Brain remains unchanged.
+- Require confirmation and server-side tenant/Owner authorization; unknown or unauthorized IDs return a non-disclosing 404.
+- Atomically set deletedAt and create one durable purge request; return 204 after commit. Repeat authorized DELETE is idempotent while the request/receipt exists, preserving the original deadline.
+- Immediately deny list/detail/nested message and artifact access, feedback, generation, retrieval, operational memory, and applicable export/download access. Stop streams and reject late generation writes under transaction serialization.
+- deletedAt means pending physical deletion. No MVP restore/undo is exposed.
+- A purge removes Messages, conversation-specific Feedback, owned generation artifacts (including context/prompt/response/error/retry payloads), working memory/caches/indexes and exported files if applicable. It preserves independent imported/approved Brand Brain knowledge and other workflows’ shared artifacts.
+- Proposed target: permanent removal from active systems within 30 days of deletedAt, requiring legal and operational approval. Backups expire separately; no immediate backup erasure is promised.
+- Failed/blocked purges remain inaccessible, retry idempotently, and alert Operations; approved exceptions are narrowly scoped and reviewed. Completion requires verified resource absence, not just parent row deletion.
+- Validate the scenarios in DATA_LIFECYCLE.md before claiming implementation completion.
 
 ---
 
@@ -699,7 +675,7 @@ Only the Knowledge Engine may update business knowledge.
 
 Conversation History is not organizational knowledge.
 
-Conversation History and Brand Brain are independent domains.
+Conversation History and Brand Brain are independent domains. Conversation deletion removes owned copies of retrieved knowledge in generation payloads, but never deletes source Documents, approved knowledge, provenance or another workflow’s artifacts. Shared dependency checks and failed purge behavior are defined in [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md).
 
 ---
 
@@ -721,9 +697,7 @@ Network disconnects while streaming.
 
 Expected Result
 
-Partial response remains visible.
-
-Retry is available.
+Partial streamed text is shown as incomplete until final status is recovered. Network disconnect alone does not change MessageStatus. Reconnect/read the same attempt; a stored completed response is recovered from history. A new retry is available only after a terminal failure/cancellation/timeout and creates a new assistant attempt, preserving the previous one.
 
 ---
 
@@ -733,9 +707,7 @@ LLM provider timeout.
 
 Expected Result
 
-User sees recoverable error.
-
-Conversation remains intact.
+The assistant attempt transitions to TIMEOUT on the configured deadline and shows a recoverable error. Its Conversation remains Active/intact; an allowed retry is a new attempt under the same container.
 
 ---
 
@@ -745,9 +717,7 @@ Context Engine returns no context.
 
 Expected Result
 
-AI still answers.
-
-Response is marked as low-context internally.
+Show an explicit recoverable context limitation and preserve the draft prompt; do not quietly answer without approved context or count it as brand-grounded first value. Direct the Owner to setup/approved knowledge and a visibly partial approved Brief where available. No new context-aware generation bypasses readiness.
 
 ---
 
@@ -759,7 +729,7 @@ Expected Result
 
 Conversation becomes read-only.
 
-User is prompted to select another Brand.
+User sees that the sole Brand is archived; new generation is unavailable until that Brand is restored through Brand Brain. Selecting another Brand is Phase 2.
 
 (Revised 2026-07-02: "archived," not "deleted" — Brand has no hard-delete
 path. See `01_DOMAIN_MODEL.md` Brand Lifecycle, added this session.)
@@ -814,7 +784,6 @@ Core Entities (persisted in this domain):
 - Conversation
 - Message
 - Feedback
-- Export Job
 
 The following are explicitly NOT separate AI Workspace entities, despite
 earlier drafts of this document listing them. They are fully modeled in
@@ -876,7 +845,6 @@ Allowed integrations:
 - Conversation Service
 - Context Engine
 - AI Orchestrator
-- Export Service
 - Memory Service
 
 Direct database access to Brand Brain is prohibited.
@@ -885,48 +853,68 @@ Direct database access to Brand Brain is prohibited.
 
 # State Management
 
-Two distinct lifecycles are modeled here. They must not be conflated: the
-generation states below belong to an individual assistant **Message**
-(one generation turn), not to the Conversation. A Conversation spans many
-turns and must never lock into a terminal state after its first response.
-This is implemented as `MessageStatus` on the `messages` table — see
-`domain/04_DATABASE_DESIGN.md` (ADR-006) and `schema.prisma`.
+The authoritative generation enum is MessageStatus in [schema.prisma](../schema.prisma); the scope is an **individual assistant Message generation attempt**. Its parent Conversation is the persistent multi-turn container defined in [Conversation Lifecycle](#conversation-lifecycle). Database Design ADR-008 records this separation. Documentation reconciliation is fixed; runtime implementation still requires verification.
 
 ## Message (generation) states
 
-Applies to each assistant message as it is produced:
+| MessageStatus | Meaning / entry condition |
+| --- | --- |
+| DRAFT | Assistant placeholder allocated for an accepted, tenant-authorized valid request, before dispatch. This is not a Conversation state or a user’s unsent composer draft. |
+| SUBMITTING | Dispatch/acceptance of this attempt is underway. |
+| QUEUED | Accepted attempt waits for execution; optional if dispatched synchronously. No new queue infrastructure is implied by this enum. |
+| PREPARING_CONTEXT | Retrieve and validate the pinned approved Brand Brain context for this attempt. |
+| GENERATING | Build/execute prompt, stream provisional tokens and validate result; provider retries within the attempt stay here under the configured deadline. |
+| COMPLETED | Final validated response is durably stored/linked to this assistant Message; terminal for this attempt only, not proof of presentation/first value. |
+| FAILED | Non-timeout validation/context/provider/execution failure after attempt allocation; terminal for this attempt only. |
+| CANCELLED | Trusted orchestration cancels a nonterminal attempt; terminal for this attempt only. This does not declare a new public cancel feature. |
+| TIMEOUT | Configured attempt deadline expires while nonterminal; terminal for this attempt only. Performance goals are not timeout settings. |
 
-Draft
-↓
-Submitting
-↓
-Queued
-↓
-Preparing Context
-↓
-Generating
-↓
-Completed
+```mermaid
+stateDiagram-v2
+    [*] --> InFlight
+    state InFlight {
+        [*] --> DRAFT
+        DRAFT --> SUBMITTING
+        SUBMITTING --> QUEUED
+        QUEUED --> PREPARING_CONTEXT
+        SUBMITTING --> PREPARING_CONTEXT: direct dispatch
+        PREPARING_CONTEXT --> GENERATING
+    }
+    GENERATING --> COMPLETED: validated final response committed
+    InFlight --> FAILED: non-timeout failure
+    InFlight --> CANCELLED: orchestration cancellation
+    InFlight --> TIMEOUT: deadline expired
+    COMPLETED --> [*]
+    FAILED --> [*]
+    CANCELLED --> [*]
+    TIMEOUT --> [*]
+```
 
-Failure states:
+Normal transitions: DRAFT→SUBMITTING→QUEUED→PREPARING_CONTEXT→GENERATING→COMPLETED; direct dispatch may skip QUEUED. Every nonterminal state may transition to FAILED, CANCELLED or TIMEOUT with the corresponding reason. No terminal state returns to an in-progress state. These transitions are per attempt, not per Conversation.
 
-- Failed
-- Cancelled
-- Timeout
+USER Messages are stored directly as COMPLETED after request validation, without traversing this assistant state machine. ASSISTANT creation must explicitly set DRAFT; the schema’s COMPLETED default is for accepted USER messages and must not accidentally finish an assistant placeholder. Invalid requests rejected before allocation do not invent a failed persisted generation.
 
-(User messages complete immediately on validation and do not traverse the
-generation states.)
+Use atomic expected-state transitions with Conversation deletedAt checks, so late success/error callbacks cannot overwrite a terminal result or publish deleted content. Durable response/responseArtifactId and COMPLETED are committed together. A transport disconnect alone does not prove generation failure: recover status/history for the same attempt; if it completed, return the stored response. If still active, reconnect/read its status rather than allocate a duplicate retry. If FAILED/CANCELLED/TIMEOUT, an explicit retry creates a new assistant Message ID and correlationId in the same Conversation, retaining the prior terminal attempt and safe retry lineage in artifact metadata. The old attempt never resets. Public cancellation endpoints and concrete deadlines/retry budgets remain open engineering/product decisions; the enum does not prove their implementation.
 
 ## Conversation states
 
-The Conversation itself has a minimal lifecycle:
+There is no ConversationStatus generation column. Active is derived from a persisted row with deletedAt=null; PendingPhysicalDeletion from deletedAt≠null; PhysicallyRemoved is verified removal, not a row status. ConversationPurge.status is an independent cleanup-job/receipt lifecycle (PENDING/RUNNING/RETRY_REQUIRED/BLOCKED/EXCEPTION/COMPLETED), not MessageStatus or a public Conversation restore state.
 
-Active
-↓
-Deleted (soft delete via `deletedAt`, per `domain/04_DATABASE_DESIGN.md`
-ADR-006)
+A completed assistant response leaves the Conversation Active. The Owner can submit a second and subsequent turn with the same Conversation ID when readiness, authorization and runtime gates pass. Feedback, response copying and user input drafts do not mutate the prior MessageStatus or terminate its parent. Archived Brand/readiness failure preserves permitted history but blocks new generation; deletion denies history too.
 
-State transitions must be deterministic and recoverable.
+Deleting a Conversation requests cancellation of active attempts and suppresses late writes/streams. Any cancellation metadata transition must occur in the deletion transaction or narrowly authorized internal cleanup path; normal generation callbacks cannot write content after the tombstone. Physical purge may remove Messages regardless of their last status once the approved deletion inventory/safeguards are satisfied. Proposed purge/backup targets remain subject to approval under DATA_LIFECYCLE.md; a purge job’s COMPLETED never means a Message generation completed or a backup was immediately erased.
+
+## Lifecycle acceptance scenarios
+
+- Complete assistant attempt A, then submit turn B under the same Conversation ID: A stays COMPLETED, B gets a new assistant Message, and the container remains Active.
+- Fail, cancel or time out A: only A is terminal; allowed retry creates B, and previous history remains intact.
+- Disconnect during streaming: do not infer FAILED from transport alone; recover/reconnect the same attempt, and never create a duplicate active generation on a retry click.
+- Race terminal success with a late error/retry callback: expected-state checks preserve the first committed terminal outcome.
+- Delete during PREPARING_CONTEXT or GENERATING: tombstone denies normal access and late publication; purge bookkeeping does not resurrect the Conversation.
+- Complete USER submission: its stored MessageStatus is COMPLETED immediately, while its assistant attempt explicitly starts DRAFT.
+- Complete generation before UI presentation: status is COMPLETED, but QualifiedFirstValue still waits for PRODUCT_METRICS.md output-presentation/grounding checks.
+
+These are acceptance specifications, not executed application tests.
 
 ---
 
@@ -948,11 +936,11 @@ GenerationCompleted
 
 GenerationFailed
 
-ConversationDeleted
+ConversationDeletionRequested (tombstone committed)
+
+ConversationPurgeCompleted (verified active-system removal; not backup erasure)
 
 FeedbackSubmitted
-
-ExportRequested
 
 These events enable future analytics and automation without coupling the Workspace to downstream services.
 
@@ -960,46 +948,7 @@ These events enable future analytics and automation without coupling the Workspa
 
 # Permissions
 
-Workspace permissions are inherited from Organization membership.
-The canonical role set is defined in `03_ENGINEERING_BIBLE.md`
-(Authorization section) and applies platform-wide — AI Workspace does not
-define its own roles.
-
-MVP Roles (applied to AI Workspace actions)
-
-Owner
-
-- Full access: create, read, delete any conversation in the Brand
-
-Admin
-
-- Full access: create, read, delete any conversation in the Brand
-
-Editor
-
-- Create conversations
-- Read conversations
-- Delete own conversations only
-
-Viewer
-
-- Read conversations only
-- Cannot create or delete conversations
-
-Note: Viewer is promoted from "Future Role" (v1.0.0 of this document) to
-an MVP role in this revision, since it is a base Organization role per
-Engineering Bible and requires no additional AI Workspace-specific work —
-it is a pure read filter on existing queries. This does not reintroduce
-real-time multi-user collaboration (still a Non-Goal); Viewer is for
-stakeholders (e.g., an agency client) who need visibility without edit
-rights, not simultaneous co-editing of a conversation.
-
-Future Roles
-
-- Reviewer
-- Guest
-
-Authorization must always be enforced on the server.
+MVP exposes only the sole Owner’s access to their Organization, Brand, and conversations. Tenant and ownership checks are required server-side. Admin, Editor, Viewer, Reviewer, Guest, shared access, and invitations are Phase 2; retained role enum values are future compatibility, not MVP capabilities.
 
 ---
 
@@ -1013,7 +962,6 @@ Examples:
 - Conversation Created
 - Prompt Submitted
 - Response Generated
-- Export Used
 - Feedback Submitted
 - Error Encountered
 - AI Request Completed
@@ -1092,14 +1040,15 @@ These features are intentionally excluded from the MVP.
 The AI Workspace MVP is complete when users can:
 
 - Authenticate.
-- Select an Organization.
-- Select a Brand.
+- Load the sole owned Organization.
+- Load the sole Brand.
 - Open the Workspace.
 - Start a conversation.
 - Receive context-aware AI responses.
 - View conversation history.
-- Delete conversations.
+- Delete conversations with immediate access denial and durable physical-purge tracking (FR-007).
 - Provide response feedback.
+- Copy an AI response.
 
 Nothing else is required for MVP validation.
 
@@ -1209,7 +1158,7 @@ Defines:
   status; removed the two stray mid-document `Status: Draft` blocks and
   the leftover `01_AI_WORKSPACE.md` title alias.
 - State Management corrected to two distinct lifecycles — per-Message
-  generation states + Conversation soft-delete (Active → Deleted) — per
+  generation states + the historical Conversation soft-delete label (Active → Deleted; now PendingPhysicalDeletion, not completed erasure) — per
   `domain/04_DATABASE_DESIGN.md` ADR-006.
 - Related Documents updated to current canonical filenames/paths.
 
@@ -1231,15 +1180,27 @@ Defines:
 
 # Status
 
-Approved for Engineering Design
+Draft — Pending Engineering Review (D-REV-02; integrated dependency and release gates disclosed)
 
 Version
 
-1.1.2
+1.2.0 — integrated working revision
 
-Effective Date
+Effective Working-Revision Date
 
-2026-07-15
+2026-10-13 (not an approval date)
+
+---
+
+## Output qualification and incomplete Brand Brain
+
+[PRODUCT_METRICS.md](../PRODUCT_METRICS.md) governs OutputPresented/QualifiedFirstValue and optional copy/helpful quality signals. Generation submission/completion/first token do not imply value before a usable validated grounded output is presented. Business readiness requires all mandatory approved facts; completeness ≥70 cannot bypass it. Incomplete users retain setup/review/approved history and partial approved Brief copying with visible limitations; ungrounded generic chat is not an MVP readiness workaround.
+
+---
+
+## Approval scope and blocking/release decision ownership
+
+Historical baseline approval/correction records remain cited as [D-WS-01](../DECISION_REGISTER.md#preserved-evidence-based-decisions-and-remaining-review-ownership); current whole-revision engineering sign-off is pending D-REV-02. The integrated import journey must not inherit Founder approval from a dependency’s stale label: D-IMP-01/02/03 await Founder disposition. DATA_LIFECYCLE.md policy intervals require Legal/Operations/Product approval (D-POL-01), separately from architecture choices. Cancellation/deadline implementation choices are Engineering/Product-owned, not invented Founder questions. Deferred post-MVP search/folders/shared-conversation topics do not block the approved historical baseline.
 
 ---
 

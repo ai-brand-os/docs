@@ -1,5 +1,9 @@
 # Service Specification — Context Engine
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 05_CONTEXT_ENGINE.md
@@ -762,6 +766,32 @@ Version
 Effective Date
 
 2026-06-30
+
+---
+
+## Conversation deletion and retention contract
+
+Every generation Prompt Context artifact and working-memory/cache/index entry carries the owning Conversation and Organization identifiers. Retrieval checks the Conversation tombstone before use/publication. Conversation deletion invalidates operational entries immediately and purges owned copies within the proposed active target. Knowledge Memory referencing independent approved Brand Brain facts remains intact; future Conversation Memory must inherit this lifecycle, and organizational memory must separate independently approved facts from conversation-owned content.
+
+Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-system removal within 30 days requires legal and operational approval; backups expire separately. Normal service access cannot bypass deletedAt, retry/exception retention remains inaccessible, and purge completion requires verified inventory cleanup. This specifies planned behavior, not an implemented purge process.
+
+---
+
+## Approved revision consumption
+
+Read Brand.currentRevisionId and transactionally consistent approved projections/KnowledgeIndex via Knowledge Management. Pin generation context to that revision and its field evidence. Pending candidates, incomplete repeatable records and draft skeleton fields do not enter approved business context. Apply effective readiness independently of persisted completeness; show stale/unknown verification warnings without claiming fresh facts. See [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md).
+
+---
+
+## Readiness and first-value safeguards
+
+Apply [PRODUCT_METRICS.md](../PRODUCT_METRICS.md): mandatory approved facts and effective readiness gate new business-aware generation. Empty/invalid approved context produces an explicit recoverable limitation, not an ungrounded response counted as value. Complete members only; pin approved revision and supporting fact keys for output qualification. Partial approved Brief presentation is independent of generation readiness.
+
+---
+
+## Context stages versus Workspace lifecycle
+
+Context assembly stages are internal work for one assistant attempt’s PREPARING_CONTEXT phase, not Conversation states. Successful assembly allows that Message to proceed to GENERATING; missing/invalid required context ends that attempt as FAILED with an explicit recoverable limitation. The Conversation remains a multi-turn container; deletion independently prevents late publication. Canonical transitions: [Workspace State Management](../prd/02_AI_WORKSPACE_PRD.md#state-management). ArtifactStatus and contextAssemblyStatus are separate artifact/service contracts, not substitutes for MessageStatus.
 
 ---
 

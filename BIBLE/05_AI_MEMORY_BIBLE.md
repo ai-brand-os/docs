@@ -1,5 +1,11 @@
 # AI Brand OS — AI Memory
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Version: 1.4.0
 
 Status: Active
@@ -164,30 +170,29 @@ Rejected
 
 # Current MVP Scope
 
-Included
+Canonical definition: [MVP_SCOPE.md](../MVP_SCOPE.md).
 
-- Authentication
-- Organizations
-- Brands
-- Brand Brain
-- Knowledge Base
-- AI Workspace
-- Caption Generation
-- Manual Review
-- Export
+Included:
 
-Excluded
+- Brand Brain creation and editing
+- Single-source knowledge import (one URL or one supported file per job)
+- Human review and approval
+- Persistent approved business knowledge
+- Context-aware AI Workspace (including content drafts, history, and response copying)
+- Basic response feedback
+- Copyable, approved Brand Brief
 
-- Image Generation
-- Publishing
-- Calendar
-- AI Characters
-- Video
-- Analytics
-- Community Agent
-- Sales Agent
-- Marketplace
-- API
+Authentication, tenant isolation, storage, and single-owner Organization setup are supporting dependencies, not additional product modules. MVP permits one Organization and one Brand per account; multiple Organizations must not bypass the multi-brand exclusion.
+
+Excluded:
+
+- Background file exports — Phase 2
+- Conversation PDF/DOCX exports — Phase 2
+- Multi-brand management, including multiple client Organizations — Phase 2
+- Team collaboration, invitations, shared access, and delegated roles — Phase 2
+- Advanced integrations, scheduled sync, and external tool actions — Phase 4
+- Publishing, scheduling, analytics, dedicated campaigns, assets, and personas — Phase 3 or later
+- Agents, automation, marketplace, public API, image/video generation — Phase 4 or later
 
 ---
 
@@ -197,9 +202,11 @@ Primary Customers
 
 - Small Businesses
 - E-commerce Stores
-- Marketing Freelancers
-- Small Agencies
-- Content Creators
+- Freelancers/creators only for their own or one authorized business within MVP limits
+
+Later-phase research
+
+- Agencies, multi-client freelancers and teams — Phase 2 research, not launch-ready packaging
 
 Future expansion happens only after product-market fit.
 
@@ -328,7 +335,7 @@ Low
 
 Mitigated / Resolved
 
-- PRD approval sequencing (was High) — mitigated. The Knowledge Import PRD explicitly closed the Brand Brain PRD dependency gap before API Design proceeded; all PRDs are now approved in dependency order.
+- PRD approval sequencing — current issue reopened by evidence audit. Import’s Approved label did not record Founder disposition of D-IMP-01/02/03; current PRD review/sign-off gates are in DECISION_REGISTER.md. Historical baseline architecture decisions remain recorded.
 - Broken cross-file references (was Medium) — resolved 2026-07-07. All five identified and fixed; see Execution Bible Known Risks → Resolved.
 
 ---
@@ -358,7 +365,7 @@ Completed
 - Business Ontology Open Items resolved and approved
 - Database Design (`domain/04_DATABASE_DESIGN.md`) — approved
 - API Design (`domain/05_API_DESIGN.md`) — approved
-- Knowledge Import PRD (`prd/03_KNOWLEDGE_IMPORT_PRD.md`) — approved
+- Knowledge Import PRD drafted; current status Proposed — Pending Founder Approval (D-IMP-01/02/03), not approved
 - Design Foundations
 - Component Kit (drafted; fixes pending — see Sprint 1)
 - Schema merge (Passes 1–3 → single `schema.prisma`); pass files retired
@@ -406,8 +413,8 @@ Every architecture decision updates Engineering Bible.
 
 The MVP succeeds when customers
 
-- complete Brand Brain
-- repeatedly generate brand-aware content
+- reach effective readiness with all mandatory approved facts, independent of completeness score
+- receive first usable presented approved-grounded output and repeatedly use brand-aware content; activation/readiness definitions follow PRODUCT_METRICS.md
 - trust AI outputs
 - become paying subscribers
 

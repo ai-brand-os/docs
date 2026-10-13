@@ -1,5 +1,11 @@
 # AI Brand OS — Positioning
 
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Commercial boundary (2026-10-13): [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md). MVP serves one business, one Organization, one Brand and one Owner. Starter/Pro are proposed pricing tests; Agency portfolios, subscriptions, multiple clients and teams are Phase 2 proposals. Segment ratings and price estimates are research hypotheses; competitor audiences/prices do not confer AI Brand OS entitlements or prove customer payments.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document: **04_POSITIONING.md**
 
 Version: **1.0.0**
@@ -389,9 +395,7 @@ Every future interaction becomes more accurate because the platform understands 
 
 # Why Customers Will Buy
 
-Customers are not paying for AI.
-
-They are paying for:
+Proposed willingness-to-pay hypothesis for the single-business MVP: customers would pay for:
 
 - confidence
 - consistency
@@ -1080,5 +1084,11 @@ If it improves none of them, it should not be released.
 AI Brand OS is building the AI that permanently understands a business.
 
 Every future product, feature and engineering decision exists to reinforce that single promise.
+
+## Proposed launch positioning and future Agency boundary
+
+MVP messaging addresses the Owner of one business: approved Brand Brain knowledge, business-aware AI and a copyable approved Brief for one Brand in one Organization. Starter/Pro are test offers, not validated subscriptions. Do not present multi-client coordination, shared teams, portfolios or unlimited brands as launch benefits. Agency positioning requires Phase 2 delivery and payment evidence; broad platform/long-term team metaphors do not grant those entitlements.
+
+---
 
 END OF DOCUMENT

@@ -1,5 +1,9 @@
 # Service Specification — Knowledge Extraction Service
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 03_KNOWLEDGE_EXTRACTION_SERVICE.md
@@ -691,7 +695,7 @@ Post-MVP:
 - Temporal reasoning
 - Knowledge inference
 - Active learning
-- Human-in-the-loop extraction
+- Interactive extraction-stage corrections (later phase; post-extraction human review remains MVP)
 - Custom ontology extensions
 
 ---
@@ -759,6 +763,20 @@ Version
 Effective Date
 
 2026-06-30
+
+---
+
+## Conversation deletion and retention contract
+
+Knowledge candidates and their source provenance are independently owned import/knowledge records. Conversation deletion does not erase them. Conversation-owned copies of extraction results inside generation context are purged; source retention/erasure requires its own authorized workflow and protected-reference review.
+
+Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-system removal within 30 days requires legal and operational approval; backups expire separately. Normal service access cannot bypass deletedAt, retry/exception retention remains inaccessible, and purge completion requires verified inventory cleanup. This specifies planned behavior, not an implemented purge process.
+
+---
+
+## Material fact evidence contract
+
+Extraction proposes typed fact keys and MANUAL/IMPORTED/DERIVED origins under [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md); it cannot claim Owner approval or verification. Every imported proposed value carries source Artifact/Document and available location, or an explicit location-unavailable reason. Inferred claims are DERIVED with pinned evidence/input lineage, not disguised imports; automatic knowledge inference remains deferred. Knowledge Management compares proposals with current approved facts and presents conflicts; extraction never writes projections or history heads.
 
 ---
 

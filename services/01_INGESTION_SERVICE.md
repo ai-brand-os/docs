@@ -1,5 +1,9 @@
 # Service Specification — Ingestion Service
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 01_INGESTION_SERVICE.md
@@ -55,7 +59,7 @@ Safely and reliably accept raw content from any supported source and hand it to 
 The Ingestion Service is responsible for:
 
 - Accepting uploads (file-based sources)
-- Accepting website URLs for crawling
+- Accepting a single website page URL per import job
 - Basic input validation (format, size, encoding, emptiness)
 - Duplicate upload detection (same file/URL submitted twice)
 - Malware scanning (future)
@@ -91,7 +95,7 @@ All of the above belong to Document Processing, Knowledge Extraction, or Knowled
 Supported sources (MVP):
 
 - File upload: PDF, DOCX, Markdown, Plain Text
-- Website URL (single page or shallow crawl, per Brand Brain PRD Step 2)
+- Website URL (single page only; recursive/shallow crawling deferred to Phase 4)
 
 Future:
 
@@ -303,7 +307,7 @@ Semantic duplicate detection is a knowledge-governance concern and belongs to th
 Included:
 
 - File upload intake (PDF, DOCX, Markdown, Plain Text)
-- Website URL intake
+- Single Website URL intake (one page per job; no recursive crawling)
 - Format/size/encoding validation
 - Duplicate upload detection
 - Forwarding to Document Processing Service
@@ -370,6 +374,14 @@ Version
 Effective Date
 
 2026-07-01
+
+---
+
+## Conversation deletion and retention contract
+
+Imported Raw Intake and Document ownership is independent of Workspace conversations. Conversation purge must not delete import sources through a shared correlation or ancestry link. Source bytes and temporary intake files follow an independently approved source retention policy; dedicated source/account erasure is separate.
+
+Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-system removal within 30 days requires legal and operational approval; backups expire separately. Normal service access cannot bypass deletedAt, retry/exception retention remains inaccessible, and purge completion requires verified inventory cleanup. This specifies planned behavior, not an implemented purge process.
 
 ---
 

@@ -1,5 +1,9 @@
 # API Design — AI Brand OS
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 05_API_DESIGN.md
@@ -28,7 +32,7 @@ Last Updated
 
 # Purpose
 
-This document defines the NestJS module architecture and the public REST API surface for AI Brand OS. It translates the already-approved service specifications (Ingestion, Document Processing, Knowledge Extraction, Knowledge Management, Context Engine, AI Orchestrator), the AI Workspace PRD, the Brand Brain PRD, and the Knowledge Import PRD into concrete NestJS modules and HTTP endpoints.
+This document defines the NestJS module architecture and the public REST API surface for AI Brand OS. It translates recorded baseline service specifications (Ingestion, Document Processing, Knowledge Extraction, Knowledge Management, Context Engine, AI Orchestrator), the AI Workspace PRD, the Brand Brain PRD, and the Knowledge Import PRD into concrete NestJS modules and HTTP endpoints.
 
 It does not redefine business logic — every module here is a thin translation layer over decisions already made in those documents.
 
@@ -88,9 +92,11 @@ AppModule
 │   └── AIOrchestratorModule
 │
 └── Core Application Layer
-    ├── AIWorkspaceModule           (Conversation, Message, Feedback, ExportJob)
+    ├── AIWorkspaceModule           (Conversation, Message, Feedback)
     └── KnowledgeImportModule       (orchestrates KnowledgeEngineModule on behalf of the UI)
 ```
+
+Import product scope gates: [D-IMP-01/02/03](../DECISION_REGISTER.md#decisions-requiring-founder-input) remain Proposed — Pending Founder Approval. Module/controller architecture is recorded; admission/UI choices are conditional proposals until disposition.
 
 `KnowledgeImportModule` is a thin Core Application module, not a Core Domain one — it exists specifically to implement `03_KNOWLEDGE_IMPORT_PRD.md`'s UX contract (job status polling, one-job-in-flight rule, candidate review) on top of the four Knowledge Engine modules. This keeps the PRD's product-layer rules (BR-1 through BR-5) out of the Core Domain modules, which must stay UX-agnostic per every service spec's own Non-Responsibilities section.
 
@@ -113,35 +119,38 @@ Everything not listed here is DI-only, per the Core Architectural Clarification.
 
 | Method | Path                         | Notes                                                                                                                         |
 | ------ | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| GET    | `/organizations`             | Lists all Organizations the authenticated user belongs to (org switcher) — see ADR-005                                        |
-| POST   | `/organizations`             | Creates an additional Organization; caller becomes Owner. Distinct from the Organization auto-created at signup — see ADR-005 |
+| GET    | `/organizations`             | Returns the sole MVP Organization; additional Organizations and switching are Phase 2 — see ADR-005                                        |
 | GET    | `/organizations/:id`         |                                                                                                                               |
 | PATCH  | `/organizations/:id`         | Industry, company size, region, language                                                                                      |
-| GET    | `/organizations/:id/members` |                                                                                                                               |
-| POST   | `/organizations/:id/members` | Deferred to Phase 2 per Product Bible (no multi-user invite flow in MVP) — endpoint reserved, not implemented                 |
 
 ## Brand Brain (`BrandModule`)
 
 | Method                                                                                               | Path                              | Notes                                                                                                                    |
 | ---------------------------------------------------------------------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | POST                                                                                                 | `/organizations/:id/brand`        | MVP: fails if a Brand already exists (enforces Ontology 1:1 cardinality)                                                 |
-| GET                                                                                                  | `/organizations/:id/brand`        | Includes `completenessScore` (computed, not stored — see ADR-002)                                                        |
+| GET                                                                                                  | `/organizations/:id/brand`        | Includes currentRevisionId and persisted revision completeness plus effective readiness (ADR-002; KNOWLEDGE_PROVENANCE.md)                                                        |
 | PATCH                                                                                                | `/organizations/:id/brand`        | Mission, vision, core values, business goals                                                                             |
-| PATCH                                                                                                | `/organizations/:id/brand/voice`  | Tone attributes, vocabulary — always `source: manual` server-side, regardless of request body (Ontology hard constraint) |
+| PATCH                                                                                                | `/organizations/:id/brand/voice`  | Tone/vocabulary manual-only; revision/evidence approval transaction with expectedRevisionId + Idempotency-Key |
 | POST                                                                                                 | `/brands/:id/products`            |                                                                                                                          |
 | GET                                                                                                  | `/brands/:id/products`            |                                                                                                                          |
 | PATCH                                                                                                | `/brands/:id/products/:productId` |                                                                                                                          |
 | DELETE                                                                                               | `/brands/:id/products/:productId` |                                                                                                                          |
 | _(identical pattern for `/brands/:id/services`, `/brands/:id/audiences`, `/brands/:id/competitors`)_ |                                   |                                                                                                                          |
 
+## Approved Brand Brief (`BrandModule`)
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| GET | `/brands/:id/brief` | Returns copyable text from current human-approved knowledge only (Brand Brain FR-11); no file, job, or generated unreviewed claims. |
+
 ## Knowledge Import (`KnowledgeImportModule`)
 
 | Method | Path                                                             | Notes                                                                                                                                                                                                                |
 | ------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | `/brands/:id/import`                                             | Body: `{ sourceType: "url" \| "file", url? }` or multipart file. Rejects with 409 if a job is already in-flight (PRD BR-2)                                                                                           |
+| POST   | `/brands/:id/import`                                             | Body: `{ sourceType: "url" \| "file", url? }` or multipart file. Proposed rejection with 409 if a job is in-flight (PRD BR-2 / D-IMP-02 pending Founder approval)                                                                                           |
 | GET    | `/brands/:id/import-jobs/:correlationId`                         | Returns one of the UX-facing Job Lifecycle states from `03_KNOWLEDGE_IMPORT_PRD.md` — resolved by reading the latest `Artifact` row for that `correlationId`, not a dedicated status table (Database Design ADR-001) |
-| GET    | `/brands/:id/import-jobs/:correlationId/candidates`              | Returns only `AutoApproved` candidates (Gate 1 already passed)                                                                                                                                                       |
-| PATCH  | `/brands/:id/import-jobs/:correlationId/candidates/:candidateId` | Body: `{ action: "confirm" \| "edit" \| "delete", value? }` — this is Gate 2                                                                                                                                         |
+| GET    | `/brands/:id/import-jobs/:correlationId/candidates`              | Returns governance-eligible `AutoApproved` candidates, still pending human confirmation (Gate 1 already passed)                                                                                                                                                       |
+| PATCH  | `/brands/:id/import-jobs/:correlationId/candidates/:candidateId` | Body: `{ action: "confirm" \| "edit" \| "delete", value?, expectedRevisionId }`, Idempotency-Key — Gate 2 creates approved revision or records rejection                                                                                                                                         |
 
 ## AI Workspace (`AIWorkspaceModule`)
 
@@ -150,11 +159,9 @@ Everything not listed here is DI-only, per the Core Architectural Clarification.
 | POST   | `/brands/:id/conversations`   |                                                                                                              |
 | GET    | `/brands/:id/conversations`   | Ordered by `lastActivityAt` (FR-006)                                                                         |
 | GET    | `/conversations/:id`          | Restores messages                                                                                            |
-| DELETE | `/conversations/:id`          | Soft delete (Database Design ADR-006)                                                                        |
+| DELETE | `/conversations/:id`          | 204 after tenant-authorized tombstone + durable purge commit; immediate denial of all normal access; physical removal pending (DATA_LIFECYCLE.md / ADR-006)                                                                        |
 | POST   | `/conversations/:id/messages` | Body: `{ content: string }`. Response: Server-Sent Events stream (see ADR-003 below)                         |
 | POST   | `/messages/:id/feedback`      | Body: `{ rating: "helpful" \| "not_helpful" }`. 409 on duplicate (unique constraint on `feedback.messageId`) |
-| POST   | `/conversations/:id/export`   | Creates an `ExportJob`                                                                                       |
-| GET    | `/export-jobs/:id`            |                                                                                                              |
 
 ---
 
@@ -182,6 +189,10 @@ JWT access token (short-lived) + refresh token (long-lived, rotated on use), via
 
 Every endpoint under `/organizations/:id/*` and `/brands/:id/*` enforces membership + role via a shared NestJS Guard, checking the canonical role enum (`Owner/Admin/Editor/Viewer`, per Gap Closure Patch 2026-07-02) — never re-implemented per-module.
 
+## Conversation deletion access gate
+
+All direct and nested Conversation, Message, Feedback, generation Artifact and memory operations must check deletedAt IS NULL after tenant authorization. Deletion is idempotent while the tenant-scoped request/receipt exists; unknown or unauthorized IDs return 404. Serialize generation/feedback writes and stream publication with deletion. Purge/exception operators use separate narrowly scoped service access; there is no public Conversation restore or purge receipt endpoint; approved Brand Brain version restoration is a separate knowledge operation. See [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md).
+
 ## Multi-Tenancy
 
 Every query is scoped by `organizationId` (and `brandId` where applicable) at the repository layer, not just the controller layer — matching `domain/02_ARTIFACT_MODEL.md`'s Security requirement that tenant isolation have no exceptions.
@@ -196,11 +207,11 @@ Every query is scoped by `organizationId` (and `brandId` where applicable) at th
 
 **Reason:** Every one of the six Core Domain service specs already restricts its own upstream callers (e.g., Ingestion Service: _"Direct user access is prohibited... accepts requests only from Brand Brain onboarding flow / Knowledge Import"_). Giving them HTTP controllers anyway would mean maintaining an unused public contract for six services that explicitly forbid direct external access.
 
-## ADR-002 — Completeness Score Is Computed, Not Stored
+## ADR-002 — Persisted Revision Completeness, Separate Effective Readiness
 
-**Decision:** `GET /organizations/:id/brand` computes `completenessScore` on read from current field state, rather than persisting it as a column.
+**Decision (2026-10-13):** Supersedes compute-on-read-only completeness. BrandBrainRevision persists score, missing mandatory paths, ontology/calculation versions and calculatedAt for its immutable approved Artifact snapshot. GET returns the current head snapshot; historical scores never drift. Effective readiness separately checks required approved facts, complete offer/Audience, manual tone, current ontology compatibility and Brand archival. Runtime request authorization/deletion/provider gates are separate.
 
-**Reason:** `01_BRAND_BRAIN_PRD.md`'s formula is a pure function of already-stored data (required fields filled ÷ total required, plus recommended entities present). Storing a derived value risks drift from the source fields it's derived from — matches Domain Model's "Knowledge should continuously compound" only for facts, not for calculations that already have a single source of truth.
+**Reason:** The versioned result is reproducible and inspectable with prior approved facts. There is no duplicate score column on Brand. See [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md#api-contracts-ownertenant-scoped-planned) for field reads/history/diff/verify/restore contracts and all mutation concurrency/idempotency rules.
 
 ## ADR-003 — Server-Sent Events for Message Streaming, Not WebSockets
 
@@ -208,13 +219,11 @@ Every query is scoped by `organizationId` (and `brandId` where applicable) at th
 
 **Reason:** AI Workspace PRD FR-004 requires streaming responses, but the interaction is strictly one-directional (server → client, token by token) and short-lived (one response per request). WebSockets solve a bidirectional, long-lived connection problem AI Brand OS doesn't have in MVP. SSE is simpler to implement, debug, and reason about — matches the "boring over clever" principle already applied to the Database Design's polling-over-push decision for import job status.
 
-## ADR-005 — Multiple Organizations Per User Is MVP Scope, Not Phase 2
+## ADR-005 — Single Organization and Brand Per Account in MVP
 
-**Decision:** `POST /organizations` allows an already-authenticated user to create additional Organizations beyond the one auto-created at signup. `organization_members` (Pass 1 schema) already models this as many-to-many, so no schema change is required — only the missing endpoint.
+**Decision (2026-10-13):** Supersedes the previous multiple-Organization MVP decision. Signup provisions one owned Organization; a user cannot create additional Organizations or access other users’ tenants in MVP. The Brand remains unique per Organization. Enforce the per-account restriction in the application service transaction; relational cardinality alone does not enforce the product limit.
 
-**Reason:** This was an initial oversight in this document's first draft — the Auth section's signup endpoint implicitly assumed one Organization per user for life. That assumption directly conflicts with the Marketing Freelancer and Small Agency personas in `02_MARKET_RESEARCH.md` Segment C, who are explicitly part of the Beachhead Market specifically _because_ they manage multiple clients/brands simultaneously. Since MVP constrains Brand to 1:1 with Organization (Ontology cardinality), a freelancer with multiple clients necessarily needs multiple Organizations — one per client. Deferring this to Phase 2 would mean the MVP fails a primary persona it was explicitly built to serve, not a nice-to-have.
-
-**Scope boundary:** This does not reopen the Organization membership _invite_ flow (`POST /organizations/:id/members` stays deferred — that's collaboration, a different feature). It only allows a single user to create and own multiple Organizations independently, with no cross-user sharing implied.
+**Reason:** Multiple client Organizations would expose multi-brand management through a workaround. Organization creation beyond signup, membership listing/invitations, switching, and delegated role access are Phase 2. [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md) applies the same limit to proposed Starter/Pro offers; future independent memberships do not create an Agency subscription, portfolio or consolidated billing relationship.
 
 ## ADR-004 — `KnowledgeImportModule` as a Core Application, Not Core Domain
 
@@ -228,7 +237,7 @@ Every query is scoped by `organizationId` (and `brandId` where applicable) at th
 
 Included in this API Design:
 
-- All endpoints listed in Public API Surface above.
+- All endpoints listed in Public API Surface above, scoped to the sole Owner and Brand. No export, extra Organization creation, or team endpoints are MVP.
 - DI-only internal module wiring for all six Core Domain services.
 
 # Deferred
@@ -289,7 +298,19 @@ Defines:
 - NestJS module map across all three product layers
 - Minimal public REST surface (5 controller-owning modules out of 9 total)
 - Request/response conventions (error format, auth, multi-tenancy enforcement)
-- 4 Architectural Decisions, including the SSE-over-WebSocket and computed-not-stored Completeness Score calls
+- 4 Architectural Decisions, including SSE-over-WebSocket and the historical computed-only completeness call (superseded by persisted revision snapshots on 2026-10-13)
+
+---
+
+## Brand Brain provenance API surface
+
+The planned public contracts in [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md#api-contracts-ownertenant-scoped-planned) are part of this API design: knowledge read, revision list/detail, field-history, revision-diff, explicit verify, restore-preview and restore. Existing entity PATCH/DELETE and import confirm/edit use expectedRevisionId and Idempotency-Key and return newRevisionId, persisted completeness and effective readiness. Owner/tenant authorization applies to every historical revision and source citation. No direct projection setter or pointer rollback endpoint exists.
+
+---
+
+## Metrics and incomplete-user response contract
+
+GET Brand Brain/knowledge returns the pinned persisted completeness snapshot, current effectiveReady/readinessReasons and missing mandatory keys, per [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). A no-head response explicitly shows draft 0/no persisted calculation timestamp. Generation APIs reject not-ready/ungrounded requests; read/review/edit and partial approved Brief remain available under their normal tenant/deletion checks. Output presentation acknowledgements are authenticated application telemetry operations validating tenant/output/revision evidence before QualifiedFirstValue; accepting raw client grounded=true is prohibited. No public analytics dashboard is implied.
 
 ---
 

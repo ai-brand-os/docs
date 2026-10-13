@@ -1,5 +1,9 @@
 # Service Specification — Document Processing Service
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 02_DOCUMENT_PROCESSING_SERVICE.md
@@ -122,7 +126,7 @@ No business knowledge is produced.
 
 # Processing Architecture
 
-The service is implemented as a configurable processing pipeline.
+The service is designed as a configurable processing pipeline.
 
 Each stage performs one responsibility.
 
@@ -760,6 +764,14 @@ Version
 Effective Date
 
 2026-06-30
+
+---
+
+## Conversation deletion and retention contract
+
+Structured Documents, source chunks and processing lineage remain independent of a Conversation that later retrieves them. Conversation purge removes only owned copies/transient working payloads; it never recursively erases imported source lineage. Temporary-file cleanup must respect retained references and approved source retention, with reviewed provenance repair where needed.
+
+Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-system removal within 30 days requires legal and operational approval; backups expire separately. Normal service access cannot bypass deletedAt, retry/exception retention remains inaccessible, and purge completion requires verified inventory cleanup. This specifies planned behavior, not an implemented purge process.
 
 ---
 

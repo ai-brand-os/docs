@@ -1,5 +1,9 @@
 # Database Design — AI Brand OS
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 04_DATABASE_DESIGN.md
@@ -76,7 +80,7 @@ Per Domain Model's "Single Meaning" principle: no business or pipeline concept i
 
 ## Current State vs. History Are Different Tables
 
-Business-facing tables (`products`, `services`, `audiences`, `competitors`, `documents`, `knowledge_index`) hold **current validated state** — what the UI reads on every page load. The `artifacts` table holds **full immutable history** — how that state came to be, for audit and lineage. Conflating these two concerns into one table would force every UI read to filter/reduce JSONB history on every request.
+Business-facing tables (`products`, `services`, `audiences`, `competitors`, `documents`, `knowledge_index`) hold **current validated state** — what the UI reads on every page load. The artifacts table holds canonical approved full Brand Brain snapshots and provisional pipeline history. BrandBrainRevision stores approval/order/completeness metadata; Brand.currentRevisionId selects the authoritative snapshot. Business tables and KnowledgeIndex are its transactionally updated read projections. Conflating these two concerns into one table would force every UI read to filter/reduce JSONB history on every request.
 
 ## MVP Discipline Applies to Schema Too
 
@@ -118,8 +122,8 @@ Where a defensible choice exists between "more correct, more complex" (e.g., DB 
 | --- | --- |
 | `conversations` | Belongs to exactly one Organization + Brand (BR-001, BR-002). |
 | `messages` | User and Assistant turns. Assistant messages link to `artifacts` via `correlationId` / `responseArtifactId` rather than duplicating execution metadata. |
-| `feedback` | 1:1 with Message (MVP: single-user per conversation, no per-user vote tracking needed). |
-| `export_jobs` | Tracks conversation export requests. |
+| `feedback` | 1:1 with Message; physical Message deletion cascades Feedback, while tombstone denies access first. |
+| `conversation_purges` | Independent durable deletion work and minimal receipt; conversationId intentionally has no Conversation FK. |
 
 ---
 
@@ -137,9 +141,9 @@ Where a defensible choice exists between "more correct, more complex" (e.g., DB 
 
 ## ADR-002 — `knowledge_index` as the Materialized Knowledge Entity
 
-**Decision:** Introduce a `knowledge_index` table not explicitly named as a table in any source document, representing the Domain Model / Ontology's `Knowledge` entity as a first-class, independently queryable record.
+**Decision:** Introduce a `knowledge_index` table not explicitly named as a table in any source document, as an entity-retrieval projection of the selected approved Brand Brain snapshot, per ADR-007 and KNOWLEDGE_PROVENANCE.md.
 
-**Reason:** `Knowledge` has its own lifecycle (`Extracted → Reviewed → Approved → Versioned → Deprecated`) distinct from the business tables it describes (e.g., a `Product`'s own lifecycle is `Draft → Active → Updated → Retired`). Without this table, the Context Engine would need to UNION across `products`, `services`, `audiences`, `competitors`, and `brand_voices` to answer "what does the brand know," which contradicts the Context Engine's own Non-Responsibility list ("must never... access Business Ontology" directly — it should query one clean index instead).
+**Reason:** Context Engine needs one tenant/Brand-scoped entity retrieval index rather than reconstructing current knowledge by UNION across business tables. **Superseded interpretation:** this index no longer owns an independent approval/version lifecycle; immutable approved artifacts and BrandBrainRevision do, with Brand.currentRevisionId selecting current state (ADR-007).
 
 ---
 
@@ -149,17 +153,17 @@ Where a defensible choice exists between "more correct, more complex" (e.g., DB 
 
 **Reason:** No Functional Requirement or Acceptance Criterion in that PRD reads or writes a Workspace Session. The actual state it would hold (current User + Organization + Brand selection) is satisfied by the authenticated session/JWT plus the `organizationId`/`brandId` already present on `conversations`. Building it now would be schema-level feature creep — directly contradicting Project Bible Rule 6.
 
-**Follow-up required:** `02_AI_WORKSPACE_PRD.md`'s Domain Model and Entity Relationships sections should be corrected to remove `WorkspaceSession` in a documentation pass. Not done in this session to avoid scope creep beyond Database Design.
+**Reconciliation: fixed.** The current Workspace PRD explicitly excludes WorkspaceSession as a persisted aggregate; authenticated context and Conversation ownership supply the required state. No follow-up removal remains.
 
 ---
 
 ## ADR-004 — No Separate `AIRequest` / `AIResponse` Tables
 
-**Decision:** `02_AI_WORKSPACE_PRD.md`'s `AI Request` and `AI Response` domain entities are not implemented as separate tables. `messages.correlationId` and `messages.responseArtifactId` reference the existing `artifacts` table instead.
+**Decision:** `02_AI_WORKSPACE_PRD.md`'s `AI Request` and `AI Response` domain entities are not implemented as separate tables. `messages.correlationId` traces generation and `messages.responseArtifactId` is an explicit restricted FK to the existing artifacts table. Artifact.conversationId separately records generation ownership for purge; correlation/lineage is not an ownership boundary.
 
 **Reason:** These entities are, structurally, the same pipeline already fully specified in `02_ARTIFACT_MODEL.md` as Prompt Context Artifact → Prompt Artifact → Response Artifact (including token usage, latency, cost, model, and validation result). Two documents independently modeling the same concept violates the Domain Model's "Single Meaning" principle. `messages` supplies the workspace-facing display record (conversation membership, ordering, rendered text); `artifacts` supplies the full execution record.
 
-**Follow-up required:** Same as ADR-003 — `02_AI_WORKSPACE_PRD.md` should be updated to reference Artifact Model entities directly rather than defining parallel ones. Flagged, not yet corrected.
+**Reconciliation: fixed.** The Workspace PRD maps AI request/response execution to Prompt Context/Prompt/Response artifacts and Message references; it defines no duplicate request/response tables.
 
 ---
 
@@ -171,23 +175,24 @@ Where a defensible choice exists between "more correct, more complex" (e.g., DB 
 
 ---
 
-## ADR-006 — Soft Deletes for Conversations, Hard Cascade for Messages
+## ADR-006 — Conversation Tombstone and Verified Physical Purge
 
-**Decision:** `conversations.deletedAt` is a nullable soft-delete marker. `messages` are hard-deleted via `onDelete: Cascade` when their parent Conversation row is eventually purged.
+**Decision (2026-10-13):** Conversation.deletedAt records pending physical deletion and immediately denies every normal read/write/retrieval route. It is not erasure completion and does not expose restore/undo. A separate ConversationPurge stores durable work, leases, retries, exception reference, verification status and a minimal receipt, independent of the removed Conversation.
 
-**Reason:** `03_ENGINEERING_BIBLE.md`'s Database Principles state "soft deletes where appropriate." Conversation deletion (FR-007) requires immediate disappearance from the UI, which a soft-delete flag satisfies without losing recoverability. Messages have no independent lifecycle outside their conversation, so cascading is correct once the parent is actually purged.
+Generation artifacts use nullable Artifact.conversationId ownership (required at the application layer for generation types; absent for independent source/knowledge artifacts). Message.responseArtifactId becomes an explicit Restrict FK. Artifact lineage and conversation ownership use Restrict; purge Messages/Feedback first, then exclusively owned artifacts child-before-parent, then Conversation. Physical Conversation deletion cascades Messages and Message deletion cascades Feedback; tombstone updates cascade nothing. Conversation’s Organization, Brand and creator, Artifact’s Organization, and purge receipt’s Organization use Restrict to avoid root deletes bypassing cleanup.
+
+**Policy:** [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md) defines proposed active removal within 30 days, separately proposed backup expiry, reference inventory, external cleanup, race controls, holds, retries and acceptance scenarios. All policy periods await legal/operational approval. No database cascade alone can erase object storage, memory or backups.
+
+**Migration prerequisites:** Add/backfill explicit ownership using tenant-scoped Conversation/Message generation records; never infer destructive ownership solely from correlationId or ancestry. Reconcile existing responseArtifactId values (type, tenant, owner, orphans) before adding FK constraints. Unresolved/shared historical references block purge and require reviewed repair; no automatic detach/delete. These are planned schema changes, not an executed migration.
 
 ---
 
-# Flagged Gaps (Not Blocking, Require Follow-Up)
+# Reconciled Items and Migration Prerequisites
 
-1. **Role enum inconsistency.** `02_AI_WORKSPACE_PRD.md` lists `Owner / Admin / Member`; `03_ENGINEERING_BIBLE.md` lists `Owner / Admin / Editor / Viewer`. The schema (`organization_members.role`) implements the Engineering Bible's version as canonical. The PRD needs a corresponding correction.
-
-2. **`Brand` has no defined lifecycle.** `01_DOMAIN_MODEL.md`'s Entity Lifecycle section defines lifecycles for Organization, Product, Service, Audience, Persona, Brand Voice, Campaign, Content, Asset, Document, and Knowledge — but not for `Brand` itself. This leaves Edge Case EC-005 in the AI Workspace PRD ("Brand deleted during conversation") without a concrete mechanism. The current schema uses `onDelete: Restrict` on `conversations.brandId` as a conservative placeholder. Needs a Product decision: does Brand get an `Active/Archived` status, or is hard deletion genuinely intended?
-
-3. **`WorkspaceSession`, `AIRequest`, `AIResponse` in `02_AI_WORKSPACE_PRD.md`** should be corrected to match ADR-003 and ADR-004 above.
-
-None of these block MVP schema implementation; all three should be resolved in a documentation correction pass before onboarding another engineer.
+- Organization roles use the canonical enum; MVP access is Owner-only, with delegated roles reserved for Phase 2.
+- Brand lifecycle is Draft → Active → Archived; EC-005 uses archival, while Restrict protects physical deletion from bypassing the purge lifecycle.
+- WorkspaceSession is not a separate table; request/response execution uses artifacts, explicit generation ownership and the restricted Message response-artifact FK.
+- Before deployment, approve DATA_LIFECYCLE.md policy intervals, backfill generation ownership, reconcile legacy response references and shared dependencies, and implement/validate purge and backup-replay operations. These remain planned work; schema declarations alone do not satisfy them.
 
 ---
 
@@ -196,13 +201,16 @@ None of these block MVP schema implementation; all three should be resolved in a
 Included in this Database Design:
 
 - Platform Services: Users, Organizations, Membership
-- Core Domain: Brand, BrandVoice, Product, Service, Audience, Competitor, Document, Knowledge Index
+- Core Domain: Brand, BrandVoice, Product, Service, Audience, Competitor, Document, Knowledge Index; BrandBrainRevision metadata and Brand.currentRevisionId support field history/restoration and persisted completeness
 - Artifact Model: unified `artifacts` table covering all 7 artifact types
-- AI Workspace: Conversation, Message, Feedback, ExportJob
+- AI Workspace: Conversation, Message, Feedback, ConversationPurge (supporting deletion infrastructure)
 
 ---
 
 # Deferred
+
+- Phase 2 file exports and conversation PDF/DOCX exports: proposed design in [06_FUTURE_EXPORT_DESIGN.md](06_FUTURE_EXPORT_DESIGN.md); no ExportJob table in MVP.
+- Phase 2 multiple Organizations and team roles: membership structure is retained for tenant ownership only in MVP; per-account limits are application constraints.
 
 Post-MVP, consistent with `02_PRODUCT_BIBLE.md` Phase 2+ roadmap:
 
@@ -260,7 +268,7 @@ Defines:
 - Full schema overview across 3 passes (14 tables)
 - 6 Architectural Decisions, including the two decisions that deviate from
   a literal reading of `02_AI_WORKSPACE_PRD.md`
-- 3 explicitly flagged documentation gaps requiring follow-up
+- Historical three documentation gaps later fixed; current open/superseded items are classified in DOCUMENTATION_CHANGELOG.md
 - MVP scope and deferred items, cross-referenced to Business Ontology
   Reserved entity types and Product Bible Phase 2+ roadmap
 
@@ -277,6 +285,32 @@ Version
 Effective Date
 
 Pending
+
+---
+
+## ADR-007 — Field Provenance, Approved Snapshots and Persisted Completeness
+
+Decision (2026-10-13): [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md) defines canonical field values in full APPROVED_KNOWLEDGE Artifact snapshots. BrandBrainRevision contains unique artifact, Brand, approver, prior/restored references and persisted score/missingMandatoryFields/ontologyVersion/calculationVersion/calculatedAt plus approval-time readiness. Brand.currentRevisionId is the single active selector. No Fact value table or independently updated Brand score is added. All projections and KnowledgeIndex change atomically with that selector.
+
+Product/Service/Audience/Competitor sourceArtifactId, Document.latestArtifactId and KnowledgeIndex.latestArtifactId are restricted FKs with tenant/type checks. RecordSource/source entity labels are removed; sourceArtifactId is last materialization, not field origin. Nested evidence/input references are intentionally typed JSON with shared write/erase locks, historical/current reference scanning, integrity checks and approved repair requirements. Polymorphic entity IDs remain application-validated, including restore recreation/type/collision checks.
+
+Required migrations: reconcile orphan/type/tenant/duplicate pointers before FK/unique constraints, backfill or require Owner reapproval for unknown historical provenance, add pinned revision metadata and head, apply score/number/time/self-link SQL checks, migrate readers, then remove old source labels. No migration has run. Statement of canonical history applies to intended design, not a claim that the schema was deployed.
+
+---
+
+## Measurement contract integration
+
+BrandBrainRevision’s existing score/missing-fields/ontology/calculation/time/readiness columns support PRODUCT_METRICS.md calculation v2. No extra score source or onboarding-metric table is added here. Emit committed snapshot/readiness events through the application outbox; retain privacy-safe onboarding/output events under approved telemetry policy, separate from canonical business facts. Preserve v1 history and require an approved v2 reevaluation for current selection.
+
+---
+
+## ADR-008 — Per-Assistant MessageStatus and Independent Conversation Lifecycle
+
+Decision (2026-10-13): the nine MessageStatus values in schema.prisma describe one assistant Message generation attempt, exactly as the Workspace PRD State Management table/diagram specifies. USER Messages are COMPLETED on acceptance; ASSISTANT placeholders explicitly start DRAFT. Completion/failure/cancellation/timeout is terminal only for the attempt; retry creates a new assistant Message/correlationId, never resets a terminal row. A completed response cannot terminate the persistent multi-turn Conversation.
+
+Conversation has no generation-status column. Its lifecycle is derived from existence/deletedAt: Active → PendingPhysicalDeletion → verified physical removal, with independent ConversationPurge bookkeeping (ADR-006/DATA_LIFECYCLE.md). Archival/readiness restrictions are access conditions while the container persists. Guard generation transitions atomically by expected MessageStatus and parent tombstone; late callbacks cannot publish after deletion. No enum value or schema relation changes are required for this documentation reconciliation.
+
+Resolution and remaining issues: [DOCUMENTATION_CHANGELOG.md](../DOCUMENTATION_CHANGELOG.md). Lifecycle acceptance scenarios are in the PRD; runtime implementations, concrete timeout/cancel policy and migration/configuration checks remain unproven.
 
 ---
 

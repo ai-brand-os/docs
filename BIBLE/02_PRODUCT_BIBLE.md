@@ -1,5 +1,11 @@
 # AI Brand OS — Product Bible
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document: 02_PRODUCT_BIBLE.md
 
 Version: 2.0.0
@@ -103,7 +109,7 @@ Modules include:
 
 - Authentication
 - Organizations
-- Billing
+- Billing (future delivery proposal; MVP payment/pricing research does not imply a billing module)
 - User Management
 - Settings
 - Notifications
@@ -238,7 +244,7 @@ Every AI capability depends on its quality.
 
 Knowledge Engine is the knowledge acquisition capability of AI Brand OS.
 
-It is implemented by four independent services:
+The planned design uses four service modules:
 
 - Ingestion Service
 - Document Processing Service
@@ -400,9 +406,9 @@ Represent a company or workspace.
 Responsibilities
 
 - Organization management
-- Team membership
-- Ownership
-- Subscription assignment
+- Sole Owner membership and Organization ownership in MVP
+- Team membership/invitations and Agency client relationships — Phase 2 proposal
+- Subscription assignment/consolidated Agency billing — future packaging proposal; automated billing is not an MVP module
 
 ---
 
@@ -423,7 +429,7 @@ Responsibilities
 
 One organization may contain multiple brands in future releases.
 
-The MVP supports one primary brand.
+The MVP supports one Brand in one Organization for the sole Owner account. Starter and Pro pricing hypotheses do not change this limit.
 
 ---
 
@@ -527,7 +533,7 @@ The following modules support the platform but do not contain business intellige
 
 - Authentication
 - Organizations
-- Billing
+- Billing (future delivery proposal; MVP payment/pricing research does not imply a billing module)
 - User Management
 - Settings
 - File Storage
@@ -557,36 +563,29 @@ Each future module must consume the Core Domain.
 
 # MVP Scope
 
-The MVP exists to validate one assumption:
+Canonical definition: [MVP_SCOPE.md](../MVP_SCOPE.md).
 
-Businesses are willing to pay for AI that understands their business.
+Included:
 
-Included Modules
+- Brand Brain creation and editing
+- Single-source knowledge import (one URL or one supported file per job)
+- Human review and approval
+- Persistent approved business knowledge
+- Context-aware AI Workspace (including content drafts, history, and response copying)
+- Basic response feedback
+- Copyable, approved Brand Brief
 
-- Authentication
-- Organizations
-- Brand
-- Brand Brain
-- Knowledge Engine
-  ├── Ingestion Service
-  ├── Document Processing Service
-  ├── Knowledge Extraction Service
-  └── Knowledge Management Service
-- Context Engine
-- AI Workspace
-- Content Generation
+Authentication, tenant isolation, storage, and single-owner Organization setup are supporting dependencies, not additional product modules. MVP permits one Organization and one Brand per account; multiple Organizations must not bypass the multi-brand exclusion.
 
-Excluded Modules
+Excluded:
 
-- Publishing
-- Scheduling
-- Collaboration
-- CRM
-- Analytics
-- AI Agents
-- Marketplace
-- Integrations
-- Image Generation
+- Background file exports — Phase 2
+- Conversation PDF/DOCX exports — Phase 2
+- Multi-brand management, including multiple client Organizations — Phase 2
+- Team collaboration, invitations, shared access, and delegated roles — Phase 2
+- Advanced integrations, scheduled sync, and external tool actions — Phase 4
+- Publishing, scheduling, analytics, dedicated campaigns, assets, and personas — Phase 3 or later
+- Agents, automation, marketplace, public API, image/video generation — Phase 4 or later
 
 ---
 
@@ -598,11 +597,11 @@ The MVP is successful if users:
 - Build a usable Brand Brain.
 - Generate context-aware content.
 - Return to the platform regularly.
-- Convert to a paid subscription.
+- Provide scoped customer-payment and retention evidence for a proposed single-business offer; payment does not validate Agency capabilities.
 - Trust the platform more over time.
-- Reach first value within 15 minutes.
+- Pursue proposed TTFV goals of median ≤10 minutes and p90 ≤15 minutes under PRODUCT_METRICS.md; no observed results are claimed.
 - Successfully build an initial Brand Brain.
-- Complete at least one AI-assisted content generation.
+- Receive the first usable presented output grounded in approved knowledge (Workspace response when ready or useful partial approved Brief); requesting generation alone is not activation.
 
 The MVP is not intended to maximize feature count.
 
@@ -640,6 +639,8 @@ The roadmap is organized around validated customer value rather than feature qua
 
 ## Phase 1 — MVP
 
+The seven features in [MVP_SCOPE.md](../MVP_SCOPE.md) define this phase. The modules below are supporting architecture, not separate deliverables.
+
 Objective
 
 Validate that businesses are willing to pay for AI that understands their business.
@@ -669,19 +670,25 @@ Success Criteria
 
 ---
 
-## Phase 2 — Team Collaboration
+## Phase 2 — Portability and Team Collaboration
 
 Objective
 
-Expand usage from individuals to teams.
+Propose expansion from a single business/Owner to explicitly authorized teams and agency/client portfolios, only after demand and payment validation.
 
 Potential Modules
 
-- Multi-brand support
+- Multi-brand support (separate per-Organization cardinality migration)
+- Agency subscription and explicitly isolated client portfolio/dashboard
+- Multiple Organization memberships with explicit grants; membership alone is not an Agency workspace
+- Client/Brand switching with full context reset and knowledge isolation
+- Agency/client billing ownership and bounded entitlements
 - Team collaboration
 - Shared workspaces
 - Roles & permissions
-- Approval workflows
+- Delegated and multi-stage approval workflows (single-owner knowledge approval is MVP)
+- Background file exports
+- Conversation PDF/DOCX exports (see `domain/06_FUTURE_EXPORT_DESIGN.md`)
 
 ---
 
@@ -774,7 +781,7 @@ Primary KPIs
 
 - Activation Rate
 - Time to First Value
-- Knowledge Completion Rate
+- Seven-day readiness completion rate (not a field-score threshold)
 - Weekly Active Organizations
 - Monthly Active Users
 - Paid Conversion Rate
@@ -784,11 +791,11 @@ Primary KPIs
 
 Operational KPIs
 
-- Average Onboarding Time
+- TTFV median and p90, with converter/cohort/abandonment counts (proposed goals: ≤10 and ≤15 minutes)
 - Knowledge Processing Time
 - Context Retrieval Latency
 - AI Response Quality
-- Export Usage
+- Approved Brand Brief Copied
 - Brand Brain Completeness
 
 ---
@@ -889,6 +896,12 @@ Version
 Effective Date
 
 2026-06-29
+
+---
+
+## Commercial packaging authority
+
+[COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md) defines proposed Starter/Pro test offers, the seven-feature entitlement matrix, a fixed one-Organization/one-Brand/one-Owner MVP boundary, and Phase 2 Agency prerequisites. No plan promises unlimited brands/resources, multiple clients, collaboration or unimplemented premium features. All AI Brand OS pricing remains proposed until actual customer payment evidence is recorded against the delivered offer.
 
 ---
 

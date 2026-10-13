@@ -1,5 +1,11 @@
 # AI Brand OS — Project Bible
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document: 01_PROJECT_BIBLE.md
 
 Version: 2.0.0
@@ -279,33 +285,29 @@ Nothing should distract from this objective.
 
 # MVP Scope
 
-The MVP must remain intentionally small.
+Canonical definition: [MVP_SCOPE.md](../MVP_SCOPE.md).
 
 Included:
 
-- Authentication
-- Organizations
-- Brands
-- Brand Brain
-- Knowledge Import
-- AI Workspace
-- Context-Aware Chat
-- Content Generation
+- Brand Brain creation and editing
+- Single-source knowledge import (one URL or one supported file per job)
+- Human review and approval
+- Persistent approved business knowledge
+- Context-aware AI Workspace (including content drafts, history, and response copying)
+- Basic response feedback
+- Copyable, approved Brand Brief
+
+Authentication, tenant isolation, storage, and single-owner Organization setup are supporting dependencies, not additional product modules. MVP permits one Organization and one Brand per account; multiple Organizations must not bypass the multi-brand exclusion.
 
 Excluded:
 
-- Publishing
-- Scheduling
-- Analytics
-- AI Agents
-- CRM
-- Marketplace
-- Integrations
-- Collaboration
-- Image Generation
-- Export
-
-These features are intentionally postponed until Product-Market Fit is validated.
+- Background file exports — Phase 2
+- Conversation PDF/DOCX exports — Phase 2
+- Multi-brand management, including multiple client Organizations — Phase 2
+- Team collaboration, invitations, shared access, and delegated roles — Phase 2
+- Advanced integrations, scheduled sync, and external tool actions — Phase 4
+- Publishing, scheduling, analytics, dedicated campaigns, assets, and personas — Phase 3 or later
+- Agents, automation, marketplace, public API, image/video generation — Phase 4 or later
 
 ---
 
@@ -425,7 +427,7 @@ The roadmap should respect this sequence.
 The platform should continuously improve:
 
 - Activation Rate
-- Knowledge Completion Rate
+- Seven-day readiness completion rate (all mandatory approved facts; not completeness ≥70)
 - Weekly Active Users
 - Customer Retention
 - Paid Conversion
@@ -479,35 +481,21 @@ The company should prioritize sustainable recurring revenue over rapid feature e
 
 # Customer Strategy
 
-## Beachhead Market
+## MVP Beachhead Market
 
-The initial target market consists of:
+The proposed initial customer is a small business or e-commerce business managing one Brand within one Organization, with one Owner. A freelancer/creator may use the MVP for their own business or one authorized business, without a portfolio/team promise.
 
-- Marketing Freelancers
-- Small Marketing Agencies
-- Small and Medium Businesses
-- Content Teams
-
-The product should solve their problems exceptionally well before expanding into enterprise or adjacent markets.
-
----
+Agency subscriptions, multi-client dashboards, multi-brand management and team collaboration are Phase 2 proposals. Broader industry/customer lists describe future markets, not launch entitlements. Commercial authority: [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md).
 
 ## Customer Expansion Strategy
 
-Growth should follow this order:
-
-1. Freelancers
-2. Small Teams
-3. Agencies
-4. SMBs
-5. Mid-Market
-6. Enterprise
-
-Each expansion must be supported by validated customer demand.
+Validate single-business value and paid retention first. Phase 2 may then validate multi-client freelancers, agency portfolios/subscriptions and teams as separate slices; mid-market and enterprise expansion require later evidence. No phase number promises delivery or a package price.
 
 ---
 
 # Pricing Philosophy
+
+Starter and Pro are proposed test offers for the same one-Organization/one-Brand/one-Owner MVP. No pricing is validated until scoped customer payment evidence is recorded. Agency is not launch-ready; quotas and commercial terms remain unset. See COMMERCIAL_PACKAGING.md.
 
 Customers should pay for business outcomes rather than AI usage.
 

@@ -1,3 +1,13 @@
+// Canonical MVP scope: MVP_SCOPE.md. Planned schema, not implementation evidence.
+// Measurement authority: PRODUCT_METRICS.md; v2 field weights, readiness separate; targets are goals.
+// Field provenance/version design: KNOWLEDGE_PROVENANCE.md; approved artifacts hold canonical values.
+// Deletion/retention design: DATA_LIFECYCLE.md; intervals await legal/operational approval.
+// Commercial authority: COMMERCIAL_PACKAGING.md; all prices are hypotheses.
+// MVP: one owned Organization and Brand per account; Owner-only access.
+// Starter/Pro labels grant the same fixed limits; no Agency subscription/portfolio.
+// Per-account Organization limits are enforced transactionally in application services.
+// Retained membership/role structures do not expose team collaboration.
+// Phase 2 export design: domain/06_FUTURE_EXPORT_DESIGN.md; no export storage in MVP.
 // ============================================================
 // AI Brand OS — Database Schema (Prisma) — MERGED (Passes 1–3)
 // Source of truth: domain/01_DOMAIN_MODEL.md, domain/02_ARTIFACT_MODEL.md,
@@ -6,23 +16,13 @@
 // Merge date: 2026-07-07
 // Merge changes vs. the three pass files (structural only, no semantic changes):
 //   - Added required back-relations (Prisma relations are mandatory two-sided):
-//       User          -> conversations, exportJobs
 //       Organization  -> artifacts, products, services, audiences,
 //                        competitors, documents, knowledgeIndex, conversations
 //       Brand         -> knowledgeIndex, conversations
-//       Conversation  -> exportJobs
 //   - Consolidated all "post-migration raw SQL" notes into one section at
 //     the end of this file.
-//   - Design-deviation flags from the pass headers have been reconciled
-//     with the documentation; only the open MessageStatus wording item
-//     below remains.
-//
-// FLAGGED (open documentation item, tracked for the AI Workspace PRD
-// correction pass):
-//   MessageStatus models the per-Message generation lifecycle, NOT a
-//   per-Conversation lifecycle. 02_AI_WORKSPACE_PRD.md's "Conversation
-//   Lifecycle" / "State Management" wording still implies the latter and
-//   is being corrected to match this schema.
+//   - MessageStatus is the per-Message generation lifecycle, as specified
+//     in the AI Workspace PRD State Management section.
 // ============================================================
 
 generator client {
@@ -47,16 +47,17 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
-  memberships   OrganizationMember[]
+  memberships   OrganizationMember[] // relational multi-membership capacity is Phase 2; MVP permits sole Owner membership
   conversations Conversation[]
-  exportJobs    ExportJob[]
+  approvedBrainRevisions BrandBrainRevision[] @relation("BrainRevisionApprover")
 
   @@map("users")
 }
 
+// OrgRole values beyond OWNER are reserved for Phase 2; no shared access in MVP.
 // Role list follows Engineering Bible (Owner/Admin/Editor/Viewer) as the
 // canonical source, per reconciliation with AI Workspace PRD.
-// Canonical role set per 03_ENGINEERING_BIBLE.md; 02_AI_WORKSPACE_PRD.md v1.1.0 conforms.
+// Canonical enum per Engineering Bible; MVP permits OWNER only, other roles Phase 2.
 enum OrgRole {
   OWNER
   ADMIN
@@ -77,7 +78,8 @@ model Organization {
 
   members         OrganizationMember[]
 
-  // MVP constraint: exactly 1 Brand per Organization.
+  // MVP: at most 1 Brand row during setup, exactly 1 after onboarding.
+  // Every proposed Starter/Pro offer preserves this uniqueness; Agency is Phase 2.
   // Enforced here via @unique on Brand.organizationId (see below).
   // Per Business Ontology cardinality note: this becomes 1:N in Phase 2
   // (multi-brand) — that change requires an ontology MINOR version bump,
@@ -92,6 +94,7 @@ model Organization {
   documents       Document[]
   knowledgeIndex  KnowledgeIndex[]
   conversations   Conversation[]
+  conversationPurges ConversationPurge[]
 
   @@map("organizations")
 }
@@ -106,7 +109,7 @@ model OrganizationMember {
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([organizationId, userId]) // a user has exactly one role per org
+  @@unique([organizationId, userId]) // one role per org; NOT an Agency entitlement or cross-org product grant
   @@index([organizationId])
   @@index([userId])
   @@map("organization_members")
@@ -202,6 +205,10 @@ model Brand {
   organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   brandVoice        BrandVoice?
 
+  currentRevisionId String? @unique @map("current_revision_id") @db.Uuid
+  currentRevision BrandBrainRevision? @relation("CurrentBrainRevision", fields: [currentRevisionId], references: [id], onDelete: Restrict)
+  revisions BrandBrainRevision[] @relation("BrainRevisionHistory")
+
   knowledgeIndex    KnowledgeIndex[]
   conversations     Conversation[]
 
@@ -266,8 +273,9 @@ enum ArtifactStatus {
 model Artifact {
   id               String           @id @default(uuid()) @db.Uuid
   artifactType     ArtifactType     @map("artifact_type")
-  parentArtifactId String?          @map("parent_artifact_id") @db.Uuid // null only for RAW_INTAKE
-  correlationId    String           @map("correlation_id") @db.Uuid    // constant across the full chain
+  parentArtifactId String?          @map("parent_artifact_id") @db.Uuid // lineage reference, never a deletion ownership boundary
+  conversationId   String?          @map("conversation_id") @db.Uuid // required by app for generation artifacts; null for independent knowledge/source artifacts
+  correlationId    String           @map("correlation_id") @db.Uuid    // stable per import/generation operation; not a purge boundary
   organizationId   String           @map("organization_id") @db.Uuid
   producingService ProducingService @map("producing_service")
   producingStage   String           @map("producing_stage")
@@ -276,34 +284,34 @@ model Artifact {
   payload          Json             // type-specific structure — see Artifact Type Catalog in domain/02_ARTIFACT_MODEL.md
   createdAt        DateTime         @default(now()) @map("created_at")
 
-  parent           Artifact?  @relation("ArtifactLineage", fields: [parentArtifactId], references: [id])
+  parent           Artifact?  @relation("ArtifactLineage", fields: [parentArtifactId], references: [id], onDelete: Restrict)
   children         Artifact[] @relation("ArtifactLineage")
+  conversation     Conversation? @relation("ConversationArtifacts", fields: [conversationId], references: [id], onDelete: Restrict)
+  responseMessages Message[] @relation("MessageResponseArtifact")
+  brainRevision BrandBrainRevision? @relation("BrainRevisionArtifact")
+  materializedProducts Product[] @relation("ProductMaterialization")
+  materializedServices Service[] @relation("ServiceMaterialization")
+  materializedAudiences Audience[] @relation("AudienceMaterialization")
+  materializedCompetitors Competitor[] @relation("CompetitorMaterialization")
+  latestForDocuments Document[] @relation("DocumentLatestArtifact")
+  latestForKnowledge KnowledgeIndex[] @relation("KnowledgeLatestArtifact")
 
-  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
 
   @@index([correlationId])
   @@index([organizationId, artifactType])
   @@index([parentArtifactId])
+  @@index([organizationId, conversationId])
   @@map("artifacts")
 }
 
 // ============================================================
-// Core Domain Business Entities
-// These are the CURRENT VALIDATED STATE tables — what the AI Workspace
-// and Context Engine actually query at runtime. They are populated /
-// updated only when an APPROVED_KNOWLEDGE artifact is produced for them
-// (never written to directly by Extraction). `sourceArtifactId` traces
-// back to the Artifact that most recently justified the current values —
-// this is how FR-10 in 01_BRAND_BRAIN_PRD.md ("record which fields were
-// AI-imported vs. manually entered") is satisfied without re-parsing JSONB
-// on every read.
+// Core Domain Business Entities — projections of Brand.currentRevisionId.
+// Canonical per-field values/origin/approval history live in the approved
+// Artifact payload, indexed by BrandBrainRevision (KNOWLEDGE_PROVENANCE.md).
+// sourceArtifactId is a restricted last-materialization pointer, not field origin.
+// No independent RecordSource/source labels; mutation only in approval transaction.
 // ============================================================
-
-enum RecordSource {
-  MANUAL
-  IMPORTED
-  BOTH
-}
 
 model Product {
   id                String       @id @default(uuid()) @db.Uuid
@@ -313,13 +321,15 @@ model Product {
   valueProposition  String       @map("value_proposition") @db.Text
   keyFeatures       String[]     @default([]) @map("key_features")
   pricingModel      String?      @map("pricing_model")
-  source            RecordSource @default(MANUAL)
-  sourceArtifactId  String?      @map("source_artifact_id") @db.Uuid
+  sourceArtifactId  String?      @map("source_artifact_id") @db.Uuid // last projection materialization; field origin is in snapshot
   createdAt         DateTime     @default(now()) @map("created_at")
   updatedAt         DateTime     @updatedAt @map("updated_at")
 
   organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  sourceArtifact Artifact? @relation("ProductMaterialization", fields: [sourceArtifactId], references: [id], onDelete: Restrict)
+
+  @@index([sourceArtifactId])
   @@index([organizationId])
   @@map("products")
 }
@@ -332,13 +342,15 @@ model Service {
   valueProposition  String       @map("value_proposition") @db.Text
   keyFeatures       String[]     @default([]) @map("key_features")
   pricingModel      String?      @map("pricing_model")
-  source            RecordSource @default(MANUAL)
-  sourceArtifactId  String?      @map("source_artifact_id") @db.Uuid
+  sourceArtifactId  String?      @map("source_artifact_id") @db.Uuid // last projection materialization; field origin is in snapshot
   createdAt         DateTime     @default(now()) @map("created_at")
   updatedAt         DateTime     @updatedAt @map("updated_at")
 
   organization      Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  sourceArtifact Artifact? @relation("ServiceMaterialization", fields: [sourceArtifactId], references: [id], onDelete: Restrict)
+
+  @@index([sourceArtifactId])
   @@index([organizationId])
   @@map("services")
 }
@@ -350,13 +362,15 @@ model Audience {
   description      String       @db.Text
   painPoints       String[]     @map("pain_points")
   goals            String[]     @default([])
-  source           RecordSource @default(MANUAL)
-  sourceArtifactId String?      @map("source_artifact_id") @db.Uuid
+  sourceArtifactId String?      @map("source_artifact_id") @db.Uuid // last projection materialization; field origin is in snapshot
   createdAt        DateTime     @default(now()) @map("created_at")
   updatedAt        DateTime     @updatedAt @map("updated_at")
 
   organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  sourceArtifact Artifact? @relation("AudienceMaterialization", fields: [sourceArtifactId], references: [id], onDelete: Restrict)
+
+  @@index([sourceArtifactId])
   @@index([organizationId])
   @@map("audiences")
 }
@@ -367,13 +381,15 @@ model Competitor {
   name                  String?
   website               String?
   differentiationNotes  String?      @map("differentiation_notes") @db.Text
-  source                RecordSource @default(MANUAL)
   sourceArtifactId      String?      @map("source_artifact_id") @db.Uuid
   createdAt             DateTime     @default(now()) @map("created_at")
   updatedAt             DateTime     @updatedAt @map("updated_at")
 
   organization          Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  sourceArtifact Artifact? @relation("CompetitorMaterialization", fields: [sourceArtifactId], references: [id], onDelete: Restrict)
+
+  @@index([sourceArtifactId])
   @@index([organizationId])
   @@map("competitors")
 }
@@ -403,21 +419,20 @@ model Document {
 
   organization           Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  latestArtifact Artifact? @relation("DocumentLatestArtifact", fields: [latestArtifactId], references: [id], onDelete: Restrict)
+
+  @@index([latestArtifactId])
   @@index([organizationId])
   @@index([correlationId])
   @@map("documents")
 }
 
 // ============================================================
-// Knowledge Index
-// This IS the "Knowledge" entity from 01_DOMAIN_MODEL.md / Ontology —
-// a first-class record with its own lifecycle (Extracted -> Reviewed ->
-// Approved -> Versioned -> Deprecated), distinct from the business
-// tables' own lifecycle. Exists so the Context Engine can query "all
-// Knowledge for Brand X" generically without knowing Product vs Audience
-// schema differences (Context Engine Non-Responsibility: never touches
-// Knowledge Domain directly — it consumes this index via Knowledge
-// Management Service).
+// Knowledge Index — entity retrieval projection of the selected approved snapshot.
+// No independent approval/version lifecycle or alternate fact-value authority.
+// Unique per Brand/entity, with a restricted current approved Artifact pointer.
+// History, approval and score metadata use BrandBrainRevision; fact values and
+// per-field provenance use that revision's immutable Artifact payload.
 // ============================================================
 
 enum KnowledgeEntityType {
@@ -451,9 +466,53 @@ model KnowledgeIndex {
   organization        Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   brand               Brand        @relation(fields: [brandId], references: [id], onDelete: Cascade)
 
+  latestArtifact Artifact @relation("KnowledgeLatestArtifact", fields: [latestArtifactId], references: [id], onDelete: Restrict)
+
+  @@unique([brandId, describesEntityType, describesEntityId])
+  @@index([latestArtifactId])
   @@index([organizationId, brandId])
   @@index([describesEntityType, describesEntityId])
   @@map("knowledge_index")
+}
+
+// Approved revision metadata + persisted completeness; values are NOT copied here.
+// Draft/rejected proposals stay in KNOWLEDGE_CANDIDATE artifacts.
+// JSON source/Document/input-fact references use the shared validation/locking and
+// reference-aware erasure gateway specified in KNOWLEDGE_PROVENANCE.md.
+// previous/restored/current links must be same Brand; app validates acyclicity.
+model BrandBrainRevision {
+  id                     String @id @default(uuid()) @db.Uuid
+  brandId                String @map("brand_id") @db.Uuid
+  revisionNumber         Int @map("revision_number")
+  artifactId             String @unique @map("artifact_id") @db.Uuid
+  previousRevisionId     String? @map("previous_revision_id") @db.Uuid
+  restoredFromRevisionId String? @map("restored_from_revision_id") @db.Uuid
+  approvedByUserId       String @map("approved_by_user_id") @db.Uuid
+  approvedAt             DateTime @map("approved_at")
+  changeReason           String @map("change_reason")
+  ontologyVersion        String @map("ontology_version")
+  calculationVersion     String @map("calculation_version") // current v2; preserve historical v1 snapshots
+  calculatedAt           DateTime @map("calculated_at")
+  completenessScore      Int @map("completeness_score") // 0..100 weighted v2; >=70 never bypasses mandatory fields; SQL check required
+  missingMandatoryFields String[] @map("missing_mandatory_fields")
+  readyForGeneration     Boolean @map("ready_for_generation") // approval-time business readiness, not live request authorization
+  readinessReasons       String[] @map("readiness_reasons")
+
+  brand Brand @relation("BrainRevisionHistory", fields: [brandId], references: [id], onDelete: Restrict)
+  currentForBrand Brand? @relation("CurrentBrainRevision")
+  artifact Artifact @relation("BrainRevisionArtifact", fields: [artifactId], references: [id], onDelete: Restrict)
+  approvedBy User @relation("BrainRevisionApprover", fields: [approvedByUserId], references: [id], onDelete: Restrict)
+  previousRevision BrandBrainRevision? @relation("BrainRevisionPrevious", fields: [previousRevisionId], references: [id], onDelete: Restrict)
+  nextRevisions BrandBrainRevision[] @relation("BrainRevisionPrevious")
+  restoredFromRevision BrandBrainRevision? @relation("BrainRevisionRestore", fields: [restoredFromRevisionId], references: [id], onDelete: Restrict)
+  restorations BrandBrainRevision[] @relation("BrainRevisionRestore")
+
+  @@unique([brandId, revisionNumber])
+  @@index([brandId, approvedAt])
+  @@index([approvedByUserId])
+  @@index([previousRevisionId])
+  @@index([restoredFromRevisionId])
+  @@map("brand_brain_revisions")
 }
 
 // ============================================================
@@ -472,12 +531,12 @@ enum MessageRole {
   ASSISTANT
 }
 
-// Mirrors the Conversation Lifecycle in 02_AI_WORKSPACE_PRD.md, but
-// attached to the individual ASSISTANT Message being generated — not to
-// the whole Conversation. A Conversation spans many turns and must not
-// lock into a terminal state after its first response (a literal reading
-// of the PRD's "Conversation Lifecycle" diagram would imply this, which
-// is a PRD wording issue to fix in a follow-up pass).
+// Individual ASSISTANT Message generation attempt only; reconciled with
+// prd/02_AI_WORKSPACE_PRD.md State Management and Database Design ADR-008.
+// COMPLETED/FAILED/CANCELLED/TIMEOUT are terminal for this attempt, never
+// for its persistent multi-turn Conversation. USER Messages store COMPLETED.
+// New ASSISTANT placeholders explicitly start DRAFT (do not use default).
+// No terminal reset: retry creates a new assistant Message/correlationId.
 enum MessageStatus {
   DRAFT
   SUBMITTING
@@ -495,12 +554,9 @@ enum FeedbackRating {
   NOT_HELPFUL
 }
 
-enum ExportJobStatus {
-  PENDING
-  COMPLETED
-  FAILED
-}
-
+// Persistent multi-turn container: Active (deletedAt=null) -> pending physical
+// deletion (deletedAt!=null) -> verified purge/removal. No generation status.
+// A terminal assistant Message never terminates its parent; see ADR-008.
 model Conversation {
   id              String    @id @default(uuid()) @db.Uuid
   organizationId  String    @map("organization_id") @db.Uuid
@@ -508,23 +564,22 @@ model Conversation {
   createdByUserId String    @map("created_by_user_id") @db.Uuid
   title           String?   // auto-generated from first message if null
   lastActivityAt  DateTime  @default(now()) @map("last_activity_at") // FR-006: ordered by latest activity
-  deletedAt       DateTime? @map("deleted_at") // soft delete per Engineering Bible "Soft deletes where appropriate"
+  deletedAt       DateTime? @map("deleted_at") // tombstone: inaccessible, pending physical deletion; not erasure completion
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  // Restrict is now guaranteed-safe by design: Brand is never hard-deleted
-  // (01_DOMAIN_MODEL.md Brand Lifecycle — removal is modeled as
-  // status=ARCHIVED). Archived Brand → conversations become read-only per
-  // EC-005; the FK never needs to fire.
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  // MVP Brand removal is archival. Restrict also prevents any future
+  // hard deletion from bypassing owned Conversation/artifact cleanup.
   brand           Brand        @relation(fields: [brandId], references: [id], onDelete: Restrict)
-  createdBy       User         @relation(fields: [createdByUserId], references: [id])
+  createdBy       User         @relation(fields: [createdByUserId], references: [id], onDelete: Restrict)
   messages        Message[]
-  exportJobs      ExportJob[]
+  generationArtifacts Artifact[] @relation("ConversationArtifacts")
 
   @@index([organizationId, brandId])
   @@index([createdByUserId])
   @@index([lastActivityAt])
+  @@index([deletedAt])
   @@map("conversations")
 }
 
@@ -533,14 +588,15 @@ model Message {
   conversationId     String        @map("conversation_id") @db.Uuid
   role               MessageRole
   content            String        @db.Text // denormalized final text — avoids reading artifacts.payload JSONB on every render
-  status             MessageStatus @default(COMPLETED) // USER messages complete immediately on validation; ASSISTANT messages progress through the enum
+  status             MessageStatus @default(COMPLETED) // USER accepted -> COMPLETED; ASSISTANT must explicitly start DRAFT; per-attempt lifecycle only
   correlationId      String?       @map("correlation_id") @db.Uuid // set on submit; links this turn's full artifact chain
-  responseArtifactId String?       @map("response_artifact_id") @db.Uuid // FK into artifacts table, RESPONSE type only, ASSISTANT messages only
+  responseArtifactId String?       @map("response_artifact_id") @db.Uuid // restricted FK into artifacts; app enforces RESPONSE, same tenant/Conversation, ASSISTANT only
   isLowContext       Boolean       @default(false) @map("is_low_context") // EC-004: Context Engine returned no context
   createdAt          DateTime      @default(now()) @map("created_at")
 
   conversation       Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   feedback           Feedback?
+  responseArtifact   Artifact? @relation("MessageResponseArtifact", fields: [responseArtifactId], references: [id], onDelete: Restrict)
 
   @@index([conversationId, createdAt])
   @@index([correlationId])
@@ -558,20 +614,47 @@ model Feedback {
   @@map("feedback")
 }
 
-model ExportJob {
-  id                String          @id @default(uuid()) @db.Uuid
-  conversationId    String          @map("conversation_id") @db.Uuid
-  requestedByUserId String          @map("requested_by_user_id") @db.Uuid
-  status            ExportJobStatus @default(PENDING)
-  fileUrl           String?         @map("file_url") // Cloudflare R2 reference, populated on COMPLETED
-  createdAt         DateTime        @default(now()) @map("created_at")
-  completedAt       DateTime?       @map("completed_at")
+// Durable deletion request / minimal receipt. Independent of Conversation so
+// physical removal cannot erase retries/evidence. No user content in this model.
+// conversationId is intentionally a scalar, NOT a Conversation FK.
+// App enforces same tenant, deletion transaction, 30-day proposed target,
+// lease recovery, holds and completion verification; see DATA_LIFECYCLE.md.
+enum ConversationPurgeStatus {
+  PENDING
+  RUNNING
+  RETRY_REQUIRED
+  BLOCKED
+  EXCEPTION
+  COMPLETED
+}
 
-  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  requestedBy       User         @relation(fields: [requestedByUserId], references: [id])
+model ConversationPurge {
+  id                 String @id @default(uuid()) @db.Uuid
+  organizationId     String @map("organization_id") @db.Uuid
+  conversationId     String @unique @map("conversation_id") @db.Uuid
+  requestedByUserId  String? @map("requested_by_user_id") @db.Uuid // minimal audit identifier; no cascading User relation
+  requestedAt        DateTime @map("requested_at") // original Conversation.deletedAt; never reset by retries
+  targetPurgeAt      DateTime @map("target_purge_at") // proposed requestedAt + 30 days, subject to approval
+  status             ConversationPurgeStatus @default(PENDING)
+  attemptCount       Int @default(0) @map("attempt_count")
+  nextAttemptAt      DateTime? @map("next_attempt_at")
+  lockedAt           DateTime? @map("locked_at") // worker lease; app validates expiry/claim token
+  leaseToken         String? @map("lease_token") @db.Uuid
+  lastErrorCode      String? @map("last_error_code") // bounded safe code; never raw payload/error text
+  exceptionRef       String? @map("exception_ref") // reference to separately authorized hold record
+  reviewAt           DateTime? @map("review_at")
+  manifestRef        String? @map("manifest_ref") // private operational manifest: resource IDs/steps only
+  completedAt        DateTime? @map("completed_at") // verified active removal, not backup erasure
+  receiptExpiresAt   DateTime? @map("receipt_expires_at") // approved receipt policy; no automatic deletion while backup replay needs it
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
 
-  @@index([conversationId])
-  @@map("export_jobs")
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+
+  @@index([status, nextAttemptAt])
+  @@index([targetPurgeAt])
+  @@index([organizationId])
+  @@map("conversation_purges")
 }
 
 // ============================================================
@@ -602,3 +685,28 @@ model ExportJob {
 //
 // 5. missionStatement / visionStatement <=300 chars (Brand Brain PRD).
 // ============================================================
+
+// APP-LAYER DELETION CONSTRAINTS:
+// - Gate every normal Conversation/Message/artifact/memory route on deletedAt IS NULL.
+// - Serialize deletion with all generation, feedback and artifact writes/publication.
+// - Generation Artifact.conversationId must be same tenant and same owning Conversation.
+// - Inventory shared/polymorphic references; purge owned artifacts child-first only.
+// - Message/Feedback cascades run at physical deletion, never at tombstone update.
+// - Parent and response artifact Restrict FKs must not be bypassed by blanket cascades.
+// - Organization/Brand/User erasure needs its own policy; root deletes cannot replace purge.
+
+// POST-MIGRATION KNOWLEDGE CHECKS (apply in reviewed SQL migration):
+// ALTER TABLE brand_brain_revisions
+// ADD CONSTRAINT brain_revision_number_positive CHECK (revision_number > 0),
+// ADD CONSTRAINT brain_completeness_range CHECK (completeness_score BETWEEN 0 AND 100),
+// ADD CONSTRAINT brain_calculation_time CHECK (calculated_at >= approved_at),
+// ADD CONSTRAINT brain_previous_not_self CHECK (previous_revision_id IS NULL OR previous_revision_id <> id),
+// ADD CONSTRAINT brain_restore_not_self CHECK (restored_from_revision_id IS NULL OR restored_from_revision_id <> id);
+// APP-LAYER KNOWLEDGE INTEGRITY:
+// - Snapshot JSON schema: unique typed fact keys, MANUAL/IMPORTED/DERIVED,
+//   approved-only values, source Document/Artifact links and input revision refs.
+// - Same tenant/type, current head CAS, previous=head, no derivation cycles;
+//   locks coordinate all reference writers and retention/source erasure handlers.
+// - Historical JSON evidence references also protect sources from physical removal.
+// - Every projection and KnowledgeIndex pointer is updated atomically with head.
+// - No conversation-owned artifact can be durable approved knowledge evidence.

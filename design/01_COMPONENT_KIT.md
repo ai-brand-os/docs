@@ -1,5 +1,7 @@
 # Component Kit — AI Brand OS
 
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 01_COMPONENT_KIT.md
@@ -71,7 +73,7 @@ When the authenticated user belongs to exactly one Organization, the switcher re
 
 Rationale: a switcher with exactly one destination is an affordance that promises an action it cannot perform.
 
-### Multi-organization (dropdown)
+### Multi-organization (dropdown) — Phase 2 only
 
 When the user belongs to two or more Organizations, the switcher renders as a dropdown trigger.
 
@@ -88,7 +90,7 @@ Panel:
 - The active Organization's row is marked with `--pulse`.
 - Row order follows the order returned by `GET /organizations`.
 
-The single-organization case is a rendering state of the same component, not a separate component. The user's membership count can change (`POST /organizations`, per ADR-005 in `domain/05_API_DESIGN.md`), and the switcher must move between these two states without being replaced.
+MVP renders only the static single-Organization label. Additional Organization creation and the dropdown are Phase 2 designs; ADR-005 now prohibits multiple Organizations per MVP account.
 
 ---
 

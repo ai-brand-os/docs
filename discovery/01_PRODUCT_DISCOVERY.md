@@ -1,5 +1,11 @@
 # Product Discovery
 
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Commercial boundary (2026-10-13): [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md). MVP serves one business, one Organization, one Brand and one Owner. Starter/Pro are proposed pricing tests; Agency portfolios, subscriptions, multiple clients and teams are Phase 2 proposals. Segment ratings and price estimates are research hypotheses; competitor audiences/prices do not confer AI Brand OS entitlements or prove customer payments.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Project: AI Brand OS
 
 Version: **1.0.0**
@@ -77,13 +83,13 @@ Create a persistent Brand Brain that becomes the foundation for every AI interac
 
 # Target Market
 
-## Beachhead Market
+## MVP Beachhead Market — proposed recruitment
 
-* Small Businesses
-* E-commerce Stores
-* Marketing Freelancers
-* Small Marketing Agencies
-* Content Creators
+- Small businesses managing one Brand
+- E-commerce businesses managing one Brand
+- A freelancer or creator’s own business, or one authorized business under the same single-Owner limit
+
+Multi-client freelancers, Agency subscriptions/portfolios and content-team collaboration are Phase 2 research segments, not MVP buyers promised those workflows. See COMMERCIAL_PACKAGING.md.
 
 ---
 
@@ -119,11 +125,11 @@ Pain Points
 
 ---
 
-## Marketing Freelancer
+## Marketing Freelancer — single-business MVP use
 
 Goals
 
-* Manage multiple brands efficiently
+* Create consistent content for their own business or one authorized Brand; multi-client management is Phase 2
 
 Pain Points
 
@@ -132,7 +138,7 @@ Pain Points
 
 ---
 
-## Small Agency
+## Small Agency — Phase 2 research persona
 
 Goals
 
@@ -164,7 +170,7 @@ Awareness
 
 ↓
 
-Visit Website
+See proposed single-business offer and exact limits (launch marketing website remains a separate deferred surface)
 
 ↓
 
@@ -172,11 +178,11 @@ Create Account
 
 ↓
 
-Create Organization
+Create sole Organization
 
 ↓
 
-Create Brand
+Create sole Brand
 
 ↓
 
@@ -196,7 +202,7 @@ Review
 
 ↓
 
-Export
+Copy approved Brand Brief or AI response
 
 ↓
 
@@ -273,7 +279,7 @@ AI forgets brand context.
 
 ## Customer Segments
 
-Small businesses and marketing professionals.
+MVP: a single-business Owner managing one Brand. Marketing professionals participate only within that boundary; multi-client/team needs are later-phase research.
 
 ## Unique Value Proposition
 
@@ -293,7 +299,7 @@ Brand Brain + Knowledge Base + AI Workspace.
 
 ## Revenue
 
-Monthly SaaS subscription.
+Proposed monthly subscription experiment (Starter/Pro); no validated paid offer or implemented billing is established.
 
 ## Cost Structure
 
@@ -313,7 +319,7 @@ Monthly SaaS subscription.
 
 # Business Model (Initial)
 
-Subscription
+Proposed Starter/Pro subscription tests for the same single-brand MVP. Prices, quotas and terms require delivery and customer-payment evidence; Agency is excluded.
 
 Potential Future Revenue
 
@@ -326,98 +332,57 @@ Potential Future Revenue
 
 # MVP Scope
 
-Included
+Canonical definition: [MVP_SCOPE.md](../MVP_SCOPE.md).
 
-* Authentication
-* Organizations
-* Brands
-* Brand Brain
-* Knowledge Base
-* AI Workspace
-* Caption Generation
-* Manual Review
-* Export
+Included:
 
-Excluded
+- Brand Brain creation and editing
+- Single-source knowledge import (one URL or one supported file per job)
+- Human review and approval
+- Persistent approved business knowledge
+- Context-aware AI Workspace (including content drafts, history, and response copying)
+- Basic response feedback
+- Copyable, approved Brand Brief
 
-* Image Generation
-* Publishing
-* Analytics
-* Calendar
-* Video
-* AI Agents
-* Marketplace
-* API
+Authentication, tenant isolation, storage, and single-owner Organization setup are supporting dependencies, not additional product modules. MVP permits one Organization and one Brand per account; multiple Organizations must not bypass the multi-brand exclusion.
+
+Excluded:
+
+- Background file exports — Phase 2
+- Conversation PDF/DOCX exports — Phase 2
+- Multi-brand management, including multiple client Organizations — Phase 2
+- Team collaboration, invitations, shared access, and delegated roles — Phase 2
+- Advanced integrations, scheduled sync, and external tool actions — Phase 4
+- Publishing, scheduling, analytics, dedicated campaigns, assets, and personas — Phase 3 or later
+- Agents, automation, marketplace, public API, image/video generation — Phase 4 or later
 
 ---
 
 # MoSCoW Prioritization
 
-## Must
+Must: the seven canonical MVP features and their supporting dependencies.
 
-Brand Brain
-
-Knowledge Base
-
-AI Workspace
-
-Authentication
-
-Organizations
-
-Export
+Later-phase candidates: prompt templates, Brand Assets, publishing, analytics, calendar, video, agents, marketplace, and enterprise features. None is an MVP requirement.
 
 ---
 
-## Should
+# Success Metrics — proposed goals, not observed results
 
-Prompt Templates
+Seven-day activation rate (QualifiedFirstValue / eligible mature-cohort starts)
 
-Brand Assets
-
----
-
-## Could
-
-Publishing
-
-Analytics
-
-Calendar
+Proposed goal >60%; not observed, per PRODUCT_METRICS.md.
 
 ---
 
-## Won't
+Seven-day readiness completion rate (ever ready / eligible mature-cohort starts)
 
-Video
-
-Community Agent
-
-Sales Agent
-
-Marketplace
-
-Enterprise Features
+Proposed goal >70%; not a ≥70-point field-score gate.
 
 ---
 
-# Success Metrics
+Time to first value (onboarding start to usable presented approved-grounded output)
 
-Activation Rate
-
-> 60%
-
----
-
-Brand Brain Completion
-
-> 70%
-
----
-
-Time To First Value
-
-< 10 minutes
+Proposed goals: median ≤10 minutes and p90 ≤15 minutes, not observed; cohort/exclusion rules in PRODUCT_METRICS.md.
 
 ---
 

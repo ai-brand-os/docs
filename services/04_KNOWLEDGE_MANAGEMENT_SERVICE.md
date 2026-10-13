@@ -1,5 +1,9 @@
 # Service Specification — Knowledge Management Service
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 04_KNOWLEDGE_MANAGEMENT_SERVICE.md
@@ -142,7 +146,10 @@ Knowledge Merge
 Confidence Calculation
             │
             ▼
-Approval Decision
+Governance Eligibility
+            │
+            ▼
+Owner Review and Confirmation (MVP)
             │
             ▼
 Persistence
@@ -247,6 +254,9 @@ Policy Engine
             └──────── Reject
                     │
                     ▼
+Owner Confirmation (required for eligible candidates; rejected candidates stop)
+                    │
+                    ▼
 Persistence
                     │
                     ▼
@@ -256,7 +266,7 @@ Knowledge Graph Update
 Approved Knowledge Artifact
 ```
 
-The pipeline is deterministic whenever deterministic rules are available.
+The pipeline is deterministic whenever deterministic rules are available. The diagram includes future policy routing; MVP pauses eligible candidates for Owner confirmation and stops rejected candidates before authoritative persistence.
 
 ---
 
@@ -378,16 +388,7 @@ Purpose
 
 Merge compatible knowledge into a single authoritative representation.
 
-Merge strategies
-
-- Replace
-- Merge attributes
-- Append
-- Keep highest confidence
-- Keep latest version
-- Manual resolution
-
-Merge behavior is determined by policy.
+MVP merge behavior is an Owner-reviewed proposal: keep approved, replace, edit, or combine values with retained field/list-item evidence. Higher confidence, newer extraction or an automatic merge never replaces approved facts. Compare against current head; require expectedRevisionId and idempotency. Revalidate edited candidates before approving a new full snapshot. Contradictions are displayed side by side and unknown/stale verification produces review flags.
 
 ---
 
@@ -419,7 +420,7 @@ Purpose
 
 Determine the final governance decision.
 
-Possible outcomes
+Long-term policy outcomes (MVP uses eligibility or rejection followed by Owner confirmation; delegated Human Review and Needs More Evidence routing are future designs)
 
 Auto Approve
 
@@ -431,7 +432,7 @@ Reject
 
 Policies are configurable.
 
-Different organizations may define different approval rules.
+Organization-specific policies and delegated review routing are Phase 2 or later. MVP uses shared deterministic eligibility rules and mandatory Owner confirmation.
 
 ---
 
@@ -469,7 +470,7 @@ Draft
 
 # Persistence Model
 
-Only Approved Knowledge Artifacts may be persisted.
+Provisional candidates and audit artifacts may be stored, but only human-approved knowledge may enter authoritative business state or KnowledgeIndex. Auto Approve is a governance eligibility result; it must pause before Persistence until the Owner confirms. Manual edits are explicit Owner approval and use the same validation/versioning path. The approval transaction creates a full APPROVED_KNOWLEDGE Artifact snapshot plus BrandBrainRevision metadata/completeness, updates current projections and KnowledgeIndex, and switches Brand.currentRevisionId under lock. Field origins/evidence and introducing/superseded/verification revision refs are preserved. No projection can be independently edited. Context Engine and Brand Brief may read only that approved state.
 
 Persistence targets:
 
@@ -486,7 +487,7 @@ Candidate Artifacts are never persisted as authoritative knowledge.
 
 Knowledge is immutable.
 
-Every approved modification creates a new version.
+Every approved modification or explicit field verification creates a new BrandBrainRevision and full approved Artifact snapshot. Inspect/diff historical versions; restoration creates a new revision linked to both previous head and restored source, never overwrites or pointer rollback. Resolve each field’s approver/time and last verification from its revision references.
 
 Version metadata includes:
 
@@ -496,7 +497,7 @@ Version metadata includes:
 - Change Type
 - Change Reason
 - Approved At
-- Approved By (Future)
+- Approved By (MVP: authenticated Owner ID)
 - Ontology Version
 
 History must never be overwritten.
@@ -672,7 +673,8 @@ Included:
 - Conflict detection
 - Static Trust Score
 - Knowledge Confidence calculation
-- Policy Engine (Auto Approve only)
+- Policy Engine (deterministic eligibility or rejection; Auto Approve means eligible, not persisted)
+- Single-owner human review and approval before authoritative persistence
 - Versioning
 - Audit Trail
 - Knowledge Graph synchronization
@@ -684,7 +686,7 @@ Included:
 
 Post-MVP:
 
-- Human review workflow
+- Delegated/team human review workflow (Phase 2; single-owner review is MVP)
 - Dynamic Trust Score
 - Multi-stage approval
 - Organization-specific governance policies
@@ -758,6 +760,26 @@ Version
 Effective Date
 
 2026-06-30
+
+---
+
+## Conversation deletion and retention contract
+
+Conversation purge preserves imported and approved Brand Brain knowledge, current business state, KnowledgeIndex and independent version/provenance records. Never treat retrieved context or generation ancestry as knowledge ownership. Immutability describes ordinary updates, not an exemption from legally approved erasure. Audit retention is separately approved and content-minimized; do not retain conversation payloads by relabeling them as audit data.
+
+Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-system removal within 30 days requires legal and operational approval; backups expire separately. Normal service access cannot bypass deletedAt, retry/exception retention remains inaccessible, and purge completion requires verified inventory cleanup. This specifies planned behavior, not an implemented purge process.
+
+---
+
+## Field provenance, conflict review and completeness contract
+
+[KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md) is the normative approval/verification/restore contract. Validate typed field origin/evidence/input refs; coordinate locks with reference-aware retention; preserve full historical snapshots. Imported source facts and approved revisions cannot reference conversation-owned generation payloads. Conflict detection proposes changes for Owner review; stale/unknown verification warns without fabricated freshness or silent replacement. Approval atomically stores the versioned completeness snapshot, missing mandatory paths and calculation time; effective generation readiness remains separate. Its sample records, migration checks and edge-case scenarios are required acceptance specifications, not executed tests.
+
+---
+
+## Versioned completeness measurement
+
+[PRODUCT_METRICS.md](../PRODUCT_METRICS.md) defines calculation v2 weights and separate readiness. Persist the v2 snapshot in the approved revision transaction; emit BrandBrainRevisionApproved and BrandBrainReadinessEvaluated only after commit. Historical v1 results are immutable; reevaluation creates a new approved revision. Candidate approval eligibility, score ≥70 and optional recommendation points never bypass mandatory approved facts.
 
 ---
 

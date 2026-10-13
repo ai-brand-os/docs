@@ -1,5 +1,11 @@
 # AI Brand OS — Execution Bible
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Version: 1.4.0
 
 Status: Active
@@ -89,31 +95,29 @@ Implement the platform foundation: Authentication and Organizations. Sprint 0 (p
 
 # Current MVP Scope
 
-Included
+Canonical definition: [MVP_SCOPE.md](../MVP_SCOPE.md).
 
-- Authentication
-- Organizations
-- Brands
-- Brand Brain
-- Knowledge Base
-- AI Workspace
-- Caption Generation
-- Manual Approval
-- Export
+Included:
 
-Excluded
+- Brand Brain creation and editing
+- Single-source knowledge import (one URL or one supported file per job)
+- Human review and approval
+- Persistent approved business knowledge
+- Context-aware AI Workspace (including content drafts, history, and response copying)
+- Basic response feedback
+- Copyable, approved Brand Brief
 
-- Image Generation
-- Publishing
-- Content Calendar
-- Video Generation
-- AI Characters
-- Comment Automation
-- DM Automation
-- Analytics
-- Sales Agent
-- Marketplace
-- Public API
+Authentication, tenant isolation, storage, and single-owner Organization setup are supporting dependencies, not additional product modules. MVP permits one Organization and one Brand per account; multiple Organizations must not bypass the multi-brand exclusion.
+
+Excluded:
+
+- Background file exports — Phase 2
+- Conversation PDF/DOCX exports — Phase 2
+- Multi-brand management, including multiple client Organizations — Phase 2
+- Team collaboration, invitations, shared access, and delegated roles — Phase 2
+- Advanced integrations, scheduled sync, and external tool actions — Phase 4
+- Publishing, scheduling, analytics, dedicated campaigns, assets, and personas — Phase 3 or later
+- Agents, automation, marketplace, public API, image/video generation — Phase 4 or later
 
 ---
 
@@ -194,9 +198,9 @@ _(empty at Sprint 1 start)_
 - Domain Model (Approved for Architecture & Engineering Design)
 - Business Ontology (Approved for Architecture & Engineering Design)
 - Artifact Model (Approved for Engineering Design)
-- Brand Brain PRD (Approved for Engineering Design)
-- AI Workspace PRD (Approved for Engineering Design)
-- Knowledge Import PRD (Approved for Engineering Design)
+- Brand Brain PRD (historical baseline approved; current revision Draft — Pending Engineering Review)
+- AI Workspace PRD (historical baseline recorded approved; current revision Draft — Pending Engineering Review)
+- Knowledge Import PRD (Proposed — Pending Founder Approval; D-IMP-01/02/03)
 - Ingestion Service spec (v2.0.0)
 - Document Processing Service spec
 - Knowledge Extraction Service spec
@@ -214,12 +218,12 @@ _(empty at Sprint 1 start)_
 
 - Pricing Model (hypothesis exists, not validated)
 - Credit System
-- Website Crawling Strategy (page-limit is flagged as Engineering-owned in Brand Brain PRD, not yet fixed)
+- Website import limits/timeouts remain Engineering-owned; recursive/shallow crawling is superseded for MVP by single-page intake (MVP_SCOPE.md)
 - Knowledge Sync Strategy
 - AI Routing Strategy
-- Export Formats
+- Export Formats (Phase 2; not an MVP blocker)
 - Multi-language Support
-- Industry / Tone Attribute taxonomies — proposed in Business Ontology, need Product/UX lock-in
+- Industry / Tone Attribute initial lock-in — fixed per Ontology/Brand Brain PRD; future taxonomy changes require versioned governance
 - Reserved-entity promotion policy (Persona, Content, Campaign, Asset, Channel) — not yet defined
 
 ---
@@ -424,7 +428,7 @@ A single minimal waitlist/coming-soon page (not a full multi-page site) was rais
 
 Decision
 
-The three schema pass files were merged into a single `schema.prisma`. Required back-relations were added (Prisma mandates two-sided relations: User → conversations/exportJobs, Organization → artifacts/products/services/audiences/competitors/documents/knowledgeIndex/conversations, Brand → knowledgeIndex/conversations, Conversation → exportJobs). Post-migration SQL notes were consolidated into one section (5 items: 2 raw SQL constraints, 3 app-layer constraints). The pass files (`schema_pass1/2/3`) were retired — single source of truth.
+The three schema pass files were merged into a single `schema.prisma`. Required back-relations were added (Prisma mandates two-sided relations: User → conversations, Organization → artifacts/products/services/audiences/competitors/documents/knowledgeIndex/conversations, Brand → knowledgeIndex/conversations). Post-migration SQL notes were consolidated into one section (5 items: 2 raw SQL constraints, 3 app-layer constraints). The pass files (`schema_pass1/2/3`) were retired — single source of truth.
 
 Sprint 1 documentation correction pass applied: AI Workspace PRD → v1.1.1 (status markers, State Management split into per-Message + Conversation lifecycles, Related Documents); Domain Model status reconciled to a single approved marker; all five broken cross-file references fixed.
 
@@ -436,7 +440,7 @@ Sprint 0 closed (planning and architecture documentation complete); Sprint 1 (Au
 
 Decision
 
-Organization Switcher relocated to Sidebar (not Header).
+Historical Phase 2 design (superseded for MVP on 2026-10-13): Organization Switcher relocated to Sidebar (not Header). MVP displays a static Organization label.
 
 Reason
 
@@ -484,7 +488,7 @@ Core Domain service specs and foundational architecture documents (Domain Model,
 
 Status Update (2026-07-07)
 
-Sprint 0 closed. All P0 planning, product, and architecture documents are approved (Domain Model, Business Ontology, Artifact Model, Brand Brain PRD, AI Workspace PRD, Knowledge Import PRD, Database Design, API Design). Schema merged into a single `schema.prisma`; the three pass files retired. All five broken cross-file references fixed. Sprint 1 (Authentication + Organizations) opened.
+Historical milestone claim (superseded as a current sign-off inventory; see DECISION_REGISTER.md): Sprint 0 closed. All P0 planning, product, and architecture documents were recorded as approved (Domain Model, Business Ontology, Artifact Model, Brand Brain PRD, AI Workspace PRD, Knowledge Import PRD, Database Design, API Design). Schema merged into a single `schema.prisma`; the three pass files retired. All five broken cross-file references fixed. Sprint 1 (Authentication + Organizations) opened.
 
 ---
 
@@ -553,8 +557,8 @@ A feature is complete when
 Product
 
 - Activation Rate
-- Brand Completion Rate
-- Time To First Value
+- Seven-day readiness completion rate, per PRODUCT_METRICS.md
+- TTFV median/p90, proposed goals ≤10/≤15 minutes; report cohort and abandonment counts
 
 Business
 
@@ -586,15 +590,15 @@ AI
 | Domain Model                 | ✅ Approved for Architecture & Engineering Design |
 | Business Ontology            | ✅ Approved for Architecture & Engineering Design |
 | Artifact Model               | ✅ Approved for Engineering Design                |
-| Brand Brain PRD              | ✅ Approved for Engineering Design                |
-| AI Workspace PRD             | ✅ Approved for Engineering Design                |
+| Brand Brain PRD | Draft — current integrated engineering review pending (historical baseline retained) |
+| AI Workspace PRD | Draft — current integrated engineering review pending (historical baseline retained) |
 | Ingestion Service            | ✅ Approved                                       |
 | Document Processing Service  | ✅ Approved for Architecture & Engineering Design |
 | Knowledge Extraction Service | ✅ Approved for Architecture & Engineering Design |
 | Knowledge Management Service | ✅ Approved for Architecture & Engineering Design |
 | Context Engine               | ✅ Approved for Architecture & Engineering Design |
 | AI Orchestrator              | ✅ Approved for Architecture & Engineering Design |
-| Knowledge Import PRD         | ✅ Approved for Engineering Design                |
+| Knowledge Import PRD | Proposed — Pending Founder Approval; D-IMP-01/02/03 |
 | Database Design              | ✅ Approved                                       |
 | API Design                   | ✅ Approved                                       |
 | Component Kit                | 🟡 Draft (v1.0.0 — Organization Switcher only)    |
@@ -643,8 +647,8 @@ Decision
 
 Database Design has been officially documented (`domain/04_DATABASE_DESIGN.md`, v1.0.0, Draft — Pending Architecture Review). 06 ADRs (Architecture Decision Records) have been registered, the most critical being: utilizing a single unified `artifacts` table instead of seven separate tables, and deprecating `AIRequest`/`AIResponse` in favor of directly utilizing the `Artifact Model`.
 
-**Flagged (New, Medium)**  
-Three documentation gaps that must be resolved in a single corrective pass:
+**Historical flags — fixed by the next dated entry and verified again 2026-10-13.**
+The following were the three documentation gaps at that point:
 
 1. **Role enum mismatch**
 2. **Lack of a defined lifecycle for `Brand`**
@@ -664,7 +668,7 @@ The three documentation gaps flagged in `domain/04_DATABASE_DESIGN.md` have been
 3. `02_AI_WORKSPACE_PRD.md` v1.1.0: **WorkspaceSession and AIRequest/AIResponse were removed**, references now point to the Artifact Model; **EC-005 was updated accordingly**.
 
 **Expected Impact**  
-No documentation gaps remain from the Database Design phase. Ready to begin **API Design**.
+Historical outcome of that correction pass: its three named gaps were closed. Current policy/configuration/migration and service-contract issues remain open as classified in DOCUMENTATION_CHANGELOG.md; this entry is not a claim that every later issue is resolved.
 
 ---
 # SESSION PATCH — 2026-07-22

@@ -1,5 +1,9 @@
 # Artifact Model — AI Brand OS
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 02_ARTIFACT_MODEL.md
@@ -89,7 +93,7 @@ Prompt Artifact (AI Orchestrator, internal)
 Response Artifact (AI Orchestrator)
 ```
 
-A single Correlation ID persists across the entire chain above, from the moment a user submits a website URL or document, through to the AI response the user eventually reads. Parent Artifact ID changes at every hop and forms a lineage graph rooted at the originating Raw Intake Artifact (or a synthetic "User Input" root for manually entered Brand Brain fields, per `01_BRAND_BRAIN_PRD.md` FR-10).
+Import and generation are separate operations. An import correlationId traces its knowledge pipeline; each generation turn receives its own correlationId and explicit conversationId ownership. Generation may reference approved knowledge without inheriting ownership of its source chain. Parent Artifact ID changes at every hop and forms a lineage graph rooted at the originating Raw Intake Artifact (or a synthetic "User Input" root for manually entered Brand Brain fields, per `01_BRAND_BRAIN_PRD.md` FR-10).
 
 ---
 
@@ -101,11 +105,11 @@ Once an artifact's status leaves `Created`, its payload never changes. Correctio
 
 ## Lineage Over Mutation
 
-Every artifact (except a Raw Intake Artifact, which is the lineage root) carries a `parentArtifactId`. History is reconstructed by walking the chain, never by reading a mutable audit log bolted onto a live record.
+Every artifact (except a Raw Intake Artifact, which is the lineage root) normally carries a parentArtifactId. Physical retention cleanup may remove an eligible lineage node only after protected-reference review and approved provenance repair; null parents are not permission to infer ownership. History is reconstructed by walking the chain, never by reading a mutable audit log bolted onto a live record.
 
 ## Correlation Continuity
 
-`correlationId` is assigned once, at intake, and copied unchanged onto every downstream artifact in the chain. It is the only field guaranteed to be identical from Ingestion through to the Response Artifact.
+correlationId is assigned once per import or generation operation and copied to its retries/stages. It is tracing metadata, not a deletion selector. conversationId records exclusive generation ownership and must be checked separately.
 
 ## Tenant Isolation
 
@@ -127,14 +131,15 @@ This contract says nothing about whether an artifact is stored in PostgreSQL, Qd
 
 # Base Artifact Contract
 
-Every concrete artifact type extends this base structure.
+Every concrete artifact type extends this base structure. The conversationId ownership addition requires a versioned contract rollout and reviewed historical backfill alongside the planned Prisma migration; consumers must not guess ownership for older artifacts.
 
 | Field              | Type                                                                                                                | Required    | Description                                                                                        |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------- |
 | `artifactId`       | UUID                                                                                                                | Yes         | Unique identifier for this artifact instance.                                                      |
 | `artifactType`     | enum                                                                                                                | Yes         | One of the types in the Artifact Type Catalog below.                                               |
-| `parentArtifactId` | UUID, nullable                                                                                                      | Conditional | The artifact this one was derived from. Null only for Raw Intake Artifacts.                        |
-| `correlationId`    | UUID                                                                                                                | Yes         | Constant across the full pipeline for one business event. Assigned at Ingestion.                   |
+| `parentArtifactId` | UUID, nullable                                                                                                      | Conditional | The artifact this one was derived from. Normally absent for lineage roots; retention repair requires reviewed provenance semantics, not silent deletion.                        |
+| `conversationId` | UUID, nullable | Conditional | Required for generation/error/retry artifacts; null for independently owned import/knowledge artifacts. Tenant and ownership validation required. |
+| `correlationId`    | UUID                                                                                                                | Yes         | Stable per import or generation operation; assigned at its entry point; not a purge boundary.                   |
 | `organizationId`   | UUID                                                                                                                | Yes         | Tenant scope. Enforced on every artifact without exception.                                        |
 | `producingService` | enum: `Ingestion / DocumentProcessing / KnowledgeExtraction / KnowledgeManagement / ContextEngine / AIOrchestrator` | Yes         | The service that created this artifact.                                                            |
 | `producingStage`   | string                                                                                                              | Yes         | The pipeline stage name within the producing service (e.g. `ChunkGenerator`, `ConflictDetection`). |
@@ -146,6 +151,8 @@ Every concrete artifact type extends this base structure.
 ---
 
 # Lifecycle States
+
+ArtifactStatus is the lifecycle of an immutable artifact record. It is not MessageStatus, a provider execution state, or a Conversation lifecycle. Approved snapshot supersession changes artifact/history selection, never makes the Workspace container terminal.
 
 ```text
 Created → Valid → (Superseded | Archived)
@@ -220,21 +227,15 @@ Producing Service: Knowledge Extraction Service
 | `extractionStatus`       | enum                                                                |
 | `ontologyVersion`        | semver, referencing `03_BUSINESS_ONTOLOGY.md`                       |
 
+Candidate decisions use the versioned KNOWLEDGE_CANDIDATE payload variant with producingStage=candidate_decision, original candidateId, action, operation identity/hash, actor/time and optional resulting revision. This is an immutable review/idempotency record, not approved business knowledge.
+
 ## 4. Approved Knowledge Artifact
 
-Producing Service: Knowledge Management Service
+Producing Service: Knowledge Management Service. Canonical field contract: [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md).
 
-| Payload Field            | Type                                                                                           |
-| ------------------------ | ---------------------------------------------------------------------------------------------- |
-| `validatedEntities`      | Entity[]                                                                                       |
-| `validatedRelationships` | Relationship[]                                                                                 |
-| `knowledgeConfidence`    | number 0–100 (distinct from `extractionConfidence` — see Knowledge Management Service ADR-004) |
-| `versionInfo`            | object: `{ versionId, previousVersionId }`                                                     |
-| `governanceStatus`       | enum: `AutoApproved / HumanReview / NeedsMoreEvidence / Rejected`                              |
-| `ontologyVersion`        | semver                                                                                         |
-| `auditMetadata`          | object: policy version, decision timestamp                                                     |
+The payload is a full approved Brand Brain snapshot, including brandId, ontologyVersion, active members and unique typed fact keys with value, MANUAL/IMPORTED/DERIVED origin, evidence/source locations/derivation inputs, APPROVED status, valueRevisionId, supersedesValueRevisionId and verifiedInRevisionId. BrandBrainRevision owns approval/order/completeness metadata; field actor/timestamps resolve from these revision IDs. Payload/header ontologyVersion must agree with revision metadata in the approval transaction. There is no independently mutable version/approval value inside a competing version store.
 
-This is the only artifact type permitted to update Brand Brain state. It is versioned (`versionInfo`) because a single logical piece of knowledge (e.g. "Mission Statement") may be re-approved multiple times over the life of an Organization; each re-approval produces a new Approved Knowledge Artifact and marks the previous one `Superseded`.
+Pending/Rejected proposals remain candidate/decision artifacts. Explicit Owner confirmation/manual save creates this snapshot and revision atomically with projections and currentRevisionId. A subsequent approval supersedes the whole snapshot, but unchanged facts keep their introducing/verification links. Restore appends a new approved revision; conversation purge cannot erase approved knowledge history.
 
 ## 5. Prompt Context Artifact
 
@@ -254,7 +255,7 @@ Producing Service: Context Engine
 | `contextScore`          | number                                               |
 | `contextAssemblyStatus` | enum                                                 |
 
-**Note on reconciliation:** `05_CONTEXT_ENGINE.md` lists this artifact's fields three times (Output section, Prompt Context Artifact section, Artifact Contract section) with minor differences between each listing. The field list above is the canonical, reconciled version. A follow-up documentation pass should update `05_CONTEXT_ENGINE.md` to reference this list rather than repeating it.
+**Still open — Context payload naming:** `05_CONTEXT_ENGINE.md` lists this artifact's fields three times (Output section, Prompt Context Artifact section, Artifact Contract section) with minor differences between each listing. The field list above is the canonical, reconciled version. The source spec duplicates remain; this task does not mark them fixed. Engineering owns alignment to this canonical contract, tracked in DOCUMENTATION_CHANGELOG.md.
 
 ## 6. Prompt Artifact
 
@@ -284,13 +285,13 @@ Producing Service: AI Orchestrator
 | `validationResult`  | object                                    |
 | `executionStatus`   | enum                                      |
 
-**Note on reconciliation:** `06_AI_ORCHESTRATOR.md` lists this artifact's fields twice with inconsistent naming — `Model Version` vs. `Model Provider` + `Model Name`, `Latency` vs. `Execution Time`, `Cost` vs. `Estimated Cost`. The field list above is the canonical, reconciled version (`modelProvider` + `modelName` instead of a single `modelVersion`; `latency` in milliseconds; `estimatedCost`). A follow-up documentation pass should update `06_AI_ORCHESTRATOR.md` to match.
+**Still open — Response payload naming:** `06_AI_ORCHESTRATOR.md` lists this artifact's fields twice with inconsistent naming — `Model Version` vs. `Model Provider` + `Model Name`, `Latency` vs. `Execution Time`, `Cost` vs. `Estimated Cost`. The field list above is the canonical, reconciled version (`modelProvider` + `modelName` instead of a single `modelVersion`; `latency` in milliseconds; `estimatedCost`). The source duplicates remain; Engineering owns alignment, tracked in DOCUMENTATION_CHANGELOG.md. Canonicalizing this table alone did not fix the service spec.
 
 ---
 
 # Provenance Object
 
-Referenced by Knowledge Candidate Artifact, Approved Knowledge Artifact, and Prompt Context Artifact.
+The table below describes legacy extraction-location metadata. The normative material-field evidence/origin/approval/verification contract is [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md#field-and-proposal-contracts); extractionMethod and timestamp never substitute for approval or last verification. Approved snapshots carry that contract per fact; Prompt Context pins the selected approved revision.
 
 | Field              | Type                                                 |
 | ------------------ | ---------------------------------------------------- |
@@ -305,15 +306,17 @@ Referenced by Knowledge Candidate Artifact, Approved Knowledge Artifact, and Pro
 
 # Storage & Retention Policy
 
+[DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md) governs conversation-owned data, overrides generic artifact permanence language, and separates backups from active-system removal. All durations below are design proposals pending legal/operational approval, not implementation claims.
+
 | Artifact Type                      | Default Retention                                              | Rationale                                                                                                                                                               |
 | ---------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Raw Intake Artifact                | 30–90 days (configurable)                                      | No standalone business meaning once processed; retained short-term for reprocessing/debugging only. Cost-driven.                                                        |
 | Processing Artifact (intermediate) | 7–30 days                                                      | Debugging/reprocessing aid only; superseded by Structured Document.                                                                                                     |
 | Structured Document                | Same as source Document lifecycle                              | Input to Knowledge Extraction; may be reprocessed if extraction logic improves.                                                                                         |
 | Knowledge Candidate Artifact       | Retained until governance decision + configurable audit window | Provisional; retained briefly past decision for audit traceability.                                                                                                     |
-| Approved Knowledge Artifact        | Indefinite, immutable                                          | Core product asset per `02_PRODUCT_BIBLE.md` — "Knowledge compounds; generated content does not." Never deleted, only superseded.                                       |
+| Approved Knowledge Artifact        | Independent knowledge retention/erasure policy (approval pending)                                          | Core product asset per `02_PRODUCT_BIBLE.md` — "Knowledge compounds; generated content does not." Not removed by conversation deletion; independently governed retention/erasure may apply.                                       |
 | Prompt Context Artifact            | Retained per Conversation lifecycle (AI Workspace)             | Supports Conversation History (`02_AI_WORKSPACE_PRD.md` FR-005) without duplicating storage in the Workspace domain.                                                    |
-| Prompt Artifact                    | Retained per compliance/observability policy                   | Internal; not user-facing.                                                                                                                                              |
+| Prompt Artifact                    | Conversation-owned; proposed active purge within 30 days of deletion                   | Internal; not user-facing.                                                                                                                                              |
 | Response Artifact                  | Retained per Conversation lifecycle                            | User-facing history; deletion follows Conversation deletion (`02_AI_WORKSPACE_PRD.md` FR-007), but underlying Knowledge is explicitly unaffected per that PRD's BR-007. |
 
 Payload content is never included in observability telemetry for any artifact type, matching the Observability section of every one of the six service specs.
@@ -374,13 +377,13 @@ Reason: Enables generic lineage-tracing and observability tooling to be built on
 
 ## ADR-002
 
-`correlationId` is assigned once at Ingestion and never changes; `parentArtifactId` changes at every hop.
+correlationId is stable within an import or generation operation; parentArtifactId traces transformations and conversationId explicitly owns generation artifacts. Neither correlation nor lineage authorizes deletion of source knowledge.
 
 Reason: These answer two different questions. `correlationId` answers "which business event is this part of." `parentArtifactId` answers "which specific transformation produced this artifact." Conflating them would make it impossible to distinguish a retry of the same stage from progression to the next stage.
 
 ## ADR-003
 
-Artifacts are never physically deleted except Raw Intake and intermediate Processing Artifacts, which follow a configurable, cost-driven retention policy. All knowledge-bearing artifacts (Knowledge Candidate, Approved Knowledge) are retained indefinitely and only ever superseded.
+Immutable means no silent content overwrites during ordinary processing; it does not prohibit authorized retention erasure. Conversation-owned generation artifacts (Prompt Context, Prompt, Response, errors and retries) follow DATA_LIFECYCLE.md’s proposed active-system purge target. Source/imported/candidate/approved knowledge is preserved by conversation purge and follows its independent retention/erasure policy; no universal never-erased guarantee is made. Restrict lineage links and protected-reference checks prevent deleting shared history through a blanket cascade.
 
 Reason: `02_PRODUCT_BIBLE.md` explicitly states knowledge is the durable strategic asset, while raw uploaded bytes are not themselves knowledge. Retention policy should reflect that asymmetry rather than treating all artifacts identically.
 

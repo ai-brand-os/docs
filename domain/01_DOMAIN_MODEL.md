@@ -1,5 +1,9 @@
 # Domain Model — AI Brand OS
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 01_DOMAIN_MODEL.md
@@ -202,19 +206,7 @@ Every service must adopt these definitions without modification.
 
 # Domain Scope (MVP)
 
-The MVP focuses on:
-
-- Organizations
-- Documents
-- Knowledge
-- Brand Voice
-- Products
-- Audiences
-- Content
-- Assets
-- Campaigns
-
-Additional business concepts may be introduced after MVP.
+Organization, Brand, BrandVoice, Product, Service, Audience, Competitor, Document, and Knowledge support the seven features in [MVP_SCOPE.md](../MVP_SCOPE.md). Content drafts are Workspace responses; persistent Content, Assets, Campaigns, Personas, and Channels are reserved for Phase 3 or later.
 
 ---
 
@@ -315,7 +307,7 @@ Represents a detailed profile within an Audience.
 
 A Persona provides richer business context for AI generation.
 
-Personas are optional in MVP but supported by the domain model.
+Personas are reserved for Phase 3, excluded from MVP, and described here only as a future domain concept.
 
 ---
 
@@ -412,6 +404,8 @@ Examples:
 - Google Docs
 - Markdown files
 
+The list above describes long-term source possibilities. MVP accepts one Website URL or one PDF, DOCX, Markdown, or Plain Text file per import job. PPTX, connected Google Docs/Notion, and other advanced sources are deferred to Phase 4.
+
 Documents are inputs to the knowledge pipeline.
 
 Documents themselves are not business knowledge.
@@ -433,7 +427,7 @@ Knowledge always has:
 - Ownership
 - Version history
 
-Only approved Knowledge is available for AI execution.
+Only approved Knowledge is available for AI execution. Every material field has MANUAL/IMPORTED/DERIVED provenance, approval/verification attribution and historical supersession per [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md). The canonical approved Artifact snapshot is selected by Brand.currentRevisionId; business tables and KnowledgeIndex are current-state projections, not independent facts. Pending proposals cannot replace approved fields. History inspection/restoration appends a new approved revision, preserving all prior versions.
 
 ---
 
@@ -1198,12 +1192,7 @@ Active
 
 Archived
 
-A Brand is Draft until all Brand Brain Required fields are filled (per
-`01_BRAND_BRAIN_PRD.md` FR-7). It becomes Active once complete — this is
-also the point at which content generation becomes available. Brand is
-never hard-deleted; removal is modeled as Archived, consistent with the
-platform's "knowledge compounds, is never discarded" principle already
-applied to Knowledge and Artifact records. Conversations referencing an
+A Brand is Draft while required approved fact slots are incomplete, and becomes Active through the approval transaction once business readiness is met (Brand Brain FR-7). Later approved removal of a mandatory fact returns an unarchived Brand to Draft; archival is a separate explicit control. MVP removal uses Archived; any later physical Brand/knowledge erasure requires the independent retention policy and reference-aware workflow, not a universal never-erased promise. Conversations referencing an
 Archived Brand become read-only (see `02_AI_WORKSPACE_PRD.md` EC-005).
 
 ---
@@ -1304,7 +1293,7 @@ Versioned
 
 Deprecated
 
-Only approved Knowledge is available for AI execution.
+Only approved Knowledge is available for AI execution. Every material field has MANUAL/IMPORTED/DERIVED provenance, approval/verification attribution and historical supersession per [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md). The canonical approved Artifact snapshot is selected by Brand.currentRevisionId; business tables and KnowledgeIndex are current-state projections, not independent facts. Pending proposals cannot replace approved fields. History inspection/restoration appends a new approved revision, preserving all prior versions.
 
 ---
 
@@ -1339,7 +1328,7 @@ Cross-organization relationships are not permitted.
 The following business rules must always be true.
 
 - Every entity belongs to exactly one Organization.
-- Every Knowledge item originates from at least one Document.
+- Every material fact records MANUAL author/time, IMPORTED source Artifact/Document/location, or DERIVED pinned input/evidence lineage; manual facts do not require a fabricated Document.
 - Only approved Knowledge may be used by AI.
 - Every Content item follows exactly one Brand Voice.
 - Every Document belongs to one Organization.
@@ -1467,6 +1456,18 @@ Version
 Effective Date
 
 2026-06-30
+
+---
+
+## Knowledge revision product requirements
+
+BrandBrainRevision orders immutable approved full snapshots and approval metadata; it is supporting persistence, not another business domain. Field history, conflicts, stale verification, review and restore are required Brand Brain behavior. Completeness snapshots persist per approved revision and are separate from effective generation readiness. Repeatable records retain stable historical logical IDs even if current membership is removed. SourceArtifactId on current records is last materialization lineage; actual origin belongs to each fact. See [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md) for API, validation, integrity, migration and acceptance contracts.
+
+---
+
+## Workspace lifecycle boundary
+
+A Conversation is a persistent multi-turn interaction container, not a business artifact lifecycle or a single assistant execution. The Workspace PRD owns its Active → pending physical deletion → verified removal lifecycle and the separate per-assistant MessageStatus state machine. A completed/failed/cancelled/timed-out assistant attempt never closes the Conversation to subsequent authorized ready turns. [State Management](../prd/02_AI_WORKSPACE_PRD.md#state-management) and DATA_LIFECYCLE.md define deletion/access safeguards.
 
 ---
 

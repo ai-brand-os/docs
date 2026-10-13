@@ -1,5 +1,11 @@
 # AI Brand OS — Competitor Analysis
 
+> Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
+
+> Commercial boundary (2026-10-13): [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md). MVP serves one business, one Organization, one Brand and one Owner. Starter/Pro are proposed pricing tests; Agency portfolios, subscriptions, multiple clients and teams are Phase 2 proposals. Segment ratings and price estimates are research hypotheses; competitor audiences/prices do not confer AI Brand OS entitlements or prove customer payments.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document: 03_COMPETITOR_ANALYSIS.md
 
 Version: 1.0.0
@@ -1406,5 +1412,11 @@ docs/04_POSITIONING.md
 Objective:
 
 Define exactly how AI Brand OS should be perceived in the market, why customers should choose it over alternatives, and establish the foundation for all branding, messaging, pricing, marketing, and product decisions.
+
+## Commercial interpretation of competitor research
+
+Competitor agencies/freelancers, plan labels, price comparisons and team features describe those competitors or historical research, not AI Brand OS entitlements. Our proposed MVP targets a business using one Brand/Organization with one Owner. Only proposed Starter/Pro price tests fit that scope; competitor Agency plans cannot make our Agency offer launch-ready. Use [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md) for packaging and require scoped payment evidence before claiming pricing validation.
+
+---
 
 END OF DOCUMENT

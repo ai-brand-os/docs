@@ -1,5 +1,9 @@
 # Service Specification — AI Orchestrator
 
+> Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
+
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document
 
 06_AI_ORCHESTRATOR.md
@@ -538,7 +542,7 @@ Selection criteria:
 
 The service must remain provider-independent.
 
-Supported providers (MVP):
+Potential adapter targets (Phase 4 expansion; MVP requires one configured provider, selection unresolved):
 
 - OpenAI
 - Anthropic
@@ -684,7 +688,7 @@ Included:
 - Context request
 - Prompt Builder
 - Model selection
-- Multi-provider support
+- One configured provider behind a provider-independent adapter (additional providers Phase 4)
 - Provider Adapter
 - Response validation
 - Response Artifact generation
@@ -698,8 +702,8 @@ Post-MVP:
 
 - Multi-model execution
 - Parallel inference
-- Streaming orchestration
-- Human approval workflows
+- Parallel/multi-provider streaming orchestration (Phase 4; single-response SSE streaming is MVP)
+- Delegated output approval workflows (Phase 2; knowledge approval is MVP in Knowledge Management)
 - Automatic response evaluation
 - Agent execution
 - Workflow execution
@@ -764,6 +768,26 @@ Version
 Effective Date
 
 2026-06-30
+
+---
+
+## Conversation deletion and retention contract
+
+Prompt, Response, error and retry artifacts carry explicit conversationId ownership and same-tenant validation. Recheck tombstone under transaction serialization before committing generation output and before emitting stream content; cancel tasks where possible and discard late output. The purge inventory includes transient buffers, queued attempts, provider-request identifiers and processors under approved retention arrangements. Correlation IDs and source parents never authorize deleting imported knowledge.
+
+Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-system removal within 30 days requires legal and operational approval; backups expire separately. Normal service access cannot bypass deletedAt, retry/exception retention remains inaccessible, and purge completion requires verified inventory cleanup. This specifies planned behavior, not an implemented purge process.
+
+---
+
+## Generation output measurement
+
+[PRODUCT_METRICS.md](../PRODUCT_METRICS.md) separates GenerationRequested/GenerationCompleted from QualifiedFirstValue. Only a completed validated readable output with nonempty approved grounding can qualify after OutputPresented; failures, refusals, first tokens and unapproved context do not. Preserve revision/grounding references and safe diagnostic IDs, without sending business content to telemetry.
+
+---
+
+## Workspace lifecycle ownership
+
+The execution pipeline above is per assistant generation attempt, not a Conversation state machine. [Workspace State Management](../prd/02_AI_WORKSPACE_PRD.md#state-management) is canonical: PREPARING_CONTEXT covers context retrieval/validation; GENERATING covers prompt execution/provider retries and response validation; COMPLETED requires durable final response linkage. FAILED/CANCELLED/TIMEOUT terminate only that Message. Response Artifact executionStatus is producer execution metadata, not an independent Conversation state or permission to bypass the Message commit checks; its precise payload enum remains part of the open source-contract alignment. Completing provider execution alone cannot mark a Message COMPLETED before response validation/linkage commits. Conversation persists for later turns. Internal bounded provider retries do not reset a terminal Message; explicit user retry allocates a new attempt. Timeout budgets/cancel API details remain open; see DOCUMENTATION_CHANGELOG.md.
 
 ---
 

@@ -1,16 +1,18 @@
 # AI Brand OS — Knowledge Import PRD
 
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document: **03_KNOWLEDGE_IMPORT_PRD.md**
 
-Version: **1.0.0**
+Version: **1.1.0 — approval audit working revision**
 
-Status: Approved for Engineering Design
+Status: Proposed — Pending Founder Approval (D-IMP-01/02/03); Engineering Sign-off Blocked
 
 Owner: Product
 
 Priority: P0
 
-Last Updated: 2026-07-02
+Last Updated: 2026-10-13 (audit date; not an approval date)
 
 ---
 
@@ -31,20 +33,20 @@ This PRD is the missing layer between those two: the concrete UX contract (state
 
 `01_BRAND_BRAIN_PRD.md` fully specifies only one import path: Website URL, during onboarding Step 2. Two gaps exist that would otherwise force API Design to guess:
 
-1. **File upload** (PDF, DOCX, Markdown, Plain Text) is already Approved MVP scope in `01_INGESTION_SERVICE.md`, but no product flow describes how a user submits a file or what they see while it processes.
-2. **Post-onboarding import** — Brand Brain PRD FR-9 requires editing Brand Brain "at any time after onboarding," which implies adding new source material later, not just during Step 2. No screen or flow for this exists in any approved document.
+1. **File upload** (PDF, DOCX, Markdown, Plain Text) is specified by the Ingestion baseline. This PRD proposes its UI/request boundary, with D-IMP-01/03 still pending; parser support does not approve those product choices.
+2. **Post-onboarding import** extends the recorded editing baseline. Required knowledge acquisition does not establish approval of a dedicated screen; D-IMP-03 chooses dedicated versus embedded placement.
 
 Without this PRD, API Design would need to invent both — repeating the exact class of mistake already flagged in `04_EXECUTION_BIBLE.md` Known Risks ("PRD approval sequencing").
 
 ---
 
-# Scope Decisions (Founder Confirmation Requested)
+# Scope Decisions — Proposed, Pending Founder Approval
 
-Three quick calls made in this draft — flag if any should change before this PRD is treated as Approved:
+The canonical MVP requires single-source knowledge import. The original granular choices below have no unambiguous recorded Founder approval; they remain proposals even where later specifications adopted them. [DECISION_REGISTER.md](../DECISION_REGISTER.md) records evidence, options, recommended defaults and approvers. Engineering sign-off for this integrated import PRD is blocked until all three have recorded dispositions.
 
-1. **Single-document import only for MVP** (no batch/multi-file). Matches `01_INGESTION_SERVICE.md` Deferred Features ("Scheduled or batch imports"). Keeps the review UX simple — one set of candidate fields to confirm at a time, not a merge-conflict UI across multiple documents.
-2. **Only one import job in-flight per Brand at a time.** Avoids concurrent-pipeline-run complexity in the MVP. A second import attempt while one is running is rejected with a clear message, not queued.
-3. **A new "Knowledge Base" screen is introduced** (referenced only by module name in `02_PRODUCT_BIBLE.md`, never designed) as the post-onboarding entry point for adding more source material. This is new UI surface, not previously specified anywhere — flagging explicitly since it's a genuine scope addition, not just documentation cleanup.
+1. **[D-IMP-01](../DECISION_REGISTER.md#d-imp-01) — Proposed — Pending Founder Approval: single-source request limit for MVP (one submitted URL or one supported file per job; no recursive site crawl)** (no batch/multi-file). Matches `01_INGESTION_SERVICE.md` Deferred Features ("Scheduled or batch imports"). Keeps the review UX simple — one set of candidate fields to confirm at a time, not a merge-conflict UI across multiple documents.
+2. **[D-IMP-02](../DECISION_REGISTER.md#d-imp-02) — Proposed — Pending Founder Approval: only one import job in-flight per Brand at a time.** Avoids concurrent-pipeline-run complexity in the MVP. A second import attempt while one is running is rejected with a clear message, not queued.
+3. **[D-IMP-03](../DECISION_REGISTER.md#d-imp-03) — Proposed — Pending Founder Approval: a dedicated "Knowledge Base" screen** as the proposed post-onboarding entry point for adding more source material. This is new UI surface, not previously specified anywhere — flagging explicitly since it's a genuine scope addition, not just documentation cleanup.
 
 ---
 
@@ -54,13 +56,15 @@ Three quick calls made in this draft — flag if any should change before this P
 
 Website URL only. Unchanged from `01_BRAND_BRAIN_PRD.md`. This PRD does not modify onboarding — it only extends the same underlying mechanism to the second entry point below.
 
-## Entry Point 2 — Knowledge Base Screen (new, post-onboarding)
+## Entry Point 2 — Proposed Knowledge Base Screen (post-onboarding; D-IMP-03 pending)
 
-Accessible any time after onboarding from Brand Brain settings. Supports both Website URL and File upload (PDF, DOCX, Markdown, Plain Text). Triggers the identical pipeline (Ingestion → Document Processing → Knowledge Extraction → Knowledge Management) and the identical Review & Confirm UX as onboarding — no second review pattern is introduced.
+Proposed dedicated-screen entry point, pending [D-IMP-03](../DECISION_REGISTER.md#d-imp-03). Founder may instead select embedded Brand Brain import/review; the requirement is post-onboarding access, not an already-approved separate screen. The proposed screen would be accessible after onboarding from Brand Brain settings. Supports both Website URL and File upload (PDF, DOCX, Markdown, Plain Text). Triggers the identical pipeline (Ingestion → Document Processing → Knowledge Extraction → Knowledge Management) and the identical Review & Confirm UX as onboarding — no second review pattern is introduced.
 
 ---
 
 # Import Job Lifecycle (UX-Facing States)
+
+These states belong to a source import operation, not an assistant Message or a Conversation. COMPLETED here means the import review operation finishes; it never terminates a Workspace container. Concrete mapping across candidate decisions/full-snapshot approvals remains an open implementation/specification item (DOCUMENTATION_CHANGELOG.md R23).
 
 The frontend needs a small set of user-friendly states to poll against — not the full Artifact Model pipeline detail. Per `domain/04_DATABASE_DESIGN.md` ADR-001 (single `artifacts` table), the backend resolves these states by reading the **latest Artifact for the request's `correlationId`** and mapping its `producingService` / `producingStage` / `status` to one of the labels below. No new status-tracking table is introduced — this is a derived view, not new storage.
 
@@ -73,12 +77,12 @@ PROCESSING        (Document Processing pipeline)
     ↓
 EXTRACTING        (Knowledge Extraction pipeline)
     ↓
-READY_FOR_REVIEW  (Knowledge Management returned Approved candidates)
+READY_FOR_REVIEW  (Knowledge Management returned governance-eligible candidates)
     ↓
 COMPLETED         (user confirmed values into Brand Brain)
 
 Failure states: FAILED (any stage), REJECTED_NO_CANDIDATES (pipeline
-completed but Knowledge Management approved zero candidates — not an
+completed but Knowledge Management found zero eligible candidates — not an
 error, just nothing usable was found)
 ```
 
@@ -96,9 +100,9 @@ Reuses the exact UX already defined in `01_BRAND_BRAIN_PRD.md` Step 3 (source ba
 
 There are two independent gates a candidate value passes through, and this PRD makes the distinction explicit since it was previously only implied:
 
-**Gate 1 — Knowledge Management governance** (automatic, per `04_KNOWLEDGE_MANAGEMENT_SERVICE.md`, Policy Engine is Auto-Approve-only for MVP). A candidate is either `AutoApproved` or `Rejected` by deterministic rules. Rejected candidates are **never shown to the user** — the corresponding field is simply left empty, consistent with Brand Brain PRD's existing rule: _"Fields with no import match are shown empty."_
+**Gate 1 — Knowledge Management governance** (automatic, per `04_KNOWLEDGE_MANAGEMENT_SERVICE.md`, Policy Engine returns eligibility or rejection for MVP). A candidate is either `AutoApproved` or `Rejected` by deterministic rules. Rejected candidates are **never shown to the user** — the corresponding field is simply left empty, consistent with Brand Brain PRD's existing rule: _"Fields with no import match are shown empty."_
 
-**Gate 2 — User confirmation** (manual, per Brand Brain PRD FR-3). Only `AutoApproved` candidates reach this gate. The user still must explicitly confirm, edit, or delete each one — governance approval alone does not count a field as complete toward the Completeness Score.
+**Gate 2 — User confirmation and authoritative persistence** (manual, per Brand Brain PRD FR-3). Only `AutoApproved` candidates reach this gate. The user still must explicitly confirm, edit, or delete each one — governance approval alone does not count a field as complete toward the Completeness Score or make it retrievable by AI. Confirmation invokes Knowledge Management to atomically create a full approved Artifact snapshot and BrandBrainRevision, persist completeness, update current projections/KnowledgeIndex and switch Brand.currentRevisionId. Field evidence/source location, approval/verification and superseded links follow KNOWLEDGE_PROVENANCE.md. expectedRevisionId and Idempotency-Key prevent concurrent overwrites. Pending candidates remain provisional artifacts. Editing revalidates the candidate before confirmation; deleting it leaves approved state untouched.
 
 This two-gate model was already functionally present in Brand Brain PRD but never named — naming it here prevents a future engineer from assuming governance approval alone is sufficient to populate a field.
 
@@ -108,9 +112,13 @@ This two-gate model was already functionally present in Brand Brain PRD but neve
 
 ## FR-1 — Submit Website URL (Onboarding)
 
+Decision dependency: [D-IMP-01](../DECISION_REGISTER.md#d-imp-01). Pending choices are proposed, not Founder-approved.
+
 Unchanged from `01_BRAND_BRAIN_PRD.md` FR-2.
 
 ## FR-2 — Submit Website URL (Post-Onboarding)
+
+Decision dependency: [D-IMP-01](../DECISION_REGISTER.md#d-imp-01), [D-IMP-02](../DECISION_REGISTER.md#d-imp-02), [D-IMP-03](../DECISION_REGISTER.md#d-imp-03). Pending choices are proposed, not Founder-approved.
 
 ### Description
 
@@ -123,6 +131,8 @@ From the Knowledge Base screen, a user may submit a Website URL at any time, sub
 - On success, the user is shown the Job Lifecycle states in real time via polling.
 
 ## FR-3 — Submit File Upload
+
+Decision dependency: [D-IMP-01](../DECISION_REGISTER.md#d-imp-01), [D-IMP-02](../DECISION_REGISTER.md#d-imp-02), [D-IMP-03](../DECISION_REGISTER.md#d-imp-03). Pending choices are proposed, not Founder-approved.
 
 ### Description
 
@@ -141,6 +151,8 @@ From the Knowledge Base screen, a user may upload a single file (PDF, DOCX, Mark
 
 ## FR-4 — Poll Import Job Status
 
+Engineering basis: [D-ENG-01/02](../DECISION_REGISTER.md#preserved-evidence-based-decisions-and-remaining-review-ownership); preserved artifact/application boundary. Detailed state resolver remains Engineering-owned and open.
+
 ### Description
 
 The frontend polls job status using the Job Lifecycle states defined above.
@@ -152,6 +164,8 @@ The frontend polls job status using the Job Lifecycle states defined above.
 
 ## FR-5 — Review & Confirm Extracted Candidates
 
+Existing approval/versioning behavior is task-directed; dedicated placement and admission assumptions depend on [D-IMP-02](../DECISION_REGISTER.md#d-imp-02) and [D-IMP-03](../DECISION_REGISTER.md#d-imp-03).
+
 ### Description
 
 Once `READY_FOR_REVIEW`, the user sees only `AutoApproved` candidates (per the Two-Gate Model above), each with a source badge and confidence indicator, and may edit, confirm, or delete each independently.
@@ -159,13 +173,13 @@ Once `READY_FOR_REVIEW`, the user sees only `AutoApproved` candidates (per the T
 ### Acceptance Criteria
 
 - Identical to `01_BRAND_BRAIN_PRD.md` FR-3, applied to both entry points.
-- Confirming a field updates the Completeness Score immediately (no separate save step).
+- Confirming a field creates a new approved revision and returns its persisted completeness snapshot immediately; pending values never contribute. Contradictory proposals show approved/proposed values and evidence for explicit keep/replace/edit review.
 
 ## FR-6 — Handle Zero Approved Candidates
 
 ### Description
 
-If Knowledge Management approves zero candidates from an otherwise successful pipeline run, this is not treated as a failure.
+If Knowledge Management finds zero eligible candidates from an otherwise successful pipeline run, this is not treated as a failure.
 
 ### Acceptance Criteria
 
@@ -193,6 +207,8 @@ Every import job is scoped to exactly one Organization and exactly one Brand. No
 
 ## BR-2
 
+Decision dependency: [D-IMP-02](../DECISION_REGISTER.md#d-imp-02). Pending choices are proposed, not Founder-approved.
+
 Only one import job may be in-flight per Brand at a time.
 
 ## BR-3
@@ -201,7 +217,7 @@ Import always passes through Ingestion Service validation first — the frontend
 
 ## BR-4
 
-User confirmation (Gate 2) is required regardless of Knowledge Management's governance outcome (Gate 1). Auto-approval never silently writes to Brand Brain without user confirmation.
+User confirmation (Gate 2) is required regardless of Knowledge Management's governance outcome (Gate 1). Auto-approval is eligibility only. It never creates an APPROVED_KNOWLEDGE artifact, updates current business tables or KnowledgeIndex, or exposes candidates to Context Engine before user confirmation.
 
 ## BR-5
 
@@ -213,6 +229,8 @@ Rejected candidates (Gate 1 failures) are never surfaced to the user as rejected
 
 ## EC-1
 
+Decision dependency: [D-IMP-02](../DECISION_REGISTER.md#d-imp-02). Pending choices are proposed, not Founder-approved.
+
 User submits a second import while one is in-flight.
 
 Expected Result
@@ -222,6 +240,8 @@ Rejected immediately with a message identifying the in-flight job; no queueing.
 ---
 
 ## EC-2
+
+Decision dependency: [D-IMP-03](../DECISION_REGISTER.md#d-imp-03). Pending choices are proposed, not Founder-approved.
 
 User uploads a file, then navigates away before the job completes.
 
@@ -265,8 +285,8 @@ Ingestion Service validation fails fast (reachable but not crawlable is still a 
 - Scheduled or recurring imports.
 - Concurrent import jobs per Brand.
 - Audio, video, image, OCR import (matches Ingestion Service Deferred Features).
-- Human Review admin queue (matches Knowledge Management Service MVP Scope: Auto-Approve-only Policy Engine).
-- Import history / audit log UI (the underlying data exists in `artifacts` per Database Design, but no UI is built for it in MVP).
+- Delegated Human Review admin queue and multi-stage approval (Phase 2). Single-owner candidate review and confirmation are required in MVP.
+- Pipeline operational import history/audit log dashboard remains deferred. Brand Brain approved revision/field history, inspection and restore are required MVP behavior per KNOWLEDGE_PROVENANCE.md.
 
 ---
 
@@ -287,7 +307,7 @@ Inherited from `01_PRODUCT_DISCOVERY.md` / `01_BRAND_BRAIN_PRD.md`:
 | Metric                                                        | Target                                                    |
 | ------------------------------------------------------------- | --------------------------------------------------------- |
 | Import Success Rate (job reaches READY_FOR_REVIEW)            | Not yet baselined — track from Private Alpha              |
-| Time to First Value                                           | < 15 minutes (inherited)                                  |
+| Time to first value | Proposed median ≤10 minutes and p90 ≤15 minutes, per PRODUCT_METRICS.md; not observed |
 | Post-onboarding import usage (Knowledge Base screen adoption) | Not yet baselined — new surface, track from Private Alpha |
 
 ---
@@ -306,12 +326,14 @@ Inherited from `01_PRODUCT_DISCOVERY.md` / `01_BRAND_BRAIN_PRD.md`:
 
 # Decision Log
 
-## 2026-07-02
+## 2026-07-02 — historical proposal/adoption record (no Founder disposition recorded)
+
+The original log’s confirmed/adopted wording did not identify an approver or close the explicit confirmation request. It is preserved below as drafting history, not proof of Founder sign-off.
 
 - Knowledge Import PRD written, closing the last P0 backlog documentation gap before API Design.
-- Single-document import (no batch) confirmed for MVP.
-- One-job-in-flight-per-Brand rule adopted to avoid concurrent-pipeline complexity.
-- New "Knowledge Base" screen introduced as the post-onboarding import entry point — flagged as genuine new scope, not just documentation cleanup.
+- Original drafting claim: single-document import (no batch) “confirmed”; approval identity/disposition not recorded (D-IMP-01 pending).
+- One-job-in-flight-per-Brand rule adopted by the draft to avoid concurrent-pipeline complexity; no Founder disposition recorded (D-IMP-02 pending).
+- Dedicated Knowledge Base screen proposed as new post-onboarding UI scope; no Founder disposition recorded (D-IMP-03 pending).
 - Two-Gate Model (Knowledge Management governance vs. user confirmation) made explicit — was previously only implied in Brand Brain PRD.
 - Job status polling explicitly designed to reuse the existing `artifacts` table (derived view via `correlationId`) rather than introduce new status-tracking storage, per Database Design ADR-001.
 
@@ -341,7 +363,7 @@ Inherited from `01_PRODUCT_DISCOVERY.md` / `01_BRAND_BRAIN_PRD.md`:
 
 ## Version 1.0.0
 
-Initial production-ready Knowledge Import PRD.
+Initial Knowledge Import design draft, historically labeled Approved despite unresolved confirmation requests; production readiness was not established.
 
 Defines:
 
@@ -350,6 +372,12 @@ Defines:
 - Two-Gate Model (governance vs. user confirmation), made explicit
 - Functional requirements, business rules, edge cases
 - Explicit MVP deferral list, matching upstream service specs
+
+---
+
+## Approval restoration criteria
+
+Record actual Founder selection/evidence/date for D-IMP-01/02/03; update conditional requirements, navigation and API constraints to that selection; then Product/Architecture reviews the integrated revision and records engineering-design sign-off. No automatic status upgrade occurs from an ADR that merely references a product rule. Storage/module choices D-ENG-01/02 remain recorded decisions. No runtime implementation or Founder approval is claimed by this audit.
 
 ---
 

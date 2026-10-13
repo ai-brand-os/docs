@@ -1,16 +1,18 @@
 # AI Brand OS — Brand Brain PRD
 
+> Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
+
 Document: **01_BRAND_BRAIN_PRD.md**
 
-Version: **1.1.0**
+Version: **1.2.0 — integrated working revision**
 
-Status: Approved for Engineering Design
+Status: Draft — Pending Engineering Review (D-REV-01; import decisions D-IMP-01/02/03 pending)
 
 Owner: Product
 
 Priority: P0
 
-Last Updated: 2026-07-02
+Last Updated: 2026-10-13 (audit date; historical baseline approval retained)
 
 ---
 
@@ -37,7 +39,7 @@ Brand Brain is the mechanism that makes "configure once" possible. Without a cle
 
 ---
 
-# Scope Decision (Founder-Approved)
+# Scope Decision (Historical Founder-approved baseline; later amendments require current review)
 
 ## In Scope for MVP Brand Brain
 
@@ -77,7 +79,7 @@ If a future feature requests any of these, it must go through the Feature Accept
 04_KNOWLEDGE_MANAGEMENT_SERVICE.md   (persists Approved Knowledge Artifacts)
 03_KNOWLEDGE_EXTRACTION_SERVICE.md   (proposes auto-filled field values)
 02_DOCUMENT_PROCESSING_SERVICE.md    (parses imported website/docs)
-01_INGESTION_SERVICE.md              (accepts raw import — pending cleanup, see Open Questions)
+01_INGESTION_SERVICE.md              (accepts raw import; baseline duplication cleanup recorded as resolved)
         │
         ▼  (consumed by)
 05_CONTEXT_ENGINE.md                 (retrieves Brand Brain fields for AI prompts)
@@ -89,7 +91,7 @@ Brand Brain does not talk to the Knowledge pipeline directly in the UI sense —
 
 # Brand Brain Data Model
 
-Each field below carries a `source` attribute: `manual` (user-typed), `imported` (auto-filled by Knowledge Extraction, user confirms), or `both`.
+Every material field carries explicit MANUAL, IMPORTED or DERIVED origin and versioned approval/evidence/verification metadata per [KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md). Table “Source” describes eligibility: both means manual or imported is allowed, never a stored provenance category. Derived claims require documented inputs and explicit approval; automatic knowledge inference remains deferred. Manual-only fields remain manual-only.
 
 ## 1. Organization Profile
 
@@ -138,7 +140,7 @@ Each field below carries a `source` attribute: `manual` (user-typed), `imported`
 
 | Field                 | Type | Required | Source |
 | --------------------- | ---- | -------- | ------ |
-| Competitor Name       | text | No       | both   |
+| Competitor Name       | text | No       | manual |
 | Website               | url  | No       | manual |
 | Differentiation Notes | text | No       | manual |
 
@@ -153,23 +155,15 @@ Each field below carries a `source` attribute: `manual` (user-typed), `imported`
 
 # Brand Brain Completeness Score
 
-Ties directly to the Success Metric in `01_PRODUCT_DISCOVERY.md`: _Brand Brain Completion > 70%_.
+Completeness is an individual revision’s weighted 0–100 score. The proposed >70% seven-day readiness completion rate is a cohort goal, not a ≥70-point generation gate. Measurement authority: [PRODUCT_METRICS.md](../PRODUCT_METRICS.md).
 
 ## Formula
 
-```
-Completeness % = (Required fields filled / Total required fields) × 80
-               + (Recommended entities with ≥1 record / 2) × 20
-```
-
-- **Required fields** = every field marked `Required: Yes` above (Organization, Brand Profile, ≥1 Product, ≥1 Audience).
-- **Recommended entities** = Competitors (≥1 record) and Business Goals (Primary Goal set).
-
-This weighting is deliberate: a user should be able to hit "Wow Moment" (first generation) without ever touching Competitors or Business Goals. Those two only push the score from ~80% toward 100%, encouraging — not blocking — completion.
+Calculation v2 uses [PRODUCT_METRICS.md](../PRODUCT_METRICS.md#completeness--calculation-version-2): 14 mandatory field slots total 80 points (mission and tone 10 each, other mandatory slots 5 each), plus 10 each for an approved named Competitor and Primary Goal. Product or Service satisfies the offer group. Only complete approved repeatable members enter generation context. Persist the versioned score/missing paths/ontology/calculation timestamp with each approved revision; historical v1 snapshots remain unchanged.
 
 ## Display Rule
 
-The Completeness Score is shown as a persistent progress indicator in the AI Workspace sidebar. It must never block content generation — Brand Brain can be used for AI generation the moment all _required_ fields are filled, even at <100%.
+The Completeness Score is shown as a persistent progress indicator in the AI Workspace sidebar. The score itself is not a generation gate. Readiness requires valid approved mandatory facts, a complete offer and Audience, manual tone, a current approved revision and an unarchived Brand, even when completeness is below 100%. Pending imports do not fill slots. Live request gates are separate from persisted approval-time readiness.
 
 ---
 
@@ -183,7 +177,7 @@ Step 1 — Create Organization
 Step 2 — Website Import (optional)
    User provides Website URL (or skips)
    → Triggers Ingestion → Document Processing → Knowledge Extraction pipeline
-   → Knowledge Management returns Approved / Needs Review candidate values
+   → Knowledge Management returns governance-eligible candidate values; rejected values remain absent
         │
         ▼
 Step 3 — Review & Confirm
@@ -195,14 +189,14 @@ Step 3 — Review & Confirm
         ▼
 Step 4 — Complete Required Fields
    Short form for anything still missing:
-   Mission Statement, Brand Voice tone selection (mandatory manual — see
-   Open Questions), ≥1 Product, ≥1 Audience segment.
+   Mission Statement, Brand Voice tone selection (mandatory manual),
+   ≥1 complete Product or Service, ≥1 complete Audience segment.
         │
         ▼
 Step 5 — First Generation ("Wow Moment")
    User is prompted to generate one piece of content (e.g. a social caption)
    using the Brand Brain they just built.
-   This step is the activation event tracked for the Activation Rate KPI.
+   A generation request or entering this step is not activation. QualifiedFirstValue is emitted only after a usable completed output grounded in approved facts is presented; a useful partial approved Brief can also qualify without generation readiness.
 ```
 
 ## Fallback Behavior
@@ -211,31 +205,35 @@ Step 5 — First Generation ("Wow Moment")
 - If import fails or times out (>30s) → show a non-blocking notice, fall back to the manual form for all fields.
 - Import failure must never prevent onboarding completion.
 
-## Target Time-to-Complete
+## Proposed Time-to-First-Value Goals
 
-< 10 minutes end-to-end, per `01_PRODUCT_DISCOVERY.md` Success Metrics (Time To First Value).
+Median ≤10 minutes and p90 ≤15 minutes, measured from OnboardingStarted to the first presented usable output grounded in approved Brand Brain facts. All pauses/retries count; abandonment and exclusions follow PRODUCT_METRICS.md. Form completion time is a separate diagnostic, not first value. These are goals, not observed results.
 
 ---
 
 # Functional Requirements
 
-- **FR-1**: System shall allow a user to create exactly one Organization and one Brand during MVP onboarding.
-- **FR-2**: System shall allow optional Website URL submission to trigger the Knowledge import pipeline.
+- **FR-1**: System shall allow a user to create exactly one Organization and one Brand during MVP onboarding, with no additional Organizations or Brands permitted afterward in MVP.
+- **FR-2**: System shall allow optional Website URL submission to trigger the Knowledge import pipeline. Request-level limit/admission/placement depend on [D-IMP-01](../DECISION_REGISTER.md#d-imp-01), [D-IMP-02](../DECISION_REGISTER.md#d-imp-02), [D-IMP-03](../DECISION_REGISTER.md#d-imp-03); Founder choices remain pending.
 - **FR-3**: System shall display all auto-imported field values with a visible source indicator and require explicit user confirmation before they count toward Completeness Score.
 - **FR-4**: System shall allow manual entry/edit of every field regardless of import status.
 - **FR-5**: System shall support 1..N repeatable records for Products/Services, Audience, and Competitors.
-- **FR-6**: System shall calculate and persist a Completeness Score after every Brand Brain edit.
-- **FR-7**: System shall allow content generation once all Required fields (per data model) are filled, independent of overall Completeness Score.
+- **FR-6**: System shall apply PRODUCT_METRICS.md calculation v2 and persist a completeness snapshot on every approved BrandBrainRevision, including score, missing mandatory field paths, ontology/calculation versions and calculatedAt. GET reads that snapshot; it never silently recalculates history.
+- **FR-7**: System shall evaluate readiness independently of score; ≥70 never bypasses missing mandatory fields: current approved revision, valid mandatory fields, ≥1 complete Product or Service, ≥1 complete Audience, valid manual tone and unarchived Brand. Runtime authorization/deletion/provider gates remain separate.
 - **FR-8**: System shall persist every Brand Brain field change through the Knowledge Management Service with full version history. (no silent overwrites — aligns with ADR-003 in `04_KNOWLEDGE_MANAGEMENT_SERVICE.md`).
-- **FR-9**: System shall allow editing Brand Brain at any time after onboarding, not just during initial setup.
-- **FR-10**: System shall record which fields were AI-imported vs. manually entered, for provenance (aligns with Knowledge domain invariant: _"Every Knowledge item originates from at least one Document"_ — manually entered fields originate from a synthetic "User Input" source).
+- **FR-9**: System shall allow editing Brand Brain at any time after onboarding, not just during initial setup. This recorded baseline does not approve a dedicated Knowledge Base screen; post-onboarding import placement is [D-IMP-03](../DECISION_REGISTER.md#d-imp-03).
+- **FR-10**: System shall track origin for every material field (MANUAL, IMPORTED, DERIVED); source Artifact/Document and available location for imports; explicit derivation inputs for derived claims; approval status, approver/time, introducing/superseded revisions and last verification. No fabricated attribution or silent unreviewed replacement. See KNOWLEDGE_PROVENANCE.md.
+- **FR-11**: System shall display a copyable Brand Brief assembled only from current Owner-approved Organization, Brand Profile, Brand Voice, Products/Services, Audience, and optional Competitor/Business Goal knowledge. Omit unapproved or missing fields; never invent facts. Copy preserves readable section labels and text. After an approved edit, refresh the Brief from current approved state. No download, file generation, or background export job is required.
+- **FR-12**: System shall preserve immutable approved field values, introducing/superseded revision links, approver/time and verification history; expose version/field history and typed diffs.
+- **FR-13**: System shall present contradictory proposals and stale/unknown verification with approved/proposed values and evidence; Owner may keep, replace, edit or verify. Revisions use expectedRevisionId and idempotency; conflicts cannot silently overwrite approved facts.
+- **FR-14**: System shall preview and restore an earlier approved Brand Brain version by creating a new approved revision under the current ontology, preserving intervening history and prior verification dates unless explicitly reverified.
 
 ---
 
 # Non-Functional Requirements
 
 - **Multi-tenancy**: Every Brand Brain record strictly isolated per Organization (per `03_ENGINEERING_BIBLE.md` Multi-Tenancy rules — no cross-tenant access).
-- **Performance**: Import pipeline (Step 2–3) should return results within 30 seconds for a typical marketing website (<50 pages crawled in MVP — page limit is an Engineering decision, not fixed here).
+- **Performance**: Import pipeline (Step 2–3) should return results within 30 seconds for one typical marketing website page (one submitted URL per job; no crawling in MVP).
 - **AI Provider Agnostic**: Field extraction must not hardcode a specific LLM provider (per `01_PROJECT_BIBLE.md` AI Strategy).
 - **Auditability**: Every field change must be traceable to a version and a source, per Knowledge Management Service audit requirements.
 
@@ -245,7 +243,7 @@ Step 5 — First Generation ("Wow Moment")
 
 - Given a user with no website, when they complete Step 4 manually, then they can generate content without ever seeing an import step.
 - Given a user who provides a website URL, when import completes, then every extracted field shows a source badge and is editable before being saved.
-- Given a user has filled all Required fields but zero Recommended fields, when they view their Completeness Score, then it shows approximately 80%, and content generation remains available.
+- Given an unarchived Brand has all 14 valid approved mandatory slots and zero recommendation points, its revision snapshot stores score 80 and readiness true. Conversely, under v2 a missing five-point mandatory field with both recommendations stores score 95 but readiness false; exactly 70 with missing tone or mission is also not ready.
 - Given a user edits an existing Brand Brain field post-onboarding, when the edit is saved, then a new Knowledge version is created and the previous version remains retrievable.
 - Given import fails or times out, when the user reaches Step 3, then they see a clear fallback message and can proceed manually without errors.
 
@@ -255,9 +253,10 @@ Step 5 — First Generation ("Wow Moment")
 
 | Metric                           | Target       |
 | -------------------------------- | ------------ |
-| Brand Brain Completion Rate      | > 70%        |
-| Time to First Value              | < 15 minutes |
-| Activation Rate (reaches Step 5) | > 60%        |
+| Seven-day readiness completion rate | Proposed >70% of eligible mature-cohort starts; not a field-score rule |
+| Time to first value, median | Proposed ≤10 minutes |
+| Time to first value, p90 | Proposed ≤15 minutes |
+| Seven-day activation rate | Proposed >60% reaching QualifiedFirstValue, not entering Step 5 |
 
 ---
 
@@ -278,7 +277,7 @@ Step 5 — First Generation ("Wow Moment")
 - Persona sub-profiles.
 - Campaign / Content / Asset / Channel entities.
 - Dynamic Trust Score for imported fields (MVP uses static confidence from Knowledge Extraction Service only).
-- Human Review workflow for low-confidence imports (MVP: user review during onboarding _is_ the review step; no separate admin queue).
+- Delegated/admin review queue (Phase 2). Single-owner conflict/stale review, field history, version inspection and restore are MVP requirements.
 
 ---
 
@@ -339,6 +338,30 @@ Step 5 — First Generation ("Wow Moment")
 `02_AI_WORKSPACE_PRD.md`
 
 `03_KNOWLEDGE_IMPORT_PRD.md`
+
+---
+
+## Field provenance acceptance contract
+
+[KNOWLEDGE_PROVENANCE.md](../KNOWLEDGE_PROVENANCE.md) defines the payload contract, APIs, sample records, referential integrity, migration prerequisites and edge-case scenarios required for FR-6/7/8/10/12/13/14. Design approval does not establish implementation. Tests must prove import/manual origin changes, source locations, immutable histories, same-head concurrency, stale review, new-revision restoration, Service-only readiness and persisted score independence.
+
+---
+
+## Commercial account boundary
+
+[COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md) applies FR-1 identically to proposed Starter and Pro: one business, one Organization, one Brand and one Owner. Tier labels cannot authorize additional client Organizations, brands, members or Agency workflows. Signup creates the sole Owner membership; normal MVP operations reject additional memberships/Organization creation and do not expose switching. Historical multiple-membership data needs reviewed reconciliation, not silent access. Agency subscriptions/portfolios, client isolation/billing/roles and switching are separate Phase 2 requirements; prices remain proposed until payment evidence exists.
+
+---
+
+## Limited setup and onboarding measurement acceptance
+
+An incomplete Brain supports manual setup/import/review, approved knowledge/history inspection, accessible prior conversations and a visibly partial approved Brief. With no approved facts, show guidance/missing fields but do not generate business-grounded answers or count templates/empty summaries as first value. New context-aware generation requires effective readiness, not score ≥70. [PRODUCT_METRICS.md](../PRODUCT_METRICS.md) defines exact events, cohort/abandonment rules and the required 0%, 70%, 100% and missing-mandatory acceptance cases. No target is an observed result.
+
+---
+
+## Approval scope and decision evidence
+
+The 2026-07-01/02 baseline scope/design decisions and resolved tone/taxonomy/competitor questions remain recorded evidence [D-BB-01](../DECISION_REGISTER.md#preserved-evidence-based-decisions-and-remaining-review-ownership). They do not sign off every subsequent October amendment. Current integrated revision awaits Product/Architecture review (D-REV-01); import acquisition paths disclose D-IMP-01/02/03. Manual baseline choices and completed ADRs are preserved. No new Founder approval date or identity is supplied by this audit.
 
 ---
 
