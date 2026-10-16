@@ -1,12 +1,14 @@
 # API Design — AI Brand OS
 
+> Final audit (2026-10-16): D-AUD-08 tracks remaining request/response DTOs, pagination/error/SSE recovery and validated telemetry transport. Endpoint inventory is not a complete executable API. The existing candidate PATCH route is retained; R23 / D-AUD-07 owns aggregate import outcomes. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-05_API_DESIGN.md
+[05_API_DESIGN.md](05_API_DESIGN.md)
 
 Version
 
@@ -14,7 +16,7 @@ Version
 
 Status
 
-Approved
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Owner
 
@@ -148,7 +150,7 @@ Everything not listed here is DI-only, per the Core Architectural Clarification.
 | Method | Path                                                             | Notes                                                                                                                                                                                                                |
 | ------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | POST   | `/brands/:id/import`                                             | Body: `{ sourceType: "url" \| "file", url? }` or multipart file. Proposed rejection with 409 if a job is in-flight (PRD BR-2 / D-IMP-02 pending Founder approval)                                                                                           |
-| GET    | `/brands/:id/import-jobs/:correlationId`                         | Returns one of the UX-facing Job Lifecycle states from `03_KNOWLEDGE_IMPORT_PRD.md` — resolved by reading the latest `Artifact` row for that `correlationId`, not a dedicated status table (Database Design ADR-001) |
+| GET    | `/brands/:id/import-jobs/:correlationId`                         | Returns one of the UX-facing Job Lifecycle states from `03_KNOWLEDGE_IMPORT_PRD.md` — derived from correlation-scoped artifacts and per-item decisions, without a dedicated domain status table. Latest-row-only resolution is insufficient; exact aggregate terminal mapping remains R23 / D-AUD-07 |
 | GET    | `/brands/:id/import-jobs/:correlationId/candidates`              | Returns governance-eligible `AutoApproved` candidates, still pending human confirmation (Gate 1 already passed)                                                                                                                                                       |
 | PATCH  | `/brands/:id/import-jobs/:correlationId/candidates/:candidateId` | Body: `{ action: "confirm" \| "edit" \| "delete", value?, expectedRevisionId }`, Idempotency-Key — Gate 2 creates approved revision or records rejection                                                                                                                                         |
 
@@ -291,7 +293,7 @@ The API Design is complete when:
 
 ## Version 1.0.0
 
-Initial production-ready API Design.
+Initial design baseline; production readiness was not verified. Original API Design.
 
 Defines:
 
@@ -315,3 +317,10 @@ GET Brand Brain/knowledge returns the pinned persisted completeness snapshot, cu
 ---
 
 # END OF DOCUMENT
+
+
+# Task 11 — Approval-based knowledge improvement
+
+The learning lifecycle adds a proposed bounded GET /brands/:id/knowledge-change-candidates read facade over existing review artifacts; Product/Engineering review and concrete import-candidate binding remain required. Confirm/edit/reject uses the existing candidate PATCH, manual corrections use existing Brand Brain PATCH, and history/restore uses provenance APIs. No duplicate mutation route family or feedback-to-learning endpoint is authorized.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.

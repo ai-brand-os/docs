@@ -136,3 +136,20 @@ Version event/schema contracts and implement validated event joins/outbox, cohor
 ## Design verification record
 
 Repository relative links/heading anchors and git diff whitespace checks pass. The documented field weights were checked to total 80 mandatory/20 recommended, and the 0/70/80/95/100 examples and illustrative nearest-rank/cohort arithmetic were checked. All 13 exact event names are defined. The 19 acceptance scenarios above specify required implementation behavior; they are not executed runtime tests or observed performance. No telemetry pipeline, score migration or analytics dashboard was deployed by this task.
+
+
+## Knowledge improvement measurements
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](KNOWLEDGE_LEARNING_LIFECYCLE.md#measurement-contract--goals-to-define-no-observed-results) defines correction acceptance, independently adjudicated factual accuracy, stale-fact coverage and paired repeated-error reduction. These are separate from completeness, readiness, TTFV and helpful ratings. No observed learning improvement or approved numerical quality target is recorded; D-LEARN-01 covers thresholds/evaluation design.
+
+
+## Customer validation cohorts
+
+[MARKET_VALIDATION_PLAN.md](MARKET_VALIDATION_PLAN.md#exp-03--onboarding-repeated-use-retention-and-switching) proposes real-task repeated-use, week-4 behavioral retention and settled renewal measures for a ten-payer pilot. Original onboarding start/activation/readiness semantics above remain canonical; payment cannot reset TTFV. Historical >50% activity, >30% week4, >5% conversion and <20% MRR AI-cost goals are untested hypotheses, not this new pilot’s pass criteria. No rate has been observed here.
+
+
+## Task 15 — Proposed e-commerce validation extension
+
+[GO_TO_MARKET_STRATEGY.md](GO_TO_MARKET_STRATEGY.md) narrows the next proposed test to single-brand e-commerce Owners already doing recurring AI work; [PRICING_EXPERIMENTS.md](PRICING_EXPERIMENTS.md) proposes one $29 first pilot offer within the unvalidated $19–59 range and a hypothetical cost sensitivity model; [90_DAY_VALIDATION_ROADMAP.md](90_DAY_VALIDATION_ROADMAP.md) schedules gated discovery, payment, blinded comparison and mature follow-up. These are pending D-GTM-01/02/03, not Founder-approved replacements for this document’s segment/offer/experiment decisions.
+
+The proposed e-commerce-only first20 interviews would prospectively amend EXP-01’s proposed mixed service/e-commerce sampling only after approval; never pool or relabel historical cohorts. EXP-GTM-01 refines EXP-04 with blinded raters and identical source/Owner correction packets in both arms; numeric benefit/economics gates remain proposed. Full deliverable-level source/claim review is a new UX amendment, not an existing Workspace feature. Original onboarding clocks/readiness/activation and all-payer retention denominators stay intact. A late day56 payer needs follow-up through day93, so day90 cannot manufacture mature renewal evidence. No new premium feature split, unlimited allowance or connected-store capability is promised.

@@ -1,12 +1,14 @@
 # Business Ontology — AI Brand OS
 
+> Final audit (2026-10-16): D-AUD-03 tracks overlapping company-size buckets (21–50 and 50+), undefined Region/Language vocabularies and numeric confidence policy. Industry/Tone locked vocabularies remain preserved. D-AUD-06 tracks relationship persistence; no undeclared relationship table/graph is implied. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-03_BUSINESS_ONTOLOGY.md
+[03_BUSINESS_ONTOLOGY.md](03_BUSINESS_ONTOLOGY.md)
 
 Version
 
@@ -14,7 +16,7 @@ Version
 
 Status
 
-Approved
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Owner
 
@@ -52,7 +54,7 @@ Provide one machine-checkable, versioned definition of "what a valid piece of bu
 # Relationship to Other Documents
 
 ```text
-01_DOMAIN_MODEL.md
+[01_DOMAIN_MODEL.md](01_DOMAIN_MODEL.md)
         │  (narrative entities, relationships, invariants)
         ▼
 03_BUSINESS_ONTOLOGY.md   ← this document
@@ -118,7 +120,7 @@ The ontology is composed of four registries:
 | Audience     | Organization   | Active     | A target customer segment.                                                                                                   |
 | Competitor   | Organization   | Active     | A competing organization or offering.                                                                                        |
 | Document     | Organization   | Active     | An imported knowledge source. Not itself business knowledge.                                                                 |
-| Knowledge    | Brand          | Active     | Validated business knowledge derived from one or more Documents.                                                             |
+| Knowledge    | Brand          | Active     | Explicitly approved business facts with MANUAL/IMPORTED/DERIVED provenance; source Documents required where applicable.                                                             |
 | Persona      | Audience       | Reserved   | Detailed sub-profile of an Audience. Deferred per Brand Brain PRD.                                                           |
 | Content      | Organization   | Reserved   | Generated communication artifact. Owned by AI Workspace, not Brand Brain.                                                    |
 | Campaign     | Organization   | Reserved   | Coordinated marketing initiative. Deferred.                                                                                  |
@@ -228,7 +230,7 @@ Structural attributes only — the actual business content is expressed as class
 
 | Attribute           | Type                                           | Required | Source                                |
 | ------------------- | ---------------------------------------------- | -------- | ------------------------------------- |
-| describesEntityType | enum: any Active Entity Type in this registry  | Yes      | system                                |
+| describesEntityType | enum: KnowledgeEntityType in schema.prisma (8 described business types; not recursive Knowledge)  | Yes      | system                                |
 | knowledgeConfidence | number 0–100                                   | Yes      | system (Knowledge Management Service) |
 | ontologyVersion     | semver                                         | Yes      | system                                |
 | provenance          | Provenance object (see `02_ARTIFACT_MODEL.md`) | Yes      | system                                |
@@ -241,20 +243,20 @@ Cardinality is read as `Source → Target`. All relationships are directional; a
 
 | Relationship    | Source            | Target                                                 | Cardinality                                                | MVP Status |
 | --------------- | ----------------- | ------------------------------------------------------ | ---------------------------------------------------------- | ---------- |
-| HAS             | Organization      | Brand                                                  | 1 → 1 (MVP constraint; Domain Model allows 1..N long-term) | Active     |
+| HAS             | Organization      | Brand                                                  | 1 → 0..1 during setup; exactly 1 after onboarding | Active     |
 | HAS             | Organization      | Product                                                | 1 → 0..N                                                   | Active     |
 | HAS             | Organization      | Service                                                | 1 → 0..N                                                   | Active     |
 | HAS             | Organization      | Audience                                               | 1 → 0..N                                                   | Active     |
 | HAS             | Organization      | Document                                               | 1 → 0..N                                                   | Active     |
 | HAS             | Organization      | Competitor                                             | 1 → 0..N                                                   | Active     |
-| HAS             | Brand             | BrandVoice                                             | 1 → 1                                                      | Active     |
+| HAS             | Brand             | BrandVoice                                             | 1 → 0..1 draft; 1 when ready                              | Active     |
 | HAS             | Brand             | Knowledge                                              | 1 → 0..N                                                   | Active     |
 | TARGETS         | Product           | Audience                                               | 1 → 1..N                                                   | Active     |
 | TARGETS         | Service           | Audience                                               | 1 → 1..N                                                   | Active     |
-| USES            | Product           | BrandVoice                                             | 1 → 1                                                      | Active     |
-| USES            | Service           | BrandVoice                                             | 1 → 1                                                      | Active     |
-| PRODUCES        | Document          | Knowledge                                              | 1 → 1..N (only after approval)                             | Active     |
-| ORIGINATES FROM | Knowledge         | Document                                               | 1..N → 1..N                                                | Active     |
+| USES            | Product           | BrandVoice                                             | 1 → 0..1 draft; 1 when ready                              | Active     |
+| USES            | Service           | BrandVoice                                             | 1 → 0..1 draft; 1 when ready                              | Active     |
+| PRODUCES        | Document          | Knowledge                                              | 1 → 0..N (approved facts only)                             | Active     |
+| ORIGINATES FROM | Knowledge         | Document                                               | 0..N → 0..N (manual facts may have no Document)                                                | Active     |
 | MAY DESCRIBE    | Knowledge         | Product / Service / Audience / Competitor / BrandVoice | 0..N → 0..N                                                | Active     |
 | COMPETES WITH   | Competitor        | Product / Service / Organization                       | 0..N → 0..N                                                | Active     |
 | HAS             | Audience          | Persona                                                | 1 → 0..N                                                   | Reserved   |
@@ -262,7 +264,7 @@ Cardinality is read as `Source → Target`. All relationships are directional; a
 | MAY APPEAR IN   | Product / Service | Campaign                                               | 0..N → 0..N                                                | Reserved   |
 | DISTRIBUTES     | Channel           | Content                                                | 1 → 0..N                                                   | Reserved   |
 
-**Cardinality note on Organization → Brand:** the Domain Model narratively allows multi-brand (`Organization HAS 1..N Brands`) as the long-term shape, while the Product Bible and Brand Brain PRD constrain MVP to exactly one Brand per Organization. This ontology enforces the **MVP constraint (1 → 1)** at the validation layer today. When multi-brand ships (Product Bible Phase 2), this row must change to `1 → 1..N` and this change requires a Product Bible-authorized ontology version bump (see Governance).
+**Cardinality note:** MVP permits 0..1 Brand during setup and exactly one after onboarding; schema `Brand.organizationId @unique` enforces the upper bound. A valid manual BrandVoice is required for readiness, not for inserting a draft Brand. Offer/Audience storage may be empty during setup; readiness requires one complete Product OR Service and Audience. Document extraction may yield zero facts; manual facts need no Document. Future multi-brand requires separately approved ontology/schema changes.
 
 ---
 
@@ -436,7 +438,7 @@ The Business Ontology is complete when:
 
 ## Version 1.0.0
 
-Initial production-ready Business Ontology.
+Initial design baseline; production readiness was not verified. Original Business Ontology.
 
 Defines:
 

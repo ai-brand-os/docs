@@ -1,5 +1,15 @@
 # AI Brand OS — Product Bible
 
+> Task 15 proposal (2026-10-16): [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md), [PRICING_EXPERIMENTS.md](../PRICING_EXPERIMENTS.md) and [90_DAY_VALIDATION_ROADMAP.md](../90_DAY_VALIDATION_ROADMAP.md) propose a small single-brand e-commerce cohort already using AI, one-product reviewed-facts workflow, blinded equal-information comparison and a $19–59 pricing experiment. D-GTM-01/02/03 remain pending: no new segment, positioning, price or source/claim UI is Founder-approved. Existing broader/mixed recruitment remains baseline until an explicit prospective amendment; no customer results or delivery are implied.
+
+## Task 14 — Proposed differentiation, pending strategic approval
+
+Proposed positioning: **“AI Brand OS is a verified, portable source of truth for business knowledge that keeps AI-generated work accurate, consistent, and up to date.”**
+
+This is a strategic hypothesis under D-COMP-01/02, not a delivered guarantee or scope expansion. “Verified” means explicit Owner review/evidence, not guaranteed factual truth; portability is MVP manual Brief reuse, with machine interchange/connected tools later; freshness requires maintained approved facts, not automatic synchronization. [COMPETITIVE_STRATEGY.md](../COMPETITIVE_STRATEGY.md) supplies dated primary-source findings and capability uncertainties; [DIFFERENTIATION_ROADMAP.md](../DIFFERENTIATION_ROADMAP.md) separates existing provenance/review/versioning commitments from later monitoring/portability proposals. Persistent context, brand knowledge, structured product facts, governance and cross-tool delivery already have competitive overlap. No first/only/unique or proven-moat claim is supported. Safe current wording: AI Brand OS is designed to help one business review, version and reuse approved facts in AI work, with a copyable approved Brand Brief.
+
+> Market evidence audit (2026-10-16): [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md) and [ASSUMPTION_REGISTER.md](../ASSUMPTION_REGISTER.md) distinguish strategy/approval from customer evidence. Market demand, tier pricing, retention and moat remain hypotheses without linked customer records. Success/Definition-of-Ready statements are goals or required gates, not reports that they were achieved. Historical document/design completion does not satisfy the existing customer-validation gate.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
@@ -34,7 +44,7 @@ Detailed feature specifications belong in PRDs.
 
 AI Brand OS is building the operating system that enables AI to permanently understand a business.
 
-Instead of treating AI as a generic assistant, AI Brand OS creates a persistent Brand Brain that continuously learns, organizes, and applies business knowledge to generate consistent, context-aware outputs across every marketing workflow.
+AI Brand OS specifies a persistent Brand Brain that organizes approved business knowledge and applies it to contextual AI work. The MVP updates facts through reviewed single-source imports and explicit Owner corrections, not autonomous interaction learning. Broader marketing workflows remain later-phase.
 
 The platform serves as the foundation for AI-native marketing applications by combining brand intelligence, structured knowledge, contextual reasoning, and content generation into a unified system.
 
@@ -170,7 +180,7 @@ These may integrate in the future but are not core responsibilities.
 
 # Core Domain
 
-The Core Domain represents the unique intellectual property of AI Brand OS.
+The Core Domain contains the product’s knowledge contracts; competitive uniqueness or defensibility is unproven.
 
 Its responsibility is not generating AI outputs.
 
@@ -257,8 +267,8 @@ Raw inputs may include:
 - Documents
 - PDFs
 - User input
-- AI conversations
-- Approved outputs
+- AI conversations — future approved acquisition design, outside MVP
+- Approved outputs — future approved acquisition design, outside MVP; copying/rating does not approve facts
 
 The engine validates, classifies, enriches, and links this information before it becomes part of Brand Brain.
 
@@ -293,9 +303,9 @@ Rather than sending the entire Brand Brain to an LLM, it selects only the most r
 - Context retrieval
 - Context ranking
 - Context compression
-- Prompt assembly
+- Provider-neutral context assembly (final Prompt Builder belongs to AI Orchestrator)
 - Token optimization
-- AI provider abstraction
+- Provider-neutral context payload (provider adapters belong to AI Orchestrator)
 
 The goal is to maximize response quality while minimizing token usage.
 
@@ -327,13 +337,11 @@ AI Response
 
 ↓
 
-User Feedback
+User Feedback (MVP rating only; no automatic knowledge mutation)
 
-↓
+Separately: Owner correction or scoped import → candidate review → explicit approval → versioned revision → future context.
 
-Knowledge Engine
-
-This continuous loop enables the platform to improve over time.
+Improvement is measured under [KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md), not guaranteed by collecting feedback. Automatic conversation-derived candidates, inferred preferences and model fine-tuning are outside MVP.
 
 ---
 
@@ -353,7 +361,7 @@ Applications must never bypass the Core Domain.
 
 # Strategic Importance
 
-The Core Domain is the primary competitive advantage of AI Brand OS.
+The Core Domain is the proposed focus of competitive execution; advantage requires comparative customer evidence.
 
 Every future product capability should strengthen this layer rather than replace or duplicate it.
 
@@ -538,7 +546,7 @@ The following modules support the platform but do not contain business intellige
 - Settings
 - File Storage
 - Notifications
-- Memory Service
+- Context Engine memory selection in MVP; standalone preference/conversation-memory service is a future design, with history inclusion policy pending D-AUD-01
 
 ---
 
@@ -817,7 +825,7 @@ These constraints may evolve only after Product-Market Fit.
 
 # Product Governance
 
-Product decisions should follow this order.
+The list below expresses product evaluation priorities, not a competing document-authority hierarchy. Apply [documentation governance](../DOCUMENTATION_GOVERNANCE.md#authority-and-ownership) for conflicts. Evaluate decisions using:
 
 1. Customer Value
 2. Project Bible
@@ -875,13 +883,13 @@ Major Changes
 
 # Related Documents
 
-01_PROJECT_BIBLE.md
-03_ENGINEERING_BIBLE.md
-04_EXECUTION_BIBLE.md
-04_POSITIONING.md
-01_BRAND_BRAIN_PRD.md
-02_AI_WORKSPACE_PRD.md
-05_AI_MEMORY_BIBLE.md
+[01_PROJECT_BIBLE.md](01_PROJECT_BIBLE.md)
+[03_ENGINEERING_BIBLE.md](03_ENGINEERING_BIBLE.md)
+[04_EXECUTION_BIBLE.md](04_EXECUTION_BIBLE.md)
+[04_POSITIONING.md](../discovery/04_POSITIONING.md)
+[01_BRAND_BRAIN_PRD.md](../prd/01_BRAND_BRAIN_PRD.md)
+[02_AI_WORKSPACE_PRD.md](../prd/02_AI_WORKSPACE_PRD.md)
+[05_AI_MEMORY_BIBLE.md](05_AI_MEMORY_BIBLE.md)
 
 ---
 

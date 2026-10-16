@@ -1,12 +1,14 @@
 # Artifact Model — AI Brand OS
 
+> Final audit (2026-10-16): The seven numbered catalog families correspond to eight schema ArtifactType discriminators (Processing Intermediate and Structured Document are distinct). D-AUD-04 tracks missing nested schemas/status values, manual-input roots and intermediate/failure variants; field lists alone are not complete executable payload schemas. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-02_ARTIFACT_MODEL.md
+[02_ARTIFACT_MODEL.md](02_ARTIFACT_MODEL.md)
 
 Version
 
@@ -14,7 +16,7 @@ Version
 
 Status
 
-Approved
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Owner
 
@@ -101,7 +103,7 @@ Import and generation are separate operations. An import correlationId traces it
 
 ## Immutability
 
-Once an artifact's status leaves `Created`, its payload never changes. Corrections are expressed as a new artifact, with the old one marked `Superseded`.
+Once an artifact is persisted/emitted, its payload never changes, including while its status is `Created`. Corrections are expressed as a new artifact, with the old one marked `Superseded`.
 
 ## Lineage Over Mutation
 
@@ -109,7 +111,7 @@ Every artifact (except a Raw Intake Artifact, which is the lineage root) normall
 
 ## Correlation Continuity
 
-correlationId is assigned once per import or generation operation and copied to its retries/stages. It is tracing metadata, not a deletion selector. conversationId records exclusive generation ownership and must be checked separately.
+correlationId is assigned once per import or generation operation and copied to its internal worker/provider retries and stages. An explicit user retry after a terminal generation creates a new assistant Message and correlationId, per Workspace State Management; the prior attempt is preserved. It is tracing metadata, not a deletion selector. conversationId records exclusive generation ownership and must be checked separately.
 
 ## Tenant Isolation
 
@@ -255,7 +257,7 @@ Producing Service: Context Engine
 | `contextScore`          | number                                               |
 | `contextAssemblyStatus` | enum                                                 |
 
-**Still open — Context payload naming:** `05_CONTEXT_ENGINE.md` lists this artifact's fields three times (Output section, Prompt Context Artifact section, Artifact Contract section) with minor differences between each listing. The field list above is the canonical, reconciled version. The source spec duplicates remain; this task does not mark them fixed. Engineering owns alignment to this canonical contract, tracked in DOCUMENTATION_CHANGELOG.md.
+**Naming reconciliation fixed in final audit:** Context service Output, Prompt Context Artifact and Artifact Contract now link this canonical list. Nested types/status enums and intermediate/failure variants remain open under D-AUD-04; naming alignment is not full contract validation.
 
 ## 6. Prompt Artifact
 
@@ -285,7 +287,7 @@ Producing Service: AI Orchestrator
 | `validationResult`  | object                                    |
 | `executionStatus`   | enum                                      |
 
-**Still open — Response payload naming:** `06_AI_ORCHESTRATOR.md` lists this artifact's fields twice with inconsistent naming — `Model Version` vs. `Model Provider` + `Model Name`, `Latency` vs. `Execution Time`, `Cost` vs. `Estimated Cost`. The field list above is the canonical, reconciled version (`modelProvider` + `modelName` instead of a single `modelVersion`; `latency` in milliseconds; `estimatedCost`). The source duplicates remain; Engineering owns alignment, tracked in DOCUMENTATION_CHANGELOG.md. Canonicalizing this table alone did not fix the service spec.
+**Naming reconciliation fixed in final audit:** Orchestrator Output and Response Artifact now use this canonical list. Full status/nested/failure payload contracts remain D-AUD-04; no runtime validation is inferred.
 
 ---
 
@@ -310,14 +312,16 @@ The table below describes legacy extraction-location metadata. The normative mat
 
 | Artifact Type                      | Default Retention                                              | Rationale                                                                                                                                                               |
 | ---------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Raw Intake Artifact                | 30–90 days (configurable)                                      | No standalone business meaning once processed; retained short-term for reprocessing/debugging only. Cost-driven.                                                        |
-| Processing Artifact (intermediate) | 7–30 days                                                      | Debugging/reprocessing aid only; superseded by Structured Document.                                                                                                     |
+| Raw Intake Artifact                | Proposed source bytes: 30–90 days, reference-aware                                      | No standalone business meaning once processed; retained short-term for reprocessing/debugging only. Cost-driven.                                                        |
+| Processing Artifact (intermediate) | Proposed 7–30 days, reference-aware                                                      | Debugging/reprocessing aid only; superseded by Structured Document.                                                                                                     |
 | Structured Document                | Same as source Document lifecycle                              | Input to Knowledge Extraction; may be reprocessed if extraction logic improves.                                                                                         |
 | Knowledge Candidate Artifact       | Retained until governance decision + configurable audit window | Provisional; retained briefly past decision for audit traceability.                                                                                                     |
 | Approved Knowledge Artifact        | Independent knowledge retention/erasure policy (approval pending)                                          | Core product asset per `02_PRODUCT_BIBLE.md` — "Knowledge compounds; generated content does not." Not removed by conversation deletion; independently governed retention/erasure may apply.                                       |
 | Prompt Context Artifact            | Retained per Conversation lifecycle (AI Workspace)             | Supports Conversation History (`02_AI_WORKSPACE_PRD.md` FR-005) without duplicating storage in the Workspace domain.                                                    |
 | Prompt Artifact                    | Conversation-owned; proposed active purge within 30 days of deletion                   | Internal; not user-facing.                                                                                                                                              |
 | Response Artifact                  | Retained per Conversation lifecycle                            | User-facing history; deletion follows Conversation deletion (`02_AI_WORKSPACE_PRD.md` FR-007), but underlying Knowledge is explicitly unaffected per that PRD's BR-007. |
+
+Retention periods above require D-POL-01 approval. Raw/source byte expiry is separate from retained Artifact identity and evidence metadata. Protected approved/historical references override routine cleanup; never remove a referenced intermediate/source identity without approved provenance repair.
 
 Payload content is never included in observability telemetry for any artifact type, matching the Observability section of every one of the six service specs.
 
@@ -459,7 +463,7 @@ The Artifact Model is complete when:
 
 ## Version 1.0.0
 
-Initial production-ready Artifact Model.
+Initial design baseline; production readiness was not verified. Original Artifact Model.
 
 Defines:
 
@@ -474,3 +478,10 @@ Defines:
 ---
 
 # END OF DOCUMENT
+
+
+# Task 11 — Approval-based knowledge improvement
+
+Extend the versioned candidate and candidate_decision JSON variants per the learning lifecycle: stable item/fact identity, proposed diff, base revision, trigger/evidence/confidence basis, review flags, action/reason/actor and resulting revision. Candidate decisions derive the logical queue; ArtifactStatus remains storage/processing lifecycle, not review state. Explicit manual save records its diff/commit without requiring persisted abandoned drafts.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.

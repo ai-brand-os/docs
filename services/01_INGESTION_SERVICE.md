@@ -1,12 +1,14 @@
 # Service Specification — Ingestion Service
 
+> Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-01_INGESTION_SERVICE.md
+[01_INGESTION_SERVICE.md](01_INGESTION_SERVICE.md)
 
 Version
 
@@ -66,7 +68,7 @@ The Ingestion Service is responsible for:
 - Assigning a Source ID and correlation ID
 - Forwarding validated input to the Document Processing Service
 - Reporting ingestion status back to the caller
-- Creating an Intake Job record
+- Creating a correlated Raw Intake Artifact and logical intake operation (not a separate job table)
 
 ---
 
@@ -106,7 +108,7 @@ Future:
 - API integrations
 - CRM integrations
 
-Every input is treated as untrusted until it passes validation.
+Every input remains untrusted data after validation. Validation permits bounded processing, never instruction authority or knowledge approval.
 
 ---
 
@@ -399,3 +401,10 @@ Implementation target: NestJS dependency-injected core module with Prisma/Postgr
 Own authenticated intake, quarantined tenant-bound object keys and the restricted URL-fetch adapter. SEC-T02/03 require destination validation bound to actual connections at every redirect/retry, restricted egress, finite resource budgets, signature/type checks and malware scan before parsing. Server checks remain mandatory even when the UI rejects a file. Fetching validated bytes is acquisition, not document interpretation; downstream parsers cannot fetch arbitrary links.
 
 [SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.
+
+
+# Task 12 — Lean MVP deployment boundary
+
+Run as an internal NestJS module, not a public independently deployed service. Hand accepted operations to the durable PostgreSQL queue through the reviewed atomic enqueue adapter; return correlation for existing polling. Keep fetch policy and quarantine checks. A queue receipt never authorizes a tenant or implies knowledge approval.
+
+[ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.

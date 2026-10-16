@@ -1,5 +1,11 @@
 # AI Brand OS — Competitor Analysis
 
+> Task 15 proposal (2026-10-16): [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md), [PRICING_EXPERIMENTS.md](../PRICING_EXPERIMENTS.md) and [90_DAY_VALIDATION_ROADMAP.md](../90_DAY_VALIDATION_ROADMAP.md) propose a small single-brand e-commerce cohort already using AI, one-product reviewed-facts workflow, blinded equal-information comparison and a $19–59 pricing experiment. D-GTM-01/02/03 remain pending: no new segment, positioning, price or source/claim UI is Founder-approved. Existing broader/mixed recruitment remains baseline until an explicit prospective amendment; no customer results or delivery are implied.
+
+> Current competitive research (2026-10-16): [COMPETITIVE_STRATEGY.md](../COMPETITIVE_STRATEGY.md) supersedes the historical capability/price/star matrices below for current comparisons. Official sources document persistent context, structured product/brand knowledge, governance and cross-tool access; the category is not empty. Legacy unsupported gap/absence/“missing layer” conclusions are withdrawn as current claims, retained only as historical hypotheses. [DIFFERENTIATION_ROADMAP.md](../DIFFERENTIATION_ROADMAP.md) proposes A/B/C with explicit MVP/later boundaries and no uniqueness claim. Newly dated desk research is not customer demand validation.
+
+> Evidence audit (2026-10-16): [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md) and [ASSUMPTION_REGISTER.md](../ASSUMPTION_REGISTER.md) govern empirical claims. No linked primary customer interviews, survey dataset, paid-pilot receipts or retention cohort was found in these discovery drafts. Market/customer/pricing/competitor narratives and star/confidence ratings below are **Assumptions or Hypotheses**, not validated findings, unless linked evidence explicitly establishes a narrower claim. Historical internal decisions and document-completion labels are preserved as such; they do not prove demand. Bilingual research is retained. Newly reviewed external evidence is separately dated in the plan, not attributed to historical drafts.
+
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
 
 > Commercial boundary (2026-10-13): [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md). MVP serves one business, one Organization, one Brand and one Owner. Starter/Pro are proposed pricing tests; Agency portfolios, subscriptions, multiple clients and teams are Phase 2 proposals. Segment ratings and price estimates are research hypotheses; competitor audiences/prices do not confer AI Brand OS entitlements or prove customer payments.
@@ -258,9 +264,9 @@ Threat Level
 | Coding                        | Excellent     |
 | Image Generation              | Good          |
 | Marketing Workflow            | Limited       |
-| Persistent Brand Intelligence | Weak          |
+| Persistent Brand Intelligence | Historical unsupported rating; use current matrix |
 | Multi-brand Management        | Weak          |
-| Organizational Memory         | Weak          |
+| Organizational Memory         | Historical unsupported rating; use current matrix |
 | Knowledge Governance          | Weak          |
 | Marketing Collaboration       | Weak          |
 
@@ -410,7 +416,7 @@ Why Customers Buy
 
 - Fast marketing copy
 - Enterprise features
-- Proven product
+- Assumed buyer preference for an established product; no linked customer evidence
 
 Why Customers Leave
 
@@ -453,7 +459,7 @@ Strengths
 Weaknesses
 
 - Workflow-first
-- Weak persistent knowledge
+- Historical gap assertion withdrawn pending current product/plan comparison
 - Generic outputs
 - Limited organizational memory
 
@@ -575,7 +581,7 @@ This remains the primary opportunity.
 
 # Customer Review Insights
 
-Across review platforms and community discussions, recurring complaints include:
+Unverified desk-research hypotheses: the historical draft supplied no review URLs, dates, sampled communities or customer identities. The following are possible complaints to investigate, not attributed customer testimony:
 
 - Outputs become repetitive.
 - AI still needs excessive prompting.
@@ -770,7 +776,7 @@ Weaknesses
 
 - Heavy focus on execution
 - Generic AI outputs
-- No persistent organizational intelligence
+- Historical absence assertion withdrawn; current capability requires dated evidence
 
 Threat Level
 
@@ -1096,9 +1102,7 @@ AI Brand OS should enter Generation 5.
 | Notion       | Documentation        |
 | HubSpot      | CRM                  |
 
-None of them position themselves around:
-
-**Persistent Brand Intelligence**
+The earlier assertion that none positions around persistent brand intelligence is withdrawn. Current Jasper/Adobe/Frontify messaging and public repositories directly overlap it; consult the dated matrix instead of this historical product-type shorthand.
 
 ---
 
@@ -1342,7 +1346,9 @@ A persistent intelligence platform that understands a business, accumulates know
 
 ---
 
-# Final Verdict
+# Final Verdict — historical internal hypotheses
+
+Star ratings below are unsupported qualitative judgments, not measured market demand or investment scores. Use H-10/13/14 and the current validation plan before drawing conclusions.
 
 Market Opportunity
 
@@ -1395,9 +1401,9 @@ Competitor Analysis is complete when:
 
 ✅ Competitive gaps are identified.
 
-✅ Durable moat is defined.
+A proposed moat is articulated; defensibility remains untested (H-14).
 
-✅ Positioning direction is validated.
+Positioning direction is proposed; customer validation remains pending EXP-01/04.
 
 Status:
 

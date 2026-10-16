@@ -1,12 +1,16 @@
 # Service Specification — AI Orchestrator
 
+> Final audit (2026-10-16): D-AUD-02 tracks the missing legal extraction/provider route; current upstream Workspace contracts do not specify an extraction operation. D-AUD-01 tracks multi-turn history input; persisted turns alone do not define the model context window. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
+> Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-06_AI_ORCHESTRATOR.md
+[06_AI_ORCHESTRATOR.md](06_AI_ORCHESTRATOR.md)
 
 Version
 
@@ -92,19 +96,7 @@ Future
 
 # Output
 
-Response Artifact
-
-Containing
-
-- Generated Response
-- Prompt Version
-- Model Version
-- Execution Metadata
-- Token Usage
-- Latency
-- Cost
-- Validation Result
-- Execution Status
+Response Artifact uses exactly the payload fields in [Artifact Model §7](../domain/02_ARTIFACT_MODEL.md#7-response-artifact): `modelProvider`, `modelName`, `latency` (milliseconds), `estimatedCost` and the other canonical fields. Shared IDs/timestamps belong to the base envelope. Completed execution requires a durable validated Response; failure variants and executionStatus values require D-AUD-04 review. Payloads are immutable after persistence/emission.
 
 ---
 
@@ -586,22 +578,7 @@ Invalid responses may be regenerated according to execution policy.
 
 # Response Artifact
 
-Every execution produces a Response Artifact.
-
-Contains:
-
-- Response ID
-- Generated Response
-- Prompt Version
-- Model Provider
-- Model Name
-- Token Usage
-- Execution Time
-- Estimated Cost
-- Validation Result
-- Timestamp
-
-Response Artifacts are immutable.
+Response Artifact uses exactly the payload fields in [Artifact Model §7](../domain/02_ARTIFACT_MODEL.md#7-response-artifact): `modelProvider`, `modelName`, `latency` (milliseconds), `estimatedCost` and the other canonical fields. Shared IDs/timestamps belong to the base envelope. Completed execution requires a durable validated Response; failure variants and executionStatus values require D-AUD-04 review. Payloads are immutable after persistence/emission.
 
 ---
 
@@ -735,7 +712,7 @@ docs/services/04_KNOWLEDGE_MANAGEMENT_SERVICE.md
 
 docs/domain/02_ARTIFACT_MODEL.md
 
-03_ENGINEERING_BIBLE.md
+[03_ENGINEERING_BIBLE.md](../BIBLE/03_ENGINEERING_BIBLE.md)
 
 ---
 
@@ -743,7 +720,7 @@ docs/domain/02_ARTIFACT_MODEL.md
 
 ## Version 1.0.0
 
-Initial production-ready specification for the AI Orchestrator.
+Initial design baseline; production readiness was not verified. Original specification for the AI Orchestrator.
 
 Defines:
 
@@ -759,7 +736,7 @@ Defines:
 
 # Status
 
-Approved for Architecture & Engineering Design
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Version
 
@@ -805,3 +782,10 @@ Implementation target: NestJS dependency-injected core module with Prisma/Postgr
 SEC-T01/04/06 require explicitly reviewed providers and fallback destinations, minimal tenant-scoped context, server-only credentials, no model-controlled network/tools or knowledge publication, and pre-release output/stream checks. Recheck authorization/deletion on async completion and streaming. Redact provider errors and logs; safely render output and never auto-fetch model-generated links or images.
 
 [SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.
+
+
+# Task 12 — Lean MVP deployment boundary
+
+Run as a NestJS module with reviewed replaceable provider adapters. Normal assistant generation may dispatch directly with persisted Message state/SSE; introduce a queue path for measured capacity/backpressure without making a Conversation terminal. Import provider work runs in the shared worker role. Keep attempts bounded/idempotent, no database transaction held over provider I/O and no unreviewed provider fallback.
+
+[ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.

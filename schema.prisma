@@ -212,8 +212,8 @@ model Brand {
   organizationId    String       @unique @map("organization_id") @db.Uuid
   status            BrandStatus  @default(DRAFT)
   name              String
-  missionStatement  String       @map("mission_statement") // PRD: <=300 chars, enforce at app layer
-  visionStatement   String?      @map("vision_statement")  // PRD: <=300 chars, enforce at app layer
+  missionStatement  String       @map("mission_statement") // <=300 chars: SQL supplement; semantic approval checks in service
+  visionStatement   String?      @map("vision_statement")  // <=300 chars: SQL supplement; semantic approval checks in service
   coreValues        String[]     @default([]) @map("core_values")
   sampleWriting     String?      @map("sample_writing") @db.Text
 
@@ -254,11 +254,11 @@ model BrandVoice {
 // ============================================================
 // Unified Artifact Pipeline
 //
-// Design decision: ONE polymorphic table, not seven.
+// Design decision: ONE polymorphic table, not one table per ArtifactType.
 // Reason: 02_ARTIFACT_MODEL.md ADR-001 explicitly defines a single Base
 // Artifact Contract shared by all 6 producing services specifically so
-// that lineage-tracing and observability tooling is built once. Seven
-// separate tables would duplicate the base columns seven times and
+// that lineage-tracing and observability tooling is built once. Separate
+// per-type tables would duplicate the base columns and
 // contradict that ADR. Postgres JSONB (the reason PostgreSQL was chosen
 // over MySQL, per Engineering Bible ADR 2026-07-02) is exactly the right
 // tool for the type-specific `payload` field this table needs.
@@ -701,10 +701,10 @@ model ConversationPurge {
 //
 // 4. Cross-tenant lineage protection (Artifact Model Security section —
 //    "Cross-tenant artifact linkage is invalid and must be rejected at
-//    write time") cannot be a Postgres FK constraint (requires comparing
-//    organizationId across self-referencing parent/child rows). Enforce at
-//    the NestJS service layer for MVP; revisit as a DB trigger only if an
-//    incident proves the app-layer check insufficient.
+//    write time") is not enforced by the current single-ID FK. Composite
+//    tenant-aware FKs or triggers are possible future designs. The current
+//    MVP contract requires transactional NestJS checks and isolation tests;
+//    UUID existence alone is insufficient.
 //
 // 5. Approved mission/vision semantic validity and nonempty required facts remain
 //    service checks; SQL also enforces <=300 characters with optional vision NULL.

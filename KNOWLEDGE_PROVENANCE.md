@@ -178,3 +178,8 @@ Documentation relative links/heading anchors and git diff whitespace checks pass
 ## Task 08 validation update
 
 [ADR-009](domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) supersedes the prior schema-level datasource URL workaround. Exact schema.prisma validates with installed Prisma 7; SQL constraints were tested against generated DDL in private PostgreSQL and rolled back. Current planned schema also includes AuthSession security state; no user-facing feature or identity vendor is added. Historical validation records above describe earlier schema versions; [TASK08_RESULTS.md](validation/TASK08_RESULTS.md) records current commands/results. Production migrations and runtime behavior remain unverified.
+
+
+## Knowledge improvement integration
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](KNOWLEDGE_LEARNING_LIFECYCLE.md) specifies candidate review/decision payloads and the proposed read facade, explicit-correction reason/diff records and measurable outcomes. It reuses these immutable snapshots/revisions and existing mutation/restore routes; no new Prisma entity or approval source is introduced. Automatic conversation-derived candidates and inferred preference memory remain later-phase; import extraction is the scoped MVP exception.

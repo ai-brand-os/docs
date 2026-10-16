@@ -1,12 +1,16 @@
 # Service Specification — Document Processing Service
 
+> Final audit (2026-10-16): D-AUD-05 tracks source-location mapping through normalization: preserve original evidence; no invented currency/date interpretation or fabricated original offsets. Location availability and transformation maps require an explicit contract. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
+> Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-02_DOCUMENT_PROCESSING_SERVICE.md
+[02_DOCUMENT_PROCESSING_SERVICE.md](02_DOCUMENT_PROCESSING_SERVICE.md)
 
 Version
 
@@ -731,7 +735,7 @@ docs/domain/01_DOMAIN_MODEL.md
 
 docs/domain/02_ARTIFACT_MODEL.md
 
-03_ENGINEERING_BIBLE.md
+[03_ENGINEERING_BIBLE.md](../BIBLE/03_ENGINEERING_BIBLE.md)
 
 ---
 
@@ -739,7 +743,7 @@ docs/domain/02_ARTIFACT_MODEL.md
 
 ## Version 1.0.0
 
-Initial production-ready specification for the Document Processing Service.
+Initial design baseline; production readiness was not verified. Original specification for the Document Processing Service.
 
 Defines:
 
@@ -755,7 +759,7 @@ Defines:
 
 # Status
 
-Approved for Architecture & Engineering Design
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Version
 
@@ -789,3 +793,10 @@ Implementation target: NestJS dependency-injected core module with Prisma/Postgr
 Consume only policy-validated fetched bytes or scanned quarantine objects. SEC-T03 requires patched non-root isolated parsers without network/credentials, bounded expansion/pages/text/CPU/memory/time, disabled active content and external references, and monitored scratch cleanup. Treat extracted text/metadata as hostile data; normalization does not establish trust or approval.
 
 [SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.
+
+
+# Task 12 — Lean MVP deployment boundary
+
+Run orchestration in the NestJS worker role from the same backend release; execute untrusted parsers/scanners in restricted subprocess/container sandboxes, not on the API event loop. Preserve module input/output artifacts. No Go worker or network microservice boundary is required. Resource limits, no-network parsing, scanning and cleanup remain launch requirements.
+
+[ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.

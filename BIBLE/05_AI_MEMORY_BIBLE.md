@@ -1,5 +1,11 @@
 # AI Brand OS — AI Memory
 
+> Final audit (2026-10-16): Confirmed/Completed sections and Session Memory include historical July baselines, not current integrated approval or application verification. Current review status is in [Decision Register](../DECISION_REGISTER.md) and [final audit](../FINAL_CONSISTENCY_AUDIT.md); a stored conversation/rating is not automatic knowledge learning. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
+> Task 15 proposal (2026-10-16): [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md), [PRICING_EXPERIMENTS.md](../PRICING_EXPERIMENTS.md) and [90_DAY_VALIDATION_ROADMAP.md](../90_DAY_VALIDATION_ROADMAP.md) propose a small single-brand e-commerce cohort already using AI, one-product reviewed-facts workflow, blinded equal-information comparison and a $19–59 pricing experiment. D-GTM-01/02/03 remain pending: no new segment, positioning, price or source/claim UI is Founder-approved. Existing broader/mixed recruitment remains baseline until an explicit prospective amendment; no customer results or delivery are implied.
+
+> Market evidence audit (2026-10-16): [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md) and [ASSUMPTION_REGISTER.md](../ASSUMPTION_REGISTER.md) distinguish strategy/approval from customer evidence. Market demand, tier pricing, retention and moat remain hypotheses without linked customer records. Success/Definition-of-Ready statements are goals or required gates, not reports that they were achieved. Historical document/design completion does not satisfy the existing customer-validation gate.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
@@ -39,7 +45,7 @@ Last Updated: 2026-07-07
 
 - Separated Vision from MVP
 - Brand Brain promoted to core product
-- Added validated MVP strategy
+- Historical label: “validated MVP strategy”; customer-validation evidence was not linked, so this records strategy selection, not a validated market finding.
 - Updated project priorities
 - Updated execution workflow
 - Added strategic decisions
@@ -58,7 +64,7 @@ AI SaaS
 
 Mission
 
-Build the AI Operating System for modern brands by starting with a focused, validated MVP centered around Brand Brain.
+Build the AI Operating System for modern brands by starting with a focused, validation-oriented MVP centered around Brand Brain; customer demand remains unvalidated.
 
 ---
 
@@ -137,24 +143,24 @@ Shipping is more important than perfection.
 
 # Confirmed Product Decisions
 
-Approved
+Recorded internal baselines with current qualifications below; no blanket current integrated approval
 
 - Vision separated from MVP
 - Brand Brain is the product foundation
 - AI Workspace is the primary interface
-- Knowledge Base uses RAG
+- Approved knowledge retrieval is required; structured/keyword retrieval is the ADR-010 MVP baseline, with vectors conditional
 - Multi-tenant SaaS
 - Subscription business model
 - Validation-first strategy
 - Ingestion Service reduced to thin intake layer (v2.0.0) — no parsing/extraction/persistence logic in Ingestion
 - Business Ontology entity types locked 1:1 to Domain Model naming — no parallel terminology
-- "Business Goals" modeled as an attribute group on Brand, not a new Domain Model entity (pending Product confirmation)
+- "Business Goals" modeled as an attribute group on Brand, not a new Domain Model entity (confirmed baseline in Ontology ADR-003; future promotion remains separate)
 - Single shared Artifact base contract across all six Core Domain services (Ingestion, Document Processing, Knowledge
   Extraction, Knowledge Management, Context Engine, AI Orchestrator)
 - Backend framework: NestJS (reversed from Laravel, 2026-07-02)
 - Database: PostgreSQL (reversed from MySQL, 2026-07-02)
-- Brand Brain PRD: fully approved, all Open Questions closed
-- Business Ontology: fully approved, all Open Items closed
+- Brand Brain PRD: July baseline approval retained; current integrated revision awaits D-REV-01 review and disclosed dependencies
+- Business Ontology: baseline Industry/Tone and Brand-goal choices retained; reserved-entity promotion remains R21, current contract gaps D-AUD-03/06 require review
 - Industry Taxonomy includes Beauty & Personal Care (added to match
   Beachhead e-commerce segment)
 
@@ -226,7 +232,7 @@ Backend
 
 Workers
 
-- Go
+- Historical proposal: Go; current lean MVP recommendation is NestJS/TypeScript worker roles, per [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). No migration claimed.
 
 Database
 
@@ -235,11 +241,11 @@ Database
 
 Cache
 
-- Redis
+- Historical proposal: Redis; not required by ADR-010’s MVP deployment recommendation.
 
 Vector Database
 
-- Qdrant
+- Historical proposal: Qdrant; ADR-010 recommends bounded PostgreSQL retrieval first, pgvector only if needed, Qdrant conditional later.
 
 Storage
 
@@ -423,3 +429,10 @@ Only after this validation should AI Brand OS expand into a complete marketing o
 ---
 
 END OF DOCUMENT
+
+
+# Task 11 — Approval-based knowledge improvement
+
+This AI Memory Bible maintains project continuity; it is not a customer Memory Engine implementation. Product learning is explicit approved knowledge revision, not feedback-based model training. No automatic preference or conversation-fact inference is included in MVP.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.

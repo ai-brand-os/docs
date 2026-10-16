@@ -1,12 +1,16 @@
 # Service Specification — Context Engine
 
+> Final audit (2026-10-16): D-AUD-01 tracks conversation-history selection/limits, which are not settled by a persistent Conversation. D-AUD-03 tracks Context Score/gating thresholds; neither confidence nor score proves truth or overrides mandatory readiness. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
+> Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-05_CONTEXT_ENGINE.md
+[05_CONTEXT_ENGINE.md](05_CONTEXT_ENGINE.md)
 
 Version
 
@@ -87,20 +91,7 @@ Accepted inputs:
 
 # Output
 
-Prompt Context Artifact
-
-Containing:
-
-- Relevant Knowledge
-- Supporting Evidence
-- Business Rules
-- Brand Voice
-- Memory
-- Retrieval Metadata
-- Context Score
-- Context Assembly Status
-
-The artifact is optimized for downstream prompt generation.
+Prompt Context Artifact uses exactly the payload fields in [Artifact Model §5](../domain/02_ARTIFACT_MODEL.md#5-prompt-context-artifact). Shared base ID/timestamp fields remain in the base envelope. Do not maintain a second payload list here. Enum values, nested types and failure variants still require D-AUD-04 review. Payloads are immutable after persistence/emission.
 
 ---
 
@@ -424,19 +415,7 @@ Invalid contexts must never be sent downstream.
 
 # Prompt Context Artifact
 
-Contains
-
-- Selected Knowledge
-- Business Rules
-- Brand Voice
-- Memory
-- Evidence
-- Provenance
-- Retrieval Metadata
-- Context Score
-- Assembly Version
-
-Prompt Context Artifacts are immutable.
+Prompt Context Artifact uses exactly the payload fields in [Artifact Model §5](../domain/02_ARTIFACT_MODEL.md#5-prompt-context-artifact). Shared base ID/timestamp fields remain in the base envelope. Do not maintain a second payload list here. Enum values, nested types and failure variants still require D-AUD-04 review. Payloads are immutable after persistence/emission.
 
 ---
 
@@ -524,7 +503,7 @@ The service must never communicate directly with:
 
 The retrieval strategy is configurable.
 
-Supported strategies:
+Strategy extension points (not all required or delivered in MVP):
 
 - Vector Retrieval
 - Knowledge Graph Retrieval
@@ -580,22 +559,7 @@ Context Compression is responsible for enforcing these limits.
 
 # Artifact Contract
 
-Every Prompt Context Artifact contains:
-
-- Artifact ID
-- Assembly Version
-- Retrieval Strategy
-- Context Profile
-- Selected Knowledge
-- Business Rules
-- Brand Voice
-- Memory
-- Evidence
-- Provenance
-- Context Score
-- Timestamp
-
-Artifacts are immutable.
+Prompt Context Artifact uses exactly the payload fields in [Artifact Model §5](../domain/02_ARTIFACT_MODEL.md#5-prompt-context-artifact). Shared base ID/timestamp fields remain in the base envelope. Do not maintain a second payload list here. Enum values, nested types and failure variants still require D-AUD-04 review. Payloads are immutable after persistence/emission.
 
 ---
 
@@ -733,7 +697,7 @@ docs/domain/02_ARTIFACT_MODEL.md
 
 docs/domain/03_BUSINESS_ONTOLOGY.md
 
-03_ENGINEERING_BIBLE.md
+[03_ENGINEERING_BIBLE.md](../BIBLE/03_ENGINEERING_BIBLE.md)
 
 ---
 
@@ -741,7 +705,7 @@ docs/domain/03_BUSINESS_ONTOLOGY.md
 
 ## Version 1.0.0
 
-Initial production-ready specification for the Context Engine.
+Initial design baseline; production readiness was not verified. Original specification for the Context Engine.
 
 Defines:
 
@@ -757,7 +721,7 @@ Defines:
 
 # Status
 
-Approved for Architecture & Engineering Design
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Version
 
@@ -809,3 +773,17 @@ Implementation target: NestJS dependency-injected core module with Prisma/Postgr
 SEC-T01/04/06/07 require tenant/Brand/current-approved-revision filters before ranking and verification of every result, cache scoping and source integrity. Exclude candidates and superseded/tombstoned content. Business Rule/Brand Voice Injection headings mean assembly of approved business data, never promotion to system-policy authority. Retrieved facts, memory and prior responses cannot override authorization, approval or tool policy.
 
 [SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.
+
+
+# Task 11 — Approval-based knowledge improvement
+
+Memory selection is retrieval, not model training or approval. Approved Brand Voice belongs to business knowledge; inferred personal preferences are future scope. Each generation pins the current approved revision at context preparation and records it in the context artifact; an older in-flight attempt may finish on its pinned revision. New requests cannot mix old caches with the new head. No standalone Memory Engine contract or hidden preference store is implied.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
+
+
+# Task 12 — Lean MVP deployment boundary
+
+Use bounded approved-revision structured/keyword/metadata retrieval in PostgreSQL first. Vector/graph/hybrid strategies described above are extension capabilities, not all implemented or mandatory MVP dependencies. If semantic retrieval is required by evaluation, prefer pgvector in PostgreSQL; Qdrant requires a later measured decision. KnowledgeIndex is not an embedding table. Any derived embedding projection requires a separate schema/migration contract and the same tenant/head/deletion guards.
+
+[ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.

@@ -1,5 +1,15 @@
 # AI Brand OS — Positioning
 
+> Task 15 proposal (2026-10-16): [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md), [PRICING_EXPERIMENTS.md](../PRICING_EXPERIMENTS.md) and [90_DAY_VALIDATION_ROADMAP.md](../90_DAY_VALIDATION_ROADMAP.md) propose a small single-brand e-commerce cohort already using AI, one-product reviewed-facts workflow, blinded equal-information comparison and a $19–59 pricing experiment. D-GTM-01/02/03 remain pending: no new segment, positioning, price or source/claim UI is Founder-approved. Existing broader/mixed recruitment remains baseline until an explicit prospective amendment; no customer results or delivery are implied.
+
+## Task 14 — Proposed differentiation, pending strategic approval
+
+Proposed positioning: **“AI Brand OS is a verified, portable source of truth for business knowledge that keeps AI-generated work accurate, consistent, and up to date.”**
+
+This is a strategic hypothesis under D-COMP-01/02, not a delivered guarantee or scope expansion. “Verified” means explicit Owner review/evidence, not guaranteed factual truth; portability is MVP manual Brief reuse, with machine interchange/connected tools later; freshness requires maintained approved facts, not automatic synchronization. [COMPETITIVE_STRATEGY.md](../COMPETITIVE_STRATEGY.md) supplies dated primary-source findings and capability uncertainties; [DIFFERENTIATION_ROADMAP.md](../DIFFERENTIATION_ROADMAP.md) separates existing provenance/review/versioning commitments from later monitoring/portability proposals. Persistent context, brand knowledge, structured product facts, governance and cross-tool delivery already have competitive overlap. No first/only/unique or proven-moat claim is supported. Safe current wording: AI Brand OS is designed to help one business review, version and reuse approved facts in AI work, with a copyable approved Brand Brief.
+
+> Evidence audit (2026-10-16): [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md) and [ASSUMPTION_REGISTER.md](../ASSUMPTION_REGISTER.md) govern empirical claims. No linked primary customer interviews, survey dataset, paid-pilot receipts or retention cohort was found in these discovery drafts. Market/customer/pricing/competitor narratives and star/confidence ratings below are **Assumptions or Hypotheses**, not validated findings, unless linked evidence explicitly establishes a narrower claim. Historical internal decisions and document-completion labels are preserved as such; they do not prove demand. Bilingual research is retained. Newly reviewed external evidence is separately dated in the plan, not attributed to historical drafts.
+
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
 
 > Commercial boundary (2026-10-13): [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md). MVP serves one business, one Organization, one Brand and one Owner. Starter/Pro are proposed pricing tests; Agency portfolios, subscriptions, multiple clients and teams are Phase 2 proposals. Segment ratings and price estimates are research hypotheses; competitor audiences/prices do not confer AI Brand OS entitlements or prove customer payments.
@@ -128,35 +138,21 @@ Store organizational information.
 
 ---
 
-# The Missing Category
+# The Missing Category — historical hypothesis superseded
 
-Every existing category solves one specific problem.
-
-Generate.
-
-Publish.
-
-Store.
-
-Automate.
-
-None answers the following question:
-
-> How can AI truly understand a business over time?
-
-This is the missing category.
+The earlier assertion that no existing category answers persistent business context is withdrawn. Current project, brand-governance and MCP products overlap that need; see the [dated competitor matrix](../COMPETITIVE_STRATEGY.md). “Brand Intelligence Platform” is a proposed descriptor, not an unoccupied category or unique invention.
 
 ---
 
 # Category Definition
 
-AI Brand OS defines a new category:
+AI Brand OS proposes this category descriptor:
 
 ## Brand Intelligence Platform
 
 Definition
 
-A Brand Intelligence Platform continuously learns, structures and applies organizational brand knowledge to improve every AI-powered marketing activity.
+For this proposal, a Brand Intelligence Platform structures approved organizational knowledge for AI work. Our MVP does not learn automatically from interactions; broader workflows and benefit claims require evidence.
 
 Unlike traditional AI tools, its primary asset is not the language model.
 
@@ -176,7 +172,7 @@ A Brand Intelligence Platform should:
 - understand historical decisions
 - understand marketing strategy
 
-Every interaction should improve this understanding.
+MVP understanding changes through explicit approved revisions; interaction alone creates no business update.
 
 ---
 
@@ -218,7 +214,7 @@ AI Brand OS changes this.
 
 The platform transforms fragmented business information into structured intelligence that every AI interaction can leverage.
 
-Over time, the platform becomes increasingly valuable because it continuously learns from the business.
+Hypothesis: reviewed corrections/imports may improve value over time; automatic interaction learning is outside MVP.
 
 ---
 
@@ -272,27 +268,19 @@ and provides context-aware intelligence for every marketing workflow.
 
 Unlike AI writing tools,
 
-AI Brand OS continuously learns and improves with every interaction.
+MVP knowledge changes only through explicit approved corrections/import review; beneficial outcomes remain H-04/08 hypotheses. Automatic interaction-derived learning is later-phase.
 
 ---
 
-# Core Differentiators
+# Core Differentiators — candidate capabilities
 
-AI Brand OS is built around five pillars.
+A. Provenance-backed Brand Brain: execute existing field-evidence/approval/versioning contracts well.
 
-1. Persistent Brand Intelligence
+B. Freshness and contradiction detection: existing review-time comparison/verification warnings first; reminders and monitored sources later.
 
-2. Organizational Knowledge
+C. Model-independent knowledge portability: existing approved Brief copying first; machine interchange and integrations later.
 
-3. Context Engineering
-
-4. AI-Native Marketing Workflow
-
-5. Continuous Learning
-
-These pillars define the product.
-
-Everything else is secondary.
+These are candidate value hypotheses, not unique features. The [differentiation roadmap](../DIFFERENTIATION_ROADMAP.md) defines minimum implementation, infrastructure, quantifiable benefit proposals, experiments and defensibility limits. Provider neutrality and persistent memory alone are not defensible advantages.
 
 ---
 
@@ -387,9 +375,9 @@ Everything else is a consequence of that capability.
 
 Configure your business once.
 
-AI Brand OS continuously learns from it.
+Owners maintain approved knowledge through explicit review and corrections.
 
-Every future interaction becomes more accurate because the platform understands your company instead of asking the same questions again.
+Whether approved context reduces factual errors or repeated briefing must be measured in the proposed comparisons.
 
 ---
 
@@ -418,9 +406,9 @@ AI Brand OS behaves like a long-term team member.
 
 It remembers.
 
-It learns.
+It uses explicitly approved revisions; automatic interaction learning is deferred.
 
-It improves.
+Improvement is a hypothesis to measure, not a consequence guaranteed by storing interactions.
 
 The more it works with a company, the more valuable it becomes.
 
@@ -481,15 +469,13 @@ As a result:
 - knowledge is fragmented
 - organizational learning never compounds
 
-AI Brand OS addresses the missing layer.
+AI Brand OS proposes a focused evidence/review workflow in an already contested context-and-brand layer.
 
 ---
 
 # Brand Promise
 
-Every interaction makes your AI understand your business better.
-
-Never worse.
+Proposed promise: inspect and maintain approved business facts, then measure future task quality. No guarantee of monotonic improvement is supported.
 
 ---
 
@@ -507,7 +493,7 @@ After AI Brand OS
 - AI understands context
 - Knowledge is centralized
 - Outputs become consistent
-- The system improves over time
+- Proposed outcome: measured task quality improves after approved revisions; evidence pending
 
 ---
 
@@ -533,7 +519,7 @@ Marketing becomes consistent.
 
 ## Pillar 4
 
-AI improves with every interaction.
+Testable hypothesis: approved revisions may improve future task outcomes; interactions/ratings alone do not update knowledge or train models.
 
 ---
 
@@ -605,7 +591,7 @@ Features are copied.
 
 Interfaces evolve.
 
-The true moat is the accumulation of proprietary business intelligence.
+Accumulated knowledge may support useful workflows, but it does not establish a moat. Customer ownership/portability, competitor overlap and measured differentiated outcomes limit this hypothesis.
 
 ---
 
@@ -837,7 +823,7 @@ Your AI will never start from zero again.
 
 AI Brand OS is the AI that permanently understands your business.
 
-It captures knowledge, structures context, and continuously improves every AI-powered marketing workflow.
+It is intended to retain approved knowledge and structure context for scoped AI work; improvement must be measured, and broader marketing workflows remain future.
 
 Unlike traditional AI tools, its value compounds over time.
 
@@ -934,7 +920,7 @@ If customers describe it as an AI writer or ChatGPT alternative, positioning has
 This document is complete when:
 
 - Product category is defined.
-- Positioning is validated.
+- Positioning hypothesis is documented; validation remains pending EXP-01/04.
 - Core messaging is established.
 - Strategic principles are documented.
 - Product identity is clear.
@@ -947,7 +933,7 @@ Completed
 
 # Next Document
 
-01_BRAND_BRAIN_PRD.md
+[01_BRAND_BRAIN_PRD.md](../prd/01_BRAND_BRAIN_PRD.md)
 
 Objective
 
@@ -1002,7 +988,7 @@ Knowledge is more valuable than generated content.
 
 Generated outputs are temporary.
 
-Accumulated business intelligence is permanent.
+Approved business knowledge follows independent retention, correction and erasure policy.
 
 The platform should maximize the latter.
 

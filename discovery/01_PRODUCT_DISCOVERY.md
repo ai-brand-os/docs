@@ -1,5 +1,9 @@
 # Product Discovery
 
+> Task 15 proposal (2026-10-16): [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md), [PRICING_EXPERIMENTS.md](../PRICING_EXPERIMENTS.md) and [90_DAY_VALIDATION_ROADMAP.md](../90_DAY_VALIDATION_ROADMAP.md) propose a small single-brand e-commerce cohort already using AI, one-product reviewed-facts workflow, blinded equal-information comparison and a $19–59 pricing experiment. D-GTM-01/02/03 remain pending: no new segment, positioning, price or source/claim UI is Founder-approved. Existing broader/mixed recruitment remains baseline until an explicit prospective amendment; no customer results or delivery are implied.
+
+> Evidence audit (2026-10-16): [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md) and [ASSUMPTION_REGISTER.md](../ASSUMPTION_REGISTER.md) govern empirical claims. No linked primary customer interviews, survey dataset, paid-pilot receipts or retention cohort was found in these discovery drafts. Market/customer/pricing/competitor narratives and star/confidence ratings below are **Assumptions or Hypotheses**, not validated findings, unless linked evidence explicitly establishes a narrower claim. Historical internal decisions and document-completion labels are preserved as such; they do not prove demand. Bilingual research is retained. Newly reviewed external evidence is separately dated in the plan, not attributed to historical drafts.
+
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
 
 > Commercial boundary (2026-10-13): [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md). MVP serves one business, one Organization, one Brand and one Owner. Starter/Pro are proposed pricing tests; Agency portfolios, subscriptions, multiple clients and teams are Phase 2 proposals. Segment ratings and price estimates are research hypotheses; competitor audiences/prices do not confer AI Brand OS entitlements or prove customer payments.
@@ -32,7 +36,7 @@ The MVP validates a single hypothesis:
 
 # Problem Statement
 
-Modern AI tools are stateless.
+Historical problem hypothesis: some target workflows lose business context; current Projects and specialist tools already offer persistent context (see COMPETITIVE_STRATEGY.md).
 
 Businesses repeatedly explain:
 
@@ -43,7 +47,7 @@ Businesses repeatedly explain:
 * Target audience
 * Marketing goals
 
-Every new conversation starts from zero.
+Whether target Owners still repeat context across conversations requires behavioral evidence; it is not a universal competitor limitation.
 
 This leads to:
 
@@ -214,7 +218,7 @@ Return for future work
 
 Configure your brand once.
 
-AI remembers it forever.
+Approved knowledge persists under explicit retention and deletion policies; it is maintained through reviewed revisions.
 
 Generate consistent marketing content without repeating context.
 
@@ -468,7 +472,7 @@ This discovery phase is complete when:
 
 * Market Research is finalized.
 * Competitor Analysis is completed.
-* Product positioning is validated.
+* Positioning remains a hypothesis until the behavioral tests in MARKET_VALIDATION_PLAN.md supply evidence.
 * Brand Brain PRD is approved.
 * AI Workspace PRD is approved.
 

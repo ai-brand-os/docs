@@ -1,5 +1,11 @@
 # AI Brand OS — Market Research
 
+> Task 15 proposal (2026-10-16): [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md), [PRICING_EXPERIMENTS.md](../PRICING_EXPERIMENTS.md) and [90_DAY_VALIDATION_ROADMAP.md](../90_DAY_VALIDATION_ROADMAP.md) propose a small single-brand e-commerce cohort already using AI, one-product reviewed-facts workflow, blinded equal-information comparison and a $19–59 pricing experiment. D-GTM-01/02/03 remain pending: no new segment, positioning, price or source/claim UI is Founder-approved. Existing broader/mixed recruitment remains baseline until an explicit prospective amendment; no customer results or delivery are implied.
+
+> Current competitive research (2026-10-16): [COMPETITIVE_STRATEGY.md](../COMPETITIVE_STRATEGY.md) supersedes the historical capability/price/star matrices below for current comparisons. Official sources document persistent context, structured product/brand knowledge, governance and cross-tool access; the category is not empty. Legacy unsupported gap/absence/“missing layer” conclusions are withdrawn as current claims, retained only as historical hypotheses. [DIFFERENTIATION_ROADMAP.md](../DIFFERENTIATION_ROADMAP.md) proposes A/B/C with explicit MVP/later boundaries and no uniqueness claim. Newly dated desk research is not customer demand validation.
+
+> Evidence audit (2026-10-16): [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md) and [ASSUMPTION_REGISTER.md](../ASSUMPTION_REGISTER.md) govern empirical claims. No linked primary customer interviews, survey dataset, paid-pilot receipts or retention cohort was found in these discovery drafts. Market/customer/pricing/competitor narratives and star/confidence ratings below are **Assumptions or Hypotheses**, not validated findings, unless linked evidence explicitly establishes a narrower claim. Historical internal decisions and document-completion labels are preserved as such; they do not prove demand. Bilingual research is retained. Newly reviewed external evidence is separately dated in the plan, not attributed to historical drafts.
+
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
 
 > Commercial boundary (2026-10-13): [COMMERCIAL_PACKAGING.md](../COMMERCIAL_PACKAGING.md). MVP serves one business, one Organization, one Brand and one Owner. Starter/Pro are proposed pricing tests; Agency portfolios, subscriptions, multiple clients and teams are Phase 2 proposals. Segment ratings and price estimates are research hypotheses; competitor audiences/prices do not confer AI Brand OS entitlements or prove customer payments.
@@ -20,7 +26,7 @@ Last Updated: 2026-06-29
 
 ## Objective
 
-This document evaluates whether AI Brand OS is entering a sufficiently large, growing and commercially attractive market while validating that the proposed MVP solves a meaningful customer problem.
+This document records historical market/ICP hypotheses. The proposed MVP problem, obtainable demand, pricing and retention remain unvalidated; the current experiment protocol is MARKET_VALIDATION_PLAN.md.
 
 The goal is not to prove that AI is growing.
 
@@ -28,21 +34,9 @@ The goal is to determine whether **Brand Brain** addresses an underserved proble
 
 ---
 
-## Executive Conclusion
+## Executive Conclusion — hypothesis, not finding
 
-After analyzing the current AI software landscape and AI marketing trends, the opportunity is **not** another AI writing assistant.
-
-The strongest opportunity is building the persistent knowledge layer that existing AI tools lack.
-
-The market is shifting from:
-
-> AI that generates content
-
-towards
-
-> AI that understands the business.
-
-This transition creates an opportunity for AI Brand OS.
+Persistent approved business knowledge is the selected product direction, but its value over existing tools, willingness to pay, switching and retention are untested for the intended single-business customer. Broad AI-use research provides context, not product-market fit. Continue only with bounded customer discovery and delivered-service paid experiments under [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md); strategic approval is not evidence of demand.
 
 ---
 
@@ -136,16 +130,9 @@ Most competitors currently remain between Phase 1 and Phase 2.
 
 ---
 
-# Market Growth
+# Market Growth — external context and unresolved assumptions
 
-Multiple independent industry reports indicate that AI marketing software is experiencing sustained double-digit annual growth.
-
-Key observations include:
-
-- AI marketing software continues to expand significantly year over year.
-- Generative AI adoption among marketing teams has accelerated rapidly since 2023.
-- Small and medium-sized businesses are adopting AI faster than many enterprise segments due to lower implementation barriers.
-- AI investment is shifting from experimentation to operational integration.
+The historical draft attributed double-digit growth to unnamed reports without a source, date, definition or methodology. That numerical growth claim is withdrawn. No supported market-growth rate is established here. EXT-01/02 in [the current evidence ledger](../MARKET_VALIDATION_PLAN.md#current-external-evidence-ledger) concern AI use in specific survey populations; they do not establish AI marketing market size, target-SMB growth or AI Brand OS demand.
 
 ---
 
@@ -236,7 +223,7 @@ Includes:
 
 Estimated Size
 
-The global AI marketing software market is already measured in the tens of billions of USD and is projected to continue strong expansion over the coming decade according to multiple market research firms.
+Unknown. The historical tens-of-billions estimate had no identifiable source/year/market definition and is withdrawn. No TAM/SAM/SOM value is established; H-13 requires sourced bottom-up sizing and tested economics.
 
 ---
 
@@ -303,7 +290,7 @@ This creates a favorable environment for focused differentiation.
 
 Competing with ChatGPT on generation quality is unlikely to create a durable advantage.
 
-Competing on **persistent brand intelligence** is substantially more defensible.
+Competing on persistent brand intelligence alone is not established as defensible; current competitors already overlap this proposition. Test the evidence/review/freshness/portability workflow described in COMPETITIVE_STRATEGY.md.
 
 The competitive moat should be:
 
@@ -320,13 +307,13 @@ The competitive moat should be:
 
 ## Research conclusions — not customer-payment validation
 
-✅ AI marketing is a rapidly growing software category.
+Assumption: the relevant category is commercially attractive; no sourced category growth rate is established.
 
-✅ Businesses increasingly allocate budget to AI.
+Hypothesis: target Owners have relevant AI budget; verify actual spend and authority in EXP-01/02.
 
-✅ AI adoption is shifting from experimentation to daily operations.
+External AI-use context is summarized separately as EXT-01/02; daily use in our ICP remains H-02.
 
-✅ Context and proprietary knowledge are becoming stronger differentiators than raw LLM capability.
+Hypothesis H-04/10/14: approved context provides differentiated, defensible value; comparative evidence is pending.
 
 ---
 
@@ -655,6 +642,8 @@ AI Brand OS حافظه، دانش، هویت برند و Workflow را فراه�
 
 # Customer Willingness To Pay
 
+Evidence classification (2026-10-16): High/Medium/Low are untested segment rankings, not measured willingness to pay. Use actual scoped payments (H-05/06).
+
 ## High
 
 کاربرانی که:
@@ -688,6 +677,8 @@ Early estimates of Starter $20–30/month, Professional $40–70/month and Agenc
 
 # Switching Cost Analysis
 
+Evidence classification (2026-10-16): “Low” is an assumption; migration effort, incumbent habits and actual task switching require H-09 evidence.
+
 Current Stack
 
 - ChatGPT
@@ -708,6 +699,8 @@ Low
 ---
 
 # Customer Retention Drivers
+
+Evidence classification (2026-10-16): The following bilingual causal thesis is untested. Knowledge volume has not been shown to dominate model quality or cause renewal; test H-08 with behavior/payment cohorts.
 
 بیشترین عامل Retention:
 
@@ -1132,6 +1125,8 @@ Brand Brain به یک **Platform Asset** تبدیل می‌شود، نه صرف�
 
 # Part 3 Conclusions
 
+Evidence classification (2026-10-16): The following gap/competitive statements are hypotheses; no dated competitive census or customer preference sample is linked.
+
 ## Research conclusions — not customer-payment validation
 
 - بازار از نظر ابزارهای تولید محتوا اشباع شده است.
@@ -1387,6 +1382,8 @@ Flow: enter setup → create sole Brand Brain → optionally import one source �
 
 # Growth Loop
 
+Evidence classification (2026-10-16): Conceptual hypothesis only: no observed causal loop, automatic interaction learning or renewal uplift is established. Knowledge changes require explicit approval.
+
 ```text
 Acquire User
 
@@ -1580,6 +1577,8 @@ AI Cost
 
 # Decision Gates
 
+These historical document-readiness conditions are not empirical customer validation. The current proposed continue/pivot/stop gates, samples and denominators are in [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md#continue-pivot-stop-and-pause-gates); existing explicit execution/customer-validation gates remain in force.
+
 قبل از ورود به فاز توسعه باید این معیارها تأیید شوند:
 
 ✅ Product Discovery Complete
@@ -1599,6 +1598,8 @@ AI Cost
 ---
 
 # Part 4 Conclusions
+
+Evidence classification (2026-10-16): The following strategic statements are hypotheses/recommendations, not observed retention or pricing results.
 
 ## Strategic Direction
 
@@ -1755,16 +1756,7 @@ If this assumption is false, building publishing, analytics or autonomous agents
 
 # Assumption Review
 
-| Assumption                                     | Confidence | Validation Required |
-| ---------------------------------------------- | ---------- | ------------------- |
-| Businesses use AI regularly                    | High       | No                  |
-| Businesses repeat prompts                      | High       | No                  |
-| Consistency is a pain point                    | High       | Customer interviews |
-| Customers will complete Brand Brain onboarding | Medium     | MVP                 |
-| Customers will pay monthly                     | Medium     | MVP                 |
-| Brand Brain improves trust                     | Medium     | MVP                 |
-| Better context increases retention             | Medium     | MVP                 |
-| AI Workspace becomes daily workflow            | Low        | MVP                 |
+The historical High/Medium ratings and “Validation Required: No” entries were unsupported for this customer population. All require evidence. The canonical [hypothesis register](../ASSUMPTION_REGISTER.md#hypothesis-register) maps H-01–H-14 to risk, current confidence, experiment, success criterion and owner. Broad external adoption evidence cannot waive target-customer research, payment or retention tests.
 
 ---
 
@@ -1932,6 +1924,8 @@ Approved
 
 # Overall Market Research Conclusion
 
+Evidence classification (2026-10-16): Star ratings and High/Excellent/Strong labels below are historical internal judgments, not external ratings, evidence of market size or permission to invest. Current decision gates are in MARKET_VALIDATION_PLAN.md.
+
 ## Market Attractiveness
 
 ★★★★☆
@@ -1974,9 +1968,7 @@ Strong, if Brand Brain remains the product core.
 
 ## Investment Readiness
 
-Conditional Go
-
-Proceed only with a disciplined MVP focused on validating Brand Brain.
+Conditional proposal to conduct bounded discovery and paid-pilot experiments; no investment-readiness or paid-demand finding. Follow current approval and experiment gates.
 
 ---
 

@@ -1,5 +1,9 @@
 # AI Brand OS — Execution Bible
 
+> Task 15 proposal (2026-10-16): [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md), [PRICING_EXPERIMENTS.md](../PRICING_EXPERIMENTS.md) and [90_DAY_VALIDATION_ROADMAP.md](../90_DAY_VALIDATION_ROADMAP.md) propose a small single-brand e-commerce cohort already using AI, one-product reviewed-facts workflow, blinded equal-information comparison and a $19–59 pricing experiment. D-GTM-01/02/03 remain pending: no new segment, positioning, price or source/claim UI is Founder-approved. Existing broader/mixed recruitment remains baseline until an explicit prospective amendment; no customer results or delivery are implied.
+
+> Market evidence audit (2026-10-16): [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md) and [ASSUMPTION_REGISTER.md](../ASSUMPTION_REGISTER.md) distinguish strategy/approval from customer evidence. Market demand, tier pricing, retention and moat remain hypotheses without linked customer records. Success/Definition-of-Ready statements are goals or required gates, not reports that they were achieved. Historical document/design completion does not satisfy the existing customer-validation gate.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
@@ -61,6 +65,8 @@ Last Updated: 2026-07-15
 
 # Project Status
 
+Historical sprint snapshot: delivery percentages, active sprint and implementation statements below are not a current application verification. See [final audit](../FINAL_CONSISTENCY_AUDIT.md) for current documentation evidence and open gates.
+
 Project Phase
 
 Phase 1 — Architecture complete → entering Development (Sprint 1: Auth + Organizations)
@@ -89,7 +95,7 @@ Development — Foundation
 
 Objective
 
-Implement the platform foundation: Authentication and Organizations. Sprint 0 (planning, product, and architecture documentation) is closed — all P0 design documents are approved.
+Implement the platform foundation: Authentication and Organizations. The historical Sprint 0 drafting milestone does not establish current integrated approval; PRDs and engineering amendments still require the reviews in DECISION_REGISTER.md.
 
 ---
 
@@ -281,7 +287,7 @@ Backend
 
 Workers
 
-- Go
+- Historical proposal: Go; current lean MVP recommendation is NestJS/TypeScript worker roles, per [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). No migration claimed.
 
 Database
 
@@ -289,7 +295,7 @@ Database
 
 Vector Database
 
-- Qdrant
+- Historical proposal: Qdrant; ADR-010 recommends bounded PostgreSQL retrieval first, pgvector only if needed, Qdrant conditional later.
 
 Storage
 
@@ -578,29 +584,29 @@ AI
 
 | Document                     | Status                                            |
 | ---------------------------- | ------------------------------------------------- |
-| Project Bible                | ✅ Approved (v2.0.0)                              |
-| Product Bible                | ✅ Approved (v2.0.0)                              |
-| Engineering Bible            | ✅ Complete (v1.0.0)                              |
+| Project Bible                | Maintained baseline; current integrated review pending                              |
+| Product Bible                | Maintained baseline; current integrated review pending                              |
+| Engineering Bible            | Working engineering specification; ADR-010 review pending                              |
 | Execution Bible              | ✅ Updated (v1.4.0)                               |
-| AI Memory                    | ✅ Approved                                       |
-| Product Discovery            | ✅ Completed                                      |
-| Market Research              | ✅ Completed                                      |
-| Competitor Analysis          | ✅ Completed                                      |
-| Positioning                  | ✅ Completed                                      |
-| Domain Model                 | ✅ Approved for Architecture & Engineering Design |
-| Business Ontology            | ✅ Approved for Architecture & Engineering Design |
-| Artifact Model               | ✅ Approved for Engineering Design                |
+| AI Memory                    | Maintained baseline; current integrated review pending                                       |
+| Product Discovery            | Historical draft completed; empirical validation pending                                      |
+| Market Research              | Historical draft completed; empirical validation pending                                      |
+| Competitor Analysis          | Historical draft completed; empirical validation pending                                      |
+| Positioning                  | Historical draft completed; empirical validation pending                                      |
+| Domain Model                 | Maintained baseline; current integrated review pending |
+| Business Ontology            | Maintained baseline; current integrated review pending |
+| Artifact Model               | Maintained baseline; current integrated review pending                |
 | Brand Brain PRD | Draft — current integrated engineering review pending (historical baseline retained) |
 | AI Workspace PRD | Draft — current integrated engineering review pending (historical baseline retained) |
-| Ingestion Service            | ✅ Approved                                       |
-| Document Processing Service  | ✅ Approved for Architecture & Engineering Design |
-| Knowledge Extraction Service | ✅ Approved for Architecture & Engineering Design |
-| Knowledge Management Service | ✅ Approved for Architecture & Engineering Design |
-| Context Engine               | ✅ Approved for Architecture & Engineering Design |
-| AI Orchestrator              | ✅ Approved for Architecture & Engineering Design |
+| Ingestion Service            | Maintained baseline; current integrated review pending                                       |
+| Document Processing Service  | Maintained baseline; current integrated review pending |
+| Knowledge Extraction Service | Maintained baseline; current integrated review pending |
+| Knowledge Management Service | Maintained baseline; current integrated review pending |
+| Context Engine               | Maintained baseline; current integrated review pending |
+| AI Orchestrator              | Maintained baseline; current integrated review pending |
 | Knowledge Import PRD | Proposed — Pending Founder Approval; D-IMP-01/02/03 |
-| Database Design              | ✅ Approved                                       |
-| API Design                   | ✅ Approved                                       |
+| Database Design              | Maintained baseline; current integrated review pending                                       |
+| API Design                   | Maintained baseline; current integrated review pending                                       |
 | Component Kit                | 🟡 Draft (v1.0.0 — Organization Switcher only)    |
 
 ---

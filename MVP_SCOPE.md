@@ -83,3 +83,18 @@ Canonical relative links and heading anchors pass validation; `git diff --check`
 ## Task 08 validation update
 
 [ADR-009](domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) supersedes the prior schema-level datasource URL workaround. Exact schema.prisma validates with installed Prisma 7; SQL constraints were tested against generated DDL in private PostgreSQL and rolled back. Current planned schema also includes AuthSession security state; no user-facing feature or identity vendor is added. Historical validation records above describe earlier schema versions; [TASK08_RESULTS.md](validation/TASK08_RESULTS.md) records current commands/results. Production migrations and runtime behavior remain unverified.
+
+
+## Approval-based knowledge improvement boundary
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](KNOWLEDGE_LEARNING_LIFECYCLE.md) clarifies MVP-01–05: explicit Owner corrections and single-source import candidates require approval before a new version enters future context. MVP-06 response ratings are collection/analysis, not model training or automatic knowledge change. Automatic conversation mining, inferred preference memory, background change proposals beyond scoped import and fine-tuning are later-phase proposals requiring explicit scope approval; the seven MVP features are unchanged.
+
+
+## Competitive positioning boundary
+
+[COMPETITIVE_STRATEGY.md](COMPETITIVE_STRATEGY.md) and [DIFFERENTIATION_ROADMAP.md](DIFFERENTIATION_ROADMAP.md) propose A/B/C without changing this matrix. Existing provenance/approval/versioning and review-time conflict/verification warnings remain planned MVP; copyable approved Brief is the MVP portability mechanism. Phase 2 package/round-trip and verification due-list/reminders are new proposals; Phase 4 connected API/MCP and monitored-source acquisition remain advanced integrations/automation. Competitor capabilities do not approve scope expansion or establish uniqueness.
+
+
+## Task 15 commercial-test proposal
+
+[GO_TO_MARKET_STRATEGY.md](GO_TO_MARKET_STRATEGY.md) proposes an e-commerce cohort and existing one-source→review→approved revision→grounded draft→copy Brief workflow. Deliverable-level source/claim review is a pending D-GTM-02 PRD/scope interpretation decision, not an included feature added silently to this matrix. If needed, approve an explicit limited amendment and acceptance/security contracts before selling it; otherwise demonstrate only labeled manual assistance/prototype and keep delivered-scope claims accurate. No store connector/crawl, team/multi-brand or automatic monitoring enters MVP. [Pricing](PRICING_EXPERIMENTS.md) and [90-day roadmap](90_DAY_VALIDATION_ROADMAP.md) remain proposed experiments, not approved entitlements or dates.

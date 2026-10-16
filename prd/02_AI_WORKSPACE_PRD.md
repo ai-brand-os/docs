@@ -1,5 +1,7 @@
 # PRD — AI Workspace
 
+> Final audit (2026-10-16): D-AUD-01 tracks multi-turn history inclusion/window/truncation; no implemented Memory Service or implicit conversation learning is established. D-AUD-08 tracks stream recovery and metric presentation transport. Current Context Visibility remains unchanged pending D-GTM-02. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document: **02_AI_WORKSPACE_PRD.md**
@@ -402,7 +404,7 @@ Everything else is retrieved automatically through the Core Domain.
 
 # Context Visibility
 
-For the MVP, retrieved context remains hidden.
+For the current specified MVP, retrieved context remains hidden. Task 15’s proposed limited deliverable claim/source review would amend this UX only after D-GTM-02 and Product/Engineering review; raw internal prompts/context artifacts remain hidden. See [GTM workflow and benchmark](../GO_TO_MARKET_STRATEGY.md).
 
 Future versions may introduce:
 
@@ -448,7 +450,7 @@ Future releases may include:
 - Save to Brand Brain
 - Improve response
 
-Feedback should be consumed by the Knowledge Engine rather than handled inside the Workspace.
+MVP feedback is stored against the response for product analysis; it does not create knowledge candidates, approve facts, infer preferences or train a model. Automatic interaction-to-candidate generation is a later-phase proposal. An Owner can separately correct Brand Brain through its existing edit/review flow. See [knowledge learning lifecycle](../KNOWLEDGE_LEARNING_LIFECYCLE.md).
 
 ---
 
@@ -815,8 +817,8 @@ Conversation
 
 Messages (1:N)
 
-Each Message with role=Assistant carries a `correlationId` and
-`responseArtifactId` pointing into the Artifact Model's pipeline
+Each assistant generation attempt carries a `correlationId`. A COMPLETED assistant Message must have a durable
+`responseArtifactId`; pending or failed attempts may have no response. This points into the Artifact Model's pipeline
 (`Prompt Context Artifact → Prompt Artifact → Response Artifact`) for full
 execution detail (tokens, cost, latency, model, validation).
 
@@ -954,7 +956,7 @@ MVP exposes only the sole Owner’s access to their Organization, Brand, and con
 
 # Telemetry
 
-The Workspace should capture anonymous product events for improvement.
+The Workspace should capture content-minimized pseudonymous product events for improvement.
 
 Examples:
 
@@ -1025,7 +1027,7 @@ Examples:
 - Context Inspector
 - Prompt Library
 - AI Personas
-- Multi-step Conversations
+- Automated multi-step workflows (basic multi-turn Conversations are already MVP)
 - Artifact Generation
 - AI Agents
 - Voice Interaction
@@ -1090,35 +1092,35 @@ These items require customer validation before implementation.
 
 # Related Documents
 
-BIBLE/01_PROJECT_BIBLE.md
+[BIBLE/01_PROJECT_BIBLE.md](../BIBLE/01_PROJECT_BIBLE.md)
 
-BIBLE/02_PRODUCT_BIBLE.md
+[BIBLE/02_PRODUCT_BIBLE.md](../BIBLE/02_PRODUCT_BIBLE.md)
 
-BIBLE/03_ENGINEERING_BIBLE.md
+[BIBLE/03_ENGINEERING_BIBLE.md](../BIBLE/03_ENGINEERING_BIBLE.md)
 
-BIBLE/04_EXECUTION_BIBLE.md
+[BIBLE/04_EXECUTION_BIBLE.md](../BIBLE/04_EXECUTION_BIBLE.md)
 
-prd/01_BRAND_BRAIN_PRD.md
+[prd/01_BRAND_BRAIN_PRD.md](01_BRAND_BRAIN_PRD.md)
 
-prd/03_KNOWLEDGE_IMPORT_PRD.md
+[prd/03_KNOWLEDGE_IMPORT_PRD.md](03_KNOWLEDGE_IMPORT_PRD.md)
 
-services/01_INGESTION_SERVICE.md
+[services/01_INGESTION_SERVICE.md](../services/01_INGESTION_SERVICE.md)
 
-services/02_DOCUMENT_PROCESSING_SERVICE.md
+[services/02_DOCUMENT_PROCESSING_SERVICE.md](../services/02_DOCUMENT_PROCESSING_SERVICE.md)
 
-services/03_KNOWLEDGE_EXTRACTION_SERVICE.md
+[services/03_KNOWLEDGE_EXTRACTION_SERVICE.md](../services/03_KNOWLEDGE_EXTRACTION_SERVICE.md)
 
-services/04_KNOWLEDGE_MANAGEMENT_SERVICE.md
+[services/04_KNOWLEDGE_MANAGEMENT_SERVICE.md](../services/04_KNOWLEDGE_MANAGEMENT_SERVICE.md)
 
-services/05_CONTEXT_ENGINE.md
+[services/05_CONTEXT_ENGINE.md](../services/05_CONTEXT_ENGINE.md)
 
-services/06_AI_ORCHESTRATOR.md
+[services/06_AI_ORCHESTRATOR.md](../services/06_AI_ORCHESTRATOR.md)
 
-domain/02_ARTIFACT_MODEL.md
+[domain/02_ARTIFACT_MODEL.md](../domain/02_ARTIFACT_MODEL.md)
 
-domain/04_DATABASE_DESIGN.md
+[domain/04_DATABASE_DESIGN.md](../domain/04_DATABASE_DESIGN.md)
 
-domain/05_API_DESIGN.md
+[domain/05_API_DESIGN.md](../domain/05_API_DESIGN.md)
 
 design/01_COMPONENT_KIT.md
 
@@ -1214,3 +1216,13 @@ Historical baseline approval/correction records remain cited as [D-WS-01](../DEC
 Import UI limits are advisory: the server enforces scan/quarantine, type/size and fetch/redirect protections. A blocked source returns a safe reason and manual-entry fallback without leaking internal destinations or malware payloads. Generation uses only approved tenant-scoped knowledge and reviewed provider processing, with safe response rendering and no automatic external image/link loading. The full assembled system prompt, credentials and internal context artifact are not exposed through debug UI; authorized business facts may appear in useful responses and the approved Brand Brief. Context hiding is a UX choice, not a security boundary or a promise that approved facts can never appear in responses.
 
 Acceptance mapping: import → SEC-AT-01/02/03/04/07; Brand Brain review/edit/restore → SEC-AT-04/05/07/08; Workspace generation/history/feedback/copy/deletion → SEC-AT-01/04/06/08. Provider disclosures, finite operational budgets and storage/retention readiness remain D-SEC-01/02/03 in the [decision register](../DECISION_REGISTER.md). Tests listed here are specifications, not executed results.
+
+
+# Task 14 — Strategic interpretation and scope boundary
+
+[COMPETITIVE_STRATEGY.md](../COMPETITIVE_STRATEGY.md) proposes evidence-backed business knowledge as positioning, not a unique or delivered advantage. [DIFFERENTIATION_ROADMAP.md](../DIFFERENTIATION_ROADMAP.md) maps A/B/C to existing commitments and new later proposals. Existing field provenance, explicit Owner approval, approved revision/context and copyable Brief requirements remain; no automatic monitoring, full knowledge export, connected API/MCP, delegated review or multi-brand capability is added to this PRD. Numeric comparative benefit targets are proposed experiments, not this revision’s performance guarantees or observed results. D-COMP-01/02 and existing PRD/scope/security gates remain pending.
+
+
+# Task 15 — Proposed deliverable evidence/claim review, pending approval
+
+[GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md) step6 proposes a limited material-claim→approved-fact/source mapping with revision/as-of identity and unsupported/conflicting/unknown-verification warnings. This is not already committed Source Viewer/Context Inspector functionality and does not change current MVP scope by implication. D-GTM-02 requires Product/Architecture/Security review of mapping completeness, uncertainty labels, tenant-authorized source access, safe rendering and acceptance tests before delivery claims or paid offers include it. If demonstrated manually, label prototype/assisted rather than automated. No claim of comprehensive semantic detection or guaranteed truth is allowed. The proposed blinded native-project comparison gives both arms identical evidence and Owner corrections; it is an experiment, not a passing performance result.

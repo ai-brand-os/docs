@@ -1,5 +1,15 @@
 # AI Brand OS — Project Bible
 
+> Task 15 proposal (2026-10-16): [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md), [PRICING_EXPERIMENTS.md](../PRICING_EXPERIMENTS.md) and [90_DAY_VALIDATION_ROADMAP.md](../90_DAY_VALIDATION_ROADMAP.md) propose a small single-brand e-commerce cohort already using AI, one-product reviewed-facts workflow, blinded equal-information comparison and a $19–59 pricing experiment. D-GTM-01/02/03 remain pending: no new segment, positioning, price or source/claim UI is Founder-approved. Existing broader/mixed recruitment remains baseline until an explicit prospective amendment; no customer results or delivery are implied.
+
+## Task 14 — Proposed differentiation, pending strategic approval
+
+Proposed positioning: **“AI Brand OS is a verified, portable source of truth for business knowledge that keeps AI-generated work accurate, consistent, and up to date.”**
+
+This is a strategic hypothesis under D-COMP-01/02, not a delivered guarantee or scope expansion. “Verified” means explicit Owner review/evidence, not guaranteed factual truth; portability is MVP manual Brief reuse, with machine interchange/connected tools later; freshness requires maintained approved facts, not automatic synchronization. [COMPETITIVE_STRATEGY.md](../COMPETITIVE_STRATEGY.md) supplies dated primary-source findings and capability uncertainties; [DIFFERENTIATION_ROADMAP.md](../DIFFERENTIATION_ROADMAP.md) separates existing provenance/review/versioning commitments from later monitoring/portability proposals. Persistent context, brand knowledge, structured product facts, governance and cross-tool delivery already have competitive overlap. No first/only/unique or proven-moat claim is supported. Safe current wording: AI Brand OS is designed to help one business review, version and reuse approved facts in AI work, with a copyable approved Brand Brief.
+
+> Market evidence audit (2026-10-16): [MARKET_VALIDATION_PLAN.md](../MARKET_VALIDATION_PLAN.md) and [ASSUMPTION_REGISTER.md](../ASSUMPTION_REGISTER.md) distinguish strategy/approval from customer evidence. Market demand, tier pricing, retention and moat remain hypotheses without linked customer records. Success/Definition-of-Ready statements are goals or required gates, not reports that they were achieved. Historical document/design completion does not satisfy the existing customer-validation gate.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
@@ -200,7 +210,7 @@ Success is measured by how accurately AI understands a customer's business and h
 
 The objective of AI Brand OS is to become the trusted intelligence layer between businesses and AI.
 
-Rather than building isolated AI features, the platform continuously accumulates business knowledge that improves every future interaction.
+The proposed product accumulates explicitly approved revisions and reuses them in future AI work. Measurable improvement and competitive advantage remain hypotheses; storage alone is not a moat.
 
 The product should become more valuable every day a customer uses it.
 
@@ -244,20 +254,11 @@ No feature should maintain its own isolated knowledge.
 
 ---
 
-## Pillar 3 — Continuous Learning
+## Pillar 3 — Approval-based Knowledge Improvement
 
-Every interaction may improve the platform.
+The MVP retains approved knowledge and supports explicit Brand Brain corrections and reviewed single-source imports. Each published change creates a traceable revision; future requests use the approved head. Accuracy improvement must be measured rather than guaranteed.
 
-Examples include:
-
-- accepted AI responses
-- rejected outputs
-- edited content
-- uploaded knowledge
-- approved campaigns
-- customer feedback
-
-The system continuously becomes more accurate.
+Helpful ratings, rejected outputs, copied/edited responses and conversation history do not automatically update knowledge or train the model. Automatic interaction-derived candidates and inferred preference memory are later-phase proposals. The scoped import extraction remains an MVP candidate source; it never approves its own output. See [knowledge learning lifecycle](../KNOWLEDGE_LEARNING_LIFECYCLE.md) for review, evidence, metrics and restore semantics.
 
 ---
 
@@ -533,7 +534,7 @@ Every customer interaction should improve at least one of:
 - Decision Quality
 - Organizational Memory
 
-Knowledge should continuously compound.
+Approved knowledge can accumulate through explicit reviewed revisions; accumulation does not establish factual accuracy.
 
 ---
 
@@ -544,7 +545,7 @@ Compete through:
 - Business understanding
 - Organizational intelligence
 - Context quality
-- Long-term learning
+- Traceable, approval-based knowledge improvement
 
 Do not compete through:
 
@@ -683,11 +684,11 @@ Product Discovery
 
 Objective
 
-Validate the problem.
+Investigate the problem.
 
 Status
 
-Completed
+Discovery draft completed; customer validation remains pending.
 
 ---
 
@@ -701,7 +702,7 @@ Validate customer demand and positioning.
 
 Status
 
-Completed
+Pending evidence and approved experiments; research drafting does not establish demand.
 
 ---
 
@@ -771,53 +772,15 @@ Achieve repeatable growth through a validated product and business model.
 
 # Documentation Hierarchy
 
-Project documentation follows a strict hierarchy.
+Use the same subject- and revision-specific authority as Decision Priority below:
 
-Level 1
+1. Founder-approved strategic decisions and Project Bible.
+2. Product Bible and approved scope decisions.
+3. Approved PRDs.
+4. Engineering ADRs and service contracts; Engineering Bible documents these standards.
+5. Domain models and database schema.
 
-Project Bible
-
-Defines vision, strategy, and immutable principles.
-
----
-
-Level 2
-
-Product Bible
-
-Defines product architecture, modules, roadmap, and MVP boundaries.
-
----
-
-Level 3
-
-PRDs
-
-Define detailed functional and non-functional requirements for each module.
-
----
-
-Level 4
-
-Engineering Bible
-
-Defines implementation standards, architecture, infrastructure, security, testing, and deployment.
-
----
-
-Level 5
-
-Execution Bible
-
-Defines delivery process, sprint planning, release management, quality assurance, and operational workflows.
-
----
-
-Level 6
-
-AI Memory
-
-Defines domain knowledge, terminology, glossary, reusable decisions, and long-term project memory.
+Execution Bible and AI Memory are execution/history records, not additional overriding levels. Follow [governance](../DOCUMENTATION_GOVERNANCE.md) and record conflicts in the [decision register](../DECISION_REGISTER.md).
 
 ---
 

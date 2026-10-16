@@ -6,7 +6,7 @@
 
 Document
 
-04_DATABASE_DESIGN.md
+[04_DATABASE_DESIGN.md](04_DATABASE_DESIGN.md)
 
 Version
 
@@ -107,7 +107,7 @@ Where a defensible choice exists between "more correct, more complex" (e.g., DB 
 
 | Table | Purpose |
 | --- | --- |
-| `artifacts` | Single polymorphic table implementing all 7 artifact types from `02_ARTIFACT_MODEL.md`. Discriminated by `artifactType`, payload in JSONB. |
+| `artifacts` | Single polymorphic table implementing all 8 ArtifactType discriminators (seven numbered catalog families) from `02_ARTIFACT_MODEL.md`. Discriminated by `artifactType`, payload in JSONB. |
 | `products` | Current validated Product state. |
 | `services` | Current validated Service state. |
 | `audiences` | Current validated Audience state. |
@@ -130,11 +130,11 @@ Where a defensible choice exists between "more correct, more complex" (e.g., DB 
 
 ## ADR-001 — Single Polymorphic `artifacts` Table
 
-**Decision:** All 7 artifact types defined in `02_ARTIFACT_MODEL.md` (Raw Intake, Processing Intermediate, Structured Document, Knowledge Candidate, Approved Knowledge, Prompt Context, Prompt, Response) live in one table, discriminated by `artifactType`, with a JSONB `payload` column.
+**Decision:** All 8 ArtifactType discriminators (seven numbered catalog families) defined in `02_ARTIFACT_MODEL.md` (Raw Intake, Processing Intermediate, Structured Document, Knowledge Candidate, Approved Knowledge, Prompt Context, Prompt, Response) live in one table, discriminated by `artifactType`, with a JSONB `payload` column.
 
 **Reason:** `02_ARTIFACT_MODEL.md` ADR-001 already decided this at the domain-contract level — a single base contract shared across all 6 producing services, explicitly so lineage-tracing and observability tooling is built once. Seven separate tables would duplicate every base column seven times and contradict that ADR. This is also the direct payoff of the PostgreSQL-over-MySQL decision (`03_ENGINEERING_BIBLE.md` ADR, 2026-07-02) — JSONB with GIN indexing is what makes one polymorphic table performant instead of an anti-pattern.
 
-**Trade-off accepted:** Cross-tenant lineage integrity (`parentArtifactId` referencing a different `organizationId`) cannot be expressed as a native Postgres FK constraint on a self-referencing polymorphic table. Enforced at the NestJS service layer for MVP; a DB trigger is the correct upgrade path if an incident ever proves the service-layer check insufficient.
+**Trade-off accepted:** The current single-ID FK does not enforce cross-tenant lineage integrity (`parentArtifactId` referencing a different `organizationId`). Composite tenant-aware FKs or triggers are possible designs, but are not declared in this schema. Enforced at the NestJS service layer for MVP; a DB trigger is the correct upgrade path if an incident ever proves the service-layer check insufficient.
 
 ---
 
@@ -201,7 +201,7 @@ Included in this Database Design:
 
 - Platform Services: Users, AuthSession (planned refresh/revocation security state), Organizations, Membership
 - Core Domain: Brand, BrandVoice, Product, Service, Audience, Competitor, Document, Knowledge Index; BrandBrainRevision metadata and Brand.currentRevisionId support field history/restoration and persisted completeness
-- Artifact Model: unified `artifacts` table covering all 7 artifact types
+- Artifact Model: unified `artifacts` table covering all 8 ArtifactType discriminators (seven numbered catalog families)
 - AI Workspace: Conversation, Message, Feedback, ConversationPurge (supporting deletion infrastructure)
 
 ---
@@ -260,7 +260,7 @@ The Database Design is complete when:
 
 ## Version 1.0.0
 
-Initial production-ready Database Design document.
+Initial design baseline; production readiness was not verified. Original Database Design document.
 
 Defines:
 
@@ -324,3 +324,17 @@ Deploy custom checks/NOT NULL only through reviewed migrations with data reconci
 ---
 
 # END OF DOCUMENT
+
+
+# Task 11 — Approval-based knowledge improvement
+
+Task 11 requires no additional Prisma entity: candidates/immutable decisions already use Artifact JSON and approved state uses BrandBrainRevision/currentRevisionId. Version payloads and validate references/concurrency before enabling readers/writers. No persisted preference or training store is added; schema presence cannot imply automatic learning.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
+
+
+## ADR-010 deployment integration — recommended, not migrated
+
+[Lean MVP ADR-010](09_LEAN_MVP_ARCHITECTURE_ADR.md) retains PostgreSQL/Prisma and immutable business contracts. A maintained PostgreSQL-backed queue (pg-boss recommended pending review) owns a separate infrastructure schema, installed/upgraded by controlled deployment migrations rather than new business Prisma models. Queue state is transport only, not a new import status/approval source; ConversationPurge stays the deletion ledger. Same-transaction enqueue or durable outbox recovery is required before launch. Pool/concurrency limits protect business transactions from queue load.
+
+KnowledgeIndex remains the relational approved-entity projection. No vector column/extension is currently specified in schema.prisma. Start with scoped structured/keyword retrieval; pgvector needs a separately reviewed derived-projection migration if evaluation requires it, and Qdrant is conditional future scope. No Redis/Go infrastructure or database migration is performed by this recommendation. See ADR-010 for compatibility, restore, scaling and rollback gates.

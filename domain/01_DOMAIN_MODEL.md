@@ -1,12 +1,14 @@
 # Domain Model — AI Brand OS
 
+> Final audit (2026-10-16): Storage cardinality and readiness differ: drafts may have no Voice, offers, Audience, sources or approved facts. Readiness requires one complete approved Product OR Service and Audience plus mandatory manual Voice. D-AUD-06 tracks TARGETS/USES and entity lifecycle projection gaps; conceptual edges are not implemented joins. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-01_DOMAIN_MODEL.md
+[01_DOMAIN_MODEL.md](01_DOMAIN_MODEL.md)
 
 Version
 
@@ -14,7 +16,7 @@ Version
 
 Status
 
-Approved for Architecture & Engineering Design
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Owner
 
@@ -416,7 +418,7 @@ Documents themselves are not business knowledge.
 
 ## Description
 
-Represents validated organizational knowledge extracted from one or more Documents.
+Represents explicitly approved organizational knowledge from manual entry, imported evidence or documented derivation; manual facts require no fabricated Document.
 
 Knowledge is the primary business asset consumed by AI.
 
@@ -518,7 +520,7 @@ Organization
 
 HAS
 
-1..N Products
+0..N Products
 
 ---
 
@@ -526,7 +528,7 @@ Organization
 
 HAS
 
-1..N Services
+0..N Services
 
 ---
 
@@ -534,7 +536,7 @@ Organization
 
 HAS
 
-1..N Brands
+0..1 Brand in MVP draft; exactly 1 after onboarding (Phase 2 multi-brand requires separate approval)
 
 ---
 
@@ -542,7 +544,7 @@ Organization
 
 HAS
 
-1..N Audiences
+0..N Audiences
 
 ---
 
@@ -566,7 +568,7 @@ Organization
 
 HAS
 
-1..N Documents
+0..N Documents
 
 ---
 
@@ -574,7 +576,7 @@ Organization
 
 HAS
 
-1..N Knowledge Items
+0..N Knowledge Items
 
 ---
 
@@ -608,7 +610,7 @@ Brand
 
 HAS
 
-1 Brand Voice
+0..1 Brand Voice during draft; 1 valid manually approved Voice for readiness
 
 ---
 
@@ -616,7 +618,7 @@ Brand
 
 HAS
 
-1..N Knowledge Items
+0..N Knowledge Items
 
 ---
 
@@ -920,9 +922,7 @@ Document
 
 PRODUCES
 
-1..N Knowledge Items
-
-after approval
+0..N Knowledge Items after explicit approval; no eligible extraction may produce zero
 
 ---
 
@@ -958,7 +958,7 @@ Knowledge
 
 ORIGINATES FROM
 
-1..N Documents
+0..N Documents: MANUAL facts need no source Document; IMPORTED facts require valid source/evidence references
 
 ---
 
@@ -1418,13 +1418,13 @@ The Domain Model is considered complete when:
 
 # Related Documents
 
-03_BUSINESS_ONTOLOGY.md
+[03_BUSINESS_ONTOLOGY.md](03_BUSINESS_ONTOLOGY.md)
 
-01_PROJECT_BIBLE.md
+[01_PROJECT_BIBLE.md](../BIBLE/01_PROJECT_BIBLE.md)
 
-02_PRODUCT_BIBLE.md
+[02_PRODUCT_BIBLE.md](../BIBLE/02_PRODUCT_BIBLE.md)
 
-03_ENGINEERING_BIBLE.md
+[03_ENGINEERING_BIBLE.md](../BIBLE/03_ENGINEERING_BIBLE.md)
 
 ---
 
@@ -1432,7 +1432,7 @@ The Domain Model is considered complete when:
 
 ## Version 1.0.0
 
-Initial production-ready Domain Model for AI Brand OS.
+Initial design baseline; production readiness was not verified. Original Domain Model for AI Brand OS.
 
 Defines:
 
@@ -1447,7 +1447,7 @@ Defines:
 
 # Status
 
-Approved for Architecture & Engineering Design
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Version
 
@@ -1472,3 +1472,10 @@ A Conversation is a persistent multi-turn interaction container, not a business 
 ---
 
 # END OF DOCUMENT
+
+
+# Task 11 — Approval-based knowledge improvement
+
+Knowledge improvement reuses candidate artifacts, explicit Owner decisions and immutable approved revisions. Persistent storage, contextual reasoning, future preference memory, verified updates and model fine-tuning are separate mechanisms. No new learning aggregate or alternate business authority is introduced.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.

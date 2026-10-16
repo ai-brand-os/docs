@@ -1,12 +1,16 @@
 # Service Specification — Knowledge Management Service
 
+> Final audit (2026-10-16): D-AUD-03 tracks confidence/trust formulas and field vocabulary; D-AUD-06 tracks persisted ontology relationships. Approved means reviewed and structurally validated, not objectively true. R23 / D-AUD-07 still owns whole-import completion. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
+> Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-04_KNOWLEDGE_MANAGEMENT_SERVICE.md
+[04_KNOWLEDGE_MANAGEMENT_SERVICE.md](04_KNOWLEDGE_MANAGEMENT_SERVICE.md)
 
 Version
 
@@ -726,7 +730,7 @@ docs/domain/02_ARTIFACT_MODEL.md
 
 docs/domain/03_BUSINESS_ONTOLOGY.md
 
-03_ENGINEERING_BIBLE.md
+[03_ENGINEERING_BIBLE.md](../BIBLE/03_ENGINEERING_BIBLE.md)
 
 ---
 
@@ -734,7 +738,7 @@ docs/domain/03_BUSINESS_ONTOLOGY.md
 
 ## Version 1.0.0
 
-Initial production-ready specification for the Knowledge Management Service.
+Initial design baseline; production readiness was not verified. Original specification for the Knowledge Management Service.
 
 Defines:
 
@@ -751,7 +755,7 @@ Defines:
 
 # Status
 
-Approved for Architecture & Engineering Design
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Version
 
@@ -797,3 +801,17 @@ Implementation target: NestJS dependency-injected core module with Prisma/Postgr
 SEC-T04/05/07 require server-side current Owner authorization, same-tenant evidence, expected-head conflict checks and atomic publication of explicitly human-approved revisions. Automated eligibility/legacy Auto Approve labels never mean approved business knowledge. Candidate storage remains logically separate from generation-eligible approved state. Audit mutations with content-minimized actor/revision records; review contradictions and stale facts without replacing approved state.
 
 [SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.
+
+
+# Task 11 — Approval-based knowledge improvement
+
+Knowledge Management owns explicit review decisions, atomic publication, decision/reason audit, rebase conflicts and measurable revision outcomes. Reuse KNOWLEDGE_CANDIDATE decision variants and BrandBrainRevision; ratings, confidence and policy eligibility cannot publish. The logical review queue is a bounded derived view, not a parallel truth store. Adopt the candidate/decision payload and metric event contracts; do not add automatic interaction mining.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
+
+
+# Task 12 — Lean MVP deployment boundary
+
+Keep authorization and atomic revision/head/projection publication in one NestJS/PostgreSQL transaction boundary. Queue transport does not own approval or import-domain state. Emit/enqueue durable downstream work using reviewed same-transaction integration or outbox/reconciliation; never acknowledge acceptance with unrecoverable enqueue-after-commit. Preserve provenance, audit and revision integrity.
+
+[ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.

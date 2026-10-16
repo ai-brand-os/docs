@@ -1,5 +1,7 @@
 # 03_ENGINEERING_BIBLE.md
 
+> Final audit (2026-10-16): Image/video workers, publishing, webhooks and character consistency sketches are future Phase 3/4 designs. Provider names are replaceable integration targets, not evidence that multiple providers are enabled. Launch-relevant security/purge/revision end-to-end scenarios require execution before release even where browser automation is described as future. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Measurement authority (2026-10-13): [PRODUCT_METRICS.md](../PRODUCT_METRICS.md). TTFV is onboarding start to the first presented usable output grounded in approved knowledge; proposed goals are median ≤10 minutes and p90 ≤15 minutes. Completeness, readiness and cohort completion/activation rates are separate; targets are goals, not observations.
@@ -28,91 +30,48 @@ Every architectural decision must support long-term growth.
 
 ---
 
-# Technology Stack
+# Technology Stack — recommended MVP deployment
+
+[ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends the lean MVP baseline, pending Architecture/Security/Operations review. This is not a migration report.
 
 ## Frontend
 
-- Next.js
-- TypeScript
-- Tailwind CSS
-- React Query (TanStack Query)
-- React Hook Form
-- Zod
-- shadcn/ui
-
----
+- Next.js and TypeScript
+- Tailwind CSS, TanStack Query, React Hook Form, Zod and shadcn/ui remain UI choices.
 
 ## Backend
 
-- NestJS
-- TypeScript
-- REST API
-- BullMQ (Redis-backed queues)
-- Prisma 7 (chosen ORM; runtime datasource URL in prisma.config.ts, compatible PostgreSQL adapter)
-
----
+- NestJS TypeScript modular monolith, REST and SSE
+- Prisma 7 over PostgreSQL; runtime datasource configuration and adapter per ADR-009
+- One backend codebase/release with API and asynchronous worker roles
 
 ## Workers
 
-- Go
+NestJS/TypeScript workers run durable import, retry and cleanup work through a PostgreSQL-backed queue adapter; pg-boss is recommended pending compatibility/transaction review. Parser/scanner isolation is mandatory and separate from the HTTP event loop. No Go application workers are required for MVP. Go/media compute is future and profiling-dependent.
 
-Responsibilities:
+## Database and storage
 
-- AI Jobs
-- Video Processing
-- Image Processing
-- Queue Consumers
-- Heavy Background Tasks
+- PostgreSQL: authoritative business state, artifacts/revisions and library-owned operational queue schema (not yet installed)
+- Private S3-compatible object storage for original/quarantined files; Cloudflare R2 remains a proposed vendor behind an adapter
+- Structured/keyword retrieval of approved facts initially; pgvector is the first vector option only if evaluated retrieval needs justify it
+- Redis/BullMQ and Qdrant are deferred alternatives requiring measured triggers; no default Redis cache
+- Meilisearch is future, outside MVP
 
----
-
-## Database
-
-Primary
-
-- PostgreSQL
-
-Cache
-
-- Redis
-
-Vector Database
-
-- Qdrant
-
-Object Storage
-
-- Cloudflare R2
-
-Search (Future)
-
-- Meilisearch
-
----
-
-# High Level Architecture
+## High Level Architecture
 
 ```text
-Next.js
-      │
- REST API
-      │
-NestJS Backend
-      │
- ├── PostgreSQL
- ├── Redis
- ├── Qdrant
- ├── Cloudflare R2
- └── Queue (BullMQ)
+Next.js → NestJS API role → PostgreSQL / private object storage
+                    │
+              reviewed AI adapters
 
-          │
-
-Go Workers
-
-          │
-
-AI Providers
+NestJS worker role (same backend release) → PostgreSQL durable queue
+                    ├── restricted public URL fetch adapter
+                    ├── isolated scanner/parser execution
+                    ├── private object storage
+                    └── reviewed AI adapters
 ```
+
+The full MVP/future diagrams, dependency table, complexity estimate, migration/rollback plan and measurable scaling triggers are in ADR-010. Service boundaries are NestJS module contracts, not independent domain microservice deployments.
 
 ---
 
@@ -284,31 +243,17 @@ Character data includes:
 
 # Knowledge Base
 
-Supports
+MVP supports a single page URL or supported PDF/DOCX/Markdown/plain-text source per import proposal, under existing D-IMP approvals and security limits. Website crawling, media intake and background inference are future. Raw sources remain untrusted; only approved versioned business facts enter generation retrieval.
 
-- PDFs
-- Website Crawling
-- DOCX
-- TXT
-- Markdown
-- FAQs
-
-Embeddings stored in Qdrant.
+Baseline retrieval is bounded structured/keyword selection from PostgreSQL approved state. Embeddings are not declared stored in Qdrant. Introduce pgvector first only after quality/latency evaluation establishes need, with a separately reviewed derived-projection schema; Qdrant is a conditional future alternative.
 
 ---
 
 # Background Workers
 
-Handled by Go.
+Use a durable PostgreSQL queue adapter and NestJS worker role from the same backend release for import parsing/extraction orchestration, delayed retries and cleanup scheduling. Preserve the independent ConversationPurge ledger and artifact-derived import status. API generation may stream directly; queue only for measured backpressure. Parser/scanner subprocesses require sandbox restrictions. Finite retries, idempotency, recovery and queue transaction review are launch requirements in [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md).
 
-Examples
-
-- AI Generation
-- Video Rendering
-- Image Rendering
-- Webhook Processing
-- Scheduled Jobs
-- Analytics Processing
+Video/image rendering, general webhooks and advanced scheduled analytics are future designs. No Go worker infrastructure is claimed migrated or deployed.
 
 ---
 
@@ -556,8 +501,8 @@ overhead for a solo/small founding team.
   and ORM tools are a productivity advantage, but this is outweighed
   by the founder's zero PHP fluency against 9 years of TypeScript fluency.
   NestJS has production-grade equivalents (Passport.js / `@nestjs/passport`,
-  Prisma (chosen ORM), optional future billing SDK integration, BullMQ for queues on the existing
-  Redis instance).
+  Prisma (chosen ORM), optional future billing SDK integration, and queue adapters).
+  Historical Redis/BullMQ deployment assumptions are superseded for MVP planning by ADR-010; no existing Redis deployment is established by this record.
 
 ### Expected Impact
 

@@ -1,10 +1,12 @@
 # Component Kit — AI Brand OS
 
+> Final audit (2026-10-16): Design Foundations tokens and the full kit are referenced external design artifacts without an accessible version/location in this repository. D-AUD-08 records that implementation dependency; the static MVP Organization label is specified, but visual/token conformance was not verified. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-01_COMPONENT_KIT.md
+[01_COMPONENT_KIT.md](01_COMPONENT_KIT.md)
 
 Version
 
@@ -136,13 +138,13 @@ The divider is presentational only and is not exposed to assistive technology as
 
 # Related Documents
 
-BIBLE/04_EXECUTION_BIBLE.md
+[BIBLE/04_EXECUTION_BIBLE.md](../BIBLE/04_EXECUTION_BIBLE.md)
 
-prd/02_AI_WORKSPACE_PRD.md
+[prd/02_AI_WORKSPACE_PRD.md](../prd/02_AI_WORKSPACE_PRD.md)
 
-domain/05_API_DESIGN.md
+[domain/05_API_DESIGN.md](../domain/05_API_DESIGN.md)
 
-domain/02_ARTIFACT_MODEL.md
+[domain/02_ARTIFACT_MODEL.md](../domain/02_ARTIFACT_MODEL.md)
 
 ---
 

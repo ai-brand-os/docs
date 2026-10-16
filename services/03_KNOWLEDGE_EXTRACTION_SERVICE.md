@@ -1,12 +1,16 @@
 # Service Specification — Knowledge Extraction Service
 
+> Final audit (2026-10-16): D-AUD-02 is unresolved: this spec excludes AI Orchestrator as a downstream dependency while assigning provider selection exclusively to it. The allowed internal LLM extraction route must be approved before implementing that path; no direct-provider bypass is authorized. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+
+> Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
+
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
 Document
 
-03_KNOWLEDGE_EXTRACTION_SERVICE.md
+[03_KNOWLEDGE_EXTRACTION_SERVICE.md](03_KNOWLEDGE_EXTRACTION_SERVICE.md)
 
 Version
 
@@ -730,7 +734,7 @@ docs/domain/02_ARTIFACT_MODEL.md
 
 docs/domain/03_BUSINESS_ONTOLOGY.md
 
-03_ENGINEERING_BIBLE.md
+[03_ENGINEERING_BIBLE.md](../BIBLE/03_ENGINEERING_BIBLE.md)
 
 ---
 
@@ -738,7 +742,7 @@ docs/domain/03_BUSINESS_ONTOLOGY.md
 
 ## Version 1.0.0
 
-Initial production-ready specification for the Knowledge Extraction Service.
+Initial design baseline; production readiness was not verified. Original specification for the Knowledge Extraction Service.
 
 Defines:
 
@@ -754,7 +758,7 @@ Defines:
 
 # Status
 
-Approved for Architecture & Engineering Design
+Draft — current integrated Architecture/Engineering review pending; historical baseline evidence retained
 
 Version
 
@@ -794,3 +798,17 @@ Implementation target: NestJS dependency-injected core module with Prisma/Postgr
 SEC-T01/06/07 require source text separated from application instructions, bounded schema-validated output, genuine source references and reviewed provider disclosure. Extraction can create candidates only; it cannot approve, write authoritative projections, fetch model-proposed URLs or change tenant context. Reject forged approval fields and fabricated attribution.
 
 [SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.
+
+
+# Task 11 — Approval-based knowledge improvement
+
+Owner-requested single-source import extraction is the scoped MVP candidate-generation exception. Automatic extraction of facts from conversations/ratings and background inference are later-phase. Preserve confidence basis and evidence, never fabricate approval or treat confidence as calibrated accuracy; candidates require explicit authorized review.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
+
+
+# Task 12 — Lean MVP deployment boundary
+
+Run import extraction asynchronously in the shared NestJS worker role behind replaceable reviewed provider adapters. Durable attempts, schema validation, tenant/evidence checks and operation idempotency remain mandatory. No separate extraction deployment, model service, Go runtime or vector database is required.
+
+[ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.

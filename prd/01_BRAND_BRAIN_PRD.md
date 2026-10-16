@@ -22,7 +22,7 @@ This document defines the functional requirements, data model, onboarding flow, 
 
 Brand Brain is the structured representation of a business that every AI interaction consumes. This PRD defines what Brand Brain **contains** and **how a user builds it**. It does not define:
 
-- How knowledge is extracted from documents/websites (see Knowledge Engine service specs and the forthcoming `03_KNOWLEDGE_IMPORT_PRD.md`).
+- How knowledge is extracted from documents/websites (see Knowledge Engine service specs and [Knowledge Import PRD](03_KNOWLEDGE_IMPORT_PRD.md)).
 - How AI Workspace consumes Brand Brain to generate content.
 
 This separation is intentional (Founder Decision, 2026-07-01): Brand Brain is the **data product**. Import is the **acquisition mechanism**. Keeping them separate protects both documents from scope bleed.
@@ -217,7 +217,7 @@ Median ≤10 minutes and p90 ≤15 minutes, measured from OnboardingStarted to t
 - **FR-2**: System shall allow optional Website URL submission to trigger the Knowledge import pipeline. Request-level limit/admission/placement depend on [D-IMP-01](../DECISION_REGISTER.md#d-imp-01), [D-IMP-02](../DECISION_REGISTER.md#d-imp-02), [D-IMP-03](../DECISION_REGISTER.md#d-imp-03); Founder choices remain pending.
 - **FR-3**: System shall display all auto-imported field values with a visible source indicator and require explicit user confirmation before they count toward Completeness Score.
 - **FR-4**: System shall allow manual entry/edit of every field regardless of import status.
-- **FR-5**: System shall support 1..N repeatable records for Products/Services, Audience, and Competitors.
+- **FR-5**: System shall support repeatable Products/Services and Audiences, with at least one complete approved offer (Product OR Service) and Audience required for readiness. Competitors are optional (0..N); draft groups may be empty.
 - **FR-6**: System shall apply PRODUCT_METRICS.md calculation v2 and persist a completeness snapshot on every approved BrandBrainRevision, including score, missing mandatory field paths, ontology/calculation versions and calculatedAt. GET reads that snapshot; it never silently recalculates history.
 - **FR-7**: System shall evaluate readiness independently of score; ≥70 never bypasses missing mandatory fields: current approved revision, valid mandatory fields, ≥1 complete Product or Service, ≥1 complete Audience, valid manual tone and unarchived Brand. Runtime authorization/deletion/provider gates remain separate.
 - **FR-8**: System shall persist every Brand Brain field change through the Knowledge Management Service with full version history. (no silent overwrites — aligns with ADR-003 in `04_KNOWLEDGE_MANAGEMENT_SERVICE.md`).
@@ -276,7 +276,7 @@ Median ≤10 minutes and p90 ≤15 minutes, measured from OnboardingStarted to t
 - Multi-brand switching UI.
 - Persona sub-profiles.
 - Campaign / Content / Asset / Channel entities.
-- Dynamic Trust Score for imported fields (MVP uses static confidence from Knowledge Extraction Service only).
+- Dynamic source-reputation learning is deferred. Extraction confidence, Knowledge Management confidence/trust and Context Score are distinct indicators, never approval or factual accuracy. Their formulas/thresholds require D-AUD-03 review.
 - Delegated/admin review queue (Phase 2). Single-owner conflict/stale review, field history, version inspection and restore are MVP requirements.
 
 ---
@@ -375,3 +375,20 @@ The 2026-07-01/02 baseline scope/design decisions and resolved tone/taxonomy/com
 Import UI limits are advisory: the server enforces scan/quarantine, type/size and fetch/redirect protections. A blocked source returns a safe reason and manual-entry fallback without leaking internal destinations or malware payloads. Generation uses only approved tenant-scoped knowledge and reviewed provider processing, with safe response rendering and no automatic external image/link loading. The full assembled system prompt, credentials and internal context artifact are not exposed through debug UI; authorized business facts may appear in useful responses and the approved Brand Brief. Context hiding is a UX choice, not a security boundary or a promise that approved facts can never appear in responses.
 
 Acceptance mapping: import → SEC-AT-01/02/03/04/07; Brand Brain review/edit/restore → SEC-AT-04/05/07/08; Workspace generation/history/feedback/copy/deletion → SEC-AT-01/04/06/08. Provider disclosures, finite operational budgets and storage/retention readiness remain D-SEC-01/02/03 in the [decision register](../DECISION_REGISTER.md). Tests listed here are specifications, not executed results.
+
+
+# Task 11 — Approval-based knowledge improvement
+
+Explicit field correction/save is a reviewed mutation; it must record reason/diff and publish via existing revision/idempotency controls. Inspect and restore use provenance APIs, with restore appending a newly approved revision. No automatic conversation learning or inferred preferences are included.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
+
+
+# Task 14 — Strategic interpretation and scope boundary
+
+[COMPETITIVE_STRATEGY.md](../COMPETITIVE_STRATEGY.md) proposes evidence-backed business knowledge as positioning, not a unique or delivered advantage. [DIFFERENTIATION_ROADMAP.md](../DIFFERENTIATION_ROADMAP.md) maps A/B/C to existing commitments and new later proposals. Existing field provenance, explicit Owner approval, approved revision/context and copyable Brief requirements remain; no automatic monitoring, full knowledge export, connected API/MCP, delegated review or multi-brand capability is added to this PRD. Numeric comparative benefit targets are proposed experiments, not this revision’s performance guarantees or observed results. D-COMP-01/02 and existing PRD/scope/security gates remain pending.
+
+
+# Task 15 — Proposed single-product commercial test
+
+[GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md) proposes e-commerce validation using one page URL OR one supported product fact document per import job, plus explicit manual brand/offer facts and Owner approval. Another source is a distinct job under the selected admission rule, not catalog crawling/batch import. Existing mandatory readiness/provenance/versioning and copyable approved Brief contracts remain. A deliverable-level source/claim panel is pending D-GTM-02, not already delivered. Segment, first $29 offer and experiment thresholds remain proposals; no PRD approval is upgraded.

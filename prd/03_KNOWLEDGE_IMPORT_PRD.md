@@ -66,7 +66,7 @@ Proposed dedicated-screen entry point, pending [D-IMP-03](../DECISION_REGISTER.m
 
 These states belong to a source import operation, not an assistant Message or a Conversation. COMPLETED here means the import review operation finishes; it never terminates a Workspace container. Concrete mapping across candidate decisions/full-snapshot approvals remains an open implementation/specification item (DOCUMENTATION_CHANGELOG.md R23).
 
-The frontend needs a small set of user-friendly states to poll against — not the full Artifact Model pipeline detail. Per `domain/04_DATABASE_DESIGN.md` ADR-001 (single `artifacts` table), the backend resolves these states by reading the **latest Artifact for the request's `correlationId`** and mapping its `producingService` / `producingStage` / `status` to one of the labels below. No new status-tracking table is introduced — this is a derived view, not new storage.
+The frontend needs a small set of user-friendly states to poll against — not the full Artifact Model pipeline detail. Per `domain/04_DATABASE_DESIGN.md` ADR-001 (single `artifacts` table), the backend derives these states from correlation-scoped artifacts and per-item decisions. A latest-row-only resolver cannot establish aggregate review completion; terminal/partial/failure ordering remains R23 / D-AUD-07. No new status-tracking table is introduced — this is a derived view, not new storage.
 
 ```
 SUBMITTED
@@ -175,7 +175,7 @@ Once `READY_FOR_REVIEW`, the user sees only `AutoApproved` candidates (per the T
 - Identical to `01_BRAND_BRAIN_PRD.md` FR-3, applied to both entry points.
 - Confirming a field creates a new approved revision and returns its persisted completeness snapshot immediately; pending values never contribute. Contradictory proposals show approved/proposed values and evidence for explicit keep/replace/edit review.
 
-## FR-6 — Handle Zero Approved Candidates
+## FR-6 — Handle Zero Eligible Candidates
 
 ### Description
 
@@ -194,7 +194,7 @@ Unchanged in spirit from `01_BRAND_BRAIN_PRD.md`'s existing fallback behavior, e
 
 ### Acceptance Criteria
 
-- Any pipeline failure (Ingestion validation failure, Document Processing failure, timeout >30s) surfaces a clear, non-technical message.
+- Any pipeline failure (Ingestion validation failure, Document Processing failure, a bounded timeout under the still-pending D-AUD-07 deadline/recovery policy (the 30s UI/performance goal is not a universal worker deadline)) surfaces a clear, non-technical message.
 - User can always proceed manually — import failure never blocks Brand Brain completion.
 
 ---
@@ -293,8 +293,8 @@ Ingestion Service validation fails fast (reachable but not crawlable is still a 
 # Acceptance Criteria (Document-Level)
 
 - Given a user with an in-flight import job, when they attempt a second import for the same Brand, then the second attempt is rejected with a clear message, not queued.
-- Given a user uploads an unsupported file type, when they attempt to upload, then the rejection happens before any network transfer begins.
-- Given a pipeline run completes with zero approved candidates, when the user views the result, then they see a non-alarming message and can proceed manually.
+- Given a user uploads an unsupported file type, when they attempt to upload, then known unsupported extensions are rejected by UI preflight; server validation also checks actual size, MIME/signature and scan results after quarantined transfer. Spoofed types cannot bypass server rejection or reach parsing.
+- Given a pipeline run completes with zero governance-eligible candidates, when the user views the result, then they see a non-alarming message and can proceed manually.
 - Given a candidate conflicts with an existing manually-entered value, when the user reviews it, then both values are visible for comparison before any overwrite occurs.
 - Given any import failure at any stage, when the user returns to Brand Brain, then onboarding/editing is never blocked — manual entry is always available.
 
@@ -391,3 +391,20 @@ Record actual Founder selection/evidence/date for D-IMP-01/02/03; update conditi
 Import UI limits are advisory: the server enforces scan/quarantine, type/size and fetch/redirect protections. A blocked source returns a safe reason and manual-entry fallback without leaking internal destinations or malware payloads. Generation uses only approved tenant-scoped knowledge and reviewed provider processing, with safe response rendering and no automatic external image/link loading. The full assembled system prompt, credentials and internal context artifact are not exposed through debug UI; authorized business facts may appear in useful responses and the approved Brand Brief. Context hiding is a UX choice, not a security boundary or a promise that approved facts can never appear in responses.
 
 Acceptance mapping: import → SEC-AT-01/02/03/04/07; Brand Brain review/edit/restore → SEC-AT-04/05/07/08; Workspace generation/history/feedback/copy/deletion → SEC-AT-01/04/06/08. Provider disclosures, finite operational budgets and storage/retention readiness remain D-SEC-01/02/03 in the [decision register](../DECISION_REGISTER.md). Tests listed here are specifications, not executed results.
+
+
+# Task 11 — Approval-based knowledge improvement
+
+Scoped import extraction remains the MVP automated candidate source; eligible items enter the existing Owner review flow. Rejecting a proposal does not remove an approved fact. Candidate decisions and versioned publication follow the learning lifecycle; whole-import status aggregation remains R23 and UI/admission decisions remain D-IMP-02/03.
+
+[KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
+
+
+# Task 14 — Strategic interpretation and scope boundary
+
+[COMPETITIVE_STRATEGY.md](../COMPETITIVE_STRATEGY.md) proposes evidence-backed business knowledge as positioning, not a unique or delivered advantage. [DIFFERENTIATION_ROADMAP.md](../DIFFERENTIATION_ROADMAP.md) maps A/B/C to existing commitments and new later proposals. Existing field provenance, explicit Owner approval, approved revision/context and copyable Brief requirements remain; no automatic monitoring, full knowledge export, connected API/MCP, delegated review or multi-brand capability is added to this PRD. Numeric comparative benefit targets are proposed experiments, not this revision’s performance guarantees or observed results. D-COMP-01/02 and existing PRD/scope/security gates remain pending.
+
+
+# Task 15 — Proposed single-product commercial test
+
+[GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md) proposes e-commerce validation using one page URL OR one supported product fact document per import job, plus explicit manual brand/offer facts and Owner approval. Another source is a distinct job under the selected admission rule, not catalog crawling/batch import. Existing mandatory readiness/provenance/versioning and copyable approved Brief contracts remain. A deliverable-level source/claim panel is pending D-GTM-02, not already delivered. Segment, first $29 offer and experiment thresholds remain proposals; no PRD approval is upgraded.

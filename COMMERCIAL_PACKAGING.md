@@ -88,3 +88,15 @@ Research priorities: single-business activation and context value, then paid wil
 - Sequence and evidence gates for membership expansion, Agency portfolio, team access and multi-brand-per-Organization support.
 
 All prices and entitlements remain proposed until supported by delivered product and scoped customer payment evidence. No current tier promises unsupported MVP functionality.
+
+
+## Evidence-based offer validation
+
+[MARKET_VALIDATION_PLAN.md](MARKET_VALIDATION_PLAN.md) proposes 20–30 interviews and a ten-paying-business pilot with exact offers, payment/refund evidence, all-offer denominators, real-task usage and renewal follow-up. [ASSUMPTION_REGISTER.md](ASSUMPTION_REGISTER.md) tracks commercial risks and unsupported historical conclusions. A tested Starter offer cannot validate Pro, Agency, another segment or unlimited entitlements. All protocol/gate thresholds await D-VAL-01/02 approval; no research or payments are claimed collected.
+
+
+## Task 15 — Proposed e-commerce validation extension
+
+[GO_TO_MARKET_STRATEGY.md](GO_TO_MARKET_STRATEGY.md) narrows the next proposed test to single-brand e-commerce Owners already doing recurring AI work; [PRICING_EXPERIMENTS.md](PRICING_EXPERIMENTS.md) proposes one $29 first pilot offer within the unvalidated $19–59 range and a hypothetical cost sensitivity model; [90_DAY_VALIDATION_ROADMAP.md](90_DAY_VALIDATION_ROADMAP.md) schedules gated discovery, payment, blinded comparison and mature follow-up. These are pending D-GTM-01/02/03, not Founder-approved replacements for this document’s segment/offer/experiment decisions.
+
+The proposed e-commerce-only first20 interviews would prospectively amend EXP-01’s proposed mixed service/e-commerce sampling only after approval; never pool or relabel historical cohorts. EXP-GTM-01 refines EXP-04 with blinded raters and identical source/Owner correction packets in both arms; numeric benefit/economics gates remain proposed. Full deliverable-level source/claim review is a new UX amendment, not an existing Workspace feature. Original onboarding clocks/readiness/activation and all-payer retention denominators stay intact. A late day56 payer needs follow-up through day93, so day90 cannot manufacture mature renewal evidence. No new premium feature split, unlimited allowance or connected-store capability is promised.
