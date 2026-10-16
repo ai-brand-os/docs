@@ -838,12 +838,13 @@ Defines domain knowledge, terminology, glossary, reusable decisions, and long-te
 
 When conflicts occur, decisions must follow this order:
 
-1. Project Bible
-2. Product Bible
+1. Founder-approved strategic decisions and Project Bible
+2. Product Bible and approved scope decisions
 3. Approved PRDs
-4. Engineering Bible
-5. Execution Bible
-6. Team Preferences
+4. Engineering ADRs and service contracts
+5. Domain models and database schema
+
+The Engineering Bible describes the architecture within level 4; Execution Bible and AI Memory summarize execution/history and do not override these authorities. Approval is revision- and subject-specific. Report conflicting sources and decision ownership in the [decision register](../DECISION_REGISTER.md); follow [documentation governance](../DOCUMENTATION_GOVERNANCE.md) to reconcile them together without silently overwriting an approved decision.
 
 Lower-level documents must never contradict higher-level documents.
 

@@ -775,4 +775,17 @@ Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-
 
 ---
 
+## Current backend and authentication boundary
+
+Implementation target: NestJS dependency-injected core module with Prisma/PostgreSQL persistence behind its permitted application boundary, per [ADR-009](../domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md). The service does not create public login endpoints, issue user tokens, or choose an identity vendor. Receive validated principal/Organization context, enforce tenant ownership for reads/writes and pass deletion/readiness guards where relevant. Provider/API credentials remain server-side configuration and are distinct from user sessions; never persist access/refresh tokens in artifacts or knowledge. SQL list cardinality/NOT NULL guards supplement, rather than replace, approved-field/provenance validation. These are planned contracts, not implemented-provider claims.
+
+---
+
 # END OF DOCUMENT
+
+
+# Task 10 — Security launch contract
+
+Consume only policy-validated fetched bytes or scanned quarantine objects. SEC-T03 requires patched non-root isolated parsers without network/credentials, bounded expansion/pages/text/CPU/memory/time, disabled active content and external references, and monitored scratch cleanup. Treat extracted text/metadata as hostile data; normalization does not establish trust or approval.
+
+[SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.

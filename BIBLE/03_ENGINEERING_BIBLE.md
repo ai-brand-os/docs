@@ -48,7 +48,7 @@ Every architectural decision must support long-term growth.
 - TypeScript
 - REST API
 - BullMQ (Redis-backed queues)
-- Prisma or TypeORM (ORM — final choice deferred to Database Design phase)
+- Prisma 7 (chosen ORM; runtime datasource URL in prisma.config.ts, compatible PostgreSQL adapter)
 
 ---
 
@@ -176,25 +176,17 @@ External Services
 
 # Authentication
 
-- JWT / Sanctum
-- Refresh Tokens
-- Role Based Access Control
-- Organization Isolation
+Planned NestJS-compatible contract: local credential validation, signed access/refresh JWTs, Guards and a Prisma-backed AuthSession token-family/revocation store. @nestjs/jwt and optional Passport integration are design components; no implemented identity provider or external vendor is claimed.
+
+[ADR-009](../domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) defines token purposes, signature/issuer/audience validation, per-request revocation checks, fixed expiry/atomic refresh rotation, reuse detection, TLS/password hashing, browser memory/secure HttpOnly cookie handling, CSRF/CORS and tenant-scoped authorization. Proposed access/session lifetimes remain Security/Engineering-reviewed configuration, not implemented settings. Refresh secrets/credentials never enter business knowledge or telemetry.
 
 ---
 
 # Authorization
 
-Roles
+MVP exposes only the sole Owner’s one Organization and Brand, checked through current database membership and resource ownership on every direct/nested operation. Do not trust route/body/JWT tenant or role values as permission. Access also observes Conversation tombstones and relevant readiness gates.
 
-- Owner
-- Admin
-- Editor
-- Viewer
-
-Future
-
-- Custom Roles
+Admin/Editor/Viewer enum values support later Phase 2 role design, not MVP team access. Custom roles are future scope. Core modules receive validated tenant/principal context through application services; internal purge workers use separate scoped service identities. Authentication and tenant authorization are separate checks, as specified in ADR-009.
 
 ---
 
@@ -560,11 +552,11 @@ overhead for a solo/small founding team.
 
 ### Alternatives Considered
 
-- Keep Laravel: rejected. Laravel's batteries-included ecosystem (Sanctum,
-  Cashier, Eloquent) is a real productivity advantage, but it is outweighed
+- Keep Laravel: rejected. Its framework-integrated authentication, billing
+  and ORM tools are a productivity advantage, but this is outweighed
   by the founder's zero PHP fluency against 9 years of TypeScript fluency.
   NestJS has production-grade equivalents (Passport.js / `@nestjs/passport`,
-  Prisma or TypeORM, Stripe SDK directly, BullMQ for queues on the existing
+  Prisma (chosen ORM), optional future billing SDK integration, BullMQ for queues on the existing
   Redis instance).
 
 ### Expected Impact
@@ -573,7 +565,7 @@ overhead for a solo/small founding team.
   are framework-agnostic by design (per Domain Model's "Technology
   Independent" principle).
 - Database Design phase should proceed directly against PostgreSQL.
-- Historical ORM deferral is superseded by Database Design ADR-005: Prisma is the chosen ORM. The installed Prisma 7 / repository datasource syntax compatibility issue remains open; ORM selection does not resolve deployment configuration.
+- Historical ORM deferral is superseded by Database ADR-005 and ADR-009: Prisma is chosen. Task 08 removes the legacy schema-level URL and exact-schema Prisma 7 validation passes. Runtime deployment/adapter/secret checks remain required; TypeORM is not an open current alternative.
 
 ### Supersedes
 
@@ -584,3 +576,7 @@ preserves the original decision as historical record per Product Bible's
 "Historical decisions should never be silently overwritten" rule.
 
 END OF DOCUMENT
+
+## ADR-009 technology and database audit
+
+Current framework NestJS and ORM Prisma are fixed architecture choices. [ADR-009](../domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) consolidates their rationale, planned JWT/session security, Prisma 7 configuration and NULL-safe SQL. [MVP_CONSTRAINTS.sql](../sql/MVP_CONSTRAINTS.sql) is the reviewed migration supplement; Prisma scalar-list types/defaults alone do not provide database NOT NULL or cardinality checks. Exact-schema and isolated PostgreSQL results are in validation/TASK08_RESULTS.md. No production migration or authentication provider implementation is implied.

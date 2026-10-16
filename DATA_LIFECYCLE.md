@@ -119,6 +119,10 @@ sequenceDiagram
 
 No proposed interval is represented as approved or implemented. This task changes documentation and planned Prisma relationships only; it does not deploy a worker, execute a purge, or erase backups.
 
-## Design verification record
+## Design verification record — historical before Task 08
 
 Relative document links and heading anchors pass checks, `git diff --check` passes, and static schema checks confirm exclusive generation ownership, restricted artifact/parent/root relationships, Message/Feedback cascades, and a Conversation-independent purge receipt. The updated models and relations pass installed Prisma 7.8.0 validation on a temporary copy with only the pre-existing datasource URL line omitted. The committed schema retains its existing configuration syntax; the known Prisma version/configuration mismatch remains separate engineering work. Acceptance scenarios above are specifications, not executed runtime tests. No database migration or purge was performed.
+
+## Task 08 validation update
+
+[ADR-009](domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) supersedes the prior schema-level datasource URL workaround. Exact schema.prisma validates with installed Prisma 7; SQL constraints were tested against generated DDL in private PostgreSQL and rolled back. Current planned schema also includes AuthSession security state; no user-facing feature or identity vendor is added. Historical validation records above describe earlier schema versions; [TASK08_RESULTS.md](validation/TASK08_RESULTS.md) records current commands/results. Production migrations and runtime behavior remain unverified.

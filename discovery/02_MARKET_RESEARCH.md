@@ -2001,6 +2001,8 @@ Status:
 
 **`docs/03_COMPETITOR_ANALYSIS.md`**
 
+Reference clarification (2026-10-16): this historical shorthand refers to the current [Competitor Analysis](03_COMPETITOR_ANALYSIS.md) in `discovery/`, not a missing root document.
+
 Objective:
 
 Perform a deep feature, positioning, pricing and strategic analysis of direct and indirect competitors to identify durable competitive advantages and refine AI Brand OS positioning.

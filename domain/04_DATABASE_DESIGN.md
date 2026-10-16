@@ -36,7 +36,7 @@ This document is the authoritative record of the physical database design for AI
 
 It does not redefine business meaning — that belongs to the Domain Model and Business Ontology. This document defines **how** those already-approved concepts are stored, queried, and related at the database layer.
 
-The schema itself is delivered as three Prisma files (see Related Documents). This document explains the reasoning behind them so a future engineer — or a future session of this AI — does not have to reverse-engineer intent from table definitions alone.
+The canonical planned schema is the single schema.prisma; retired pass files are historical inputs, not current artifacts. The SQL supplement is sql/MVP_CONSTRAINTS.sql (see ADR-009). This document explains the reasoning behind them so a future engineer — or a future session of this AI — does not have to reverse-engineer intent from table definitions alone.
 
 ---
 
@@ -59,9 +59,7 @@ Translate the Domain Model, Business Ontology, and Artifact Model into a Postgre
 04_DATABASE_DESIGN.md   ← this document
         │
         ▼
-schema_pass1_platform_and_brand.prisma
-schema_pass2_core_domain_and_artifacts.prisma
-schema_pass3_ai_workspace.prisma
+schema.prisma (single canonical schema; former pass files retired)
 ```
 
 This document is downstream of all five source documents above. Where this document's schema deviates from a literal reading of a source document, the deviation is recorded explicitly in the Architectural Decisions section below — never silently.
@@ -99,6 +97,7 @@ Where a defensible choice exists between "more correct, more complex" (e.g., DB 
 | Table | Purpose |
 | --- | --- |
 | `users` | Authentication identity. Platform Service, not Core Domain. |
+| `auth_sessions` | Planned JWT refresh token-family hash, expiry, rotation and revocation state; not WorkspaceSession. |
 | `organizations` | Tenant root. Every other table traces back here. |
 | `organization_members` | User ↔ Organization membership with role. |
 | `brands` | MVP: exactly 1 per Organization (enforced via `@unique` on `organizationId`). |
@@ -200,7 +199,7 @@ Generation artifacts use nullable Artifact.conversationId ownership (required at
 
 Included in this Database Design:
 
-- Platform Services: Users, Organizations, Membership
+- Platform Services: Users, AuthSession (planned refresh/revocation security state), Organizations, Membership
 - Core Domain: Brand, BrandVoice, Product, Service, Audience, Competitor, Document, Knowledge Index; BrandBrainRevision metadata and Brand.currentRevisionId support field history/restoration and persisted completeness
 - Artifact Model: unified `artifacts` table covering all 7 artifact types
 - AI Workspace: Conversation, Message, Feedback, ConversationPurge (supporting deletion infrastructure)
@@ -249,11 +248,11 @@ The Database Design is complete when:
 
 `03_ENGINEERING_BIBLE.md`
 
-`schema_pass1_platform_and_brand.prisma`
+[schema.prisma](../schema.prisma)
 
-`schema_pass2_core_domain_and_artifacts.prisma`
+[SQL migration supplement](../sql/MVP_CONSTRAINTS.sql)
 
-`schema_pass3_ai_workspace.prisma`
+[ADR-009](08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md)
 
 ---
 
@@ -311,6 +310,16 @@ Decision (2026-10-13): the nine MessageStatus values in schema.prisma describe o
 Conversation has no generation-status column. Its lifecycle is derived from existence/deletedAt: Active → PendingPhysicalDeletion → verified physical removal, with independent ConversationPurge bookkeeping (ADR-006/DATA_LIFECYCLE.md). Archival/readiness restrictions are access conditions while the container persists. Guard generation transitions atomically by expected MessageStatus and parent tombstone; late callbacks cannot publish after deletion. No enum value or schema relation changes are required for this documentation reconciliation.
 
 Resolution and remaining issues: [DOCUMENTATION_CHANGELOG.md](../DOCUMENTATION_CHANGELOG.md). Lifecycle acceptance scenarios are in the PRD; runtime implementations, concrete timeout/cancel policy and migration/configuration checks remain unproven.
+
+---
+
+## ADR-009 — Backend/Auth/NULL-safe SQL Consolidation
+
+[Full decision and rationale](08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md): current NestJS modular monolith + Prisma 7 + PostgreSQL; TypeORM is rejected, not undecided. Planned local JWT authentication uses AuthSession security state distinct from the rejected WorkspaceSession. Datasource connection URL moves out of schema.prisma into runtime config; exact schema validation now passes.
+
+Prisma-generated PostgreSQL scalar-list columns are nullable even for required list fields; SQL explicitly sets all ten NOT NULL. Tone uses cardinality(tone_attributes) BETWEEN 2 AND 4 plus non-NULL/list-shape safeguards. Required scalar score/number/date checks reject NULL; optional ancestry/vision/revocation NULL is intentional. Additional score/readiness/purge/auth metadata checks are authoritative in [MVP_CONSTRAINTS.sql](../sql/MVP_CONSTRAINTS.sql), not duplicated ad hoc in Prisma comments. Artifact.payload GIN index is declared once in Prisma.
+
+Deploy custom checks/NOT NULL only through reviewed migrations with data reconciliation and shadow/replay testing. Direct db push is not an approved deployment path for these custom constraints; do not assume schema-only generation preserves all supplement rules. SQL validation covers database rules, not complete tenant/provenance/auth behavior; application-only checks remain required. [Validation results](../validation/TASK08_RESULTS.md) distinguish executed checks from implementation and production migration.
 
 ---
 

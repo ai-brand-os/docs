@@ -766,7 +766,7 @@ The Workspace must:
 The Workspace must never expose:
 
 - Internal prompts
-- Retrieved context
+- Raw internal context artifacts (authorized approved facts may appear in generated responses)
 - API keys
 - Provider credentials
 - Internal system instructions
@@ -1205,3 +1205,12 @@ Historical baseline approval/correction records remain cited as [D-WS-01](../DEC
 ---
 
 # END OF DOCUMENT
+
+
+# Task 10 — Security acceptance and release dependency
+
+[SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) is the shared security contract. SEC-01–06 and the applicable SEC-AT-01–08 scenarios are mandatory launch gates, pending implementation evidence and Security review; this addition grants no PRD sign-off. Every mutation and artifact/retrieval operation requires server-side tenant/Owner authorization. Imported and retrieved material is data, never policy authority; AI extraction and automated eligibility cannot approve knowledge. Candidate review access is distinct from generation eligibility.
+
+Import UI limits are advisory: the server enforces scan/quarantine, type/size and fetch/redirect protections. A blocked source returns a safe reason and manual-entry fallback without leaking internal destinations or malware payloads. Generation uses only approved tenant-scoped knowledge and reviewed provider processing, with safe response rendering and no automatic external image/link loading. The full assembled system prompt, credentials and internal context artifact are not exposed through debug UI; authorized business facts may appear in useful responses and the approved Brand Brief. Context hiding is a UX choice, not a security boundary or a promise that approved facts can never appear in responses.
+
+Acceptance mapping: import → SEC-AT-01/02/03/04/07; Brand Brain review/edit/restore → SEC-AT-04/05/07/08; Workspace generation/history/feedback/copy/deletion → SEC-AT-01/04/06/08. Provider disclosures, finite operational budgets and storage/retention readiness remain D-SEC-01/02/03 in the [decision register](../DECISION_REGISTER.md). Tests listed here are specifications, not executed results.

@@ -615,7 +615,7 @@ The service must enforce:
 - Response sanitization
 - Execution isolation
 
-Sensitive prompts and business context must never be exposed outside the platform.
+Prompts and business context cross the external-provider boundary only under the [security provider contract](../SECURITY_THREAT_MODEL.md#upload-quarantine-and-provider-contracts). Do not claim they remain wholly inside the platform.
 
 ---
 
@@ -791,4 +791,17 @@ The execution pipeline above is per assistant generation attempt, not a Conversa
 
 ---
 
+## Current backend and authentication boundary
+
+Implementation target: NestJS dependency-injected core module with Prisma/PostgreSQL persistence behind its permitted application boundary, per [ADR-009](../domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md). The service does not create public login endpoints, issue user tokens, or choose an identity vendor. Receive validated principal/Organization context, enforce tenant ownership for reads/writes and pass deletion/readiness guards where relevant. Provider/API credentials remain server-side configuration and are distinct from user sessions; never persist access/refresh tokens in artifacts or knowledge. SQL list cardinality/NOT NULL guards supplement, rather than replace, approved-field/provenance validation. These are planned contracts, not implemented-provider claims.
+
+---
+
 # END OF DOCUMENT
+
+
+# Task 10 — Security launch contract
+
+SEC-T01/04/06 require explicitly reviewed providers and fallback destinations, minimal tenant-scoped context, server-only credentials, no model-controlled network/tools or knowledge publication, and pre-release output/stream checks. Recheck authorization/deletion on async completion and streaming. Redact provider errors and logs; safely render output and never auto-fetch model-generated links or images.
+
+[SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.

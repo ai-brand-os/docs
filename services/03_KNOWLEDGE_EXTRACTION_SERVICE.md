@@ -607,7 +607,7 @@ The service must enforce:
 - Input validation
 - Output schema validation
 
-Sensitive prompts must never be exposed outside the platform.
+Sensitive prompts may leave the platform only for explicitly reviewed, minimized provider processing under the [security provider contract](../SECURITY_THREAT_MODEL.md#upload-quarantine-and-provider-contracts); prevent all unauthorized disclosure.
 
 ---
 
@@ -780,4 +780,17 @@ Extraction proposes typed fact keys and MANUAL/IMPORTED/DERIVED origins under [K
 
 ---
 
+## Current backend and authentication boundary
+
+Implementation target: NestJS dependency-injected core module with Prisma/PostgreSQL persistence behind its permitted application boundary, per [ADR-009](../domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md). The service does not create public login endpoints, issue user tokens, or choose an identity vendor. Receive validated principal/Organization context, enforce tenant ownership for reads/writes and pass deletion/readiness guards where relevant. Provider/API credentials remain server-side configuration and are distinct from user sessions; never persist access/refresh tokens in artifacts or knowledge. SQL list cardinality/NOT NULL guards supplement, rather than replace, approved-field/provenance validation. These are planned contracts, not implemented-provider claims.
+
+---
+
 # END OF DOCUMENT
+
+
+# Task 10 — Security launch contract
+
+SEC-T01/06/07 require source text separated from application instructions, bounded schema-validated output, genuine source references and reviewed provider disclosure. Extraction can create candidates only; it cannot approve, write authoritative projections, fetch model-proposed URLs or change tenant context. Reject forged approval fields and fabricated attribution.
+
+[SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.

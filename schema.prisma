@@ -1,5 +1,7 @@
 // Canonical MVP scope: MVP_SCOPE.md. Planned schema, not implementation evidence.
 // Measurement authority: PRODUCT_METRICS.md; v2 field weights, readiness separate; targets are goals.
+// Backend/auth/constraint authority: domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md.
+// Prisma 7 datasource URL belongs in runtime prisma.config.ts, not this schema.
 // Field provenance/version design: KNOWLEDGE_PROVENANCE.md; approved artifacts hold canonical values.
 // Deletion/retention design: DATA_LIFECYCLE.md; intervals await legal/operational approval.
 // Commercial authority: COMMERCIAL_PACKAGING.md; all prices are hypotheses.
@@ -31,7 +33,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 
@@ -47,11 +48,32 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
+  authSessions AuthSession[]
   memberships   OrganizationMember[] // relational multi-membership capacity is Phase 2; MVP permits sole Owner membership
   conversations Conversation[]
   approvedBrainRevisions BrandBrainRevision[] @relation("BrainRevisionApprover")
 
   @@map("users")
+}
+
+// Planned platform authentication session/token family; not WorkspaceSession.
+// Local JWT issuance/guards and persistent refresh rotation/revocation are design
+// requirements, not evidence of an implemented identity provider. Raw tokens are
+// never stored; same signing/purpose/session checks precede refresh-hash matching.
+model AuthSession {
+  id               String @id @default(uuid()) @db.Uuid // access/refresh JWT sid
+  userId           String @map("user_id") @db.Uuid
+  refreshTokenHash String @unique @map("refresh_token_hash") @db.Char(64) // SHA-256 of signed refresh JWT, never raw token
+  createdAt        DateTime @default(now()) @map("created_at")
+  expiresAt        DateTime @map("expires_at") // fixed family expiry, not extended on rotation
+  lastRotatedAt    DateTime? @map("last_rotated_at")
+  revokedAt        DateTime? @map("revoked_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt])
+  @@index([expiresAt])
+  @@map("auth_sessions")
 }
 
 // OrgRole values beyond OWNER are reserved for Phase 2; no shared access in MVP.
@@ -298,6 +320,7 @@ model Artifact {
 
   organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
 
+  @@index([payload(ops: JsonbPathOps)], type: Gin)
   @@index([correlationId])
   @@index([organizationId, artifactType])
   @@index([parentArtifactId])
@@ -658,20 +681,20 @@ model ConversationPurge {
 }
 
 // ============================================================
-// POST-MIGRATION RAW SQL REQUIRED (consolidated from all passes)
-// Prisma cannot express these natively — apply after `prisma migrate`:
+// POST-MIGRATION SQL: sql/MVP_CONSTRAINTS.sql is the canonical reviewed design.
+// Prisma 7 scalar-list columns may be nullable in generated PostgreSQL DDL;
+// install explicit NOT NULL on all required lists, including tone_attributes.
+// Tone cardinality rule (no empty-array/NULL bypass):
+//   CHECK (tone_attributes IS NOT NULL AND cardinality(tone_attributes) BETWEEN 2 AND 4)
+// Plus single-dimensional/no-NULL-element list checks; distinct enum values and
+// MANUAL provenance remain service validations. Do not create BrandVoice until
+// the Owner approves a valid 2–4-tone list; missing tone = no BrandVoice yet.
+// sql/MVP_CONSTRAINTS.sql also guards revision scores/times/self-links,
+// purge/auth session counters and lifecycle timestamps; see ADR-009.
+// The Artifact payload GIN index is supported by Prisma 7; declare it below in
+// the model rather than duplicate a raw CREATE INDEX in migration notes.
 //
-// 1. Enforce 2–4 cardinality on BrandVoice.tone_attributes:
-//      ALTER TABLE brand_voices
-//      ADD CONSTRAINT tone_attributes_cardinality
-//      CHECK (array_length(tone_attributes, 1) BETWEEN 2 AND 4);
-//
-// 2. GIN index on artifacts.payload (verify whether your Prisma version
-//    supports `@@index([payload(ops: JsonbPathOps)], type: Gin)` natively;
-//    if not, apply manually):
-//      CREATE INDEX artifacts_payload_gin_idx ON artifacts USING GIN (payload);
-//
-// APP-LAYER CONSTRAINTS (not enforceable in the DB, must live in NestJS):
+// APP-LAYER CONSTRAINTS / SEMANTIC VALIDATION (must live in NestJS):
 //
 // 3. toneAttributes must NEVER be set with imported provenance — this is
 //    a Knowledge Management Service / Ontology Validation concern.
@@ -683,7 +706,8 @@ model ConversationPurge {
 //    the NestJS service layer for MVP; revisit as a DB trigger only if an
 //    incident proves the app-layer check insufficient.
 //
-// 5. missionStatement / visionStatement <=300 chars (Brand Brain PRD).
+// 5. Approved mission/vision semantic validity and nonempty required facts remain
+//    service checks; SQL also enforces <=300 characters with optional vision NULL.
 // ============================================================
 
 // APP-LAYER DELETION CONSTRAINTS:
@@ -695,13 +719,7 @@ model ConversationPurge {
 // - Parent and response artifact Restrict FKs must not be bypassed by blanket cascades.
 // - Organization/Brand/User erasure needs its own policy; root deletes cannot replace purge.
 
-// POST-MIGRATION KNOWLEDGE CHECKS (apply in reviewed SQL migration):
-// ALTER TABLE brand_brain_revisions
-// ADD CONSTRAINT brain_revision_number_positive CHECK (revision_number > 0),
-// ADD CONSTRAINT brain_completeness_range CHECK (completeness_score BETWEEN 0 AND 100),
-// ADD CONSTRAINT brain_calculation_time CHECK (calculated_at >= approved_at),
-// ADD CONSTRAINT brain_previous_not_self CHECK (previous_revision_id IS NULL OR previous_revision_id <> id),
-// ADD CONSTRAINT brain_restore_not_self CHECK (restored_from_revision_id IS NULL OR restored_from_revision_id <> id);
+// POST-MIGRATION KNOWLEDGE CHECKS: see sql/MVP_CONSTRAINTS.sql (single authority).
 // APP-LAYER KNOWLEDGE INTEGRITY:
 // - Snapshot JSON schema: unique typed fact keys, MANUAL/IMPORTED/DERIVED,
 //   approved-only values, source Document/Artifact links and input revision refs.

@@ -110,10 +110,10 @@ Everything not listed here is DI-only, per the Core Architectural Clarification.
 
 | Method | Path            | Notes                                                                                                   |
 | ------ | --------------- | ------------------------------------------------------------------------------------------------------- |
-| POST   | `/auth/signup`  | Creates User + Organization (Owner role) in one step — Brand created separately in onboarding, not here |
-| POST   | `/auth/login`   | Returns access + refresh JWT pair                                                                       |
-| POST   | `/auth/refresh` | Rotates refresh token                                                                                   |
-| POST   | `/auth/logout`  | Revokes refresh token                                                                                   |
+| POST   | `/auth/signup`  | Creates User + sole Organization/Owner membership, then issues session/access credential + secure refresh cookie; Brand created separately |
+| POST   | `/auth/login`   | Returns access JWT JSON + secure HttpOnly refresh cookie (ADR-009)                                                                       |
+| POST   | `/auth/refresh` | Atomically rotates signed refresh credential/hash and access JWT; detects validated reuse (ADR-009)                                                                                   |
+| POST   | `/auth/logout`  | Revokes AuthSession token family and clears refresh cookie (ADR-009)                                                                                   |
 
 ## Organizations (Platform)
 
@@ -183,11 +183,11 @@ Inherited unchanged from `03_ENGINEERING_BIBLE.md`:
 
 ## Authentication
 
-JWT access token (short-lived) + refresh token (long-lived, rotated on use), via `@nestjs/passport` + `@nestjs/jwt`. Replaces the Engineering Bible's original "JWT / Sanctum" line — Sanctum was Laravel-specific and no longer applies after the NestJS decision.
+Planned signed access/refresh JWT contract with NestJS Guards, @nestjs/jwt and optional Passport integration; AuthSession stores refresh hash/expiry/revocation. [ADR-009](08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) governs fixed token-family expiry, rotation/reuse, per-request session checks, memory-only access JWT, secure HttpOnly refresh cookie, CSRF/CORS/TLS and key handling. No external identity vendor or implemented provider is asserted.
 
 ## Authorization
 
-Every endpoint under `/organizations/:id/*` and `/brands/:id/*` enforces membership + role via a shared NestJS Guard, checking the canonical role enum (`Owner/Admin/Editor/Viewer`, per Gap Closure Patch 2026-07-02) — never re-implemented per-module.
+Shared NestJS Guards validate authenticated session plus current sole Owner membership and actual resource Organization/Brand ownership for every direct and nested route. Future Admin/Editor/Viewer enum values confer no MVP access. Never authorize using only a route/body or JWT role/tenant claim; use the ADR-009 checks consistently across modules.
 
 ## Conversation deletion access gate
 

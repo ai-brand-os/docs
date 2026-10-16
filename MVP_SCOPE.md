@@ -2,7 +2,7 @@
 
 Effective: 2026-10-13. Status: scope decision and requirements baseline, not a delivery report.
 
-This is `docs/MVP_SCOPE.md` in the project, located at this docs repository’s root. It is the sole authority for MVP inclusion. Bibles, discovery hypotheses, PRDs, service specifications, domain concepts, API designs, and `schema.prisma` must conform to it. Design approval, schema declarations, and historical “Done” entries do not prove working software; implementation status requires separate runtime evidence.
+This is `docs/MVP_SCOPE.md` in the project, located at this docs repository’s root. It is the canonical matrix for MVP inclusion under the [document authority hierarchy](DOCUMENTATION_GOVERNANCE.md#authority-and-ownership); changes to approved strategy or scope require the responsible approver. Bibles, discovery hypotheses, PRDs, service specifications, domain concepts, API designs, and `schema.prisma` must conform to it. Design approval, schema declarations, and historical “Done” entries do not prove working software; implementation status requires separate runtime evidence.
 
 The MVP tests whether a person values AI that retains approved business understanding. One account owns one Organization and one Brand. Additional client Organizations, brand switching, invitations, shared access, and delegated roles are excluded. Membership tables and role enum values support tenant ownership and future compatibility; application services must enforce the single-account boundary.
 
@@ -64,7 +64,7 @@ The seven-feature scope and listed exclusions are resolved by this task. Remaini
 
 [DATA_LIFECYCLE.md](DATA_LIFECYCLE.md) governs deletion: immediate normal-access denial, pending physical deletion via deletedAt, explicit generation-artifact ownership, durable ConversationPurge and protected shared knowledge. Proposed active removal within 30 days and separate backup expiry await legal/operational approval. This is supporting Workspace infrastructure, not a new product feature.
 
-## Validation record
+## Validation record — historical before Task 08
 
 Canonical relative links and heading anchors pass validation; `git diff --check` passes; schema has no ExportJob, ExportJobStatus or exportJobs references. The installed adjacent backend CLI is Prisma 7.8.0 and rejects this repository’s pre-existing datasource `url` syntax. A temporary schema copy with only that datasource line omitted passes Prisma validation, including all remaining models and relations. The committed schema retains its existing configuration convention; selecting/migrating Prisma configuration is separate engineering work, not completed here. No database migration was executed.
 
@@ -79,3 +79,7 @@ Canonical relative links and heading anchors pass validation; `git diff --check`
 ## Approval evidence boundary
 
 [DECISION_REGISTER.md](DECISION_REGISTER.md) distinguishes task-directed feature scope from formal decision approval. Single-source knowledge import remains a canonical MVP feature. Request-level source limits (D-IMP-01), admission/one-job behavior (D-IMP-02), and dedicated versus embedded post-onboarding UI (D-IMP-03) are explicit pending Founder choices; proposed details in this scope/other docs do not establish sign-off. Integrated PRD review is separate from preserved baseline Architecture decisions.
+
+## Task 08 validation update
+
+[ADR-009](domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) supersedes the prior schema-level datasource URL workaround. Exact schema.prisma validates with installed Prisma 7; SQL constraints were tested against generated DDL in private PostgreSQL and rolled back. Current planned schema also includes AuthSession security state; no user-facing feature or identity vendor is added. Historical validation records above describe earlier schema versions; [TASK08_RESULTS.md](validation/TASK08_RESULTS.md) records current commands/results. Production migrations and runtime behavior remain unverified.
