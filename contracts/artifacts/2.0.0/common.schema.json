@@ -1,0 +1,4822 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:artifact:2.0.0:common",
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "entityType": {
+      "enum": [
+        "ORGANIZATION",
+        "BRAND",
+        "BRAND_VOICE",
+        "PRODUCT",
+        "SERVICE",
+        "AUDIENCE",
+        "COMPETITOR",
+        "DOCUMENT"
+      ]
+    },
+    "entityRef": {
+      "type": "object",
+      "properties": {
+        "entityType": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityType"
+        },
+        "entityId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "entityType",
+        "entityId"
+      ],
+      "additionalProperties": false
+    },
+    "factKey": {
+      "type": "object",
+      "properties": {
+        "entityType": {
+          "enum": [
+            "ORGANIZATION",
+            "BRAND",
+            "BRAND_VOICE",
+            "PRODUCT",
+            "SERVICE",
+            "AUDIENCE",
+            "COMPETITOR"
+          ]
+        },
+        "entityId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fieldPath": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "entityType",
+        "entityId",
+        "fieldPath"
+      ],
+      "additionalProperties": false
+    },
+    "factRef": {
+      "type": "object",
+      "properties": {
+        "revisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "factKey": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factKey"
+        }
+      },
+      "required": [
+        "revisionId",
+        "factKey"
+      ],
+      "additionalProperties": false
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "passed": {
+          "type": "boolean"
+        },
+        "failedRules": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "passed",
+        "failedRules"
+      ],
+      "additionalProperties": false
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "INPUT_INVALID",
+            "UNSUPPORTED_FORMAT",
+            "RESOURCE_LIMIT",
+            "SOURCE_UNAVAILABLE",
+            "SOURCE_UNSAFE",
+            "PARSER_FAILED",
+            "CONTRACT_INVALID",
+            "REFERENCE_INVALID",
+            "ONTOLOGY_INVALID",
+            "CONFLICT",
+            "POLICY_DENIED",
+            "CONTEXT_UNAVAILABLE",
+            "PROVIDER_FAILED",
+            "OUTPUT_INVALID",
+            "INTERNAL_ERROR",
+            "CANCELLED",
+            "TIMEOUT"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "retryAfterMs": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "violationPaths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(|/.*)$"
+          },
+          "minItems": 0
+        },
+        "diagnosticId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "retryAfterMs",
+        "violationPaths",
+        "diagnosticId"
+      ],
+      "additionalProperties": false
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "heading": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sectionId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chunkId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "characterStart": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "characterEnd": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "urlFragment": {
+          "type": "string",
+          "pattern": "^#"
+        },
+        "coordinateSpace": {
+          "enum": [
+            "ORIGINAL",
+            "NORMALIZED"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1,
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "characterStart"
+            ]
+          },
+          "then": {
+            "required": [
+              "characterEnd",
+              "coordinateSpace"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "characterEnd"
+            ]
+          },
+          "then": {
+            "required": [
+              "characterStart",
+              "coordinateSpace"
+            ]
+          }
+        }
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "page"
+          ]
+        },
+        {
+          "required": [
+            "heading"
+          ]
+        },
+        {
+          "required": [
+            "sectionId"
+          ]
+        },
+        {
+          "required": [
+            "chunkId"
+          ]
+        },
+        {
+          "required": [
+            "characterStart"
+          ]
+        },
+        {
+          "required": [
+            "urlFragment"
+          ]
+        }
+      ]
+    },
+    "sourceEvidence": {
+      "type": "object",
+      "properties": {
+        "sourceArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sourceDocumentId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sourceLocation": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/location"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "locationUnavailableReason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sourceArtifactId",
+        "sourceDocumentId",
+        "sourceLocation",
+        "locationUnavailableReason"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "sourceLocation": {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/location"
+            },
+            "locationUnavailableReason": {
+              "type": "null"
+            }
+          }
+        },
+        {
+          "properties": {
+            "sourceLocation": {
+              "type": "null"
+            },
+            "locationUnavailableReason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "manual": {
+      "type": "object",
+      "properties": {
+        "authorUserId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "authoredAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "authorUserId",
+        "authoredAt"
+      ],
+      "additionalProperties": false
+    },
+    "derivation": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "enum": [
+            "RULE",
+            "MODEL"
+          ]
+        },
+        "identifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+          },
+          "minItems": 0
+        },
+        "sourceEvidence": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "method",
+        "identifier",
+        "version",
+        "inputs",
+        "sourceEvidence"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "properties": {
+            "inputs": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "sourceEvidence": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "itemProvenance": {
+      "type": "object",
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "origin": {
+          "enum": [
+            "MANUAL",
+            "IMPORTED",
+            "DERIVED"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence"
+          },
+          "minItems": 0
+        },
+        "manual": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/manual"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "derivation": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/derivation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "itemId",
+        "index",
+        "origin",
+        "evidence",
+        "manual",
+        "derivation"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "manual": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/manual"
+              },
+              "derivation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "IMPORTED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "minItems": 1
+              },
+              "manual": {
+                "type": "null"
+              },
+              "derivation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "DERIVED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "manual": {
+                "type": "null"
+              },
+              "derivation": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/derivation"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "fact": {
+      "type": "object",
+      "properties": {
+        "entityType": {
+          "enum": [
+            "ORGANIZATION",
+            "BRAND",
+            "BRAND_VOICE",
+            "PRODUCT",
+            "SERVICE",
+            "AUDIENCE",
+            "COMPETITOR"
+          ]
+        },
+        "entityId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fieldPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {},
+        "origin": {
+          "enum": [
+            "MANUAL",
+            "IMPORTED",
+            "DERIVED"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence"
+          },
+          "minItems": 0
+        },
+        "manual": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/manual"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "derivation": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/derivation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approvalStatus": {
+          "const": "APPROVED"
+        },
+        "valueRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "supersedesValueRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verifiedInRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verificationDueAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "itemProvenance": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/itemProvenance"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "entityType",
+        "entityId",
+        "fieldPath",
+        "value",
+        "origin",
+        "evidence",
+        "manual",
+        "derivation",
+        "approvalStatus",
+        "valueRevisionId",
+        "supersedesValueRevisionId",
+        "verifiedInRevisionId",
+        "verificationDueAt",
+        "itemProvenance"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "manual": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/manual"
+              },
+              "derivation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "IMPORTED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "minItems": 1
+              },
+              "manual": {
+                "type": "null"
+              },
+              "derivation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "DERIVED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "manual": {
+                "type": "null"
+              },
+              "derivation": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/derivation"
+              }
+            }
+          }
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "entityType": {
+                  "const": "ORGANIZATION"
+                },
+                "fieldPath": {
+                  "const": "name"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "ORGANIZATION"
+                },
+                "fieldPath": {
+                  "const": "industry"
+                },
+                "value": {
+                  "enum": [
+                    "ECOMMERCE_RETAIL",
+                    "PROFESSIONAL_SERVICES",
+                    "SAAS_TECHNOLOGY",
+                    "HEALTH_WELLNESS",
+                    "FOOD_BEVERAGE",
+                    "EDUCATION_COACHING",
+                    "REAL_ESTATE",
+                    "FINANCE_INSURANCE",
+                    "MARKETING_CREATIVE_AGENCIES",
+                    "FASHION_APPAREL",
+                    "BEAUTY_PERSONAL_CARE",
+                    "HOME_LIFESTYLE",
+                    "TRAVEL_HOSPITALITY",
+                    "NONPROFIT_COMMUNITY",
+                    "MANUFACTURING_INDUSTRIAL",
+                    "OTHER"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "ORGANIZATION"
+                },
+                "fieldPath": {
+                  "const": "companySize"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "ORGANIZATION"
+                },
+                "fieldPath": {
+                  "const": "websiteUrl"
+                },
+                "value": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "ORGANIZATION"
+                },
+                "fieldPath": {
+                  "const": "primaryRegion"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "ORGANIZATION"
+                },
+                "fieldPath": {
+                  "const": "primaryLanguage"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND"
+                },
+                "fieldPath": {
+                  "const": "name"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND"
+                },
+                "fieldPath": {
+                  "const": "missionStatement"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND"
+                },
+                "fieldPath": {
+                  "const": "visionStatement"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND"
+                },
+                "fieldPath": {
+                  "const": "coreValues"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 0
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND"
+                },
+                "fieldPath": {
+                  "const": "sampleWriting"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND"
+                },
+                "fieldPath": {
+                  "const": "primaryGoal"
+                },
+                "value": {
+                  "enum": [
+                    "AWARENESS",
+                    "LEAD_GEN",
+                    "SALES",
+                    "RETENTION",
+                    "OTHER"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND"
+                },
+                "fieldPath": {
+                  "const": "successDefinition"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND_VOICE"
+                },
+                "fieldPath": {
+                  "const": "toneAttributes"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "PROFESSIONAL",
+                      "FRIENDLY",
+                      "BOLD",
+                      "PLAYFUL",
+                      "AUTHORITATIVE",
+                      "MINIMAL",
+                      "EMPATHETIC",
+                      "CONFIDENT",
+                      "WITTY",
+                      "FORMAL",
+                      "WARM",
+                      "DIRECT"
+                    ]
+                  },
+                  "minItems": 2,
+                  "maxItems": 4,
+                  "uniqueItems": true
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND_VOICE"
+                },
+                "fieldPath": {
+                  "const": "vocabularyDos"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 0
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND_VOICE"
+                },
+                "fieldPath": {
+                  "const": "vocabularyDonts"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 0
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "PRODUCT"
+                },
+                "fieldPath": {
+                  "const": "name"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "PRODUCT"
+                },
+                "fieldPath": {
+                  "const": "description"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "PRODUCT"
+                },
+                "fieldPath": {
+                  "const": "valueProposition"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "PRODUCT"
+                },
+                "fieldPath": {
+                  "const": "keyFeatures"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 0
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "PRODUCT"
+                },
+                "fieldPath": {
+                  "const": "pricingModel"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "SERVICE"
+                },
+                "fieldPath": {
+                  "const": "name"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "SERVICE"
+                },
+                "fieldPath": {
+                  "const": "description"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "SERVICE"
+                },
+                "fieldPath": {
+                  "const": "valueProposition"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "SERVICE"
+                },
+                "fieldPath": {
+                  "const": "keyFeatures"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 0
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "SERVICE"
+                },
+                "fieldPath": {
+                  "const": "pricingModel"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "AUDIENCE"
+                },
+                "fieldPath": {
+                  "const": "segmentName"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "AUDIENCE"
+                },
+                "fieldPath": {
+                  "const": "description"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "AUDIENCE"
+                },
+                "fieldPath": {
+                  "const": "painPoints"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "AUDIENCE"
+                },
+                "fieldPath": {
+                  "const": "goals"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 0
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "COMPETITOR"
+                },
+                "fieldPath": {
+                  "const": "name"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "COMPETITOR"
+                },
+                "fieldPath": {
+                  "const": "website"
+                },
+                "value": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "COMPETITOR"
+                },
+                "fieldPath": {
+                  "const": "differentiationNotes"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "ORGANIZATION"
+              },
+              "fieldPath": {
+                "enum": [
+                  "companySize",
+                  "websiteUrl",
+                  "primaryRegion",
+                  "primaryLanguage"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "BRAND"
+              },
+              "fieldPath": {
+                "enum": [
+                  "sampleWriting",
+                  "primaryGoal",
+                  "successDefinition"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "BRAND_VOICE"
+              },
+              "fieldPath": {
+                "enum": [
+                  "toneAttributes",
+                  "vocabularyDos",
+                  "vocabularyDonts"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "PRODUCT"
+              },
+              "fieldPath": {
+                "enum": [
+                  "valueProposition"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "SERVICE"
+              },
+              "fieldPath": {
+                "enum": [
+                  "valueProposition"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "AUDIENCE"
+              },
+              "fieldPath": {
+                "enum": [
+                  "segmentName",
+                  "description",
+                  "painPoints",
+                  "goals"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "COMPETITOR"
+              },
+              "fieldPath": {
+                "enum": [
+                  "name",
+                  "website",
+                  "differentiationNotes"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "change": {
+      "type": "object",
+      "properties": {
+        "entityType": {
+          "enum": [
+            "ORGANIZATION",
+            "BRAND",
+            "BRAND_VOICE",
+            "PRODUCT",
+            "SERVICE",
+            "AUDIENCE",
+            "COMPETITOR"
+          ]
+        },
+        "entityId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "fieldPath": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "enum": [
+            "SET",
+            "REMOVE"
+          ]
+        },
+        "proposedValue": {},
+        "origin": {
+          "enum": [
+            "MANUAL",
+            "IMPORTED",
+            "DERIVED"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence"
+          },
+          "minItems": 0
+        },
+        "manual": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/manual"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "derivation": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/derivation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "itemProvenance": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/itemProvenance"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "entityType",
+        "entityId",
+        "fieldPath",
+        "operation",
+        "proposedValue",
+        "origin",
+        "evidence",
+        "manual",
+        "derivation",
+        "itemProvenance"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "manual": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/manual"
+              },
+              "derivation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "IMPORTED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "minItems": 1
+              },
+              "manual": {
+                "type": "null"
+              },
+              "derivation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "origin": {
+                "const": "DERIVED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "manual": {
+                "type": "null"
+              },
+              "derivation": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/derivation"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "SET"
+              }
+            }
+          },
+          "then": {
+            "oneOf": [
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "ORGANIZATION"
+                  },
+                  "fieldPath": {
+                    "const": "name"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "ORGANIZATION"
+                  },
+                  "fieldPath": {
+                    "const": "industry"
+                  },
+                  "proposedValue": {
+                    "enum": [
+                      "ECOMMERCE_RETAIL",
+                      "PROFESSIONAL_SERVICES",
+                      "SAAS_TECHNOLOGY",
+                      "HEALTH_WELLNESS",
+                      "FOOD_BEVERAGE",
+                      "EDUCATION_COACHING",
+                      "REAL_ESTATE",
+                      "FINANCE_INSURANCE",
+                      "MARKETING_CREATIVE_AGENCIES",
+                      "FASHION_APPAREL",
+                      "BEAUTY_PERSONAL_CARE",
+                      "HOME_LIFESTYLE",
+                      "TRAVEL_HOSPITALITY",
+                      "NONPROFIT_COMMUNITY",
+                      "MANUFACTURING_INDUSTRIAL",
+                      "OTHER"
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "ORGANIZATION"
+                  },
+                  "fieldPath": {
+                    "const": "companySize"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "ORGANIZATION"
+                  },
+                  "fieldPath": {
+                    "const": "websiteUrl"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "ORGANIZATION"
+                  },
+                  "fieldPath": {
+                    "const": "primaryRegion"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "ORGANIZATION"
+                  },
+                  "fieldPath": {
+                    "const": "primaryLanguage"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND"
+                  },
+                  "fieldPath": {
+                    "const": "name"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND"
+                  },
+                  "fieldPath": {
+                    "const": "missionStatement"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND"
+                  },
+                  "fieldPath": {
+                    "const": "visionStatement"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 300
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND"
+                  },
+                  "fieldPath": {
+                    "const": "coreValues"
+                  },
+                  "proposedValue": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND"
+                  },
+                  "fieldPath": {
+                    "const": "sampleWriting"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND"
+                  },
+                  "fieldPath": {
+                    "const": "primaryGoal"
+                  },
+                  "proposedValue": {
+                    "enum": [
+                      "AWARENESS",
+                      "LEAD_GEN",
+                      "SALES",
+                      "RETENTION",
+                      "OTHER"
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND"
+                  },
+                  "fieldPath": {
+                    "const": "successDefinition"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND_VOICE"
+                  },
+                  "fieldPath": {
+                    "const": "toneAttributes"
+                  },
+                  "proposedValue": {
+                    "type": "array",
+                    "items": {
+                      "enum": [
+                        "PROFESSIONAL",
+                        "FRIENDLY",
+                        "BOLD",
+                        "PLAYFUL",
+                        "AUTHORITATIVE",
+                        "MINIMAL",
+                        "EMPATHETIC",
+                        "CONFIDENT",
+                        "WITTY",
+                        "FORMAL",
+                        "WARM",
+                        "DIRECT"
+                      ]
+                    },
+                    "minItems": 2,
+                    "maxItems": 4,
+                    "uniqueItems": true
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND_VOICE"
+                  },
+                  "fieldPath": {
+                    "const": "vocabularyDos"
+                  },
+                  "proposedValue": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "BRAND_VOICE"
+                  },
+                  "fieldPath": {
+                    "const": "vocabularyDonts"
+                  },
+                  "proposedValue": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "PRODUCT"
+                  },
+                  "fieldPath": {
+                    "const": "name"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "PRODUCT"
+                  },
+                  "fieldPath": {
+                    "const": "description"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "PRODUCT"
+                  },
+                  "fieldPath": {
+                    "const": "valueProposition"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "PRODUCT"
+                  },
+                  "fieldPath": {
+                    "const": "keyFeatures"
+                  },
+                  "proposedValue": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "PRODUCT"
+                  },
+                  "fieldPath": {
+                    "const": "pricingModel"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "SERVICE"
+                  },
+                  "fieldPath": {
+                    "const": "name"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "SERVICE"
+                  },
+                  "fieldPath": {
+                    "const": "description"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "SERVICE"
+                  },
+                  "fieldPath": {
+                    "const": "valueProposition"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "SERVICE"
+                  },
+                  "fieldPath": {
+                    "const": "keyFeatures"
+                  },
+                  "proposedValue": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "SERVICE"
+                  },
+                  "fieldPath": {
+                    "const": "pricingModel"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "AUDIENCE"
+                  },
+                  "fieldPath": {
+                    "const": "segmentName"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "AUDIENCE"
+                  },
+                  "fieldPath": {
+                    "const": "description"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "AUDIENCE"
+                  },
+                  "fieldPath": {
+                    "const": "painPoints"
+                  },
+                  "proposedValue": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "AUDIENCE"
+                  },
+                  "fieldPath": {
+                    "const": "goals"
+                  },
+                  "proposedValue": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "COMPETITOR"
+                  },
+                  "fieldPath": {
+                    "const": "name"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "COMPETITOR"
+                  },
+                  "fieldPath": {
+                    "const": "website"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "entityType": {
+                    "const": "COMPETITOR"
+                  },
+                  "fieldPath": {
+                    "const": "differentiationNotes"
+                  },
+                  "proposedValue": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          },
+          "else": {
+            "properties": {
+              "proposedValue": {
+                "type": "null"
+              },
+              "origin": {
+                "const": "MANUAL"
+              }
+            }
+          }
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "entityType": {
+                  "const": "ORGANIZATION"
+                },
+                "fieldPath": {
+                  "enum": [
+                    "name",
+                    "industry",
+                    "companySize",
+                    "websiteUrl",
+                    "primaryRegion",
+                    "primaryLanguage"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND"
+                },
+                "fieldPath": {
+                  "enum": [
+                    "name",
+                    "missionStatement",
+                    "visionStatement",
+                    "coreValues",
+                    "sampleWriting",
+                    "primaryGoal",
+                    "successDefinition"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "BRAND_VOICE"
+                },
+                "fieldPath": {
+                  "enum": [
+                    "toneAttributes",
+                    "vocabularyDos",
+                    "vocabularyDonts"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "PRODUCT"
+                },
+                "fieldPath": {
+                  "enum": [
+                    "name",
+                    "description",
+                    "valueProposition",
+                    "keyFeatures",
+                    "pricingModel"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "SERVICE"
+                },
+                "fieldPath": {
+                  "enum": [
+                    "name",
+                    "description",
+                    "valueProposition",
+                    "keyFeatures",
+                    "pricingModel"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "AUDIENCE"
+                },
+                "fieldPath": {
+                  "enum": [
+                    "segmentName",
+                    "description",
+                    "painPoints",
+                    "goals"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "entityType": {
+                  "const": "COMPETITOR"
+                },
+                "fieldPath": {
+                  "enum": [
+                    "name",
+                    "website",
+                    "differentiationNotes"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "ORGANIZATION"
+              },
+              "fieldPath": {
+                "enum": [
+                  "companySize",
+                  "websiteUrl",
+                  "primaryRegion",
+                  "primaryLanguage"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "BRAND"
+              },
+              "fieldPath": {
+                "enum": [
+                  "sampleWriting",
+                  "primaryGoal",
+                  "successDefinition"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "BRAND_VOICE"
+              },
+              "fieldPath": {
+                "enum": [
+                  "toneAttributes",
+                  "vocabularyDos",
+                  "vocabularyDonts"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "PRODUCT"
+              },
+              "fieldPath": {
+                "enum": [
+                  "valueProposition"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "SERVICE"
+              },
+              "fieldPath": {
+                "enum": [
+                  "valueProposition"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "AUDIENCE"
+              },
+              "fieldPath": {
+                "enum": [
+                  "segmentName",
+                  "description",
+                  "painPoints",
+                  "goals"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entityType": {
+                "const": "COMPETITOR"
+              },
+              "fieldPath": {
+                "enum": [
+                  "name",
+                  "website",
+                  "differentiationNotes"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "origin": {
+                "const": "MANUAL"
+              },
+              "itemProvenance": {
+                "items": {
+                  "properties": {
+                    "origin": {
+                      "const": "MANUAL"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "confidence": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basis": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "value",
+        "basis"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "value": {
+              "type": "null"
+            },
+            "basis": {
+              "type": "null"
+            }
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "type": "number"
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "flag": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "DIFFERENT_VALUE",
+            "AMBIGUOUS_ENTITY",
+            "STALE",
+            "VERIFICATION_UNKNOWN",
+            "SOURCE_UNAVAILABLE",
+            "TYPE_MISMATCH",
+            "DERIVATION_CHANGED"
+          ]
+        },
+        "factKey": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factKey"
+        },
+        "competingRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "code",
+        "factKey",
+        "competingRevisionId",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "candidate": {
+      "type": "object",
+      "properties": {
+        "candidateId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "change": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/change"
+        },
+        "baseRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "trigger": {
+          "enum": [
+            "IMPORT",
+            "EXPLICIT_CORRECTION"
+          ]
+        },
+        "extractionConfidence": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        },
+        "eligibility": {
+          "enum": [
+            "NOT_EVALUATED",
+            "ELIGIBLE",
+            "INELIGIBLE"
+          ]
+        },
+        "approvalStatus": {
+          "enum": [
+            "PENDING_REVIEW",
+            "REJECTED"
+          ]
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/flag"
+          },
+          "minItems": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "candidateId",
+        "change",
+        "baseRevisionId",
+        "trigger",
+        "extractionConfidence",
+        "eligibility",
+        "approvalStatus",
+        "flags",
+        "createdAt"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "eligibility": {
+                "const": "INELIGIBLE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "approvalStatus": {
+                "const": "REJECTED"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "approvalStatus": {
+                "const": "PENDING_REVIEW"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "relationship": {
+      "type": "object",
+      "properties": {
+        "relationshipType": {
+          "enum": [
+            "HAS",
+            "TARGETS",
+            "USES",
+            "PRODUCES",
+            "ORIGINATES_FROM",
+            "MAY_DESCRIBE",
+            "COMPETES_WITH"
+          ]
+        },
+        "source": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/relationshipEndpoint"
+        },
+        "target": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/relationshipEndpoint"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "relationshipType",
+        "source",
+        "target",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "pipelineVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "extractionMethod": {
+          "enum": [
+            "RULE",
+            "PATTERN",
+            "ONTOLOGY",
+            "LLM",
+            "USER_INPUT"
+          ]
+        },
+        "sourceArtifactId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceDocumentId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "pipelineVersion",
+        "extractionMethod",
+        "sourceArtifactId",
+        "sourceDocumentId",
+        "capturedAt"
+      ],
+      "additionalProperties": false
+    },
+    "objectRef": {
+      "type": "object",
+      "properties": {
+        "objectKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mimeType": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "objectKey",
+        "sha256",
+        "byteLength",
+        "mimeType"
+      ],
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "author": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "publicationDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "mimeType": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "title",
+        "author",
+        "publicationDate",
+        "sourceUrl",
+        "mimeType"
+      ],
+      "additionalProperties": false
+    },
+    "section": {
+      "type": "object",
+      "properties": {
+        "sectionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parentSectionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "heading": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "sectionId",
+        "parentSectionId",
+        "heading",
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "structure": {
+      "type": "object",
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/section"
+          },
+          "minItems": 0
+        },
+        "headings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "level": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
+              },
+              "start": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "text",
+              "level",
+              "start"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "tables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rows": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 0
+                },
+                "minItems": 0
+              }
+            },
+            "required": [
+              "rows"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "lists": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ordered": {
+                "type": "boolean"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 0
+              }
+            },
+            "required": [
+              "ordered",
+              "items"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "text",
+              "href"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "sections",
+        "headings",
+        "tables",
+        "lists",
+        "links"
+      ],
+      "additionalProperties": false
+    },
+    "chunk": {
+      "type": "object",
+      "properties": {
+        "chunkId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parentDocumentId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parentSectionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sequenceNumber": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "estimatedTokenCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "characterCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sourceOffset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sourceLocation": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/location"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "locationUnavailableReason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "chunkId",
+        "parentDocumentId",
+        "parentSectionId",
+        "sequenceNumber",
+        "text",
+        "language",
+        "estimatedTokenCount",
+        "characterCount",
+        "sourceOffset",
+        "sourceLocation",
+        "locationUnavailableReason"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "sourceLocation": {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/location"
+            },
+            "locationUnavailableReason": {
+              "type": "null"
+            }
+          }
+        },
+        {
+          "properties": {
+            "sourceLocation": {
+              "type": "null"
+            },
+            "locationUnavailableReason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "processingMetadata": {
+      "type": "object",
+      "properties": {
+        "pipelineVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "stageTimings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "stage": {
+                "enum": [
+                  "reader",
+                  "cleaner",
+                  "normalizer",
+                  "language_detector",
+                  "metadata_extractor",
+                  "structure_analyzer",
+                  "chunk_generator",
+                  "chunk_optimizer",
+                  "quality_validator"
+                ]
+              },
+              "durationMs": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "stage",
+              "durationMs"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "pipelineVersion",
+        "stageTimings"
+      ],
+      "additionalProperties": false
+    },
+    "processingData": {
+      "type": "object",
+      "properties": {
+        "cleanText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "documentStructure": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/structure"
+        },
+        "metadata": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/metadata"
+        },
+        "chunks": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/chunk"
+          },
+          "minItems": 1
+        },
+        "language": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "processingMetadata": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/processingMetadata"
+        }
+      },
+      "required": [
+        "cleanText",
+        "documentStructure",
+        "metadata",
+        "chunks",
+        "language",
+        "processingMetadata"
+      ],
+      "additionalProperties": false
+    },
+    "processingFragment": {
+      "type": "object",
+      "properties": {
+        "cleanText": {
+          "type": "string",
+          "minLength": 1
+        },
+        "documentStructure": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/structure"
+        },
+        "metadata": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/metadata"
+        },
+        "chunks": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/chunk"
+          },
+          "minItems": 1
+        },
+        "language": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "processingMetadata": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/processingMetadata"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "decision": {
+      "type": "object",
+      "properties": {
+        "candidateArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "candidateId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "action": {
+          "enum": [
+            "CONFIRM",
+            "EDIT_AND_CONFIRM",
+            "REJECT"
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actorUserId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "decidedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "idempotencyKeyHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "requestHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/change"
+          },
+          "minItems": 0
+        },
+        "resultingRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "candidateArtifactId",
+        "candidateId",
+        "action",
+        "reason",
+        "actorUserId",
+        "decidedAt",
+        "expectedRevisionId",
+        "operationId",
+        "idempotencyKeyHash",
+        "requestHash",
+        "changes",
+        "resultingRevisionId"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "action": {
+                "const": "REJECT"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "resultingRevisionId": {
+                "type": "null"
+              },
+              "changes": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "resultingRevisionId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "action": {
+                "const": "EDIT_AND_CONFIRM"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "changes": {
+                "minItems": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "changes": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "manualCommit": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "INITIALIZE",
+            "MANUAL_EDIT",
+            "VERIFY",
+            "RESTORE"
+          ]
+        },
+        "actorUserId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "decidedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "idempotencyKeyHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "requestHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "resultingRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/change"
+          },
+          "minItems": 0
+        },
+        "verifiedFactKeys": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factKey"
+          },
+          "minItems": 0
+        },
+        "restoredFromRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "actorUserId",
+        "decidedAt",
+        "reason",
+        "expectedRevisionId",
+        "operationId",
+        "idempotencyKeyHash",
+        "requestHash",
+        "resultingRevisionId",
+        "changes",
+        "verifiedFactKeys",
+        "restoredFromRevisionId"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "INITIALIZE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "expectedRevisionId": {
+                "type": "null"
+              },
+              "changes": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "RESTORE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "expectedRevisionId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "restoredFromRevisionId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "restoredFromRevisionId": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "VERIFY"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "expectedRevisionId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "changes": {
+                "maxItems": 0
+              },
+              "verifiedFactKeys": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "verifiedFactKeys": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "MANUAL_EDIT"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "expectedRevisionId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "changes": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "snapshot": {
+      "type": "object",
+      "properties": {
+        "revisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "ontologyVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityRef"
+          },
+          "minItems": 2
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/fact"
+          },
+          "minItems": 0
+        },
+        "calculationSelection": {
+          "type": "object",
+          "properties": {
+            "offerEntityId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "audienceEntityId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "offerEntityId",
+            "audienceEntityId"
+          ],
+          "additionalProperties": false
+        },
+        "changes": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "INITIALIZE",
+                "MANUAL_EDIT",
+                "IMPORT_APPROVAL",
+                "VERIFY",
+                "RESTORE"
+              ]
+            },
+            "removedFactKeys": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factKey"
+              },
+              "minItems": 0
+            },
+            "removedMembers": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityRef"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "kind",
+            "removedFactKeys",
+            "removedMembers"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "revisionId",
+        "ontologyVersion",
+        "members",
+        "facts",
+        "calculationSelection",
+        "changes"
+      ],
+      "additionalProperties": false
+    },
+    "knowledgeRef": {
+      "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+    },
+    "contextProvenance": {
+      "type": "object",
+      "properties": {
+        "approvedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "approvedRevisionId",
+        "approvedArtifactId"
+      ],
+      "additionalProperties": false
+    },
+    "memory": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "KNOWLEDGE"
+            },
+            "facts": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "kind",
+            "facts"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "WORKING"
+            },
+            "intent": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "requiredEntityTypes": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityType"
+              },
+              "minItems": 0
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "kind",
+            "intent",
+            "requiredEntityTypes",
+            "notes"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "assemblyVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "retrievalStrategy": {
+          "enum": [
+            "KEYWORD",
+            "METADATA",
+            "HYBRID",
+            "VECTOR",
+            "GRAPH"
+          ]
+        },
+        "contextProfile": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selectedKnowledge": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+          },
+          "minItems": 1
+        },
+        "businessRules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ruleKey": {
+                "type": "string",
+                "minLength": 1
+              },
+              "facts": {
+                "type": "array",
+                "items": {
+                  "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "ruleKey",
+              "facts"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "brandVoice": {
+          "type": "object",
+          "properties": {
+            "brandVoiceId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "facts": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "brandVoiceId",
+            "facts"
+          ],
+          "additionalProperties": false
+        },
+        "memory": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/memory"
+          },
+          "minItems": 0
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence"
+          },
+          "minItems": 0
+        },
+        "provenance": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/contextProvenance"
+        },
+        "contextScore": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        }
+      },
+      "required": [
+        "assemblyVersion",
+        "retrievalStrategy",
+        "contextProfile",
+        "selectedKnowledge",
+        "businessRules",
+        "brandVoice",
+        "memory",
+        "evidence",
+        "provenance",
+        "contextScore"
+      ],
+      "additionalProperties": false
+    },
+    "contextFragment": {
+      "type": "object",
+      "properties": {
+        "assemblyVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "retrievalStrategy": {
+          "enum": [
+            "KEYWORD",
+            "METADATA",
+            "HYBRID",
+            "VECTOR",
+            "GRAPH"
+          ]
+        },
+        "contextProfile": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selectedKnowledge": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+          },
+          "minItems": 1
+        },
+        "businessRules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ruleKey": {
+                "type": "string",
+                "minLength": 1
+              },
+              "facts": {
+                "type": "array",
+                "items": {
+                  "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "ruleKey",
+              "facts"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "brandVoice": {
+          "type": "object",
+          "properties": {
+            "brandVoiceId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "facts": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "brandVoiceId",
+            "facts"
+          ],
+          "additionalProperties": false
+        },
+        "memory": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/memory"
+          },
+          "minItems": 0
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence"
+          },
+          "minItems": 0
+        },
+        "provenance": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/contextProvenance"
+        },
+        "contextScore": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "modelConfiguration": {
+      "type": "object",
+      "properties": {
+        "modelProvider": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "modelName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "temperature": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "maxOutputTokens": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "modelProvider",
+        "modelName",
+        "temperature",
+        "maxOutputTokens"
+      ],
+      "additionalProperties": false
+    },
+    "prompt": {
+      "type": "object",
+      "properties": {
+        "promptVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "templateVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "contextVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "capabilityId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilityVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "contextArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "modelConfiguration": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/modelConfiguration"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "enum": [
+                  "SYSTEM",
+                  "USER",
+                  "ASSISTANT"
+                ]
+              },
+              "content": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "role",
+              "content"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "tools": {
+          "type": "array",
+          "maxItems": 0
+        }
+      },
+      "required": [
+        "promptVersion",
+        "templateVersion",
+        "contextVersion",
+        "capabilityId",
+        "capabilityVersion",
+        "contextArtifactId",
+        "approvedRevisionId",
+        "modelConfiguration",
+        "messages",
+        "tools"
+      ],
+      "additionalProperties": false
+    },
+    "promptFragment": {
+      "type": "object",
+      "properties": {
+        "promptVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "templateVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "contextVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "capabilityId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilityVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "contextArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "modelConfiguration": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/modelConfiguration"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "enum": [
+                  "SYSTEM",
+                  "USER",
+                  "ASSISTANT"
+                ]
+              },
+              "content": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "role",
+              "content"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "tools": {
+          "type": "array",
+          "maxItems": 0
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "generatedResponse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "promptArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "promptVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "approvedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "modelProvider": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "modelName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tokenUsage": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "output": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "input",
+            "output"
+          ],
+          "additionalProperties": false
+        },
+        "latency": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "estimatedCost": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                },
+                "currency": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{3}$"
+                }
+              },
+              "required": [
+                "amount",
+                "currency"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validationResult": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/validation"
+            },
+            {
+              "properties": {
+                "passed": {
+                  "const": true
+                },
+                "failedRules": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "generatedResponse",
+        "promptArtifactId",
+        "promptVersion",
+        "approvedRevisionId",
+        "modelProvider",
+        "modelName",
+        "tokenUsage",
+        "latency",
+        "estimatedCost",
+        "validationResult"
+      ],
+      "additionalProperties": false
+    },
+    "responseFragment": {
+      "type": "object",
+      "properties": {
+        "generatedResponse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "promptArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "promptVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "approvedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "modelProvider": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "modelName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tokenUsage": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "output": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "input",
+            "output"
+          ],
+          "additionalProperties": false
+        },
+        "latency": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "estimatedCost": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                },
+                "currency": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{3}$"
+                }
+              },
+              "required": [
+                "amount",
+                "currency"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validationResult": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/validation"
+            },
+            {
+              "properties": {
+                "passed": {
+                  "const": true
+                },
+                "failedRules": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "extraction": {
+      "type": "object",
+      "properties": {
+        "ontologyVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "candidateEntities": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityRef"
+          },
+          "minItems": 0
+        },
+        "candidateItems": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/candidate"
+              },
+              {
+                "properties": {
+                  "trigger": {
+                    "const": "IMPORT"
+                  },
+                  "eligibility": {
+                    "const": "NOT_EVALUATED"
+                  },
+                  "approvalStatus": {
+                    "const": "PENDING_REVIEW"
+                  },
+                  "change": {
+                    "properties": {
+                      "operation": {
+                        "const": "SET"
+                      },
+                      "origin": {
+                        "const": "IMPORTED"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 0
+        },
+        "candidateRelationships": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/relationship"
+          },
+          "minItems": 0
+        },
+        "provenance": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/provenance"
+        },
+        "extractionConfidence": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        }
+      },
+      "required": [
+        "ontologyVersion",
+        "candidateEntities",
+        "candidateItems",
+        "candidateRelationships",
+        "provenance",
+        "extractionConfidence"
+      ],
+      "additionalProperties": false
+    },
+    "extractionFragment": {
+      "type": "object",
+      "properties": {
+        "ontologyVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "candidateEntities": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityRef"
+          },
+          "minItems": 0
+        },
+        "candidateItems": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/candidate"
+              },
+              {
+                "properties": {
+                  "trigger": {
+                    "const": "IMPORT"
+                  },
+                  "eligibility": {
+                    "const": "NOT_EVALUATED"
+                  },
+                  "approvalStatus": {
+                    "const": "PENDING_REVIEW"
+                  },
+                  "change": {
+                    "properties": {
+                      "operation": {
+                        "const": "SET"
+                      },
+                      "origin": {
+                        "const": "IMPORTED"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 0
+        },
+        "candidateRelationships": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/relationship"
+          },
+          "minItems": 0
+        },
+        "provenance": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/provenance"
+        },
+        "extractionConfidence": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "candidateArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "policyVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "eligibleCandidateIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minItems": 0
+        },
+        "ineligibleCandidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "candidateId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "reasonCodes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "candidateId",
+              "reasonCodes"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/flag"
+          },
+          "minItems": 0
+        },
+        "knowledgeConfidence": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        },
+        "sourceTrustScore": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        }
+      },
+      "required": [
+        "candidateArtifactId",
+        "policyVersion",
+        "eligibleCandidateIds",
+        "ineligibleCandidates",
+        "flags",
+        "knowledgeConfidence",
+        "sourceTrustScore"
+      ],
+      "additionalProperties": false
+    },
+    "governanceFragment": {
+      "type": "object",
+      "properties": {
+        "candidateArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "policyVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        },
+        "eligibleCandidateIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minItems": 0
+        },
+        "ineligibleCandidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "candidateId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "reasonCodes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "candidateId",
+              "reasonCodes"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/flag"
+          },
+          "minItems": 0
+        },
+        "knowledgeConfidence": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        },
+        "sourceTrustScore": {
+          "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "publicationAttempt": {
+      "type": "object",
+      "properties": {
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidateArtifactId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "candidateId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "requestHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "expectedRevisionId",
+        "candidateArtifactId",
+        "candidateId",
+        "operationId",
+        "requestHash"
+      ],
+      "additionalProperties": false
+    },
+    "relationshipEndpoint": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "ENTITY"
+            },
+            "entity": {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityRef"
+            }
+          },
+          "required": [
+            "kind",
+            "entity"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "CANDIDATE"
+            },
+            "candidateId": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "required": [
+            "kind",
+            "candidateId"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

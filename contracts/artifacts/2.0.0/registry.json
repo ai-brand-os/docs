@@ -1,0 +1,302 @@
+{
+  "version": "2.0.0",
+  "status": "Specified — Pending Architecture/Engineering Review",
+  "dialect": "https://json-schema.org/draft/2020-12/schema",
+  "artifactTypes": [
+    "RAW_INTAKE",
+    "PROCESSING_INTERMEDIATE",
+    "STRUCTURED_DOCUMENT",
+    "KNOWLEDGE_CANDIDATE",
+    "APPROVED_KNOWLEDGE",
+    "PROMPT_CONTEXT",
+    "PROMPT",
+    "RESPONSE"
+  ],
+  "artifactStatuses": [
+    "CREATED",
+    "VALID",
+    "INVALID",
+    "SUPERSEDED",
+    "ARCHIVED"
+  ],
+  "producingServices": [
+    "INGESTION",
+    "DOCUMENT_PROCESSING",
+    "KNOWLEDGE_EXTRACTION",
+    "KNOWLEDGE_MANAGEMENT",
+    "CONTEXT_ENGINE",
+    "AI_ORCHESTRATOR"
+  ],
+  "variants": [
+    {
+      "variant": "intake",
+      "service": "INGESTION",
+      "stages": [
+        "intake"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "RAW_INTAKE"
+    },
+    {
+      "variant": "processing_stage",
+      "service": "DOCUMENT_PROCESSING",
+      "stages": [
+        "reader",
+        "cleaner",
+        "normalizer",
+        "language_detector",
+        "metadata_extractor",
+        "structure_analyzer",
+        "chunk_generator",
+        "chunk_optimizer"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "PROCESSING_INTERMEDIATE"
+    },
+    {
+      "variant": "structured_document",
+      "service": "DOCUMENT_PROCESSING",
+      "stages": [
+        "quality_validator"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "STRUCTURED_DOCUMENT"
+    },
+    {
+      "variant": "extraction_stage",
+      "service": "KNOWLEDGE_EXTRACTION",
+      "stages": [
+        "information_extraction",
+        "entity_normalization",
+        "semantic_interpretation",
+        "entity_classification",
+        "relationship_builder"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "KNOWLEDGE_CANDIDATE"
+    },
+    {
+      "variant": "extraction",
+      "service": "KNOWLEDGE_EXTRACTION",
+      "stages": [
+        "candidate_builder"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "KNOWLEDGE_CANDIDATE"
+    },
+    {
+      "variant": "governance_stage",
+      "service": "KNOWLEDGE_MANAGEMENT",
+      "stages": [
+        "schema_validation",
+        "business_rule_validation",
+        "ontology_validation",
+        "duplicate_detection",
+        "conflict_detection",
+        "knowledge_merge",
+        "knowledge_confidence_calculation",
+        "policy_engine"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "KNOWLEDGE_CANDIDATE"
+    },
+    {
+      "variant": "candidate_decision",
+      "service": "KNOWLEDGE_MANAGEMENT",
+      "stages": [
+        "candidate_decision"
+      ],
+      "outcomes": [
+        "SUCCEEDED"
+      ],
+      "artifactType": "KNOWLEDGE_CANDIDATE"
+    },
+    {
+      "variant": "manual_commit",
+      "service": "KNOWLEDGE_MANAGEMENT",
+      "stages": [
+        "manual_commit"
+      ],
+      "outcomes": [
+        "SUCCEEDED"
+      ],
+      "artifactType": "KNOWLEDGE_CANDIDATE"
+    },
+    {
+      "variant": "publication_attempt",
+      "service": "KNOWLEDGE_MANAGEMENT",
+      "stages": [
+        "publication_attempt"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "KNOWLEDGE_CANDIDATE"
+    },
+    {
+      "variant": "approved_snapshot",
+      "service": "KNOWLEDGE_MANAGEMENT",
+      "stages": [
+        "publish_snapshot"
+      ],
+      "outcomes": [
+        "SUCCEEDED"
+      ],
+      "artifactType": "APPROVED_KNOWLEDGE"
+    },
+    {
+      "variant": "context_stage",
+      "service": "CONTEXT_ENGINE",
+      "stages": [
+        "intent_analyzer",
+        "retrieval_planner",
+        "knowledge_retrieval",
+        "context_ranking",
+        "business_rule_injection",
+        "brand_voice_injection",
+        "memory_selection",
+        "context_compression"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "PROMPT_CONTEXT"
+    },
+    {
+      "variant": "context",
+      "service": "CONTEXT_ENGINE",
+      "stages": [
+        "context_validation"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "PROMPT_CONTEXT"
+    },
+    {
+      "variant": "prompt_stage",
+      "service": "AI_ORCHESTRATOR",
+      "stages": [
+        "capability_detection",
+        "capability_resolution",
+        "execution_planning",
+        "context_request",
+        "model_selection",
+        "tool_resolution"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "PROMPT"
+    },
+    {
+      "variant": "prompt",
+      "service": "AI_ORCHESTRATOR",
+      "stages": [
+        "prompt_builder"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "PROMPT"
+    },
+    {
+      "variant": "response_stage",
+      "service": "AI_ORCHESTRATOR",
+      "stages": [
+        "llm_execution"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "RESPONSE"
+    },
+    {
+      "variant": "response",
+      "service": "AI_ORCHESTRATOR",
+      "stages": [
+        "response_validation"
+      ],
+      "outcomes": [
+        "PENDING",
+        "PARTIAL",
+        "SUCCEEDED",
+        "FAILED",
+        "CANCELLED",
+        "TIMEOUT"
+      ],
+      "artifactType": "RESPONSE"
+    }
+  ]
+}

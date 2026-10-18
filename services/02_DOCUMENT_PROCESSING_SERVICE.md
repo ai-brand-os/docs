@@ -1,5 +1,7 @@
 # Service Specification — Document Processing Service
 
+> Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits PROCESSING_INTERMEDIATE / STRUCTURED_DOCUMENT, variants processing_stage / structured_document. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
+
 > Final audit (2026-10-16): D-AUD-05 tracks source-location mapping through normalization: preserve original evidence; no invented currency/date interpretation or fabricated original offsets. Location availability and transformation maps require an explicit contract. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
@@ -108,23 +110,7 @@ Future:
 
 # Output
 
-The service produces a Structured Document.
-
-A Structured Document contains:
-
-- Clean Text
-- Document Structure
-- Sections
-- Headings
-- Tables
-- Lists
-- Links
-- Metadata
-- Chunks
-- Processing Metadata
-- Processing Status
-
-No business knowledge is produced.
+Emit PROCESSING_INTERMEDIATE / STRUCTURED_DOCUMENT using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/processing_intermediate.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: processing_stage / structured_document. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented.
 
 ---
 
@@ -457,25 +443,7 @@ The pipeline must satisfy the following principles:
 
 # Error Handling
 
-Each stage reports:
-
-- Stage Name
-- Error Code
-- Severity
-- Human-readable Message
-- Technical Details
-- Correlation ID
-- Stage Retry Count
-
-The pipeline should stop immediately on unrecoverable errors.
-
-Recoverable stages may be retried according to policy.
-
----
-
-Status
-
-Draft
+Use the exact codes and closed error object in [canonical Artifact v2 contracts](../contracts/artifacts/README.md). Failed/cancelled/timeout checkpoints are INVALID with typed fragment or null data; no raw exception/provider body or stack trace belongs in public error/telemetry. Diagnostic ID and safe paths link restricted operator detail. Retries append artifacts, preserve correlation, obey reviewed budgets and never mutate previous results.
 
 ---
 
@@ -559,21 +527,7 @@ New stages may be introduced without breaking existing pipelines.
 
 # Artifact Contract
 
-Every stage produces a new immutable processing artifact.
-
-Each artifact includes:
-
-- Artifact ID
-- Parent Artifact ID
-- Processing Stage
-- Processing Version
-- Timestamp
-- Metadata
-- Processing Metrics
-
-The complete Artifact Model is defined separately in:
-
-docs/domain/02_ARTIFACT_MODEL.md
+Emit PROCESSING_INTERMEDIATE / STRUCTURED_DOCUMENT using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/processing_intermediate.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: processing_stage / structured_document. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented. Quality Validator emits STRUCTURED_DOCUMENT; the first eight stages use PROCESSING_INTERMEDIATE. Chunk parentDocumentId references the actual Document row. Source-offset mapping remains D-AUD-05; explicit unavailable locations are supported.
 
 ---
 

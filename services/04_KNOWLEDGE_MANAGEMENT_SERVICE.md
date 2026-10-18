@@ -1,5 +1,7 @@
 # Service Specification — Knowledge Management Service
 
+> Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits KNOWLEDGE_CANDIDATE / APPROVED_KNOWLEDGE, variants governance_stage / candidate_decision / manual_commit / publication_attempt / approved_snapshot. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
+
 > Final audit (2026-10-16): D-AUD-03 tracks confidence/trust formulas and field vocabulary; D-AUD-06 tracks persisted ontology relationships. Approved means reviewed and structurally validated, not objectively true. R23 / D-AUD-07 still owns whole-import completion. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
@@ -100,19 +102,7 @@ Containing
 
 # Output
 
-Approved Knowledge Artifact
-
-Containing
-
-- Validated Entities
-- Validated Relationships
-- Knowledge Confidence
-- Version Information
-- Audit Metadata
-- Ontology Version
-- Governance Status
-
-Only Approved Knowledge Artifacts may enter the Knowledge Domain.
+Emit KNOWLEDGE_CANDIDATE / APPROVED_KNOWLEDGE using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/knowledge_candidate.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: governance_stage / candidate_decision / manual_commit / publication_attempt / approved_snapshot. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented.
 
 ---
 

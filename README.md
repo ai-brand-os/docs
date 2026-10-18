@@ -27,6 +27,8 @@ Security launch requirements and threat/test mappings: [Security threat model](S
 
 [Proposed go-to-market strategy](GO_TO_MARKET_STRATEGY.md), [pricing experiments](PRICING_EXPERIMENTS.md) and [90-day validation roadmap](90_DAY_VALIDATION_ROADMAP.md) focus a potential e-commerce test. Segment, price, benchmark thresholds and source/claim UX remain pending review.
 
+[Artifact v2 contracts](contracts/artifacts/README.md) provide the canonical JSON Schemas, exact enum/stage registry, examples and compatibility/migration rules. [Task16 conformance results](validation/TASK16_RESULTS.md) record executed tests; D-AUD-04 remains pending Architecture/Engineering review.
+
 ## Architecture overview
 
 The specified backend is a NestJS modular monolith using Prisma 7 and PostgreSQL. Single-source ingestion passes through document processing and knowledge extraction. Human review gates Knowledge Management publication of immutable approved snapshots. Context Engine retrieves approved, tenant-scoped knowledge; AI Orchestrator generates individual assistant Messages within persistent multi-turn Conversations. Artifacts provide shared pipeline records, while relational projections support queries. [Backend/auth ADR](domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) defines planned authentication and database safeguards. This architecture is specified; it is not a deployment report.

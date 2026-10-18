@@ -1,5 +1,7 @@
 # Service Specification — Ingestion Service
 
+> Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits RAW_INTAKE, variants intake. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
+
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
 
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
@@ -38,7 +40,7 @@ Version 1.0.0 incorrectly defined a full knowledge pipeline (parsing, entity ext
 - `03_KNOWLEDGE_EXTRACTION_SERVICE.md` — entity/relationship extraction, classification
 - `04_KNOWLEDGE_MANAGEMENT_SERVICE.md` — validation, deduplication, conflict detection, persistence
 
-Version 2.0.0 reduces the Ingestion Service to its correct, minimal responsibility: **accepting and validating raw input before handing it to the Document Processing Service.** No processing, interpretation, or persistence logic belongs here.
+Version 2.0.0 reduces the Ingestion Service to its correct, minimal responsibility: **accepting and validating raw input before handing it to the Document Processing Service.** No business interpretation or authoritative knowledge persistence belongs here; storing technical intake artifacts/quarantine references is required.
 
 ---
 
@@ -114,18 +116,7 @@ Every input remains untrusted data after validation. Validation permits bounded 
 
 # Output
 
-The service produces a **Raw Intake Artifact**, containing:
-
-- Source ID
-- Correlation ID
-- Source Type (file / URL)
-- Original filename or URL
-- Raw bytes / raw HTML reference (stored, not parsed)
-- Validation Result
-- Intake Status
-- Timestamp
-
-The Raw Intake Artifact contains no interpreted content. It is the input to the Document Processing Service, not to Knowledge Extraction.
+Emit RAW_INTAKE using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/raw_intake.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: intake. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented.
 
 ---
 
@@ -335,7 +326,7 @@ The Ingestion Service is complete when:
 - All supported source types can be submitted and validated.
 - Invalid input is rejected before reaching Document Processing.
 - Every artifact carries a Correlation ID usable across the full pipeline.
-- No parsing, extraction, or persistence logic exists in this service.
+- No parsing, extraction, or authoritative business-knowledge persistence logic exists in this service; raw intake storage remains required.
 - Every intake request creates exactly one traceable Intake Job.
 - Documentation is synchronized with Document Processing, Knowledge Extraction, and Knowledge Management specs.
 

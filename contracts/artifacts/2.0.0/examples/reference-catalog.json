@@ -1,0 +1,1427 @@
+{
+  "110824fb-3b48-5417-83b3-b4c348464d94": {
+    "kind": "Organization",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161"
+  },
+  "9f6e2f57-fe50-5e51-8050-6f586cd59161": {
+    "kind": "Brand",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161"
+  },
+  "0c167e3d-6388-5540-a957-25a166285e73": {
+    "kind": "User",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161"
+  },
+  "16b94816-89c0-5eac-8820-15608bb508e6": {
+    "kind": "Document",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1"
+  },
+  "a166f727-af2a-5062-8f79-85f5a54a8f05": {
+    "kind": "BRAND_VOICE",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161"
+  },
+  "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c": {
+    "kind": "PRODUCT",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161"
+  },
+  "e1b445e8-490e-55a2-8fdd-28b067188242": {
+    "kind": "AUDIENCE",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161"
+  },
+  "65b79f52-4109-5536-a4f9-d49a4dcf97b5": {
+    "kind": "BrandBrainRevision",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55",
+    "ontologyVersion": "1.1.0"
+  },
+  "e4eeac8a-935d-55e4-9fa5-e523e06982c9": {
+    "kind": "Conversation",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "deletedAt": null
+  },
+  "167e71d2-a93b-596f-b98d-ad05cd94ad0d": {
+    "kind": "Document",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "correlationId": "2e9b5619-ae65-5529-8624-2bdb502ab76f"
+  },
+  "6c81f5ae-ceb1-5f85-befc-df7b751e2835": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "RAW_INTAKE",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "payload": {
+      "variant": "intake",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "9385ae55-60a0-517a-a329-c31b81393846",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "rawContentReference": {
+          "objectKey": "tenant-fixture/source",
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "byteLength": 15,
+          "mimeType": "text/html"
+        },
+        "validationResult": {
+          "passed": true,
+          "failedRules": []
+        }
+      },
+      "error": null,
+      "source": {
+        "sourceId": "bf2ef68a-8b60-5cf1-b283-0bd6b2828f41",
+        "sourceType": "url",
+        "originalFilenameOrUrl": "https://example.com/product"
+      }
+    }
+  },
+  "4eaa6e72-bbb4-5958-8ba3-46712c0976af": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "PROCESSING_INTERMEDIATE",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "payload": {
+      "variant": "processing_stage",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "fdb491ee-1949-5a3c-9689-5680f1b0dc3a",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "cleanText": "Fixture product",
+        "documentStructure": {
+          "sections": [
+            {
+              "sectionId": "55be438d-113f-572e-88a7-508547ba0d5e",
+              "parentSectionId": null,
+              "heading": "Product",
+              "start": 0,
+              "end": 15
+            }
+          ],
+          "headings": [],
+          "tables": [],
+          "lists": [],
+          "links": []
+        },
+        "metadata": {
+          "title": "Fixture source",
+          "author": null,
+          "publicationDate": null,
+          "sourceUrl": "https://example.com/product",
+          "mimeType": "text/html"
+        },
+        "chunks": [
+          {
+            "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+            "parentDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+            "parentSectionId": "55be438d-113f-572e-88a7-508547ba0d5e",
+            "sequenceNumber": 0,
+            "text": "Fixture product",
+            "language": "en",
+            "estimatedTokenCount": 3,
+            "characterCount": 15,
+            "sourceOffset": 0,
+            "sourceLocation": null,
+            "locationUnavailableReason": "Original offsets not mapped by fixture parser"
+          }
+        ],
+        "language": "en",
+        "processingMetadata": {
+          "pipelineVersion": "1.0.0",
+          "stageTimings": [
+            {
+              "stage": "reader",
+              "durationMs": 1
+            }
+          ]
+        }
+      },
+      "error": null,
+      "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6"
+    }
+  },
+  "61353162-c69b-5dc8-9089-735da3eb5d73": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "STRUCTURED_DOCUMENT",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "payload": {
+      "variant": "structured_document",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "e668737e-fa46-5d46-af06-2f00de23ef84",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "cleanText": "Fixture product",
+        "documentStructure": {
+          "sections": [
+            {
+              "sectionId": "55be438d-113f-572e-88a7-508547ba0d5e",
+              "parentSectionId": null,
+              "heading": "Product",
+              "start": 0,
+              "end": 15
+            }
+          ],
+          "headings": [],
+          "tables": [],
+          "lists": [],
+          "links": []
+        },
+        "metadata": {
+          "title": "Fixture source",
+          "author": null,
+          "publicationDate": null,
+          "sourceUrl": "https://example.com/product",
+          "mimeType": "text/html"
+        },
+        "chunks": [
+          {
+            "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+            "parentDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+            "parentSectionId": "55be438d-113f-572e-88a7-508547ba0d5e",
+            "sequenceNumber": 0,
+            "text": "Fixture product",
+            "language": "en",
+            "estimatedTokenCount": 3,
+            "characterCount": 15,
+            "sourceOffset": 0,
+            "sourceLocation": null,
+            "locationUnavailableReason": "Original offsets not mapped by fixture parser"
+          }
+        ],
+        "language": "en",
+        "processingMetadata": {
+          "pipelineVersion": "1.0.0",
+          "stageTimings": [
+            {
+              "stage": "reader",
+              "durationMs": 1
+            }
+          ]
+        }
+      },
+      "error": null,
+      "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6"
+    }
+  },
+  "d9f8192c-b333-5630-8285-a42153855b34": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "KNOWLEDGE_CANDIDATE",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "payload": {
+      "variant": "extraction_stage",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "529c3637-790e-5efa-bf09-79266deabdca",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "ontologyVersion": "1.1.0",
+        "candidateEntities": [
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c"
+          }
+        ],
+        "candidateItems": [
+          {
+            "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9",
+            "change": {
+              "entityType": "PRODUCT",
+              "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+              "fieldPath": "name",
+              "operation": "SET",
+              "proposedValue": "Fixture product",
+              "origin": "IMPORTED",
+              "evidence": [
+                {
+                  "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+                  "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+                  "sourceLocation": {
+                    "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+                    "page": 1
+                  },
+                  "locationUnavailableReason": null
+                }
+              ],
+              "manual": null,
+              "derivation": null,
+              "itemProvenance": []
+            },
+            "baseRevisionId": null,
+            "trigger": "IMPORT",
+            "extractionConfidence": {
+              "value": 85,
+              "basis": "Fixture extraction indicator, not calibrated accuracy"
+            },
+            "eligibility": "NOT_EVALUATED",
+            "approvalStatus": "PENDING_REVIEW",
+            "flags": [],
+            "createdAt": "2026-10-16T10:00:00Z"
+          }
+        ],
+        "candidateRelationships": [
+          {
+            "relationshipType": "PRODUCES",
+            "source": {
+              "kind": "ENTITY",
+              "entity": {
+                "entityType": "DOCUMENT",
+                "entityId": "16b94816-89c0-5eac-8820-15608bb508e6"
+              }
+            },
+            "target": {
+              "kind": "CANDIDATE",
+              "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9"
+            },
+            "evidence": [
+              {
+                "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+                "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+                "sourceLocation": {
+                  "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+                  "page": 1
+                },
+                "locationUnavailableReason": null
+              }
+            ]
+          }
+        ],
+        "provenance": {
+          "pipelineVersion": "1.0.0",
+          "extractionMethod": "RULE",
+          "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+          "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+          "capturedAt": "2026-10-16T10:00:00Z"
+        },
+        "extractionConfidence": {
+          "value": null,
+          "basis": null
+        }
+      },
+      "error": null,
+      "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6"
+    }
+  },
+  "77486c91-e07b-508e-a18a-5076920aff2d": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "KNOWLEDGE_CANDIDATE",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "payload": {
+      "variant": "extraction",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "95149efa-ab71-52a0-a34c-96f4c522ce42",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "ontologyVersion": "1.1.0",
+        "candidateEntities": [
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c"
+          }
+        ],
+        "candidateItems": [
+          {
+            "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9",
+            "change": {
+              "entityType": "PRODUCT",
+              "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+              "fieldPath": "name",
+              "operation": "SET",
+              "proposedValue": "Fixture product",
+              "origin": "IMPORTED",
+              "evidence": [
+                {
+                  "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+                  "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+                  "sourceLocation": {
+                    "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+                    "page": 1
+                  },
+                  "locationUnavailableReason": null
+                }
+              ],
+              "manual": null,
+              "derivation": null,
+              "itemProvenance": []
+            },
+            "baseRevisionId": null,
+            "trigger": "IMPORT",
+            "extractionConfidence": {
+              "value": 85,
+              "basis": "Fixture extraction indicator, not calibrated accuracy"
+            },
+            "eligibility": "NOT_EVALUATED",
+            "approvalStatus": "PENDING_REVIEW",
+            "flags": [],
+            "createdAt": "2026-10-16T10:00:00Z"
+          }
+        ],
+        "candidateRelationships": [
+          {
+            "relationshipType": "PRODUCES",
+            "source": {
+              "kind": "ENTITY",
+              "entity": {
+                "entityType": "DOCUMENT",
+                "entityId": "16b94816-89c0-5eac-8820-15608bb508e6"
+              }
+            },
+            "target": {
+              "kind": "CANDIDATE",
+              "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9"
+            },
+            "evidence": [
+              {
+                "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+                "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+                "sourceLocation": {
+                  "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+                  "page": 1
+                },
+                "locationUnavailableReason": null
+              }
+            ]
+          }
+        ],
+        "provenance": {
+          "pipelineVersion": "1.0.0",
+          "extractionMethod": "RULE",
+          "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+          "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+          "capturedAt": "2026-10-16T10:00:00Z"
+        },
+        "extractionConfidence": {
+          "value": null,
+          "basis": null
+        }
+      },
+      "error": null,
+      "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6"
+    }
+  },
+  "305f6b99-7a9d-510e-ab38-da75325e1e6d": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "KNOWLEDGE_CANDIDATE",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "payload": {
+      "variant": "governance_stage",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "16cf54bc-b8dc-5856-a382-84e53a588fef",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "candidateArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+        "policyVersion": "1.0.0",
+        "eligibleCandidateIds": [
+          "1b48b11a-a5da-58a4-99f5-7d39a7953ed9"
+        ],
+        "ineligibleCandidates": [],
+        "flags": [],
+        "knowledgeConfidence": {
+          "value": null,
+          "basis": null
+        },
+        "sourceTrustScore": {
+          "value": null,
+          "basis": null
+        }
+      },
+      "error": null
+    }
+  },
+  "7b220bc3-5503-52b8-aeef-9836b780b4b3": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "KNOWLEDGE_CANDIDATE",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "payload": {
+      "variant": "candidate_decision",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "3afb25f7-d7b6-551d-85ae-7312739e0c7f",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "candidateArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+        "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9",
+        "action": "CONFIRM",
+        "reason": null,
+        "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+        "decidedAt": "2026-10-16T10:00:00Z",
+        "expectedRevisionId": null,
+        "operationId": "72ac8d2b-efff-52a6-bc0a-296b776b33c7",
+        "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "changes": [],
+        "resultingRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5"
+      },
+      "error": null
+    }
+  },
+  "6c235824-9025-50f8-a5b8-8e5cee873481": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "KNOWLEDGE_CANDIDATE",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "877df626-a88c-5683-8066-10173b1123f7",
+    "payload": {
+      "variant": "manual_commit",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "bbd93c39-c9a1-5a7f-a062-5974044293f6",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "kind": "INITIALIZE",
+        "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+        "decidedAt": "2026-10-16T10:00:00Z",
+        "reason": "Explicit initial Owner save",
+        "expectedRevisionId": null,
+        "operationId": "877df626-a88c-5683-8066-10173b1123f7",
+        "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "resultingRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "changes": [
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "name",
+            "operation": "SET",
+            "proposedValue": "Fixture Co",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "industry",
+            "operation": "SET",
+            "proposedValue": "ECOMMERCE_RETAIL",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "companySize",
+            "operation": "SET",
+            "proposedValue": "1\u20135",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "primaryRegion",
+            "operation": "SET",
+            "proposedValue": "Example region",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "primaryLanguage",
+            "operation": "SET",
+            "proposedValue": "en",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "BRAND",
+            "entityId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+            "fieldPath": "name",
+            "operation": "SET",
+            "proposedValue": "Fixture Brand",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "BRAND",
+            "entityId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+            "fieldPath": "missionStatement",
+            "operation": "SET",
+            "proposedValue": "Sell useful fixture products",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "BRAND_VOICE",
+            "entityId": "a166f727-af2a-5062-8f79-85f5a54a8f05",
+            "fieldPath": "toneAttributes",
+            "operation": "SET",
+            "proposedValue": [
+              "PROFESSIONAL",
+              "FRIENDLY"
+            ],
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+            "fieldPath": "name",
+            "operation": "SET",
+            "proposedValue": "Fixture product",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+            "fieldPath": "description",
+            "operation": "SET",
+            "proposedValue": "A fictional product",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+            "fieldPath": "valueProposition",
+            "operation": "SET",
+            "proposedValue": "A useful example",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "AUDIENCE",
+            "entityId": "e1b445e8-490e-55a2-8fdd-28b067188242",
+            "fieldPath": "segmentName",
+            "operation": "SET",
+            "proposedValue": "Example customers",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "AUDIENCE",
+            "entityId": "e1b445e8-490e-55a2-8fdd-28b067188242",
+            "fieldPath": "description",
+            "operation": "SET",
+            "proposedValue": "Fictional audience",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          },
+          {
+            "entityType": "AUDIENCE",
+            "entityId": "e1b445e8-490e-55a2-8fdd-28b067188242",
+            "fieldPath": "painPoints",
+            "operation": "SET",
+            "proposedValue": [
+              "Need reliable examples"
+            ],
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": []
+          }
+        ],
+        "verifiedFactKeys": [],
+        "restoredFromRevisionId": null
+      },
+      "error": null
+    }
+  },
+  "f923bb96-f339-55ad-bbd2-1403a9b01b34": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "KNOWLEDGE_CANDIDATE",
+    "status": "INVALID",
+    "conversationId": null,
+    "correlationId": "877df626-a88c-5683-8066-10173b1123f7",
+    "payload": {
+      "variant": "publication_attempt",
+      "operationStatus": "FAILED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "5f20d6f2-3132-5d55-8158-ed98817cee45",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "expectedRevisionId": null,
+        "candidateArtifactId": null,
+        "candidateId": null,
+        "operationId": "67f65bb9-7554-553b-9463-75fff6115024",
+        "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "error": {
+        "code": "INTERNAL_ERROR",
+        "message": "Publication did not commit",
+        "retryable": true,
+        "retryAfterMs": null,
+        "violationPaths": [],
+        "diagnosticId": "ad1cf523-411c-5b29-b09b-347fb2c717b5"
+      }
+    }
+  },
+  "f582410f-fab1-5b62-bdc6-efb1c597ae55": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "APPROVED_KNOWLEDGE",
+    "status": "VALID",
+    "conversationId": null,
+    "correlationId": "877df626-a88c-5683-8066-10173b1123f7",
+    "payload": {
+      "variant": "approved_snapshot",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "c61c0dfd-ca96-524b-b3c8-23605f4e1b0c",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "ontologyVersion": "1.1.0",
+        "members": [
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94"
+          },
+          {
+            "entityType": "BRAND",
+            "entityId": "9f6e2f57-fe50-5e51-8050-6f586cd59161"
+          },
+          {
+            "entityType": "BRAND_VOICE",
+            "entityId": "a166f727-af2a-5062-8f79-85f5a54a8f05"
+          },
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c"
+          },
+          {
+            "entityType": "AUDIENCE",
+            "entityId": "e1b445e8-490e-55a2-8fdd-28b067188242"
+          }
+        ],
+        "facts": [
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "name",
+            "value": "Fixture Co",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "industry",
+            "value": "ECOMMERCE_RETAIL",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "companySize",
+            "value": "1\u20135",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "primaryRegion",
+            "value": "Example region",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "ORGANIZATION",
+            "entityId": "110824fb-3b48-5417-83b3-b4c348464d94",
+            "fieldPath": "primaryLanguage",
+            "value": "en",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "BRAND",
+            "entityId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+            "fieldPath": "name",
+            "value": "Fixture Brand",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "BRAND",
+            "entityId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+            "fieldPath": "missionStatement",
+            "value": "Sell useful fixture products",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "BRAND_VOICE",
+            "entityId": "a166f727-af2a-5062-8f79-85f5a54a8f05",
+            "fieldPath": "toneAttributes",
+            "value": [
+              "PROFESSIONAL",
+              "FRIENDLY"
+            ],
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+            "fieldPath": "name",
+            "value": "Fixture product",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+            "fieldPath": "description",
+            "value": "A fictional product",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "PRODUCT",
+            "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+            "fieldPath": "valueProposition",
+            "value": "A useful example",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "AUDIENCE",
+            "entityId": "e1b445e8-490e-55a2-8fdd-28b067188242",
+            "fieldPath": "segmentName",
+            "value": "Example customers",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "AUDIENCE",
+            "entityId": "e1b445e8-490e-55a2-8fdd-28b067188242",
+            "fieldPath": "description",
+            "value": "Fictional audience",
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          },
+          {
+            "entityType": "AUDIENCE",
+            "entityId": "e1b445e8-490e-55a2-8fdd-28b067188242",
+            "fieldPath": "painPoints",
+            "value": [
+              "Need reliable examples"
+            ],
+            "origin": "MANUAL",
+            "evidence": [],
+            "manual": {
+              "authorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+              "authoredAt": "2026-10-16T10:00:00Z"
+            },
+            "derivation": null,
+            "itemProvenance": [],
+            "approvalStatus": "APPROVED",
+            "valueRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "supersedesValueRevisionId": null,
+            "verifiedInRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "verificationDueAt": null
+          }
+        ],
+        "calculationSelection": {
+          "offerEntityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+          "audienceEntityId": "e1b445e8-490e-55a2-8fdd-28b067188242"
+        },
+        "changes": {
+          "kind": "INITIALIZE",
+          "removedFactKeys": [],
+          "removedMembers": []
+        }
+      },
+      "error": null
+    }
+  },
+  "75ed4ff9-f975-590f-b2a0-0cae2291a8c3": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "PROMPT_CONTEXT",
+    "status": "VALID",
+    "conversationId": "e4eeac8a-935d-55e4-9fa5-e523e06982c9",
+    "correlationId": "594bb918-1995-52a9-a450-7ed2f9a4c9e1",
+    "payload": {
+      "variant": "context_stage",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "a02a1739-1c35-58f7-8243-618ca2b21c6b",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "assemblyVersion": "1.0.0",
+        "retrievalStrategy": "KEYWORD",
+        "contextProfile": null,
+        "selectedKnowledge": [
+          {
+            "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "factKey": {
+              "entityType": "PRODUCT",
+              "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+              "fieldPath": "name"
+            }
+          }
+        ],
+        "businessRules": [],
+        "brandVoice": {
+          "brandVoiceId": "a166f727-af2a-5062-8f79-85f5a54a8f05",
+          "facts": [
+            {
+              "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+              "factKey": {
+                "entityType": "BRAND_VOICE",
+                "entityId": "a166f727-af2a-5062-8f79-85f5a54a8f05",
+                "fieldPath": "toneAttributes"
+              }
+            }
+          ]
+        },
+        "memory": [
+          {
+            "kind": "KNOWLEDGE",
+            "facts": [
+              {
+                "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+                "factKey": {
+                  "entityType": "PRODUCT",
+                  "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+                  "fieldPath": "name"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "WORKING",
+            "intent": "Draft a caption",
+            "requiredEntityTypes": [
+              "PRODUCT"
+            ],
+            "notes": []
+          }
+        ],
+        "evidence": [],
+        "provenance": {
+          "approvedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+          "approvedArtifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55"
+        },
+        "contextScore": {
+          "value": null,
+          "basis": null
+        }
+      },
+      "error": null
+    }
+  },
+  "5c99414e-7b2d-54a1-9c1c-2537bc4d10f3": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "PROMPT_CONTEXT",
+    "status": "VALID",
+    "conversationId": "e4eeac8a-935d-55e4-9fa5-e523e06982c9",
+    "correlationId": "594bb918-1995-52a9-a450-7ed2f9a4c9e1",
+    "payload": {
+      "variant": "context",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "898e6628-71a3-5503-83e0-af54ea975aa8",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "assemblyVersion": "1.0.0",
+        "retrievalStrategy": "KEYWORD",
+        "contextProfile": null,
+        "selectedKnowledge": [
+          {
+            "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+            "factKey": {
+              "entityType": "PRODUCT",
+              "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+              "fieldPath": "name"
+            }
+          }
+        ],
+        "businessRules": [],
+        "brandVoice": {
+          "brandVoiceId": "a166f727-af2a-5062-8f79-85f5a54a8f05",
+          "facts": [
+            {
+              "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+              "factKey": {
+                "entityType": "BRAND_VOICE",
+                "entityId": "a166f727-af2a-5062-8f79-85f5a54a8f05",
+                "fieldPath": "toneAttributes"
+              }
+            }
+          ]
+        },
+        "memory": [
+          {
+            "kind": "KNOWLEDGE",
+            "facts": [
+              {
+                "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+                "factKey": {
+                  "entityType": "PRODUCT",
+                  "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+                  "fieldPath": "name"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "WORKING",
+            "intent": "Draft a caption",
+            "requiredEntityTypes": [
+              "PRODUCT"
+            ],
+            "notes": []
+          }
+        ],
+        "evidence": [],
+        "provenance": {
+          "approvedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+          "approvedArtifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55"
+        },
+        "contextScore": {
+          "value": null,
+          "basis": null
+        }
+      },
+      "error": null
+    }
+  },
+  "36cfbbc4-a8b6-5639-89ce-04bb90ed4157": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "PROMPT",
+    "status": "VALID",
+    "conversationId": "e4eeac8a-935d-55e4-9fa5-e523e06982c9",
+    "correlationId": "594bb918-1995-52a9-a450-7ed2f9a4c9e1",
+    "payload": {
+      "variant": "prompt_stage",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "ab6eeb50-c515-58c7-a580-506a17911867",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "promptVersion": "1.0.0",
+        "templateVersion": "1.0.0",
+        "contextVersion": "1.0.0",
+        "capabilityId": "text_generation",
+        "capabilityVersion": "1.0.0",
+        "contextArtifactId": "5c99414e-7b2d-54a1-9c1c-2537bc4d10f3",
+        "approvedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "modelConfiguration": {
+          "modelProvider": "fixture",
+          "modelName": "fixture-model",
+          "temperature": null,
+          "maxOutputTokens": 100
+        },
+        "messages": [
+          {
+            "role": "SYSTEM",
+            "content": "Application-controlled fixture policy"
+          },
+          {
+            "role": "USER",
+            "content": "Draft a fictional caption"
+          }
+        ],
+        "tools": []
+      },
+      "error": null
+    }
+  },
+  "8580a3de-72a5-5adc-886e-bbbdcab6a9e5": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "PROMPT",
+    "status": "VALID",
+    "conversationId": "e4eeac8a-935d-55e4-9fa5-e523e06982c9",
+    "correlationId": "594bb918-1995-52a9-a450-7ed2f9a4c9e1",
+    "payload": {
+      "variant": "prompt",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "1d4d794a-0974-59ff-9d70-19d62a0aad28",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "promptVersion": "1.0.0",
+        "templateVersion": "1.0.0",
+        "contextVersion": "1.0.0",
+        "capabilityId": "text_generation",
+        "capabilityVersion": "1.0.0",
+        "contextArtifactId": "5c99414e-7b2d-54a1-9c1c-2537bc4d10f3",
+        "approvedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "modelConfiguration": {
+          "modelProvider": "fixture",
+          "modelName": "fixture-model",
+          "temperature": null,
+          "maxOutputTokens": 100
+        },
+        "messages": [
+          {
+            "role": "SYSTEM",
+            "content": "Application-controlled fixture policy"
+          },
+          {
+            "role": "USER",
+            "content": "Draft a fictional caption"
+          }
+        ],
+        "tools": []
+      },
+      "error": null
+    }
+  },
+  "0723e553-6e7c-55f9-86e5-b2aa9aa24bcb": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "RESPONSE",
+    "status": "VALID",
+    "conversationId": "e4eeac8a-935d-55e4-9fa5-e523e06982c9",
+    "correlationId": "594bb918-1995-52a9-a450-7ed2f9a4c9e1",
+    "payload": {
+      "variant": "response_stage",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "a7dade86-ff27-5e8a-b4d5-5223d0ea703f",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "generatedResponse": "A fictional caption about Fixture product.",
+        "promptArtifactId": "8580a3de-72a5-5adc-886e-bbbdcab6a9e5",
+        "promptVersion": "1.0.0",
+        "approvedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "modelProvider": "fixture",
+        "modelName": "fixture-model",
+        "tokenUsage": {
+          "input": 10,
+          "output": 8
+        },
+        "latency": 10,
+        "estimatedCost": null,
+        "validationResult": {
+          "passed": true,
+          "failedRules": []
+        }
+      },
+      "error": null
+    }
+  },
+  "ccda5640-a3f4-5c7d-9ecf-1eab2a7ea901": {
+    "kind": "Artifact",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "artifactType": "RESPONSE",
+    "status": "VALID",
+    "conversationId": "e4eeac8a-935d-55e4-9fa5-e523e06982c9",
+    "correlationId": "594bb918-1995-52a9-a450-7ed2f9a4c9e1",
+    "payload": {
+      "variant": "response",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "91748063-bd7c-5579-ba2f-48a10b9e7c04",
+      "attemptNumber": 1,
+      "checkpointNumber": 0,
+      "data": {
+        "generatedResponse": "A fictional caption about Fixture product.",
+        "promptArtifactId": "8580a3de-72a5-5adc-886e-bbbdcab6a9e5",
+        "promptVersion": "1.0.0",
+        "approvedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "modelProvider": "fixture",
+        "modelName": "fixture-model",
+        "tokenUsage": {
+          "input": 10,
+          "output": 8
+        },
+        "latency": 10,
+        "estimatedCost": null,
+        "validationResult": {
+          "passed": true,
+          "failedRules": []
+        }
+      },
+      "error": null
+    }
+  }
+}

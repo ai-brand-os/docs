@@ -1,0 +1,808 @@
+{
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "artifactType": {
+      "enum": [
+        "RAW_INTAKE",
+        "PROCESSING_INTERMEDIATE",
+        "STRUCTURED_DOCUMENT",
+        "KNOWLEDGE_CANDIDATE",
+        "APPROVED_KNOWLEDGE",
+        "PROMPT_CONTEXT",
+        "PROMPT",
+        "RESPONSE"
+      ]
+    },
+    "parentArtifactId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "conversationId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "producingService": {
+      "enum": [
+        "INGESTION",
+        "DOCUMENT_PROCESSING",
+        "KNOWLEDGE_EXTRACTION",
+        "KNOWLEDGE_MANAGEMENT",
+        "CONTEXT_ENGINE",
+        "AI_ORCHESTRATOR"
+      ]
+    },
+    "producingStage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "const": "2.0.0"
+    },
+    "status": {
+      "enum": [
+        "CREATED",
+        "VALID",
+        "INVALID",
+        "SUPERSEDED",
+        "ARCHIVED"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "artifactId",
+    "artifactType",
+    "parentArtifactId",
+    "conversationId",
+    "correlationId",
+    "organizationId",
+    "producingService",
+    "producingStage",
+    "schemaVersion",
+    "status",
+    "createdAt",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:artifact:2.0.0:envelope",
+  "title": "Artifact envelope 2.0.0 (Architecture review pending)",
+  "oneOf": [
+    {
+      "properties": {
+        "artifactType": {
+          "const": "RAW_INTAKE"
+        },
+        "producingService": {
+          "const": "INGESTION"
+        },
+        "producingStage": {
+          "enum": [
+            "intake"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:RAW_INTAKE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "intake"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        },
+        "parentArtifactId": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "PROCESSING_INTERMEDIATE"
+        },
+        "producingService": {
+          "const": "DOCUMENT_PROCESSING"
+        },
+        "producingStage": {
+          "enum": [
+            "reader",
+            "cleaner",
+            "normalizer",
+            "language_detector",
+            "metadata_extractor",
+            "structure_analyzer",
+            "chunk_generator",
+            "chunk_optimizer"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:PROCESSING_INTERMEDIATE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "processing_stage"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "STRUCTURED_DOCUMENT"
+        },
+        "producingService": {
+          "const": "DOCUMENT_PROCESSING"
+        },
+        "producingStage": {
+          "enum": [
+            "quality_validator"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:STRUCTURED_DOCUMENT"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "structured_document"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "KNOWLEDGE_CANDIDATE"
+        },
+        "producingService": {
+          "const": "KNOWLEDGE_EXTRACTION"
+        },
+        "producingStage": {
+          "enum": [
+            "information_extraction",
+            "entity_normalization",
+            "semantic_interpretation",
+            "entity_classification",
+            "relationship_builder"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:KNOWLEDGE_CANDIDATE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "extraction_stage"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "KNOWLEDGE_CANDIDATE"
+        },
+        "producingService": {
+          "const": "KNOWLEDGE_EXTRACTION"
+        },
+        "producingStage": {
+          "enum": [
+            "candidate_builder"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:KNOWLEDGE_CANDIDATE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "extraction"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "KNOWLEDGE_CANDIDATE"
+        },
+        "producingService": {
+          "const": "KNOWLEDGE_MANAGEMENT"
+        },
+        "producingStage": {
+          "enum": [
+            "schema_validation",
+            "business_rule_validation",
+            "ontology_validation",
+            "duplicate_detection",
+            "conflict_detection",
+            "knowledge_merge",
+            "knowledge_confidence_calculation",
+            "policy_engine"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:KNOWLEDGE_CANDIDATE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "governance_stage"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "KNOWLEDGE_CANDIDATE"
+        },
+        "producingService": {
+          "const": "KNOWLEDGE_MANAGEMENT"
+        },
+        "producingStage": {
+          "enum": [
+            "candidate_decision"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:KNOWLEDGE_CANDIDATE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "candidate_decision"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "KNOWLEDGE_CANDIDATE"
+        },
+        "producingService": {
+          "const": "KNOWLEDGE_MANAGEMENT"
+        },
+        "producingStage": {
+          "enum": [
+            "manual_commit"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:KNOWLEDGE_CANDIDATE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "manual_commit"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "KNOWLEDGE_CANDIDATE"
+        },
+        "producingService": {
+          "const": "KNOWLEDGE_MANAGEMENT"
+        },
+        "producingStage": {
+          "enum": [
+            "publication_attempt"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:KNOWLEDGE_CANDIDATE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "publication_attempt"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "APPROVED_KNOWLEDGE"
+        },
+        "producingService": {
+          "const": "KNOWLEDGE_MANAGEMENT"
+        },
+        "producingStage": {
+          "enum": [
+            "publish_snapshot"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:APPROVED_KNOWLEDGE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "approved_snapshot"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "null"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "PROMPT_CONTEXT"
+        },
+        "producingService": {
+          "const": "CONTEXT_ENGINE"
+        },
+        "producingStage": {
+          "enum": [
+            "intent_analyzer",
+            "retrieval_planner",
+            "knowledge_retrieval",
+            "context_ranking",
+            "business_rule_injection",
+            "brand_voice_injection",
+            "memory_selection",
+            "context_compression"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:PROMPT_CONTEXT"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "context_stage"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "PROMPT_CONTEXT"
+        },
+        "producingService": {
+          "const": "CONTEXT_ENGINE"
+        },
+        "producingStage": {
+          "enum": [
+            "context_validation"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:PROMPT_CONTEXT"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "context"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "PROMPT"
+        },
+        "producingService": {
+          "const": "AI_ORCHESTRATOR"
+        },
+        "producingStage": {
+          "enum": [
+            "capability_detection",
+            "capability_resolution",
+            "execution_planning",
+            "context_request",
+            "model_selection",
+            "tool_resolution"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:PROMPT"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "prompt_stage"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "PROMPT"
+        },
+        "producingService": {
+          "const": "AI_ORCHESTRATOR"
+        },
+        "producingStage": {
+          "enum": [
+            "prompt_builder"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:PROMPT"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "prompt"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "RESPONSE"
+        },
+        "producingService": {
+          "const": "AI_ORCHESTRATOR"
+        },
+        "producingStage": {
+          "enum": [
+            "llm_execution"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:RESPONSE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "response_stage"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    {
+      "properties": {
+        "artifactType": {
+          "const": "RESPONSE"
+        },
+        "producingService": {
+          "const": "AI_ORCHESTRATOR"
+        },
+        "producingStage": {
+          "enum": [
+            "response_validation"
+          ]
+        },
+        "payload": {
+          "allOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:RESPONSE"
+            },
+            {
+              "properties": {
+                "variant": {
+                  "const": "response"
+                }
+              }
+            }
+          ]
+        },
+        "conversationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "parentArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "operationStatus": {
+                "enum": [
+                  "FAILED",
+                  "CANCELLED",
+                  "TIMEOUT"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "const": "INVALID"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "artifactType": {
+            "const": "APPROVED_KNOWLEDGE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "enum": [
+              "VALID",
+              "SUPERSEDED",
+              "ARCHIVED"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "variant": {
+                "const": "manual_commit"
+              },
+              "data": {
+                "properties": {
+                  "kind": {
+                    "const": "INITIALIZE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "parentArtifactId": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "variant": {
+                "const": "manual_commit"
+              },
+              "data": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "MANUAL_EDIT",
+                      "VERIFY",
+                      "RESTORE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "parentArtifactId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      }
+    }
+  ]
+}

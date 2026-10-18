@@ -1,5 +1,7 @@
 # Service Specification — Context Engine
 
+> Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits PROMPT_CONTEXT, variants context_stage / context. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
+
 > Final audit (2026-10-16): D-AUD-01 tracks conversation-history selection/limits, which are not settled by a persistent Conversation. D-AUD-03 tracks Context Score/gating thresholds; neither confidence nor score proves truth or overrides mandatory readiness. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
@@ -91,7 +93,7 @@ Accepted inputs:
 
 # Output
 
-Prompt Context Artifact uses exactly the payload fields in [Artifact Model §5](../domain/02_ARTIFACT_MODEL.md#5-prompt-context-artifact). Shared base ID/timestamp fields remain in the base envelope. Do not maintain a second payload list here. Enum values, nested types and failure variants still require D-AUD-04 review. Payloads are immutable after persistence/emission.
+Emit PROMPT_CONTEXT using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/prompt_context.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: context_stage / context. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented.
 
 ---
 
@@ -182,7 +184,7 @@ The Context Engine succeeds when:
 - Brand voice remains consistent.
 - Provenance is maintained.
 - Prompt Context Artifacts are reusable.
-- Every request produces exactly one Prompt Context Artifact.
+- Each completed context invocation has one final context outcome; additional context_stage checkpoints retain progress/retries.
 
 ---
 
@@ -415,7 +417,7 @@ Invalid contexts must never be sent downstream.
 
 # Prompt Context Artifact
 
-Prompt Context Artifact uses exactly the payload fields in [Artifact Model §5](../domain/02_ARTIFACT_MODEL.md#5-prompt-context-artifact). Shared base ID/timestamp fields remain in the base envelope. Do not maintain a second payload list here. Enum values, nested types and failure variants still require D-AUD-04 review. Payloads are immutable after persistence/emission.
+Emit PROMPT_CONTEXT using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/prompt_context.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: context_stage / context. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented. Canonical result fields/closed nested memory/fact-reference types are defined once in the schemas. D-AUD-01 history selection, D-AUD-03 score policy and D-AUD-06 graph projection remain separate decisions; a schema does not enable new retrieval infrastructure.
 
 ---
 
@@ -559,7 +561,7 @@ Context Compression is responsible for enforcing these limits.
 
 # Artifact Contract
 
-Prompt Context Artifact uses exactly the payload fields in [Artifact Model §5](../domain/02_ARTIFACT_MODEL.md#5-prompt-context-artifact). Shared base ID/timestamp fields remain in the base envelope. Do not maintain a second payload list here. Enum values, nested types and failure variants still require D-AUD-04 review. Payloads are immutable after persistence/emission.
+Emit PROMPT_CONTEXT using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/prompt_context.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: context_stage / context. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented. Canonical result fields/closed nested memory/fact-reference types are defined once in the schemas. D-AUD-01 history selection, D-AUD-03 score policy and D-AUD-06 graph projection remain separate decisions; a schema does not enable new retrieval infrastructure.
 
 ---
 

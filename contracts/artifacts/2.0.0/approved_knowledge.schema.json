@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:artifact:2.0.0:APPROVED_KNOWLEDGE",
+  "title": "APPROVED_KNOWLEDGE payload 2.0.0",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "variant": {
+          "const": "approved_snapshot"
+        },
+        "operationStatus": {
+          "enum": [
+            "SUCCEEDED"
+          ]
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "data": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "invocationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "attemptNumber": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "checkpointNumber": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "variant",
+        "operationStatus",
+        "brandId",
+        "data",
+        "error",
+        "invocationId",
+        "attemptNumber",
+        "checkpointNumber"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operationStatus": {
+                "const": "SUCCEEDED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot"
+              },
+              "error": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operationStatus": {
+                "const": "PENDING"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "type": "null"
+              },
+              "error": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operationStatus": {
+                "const": "PARTIAL"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot"
+              },
+              "error": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operationStatus": {
+                "enum": [
+                  "FAILED",
+                  "CANCELLED",
+                  "TIMEOUT"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data": {
+                "anyOf": [
+                  {
+                    "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "error": {
+                "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operationStatus": {
+                "const": "CANCELLED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "properties": {
+                  "code": {
+                    "const": "CANCELLED"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operationStatus": {
+                "const": "TIMEOUT"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "properties": {
+                  "code": {
+                    "const": "TIMEOUT"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operationStatus": {
+                "const": "FAILED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "properties": {
+                  "code": {
+                    "not": {
+                      "enum": [
+                        "CANCELLED",
+                        "TIMEOUT"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

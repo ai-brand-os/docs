@@ -1,5 +1,7 @@
 # Service Specification — Knowledge Extraction Service
 
+> Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits KNOWLEDGE_CANDIDATE, variants extraction_stage / extraction. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
+
 > Final audit (2026-10-16): D-AUD-02 is unresolved: this spec excludes AI Orchestrator as a downstream dependency while assigning provider selection exclusively to it. The allowed internal LLM extraction route must be approved before implementing that path; no direct-provider bypass is authorized. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
@@ -98,20 +100,7 @@ The artifact contains:
 
 # Output
 
-The service produces:
-
-Knowledge Candidate Artifact
-
-Containing:
-
-- Candidate Entities
-- Candidate Relationships
-- Candidate Metadata
-- Provenance
-- Extraction Confidence
-- Extraction Status
-
-The output remains provisional until validated.
+Emit KNOWLEDGE_CANDIDATE using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/knowledge_candidate.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: extraction_stage / extraction. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented.
 
 ---
 
@@ -188,7 +177,7 @@ The Knowledge Extraction Service succeeds when:
 - Provenance is maintained.
 - Candidate knowledge is structurally complete.
 - Downstream validation requires minimal manual correction.
-- Every processed artifact produces exactly one Knowledge Candidate Artifact.
+- Each completed extraction invocation has one final extraction outcome; additional typed stage/checkpoint artifacts preserve progress and internal retries.
 
 ---
 
@@ -457,7 +446,7 @@ Confidence reflects:
 
 The service never determines whether knowledge is true.
 
-That responsibility belongs to the Knowledge Management Service.
+Knowledge Management checks ontology, eligibility and explicit human approval; neither service proves objective truth.
 
 ---
 
@@ -584,20 +573,7 @@ Provider selection is handled exclusively by the AI Orchestrator.
 
 # Candidate Artifact
 
-Every extraction produces a Knowledge Candidate Artifact.
-
-Minimum contents:
-
-- Candidate ID
-- Entities
-- Relationships
-- Provenance
-- Extraction Confidence
-- Processing Version
-- Ontology Version
-- Timestamp
-
-Candidate Artifacts are immutable.
+Emit KNOWLEDGE_CANDIDATE using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/knowledge_candidate.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: extraction_stage / extraction. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented. Use stable candidateItems item IDs and exact KnowledgeEntityType names. Illustrative Business Profile/Offering/Customer Segment/Brand Identity and Solves/Consumes examples elsewhere are semantic explanations, not wire discriminators; only active ontology-eligible fields/relationships can be serialized. Extraction stages may not fabricate manual-only values, approval, verification or source IDs.
 
 ---
 

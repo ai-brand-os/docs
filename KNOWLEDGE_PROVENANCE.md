@@ -1,5 +1,7 @@
 # Trustworthy, Versioned Brand Brain Knowledge
 
+> Task16 serialization (2026-10-17): [Artifact v2 contracts](contracts/artifacts/README.md) are the single exact envelope/nested JSON definition, with executable examples and compatibility rules. This document remains normative for product approval/versioning semantics. D-AUD-04 is specified — pending Architecture/Engineering review; no Prisma change or deployment is claimed.
+
 Effective design: 2026-10-13. Status: planned product and persistence design, not implemented. Authority: [MVP_SCOPE.md](MVP_SCOPE.md); retention and erasure: [DATA_LIFECYCLE.md](DATA_LIFECYCLE.md). This document supersedes entity-level `source: both` as evidence of a field’s origin and the previous completeness-on-read-only decision.
 
 ## Product contract and source of truth
@@ -27,7 +29,7 @@ A versioned payload contract contains `brandId`, `ontologyVersion`, `members` (a
 
 Every field read returns resolved `approvedByUserId`, `approvedAt`, `lastVerifiedAt`, verifier and superseded value link. These are read expansions of revision IDs, not independently writable copies in payloads. BrandBrainRevision is canonical for revision-level ontology/approval/calculation metadata; payload ontologyVersion is a validated manifest copy that must agree, never a separately editable setting. Approving an imported proposal is explicit initial verification if the UI states that the Owner is confirming its value/evidence; restoring a value or changing another field does not silently renew its last verification. Manual author and approver may be the same Owner; originating author/time belongs in manual evidence. User FKs preserve attribution; separate legally approved account erasure must anonymize identities under the lifecycle policy rather than cascade knowledge history.
 
-Candidate payloads identify `baseRevisionId`, canonical fact key, proposedValue, origin/evidence/derivation, eligibility/validation results, detected conflicts, and decision state. PENDING_REVIEW never has an approval timestamp. Explicit rejection records rejecting actor/time, not an approving actor. A decision audit artifact may be appended; candidate payloads are not silently rewritten after validation. Read decision state from these immutable decisions. Decision artifacts use artifactType KNOWLEDGE_CANDIDATE, producingService KNOWLEDGE_MANAGEMENT, producingStage candidate_decision and a versioned payload variant containing candidateId, action, operationId/idempotency key, request hash, actor/time and resultRevisionId if approved. Valid decision envelopes do not make rejected candidate values authoritative. Exactly one terminal decision is enforced by the candidate decision handler under lock/idempotency; same candidate cannot be approved twice.
+Candidate payloads identify `baseRevisionId`, canonical fact key, proposedValue, origin/evidence/derivation, eligibility/validation results, detected conflicts, and decision state. PENDING_REVIEW never has an approval timestamp. Explicit rejection records rejecting actor/time, not an approving actor. A decision audit artifact may be appended; candidate payloads are not silently rewritten after validation. Read decision state from these immutable decisions. Decision artifacts use artifactType KNOWLEDGE_CANDIDATE, producingService KNOWLEDGE_MANAGEMENT, producingStage candidate_decision and a versioned payload.data object containing candidateArtifactId/candidateId, action, operationId/idempotencyKeyHash, requestHash, actorUserId/decidedAt and resultingRevisionId if approved. Valid decision envelopes do not make rejected candidate values authoritative. Exactly one terminal decision is enforced by the candidate decision handler under lock/idempotency; same candidate cannot be approved twice.
 
 ## Approval, conflict and freshness
 
@@ -84,7 +86,7 @@ Before release implement the shared reference-validation/cleanup gateway, Postgr
 
 ## Sample records (illustrative, not runtime data)
 
-The labels below represent UUIDs in persisted records.
+The labels below represent UUIDs in persisted records. This historical explanatory snippet omits required v2 container/provenance fields and is not a validation fixture; use the complete canonical examples linked above for serialization.
 
 ```json
 {

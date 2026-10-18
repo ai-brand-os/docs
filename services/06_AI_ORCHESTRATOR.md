@@ -1,5 +1,7 @@
 # Service Specification — AI Orchestrator
 
+> Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits PROMPT / RESPONSE, variants prompt_stage / prompt / response_stage / response. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
+
 > Final audit (2026-10-16): D-AUD-02 tracks the missing legal extraction/provider route; current upstream Workspace contracts do not specify an extraction operation. D-AUD-01 tracks multi-turn history input; persisted turns alone do not define the model context window. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
@@ -96,7 +98,7 @@ Future
 
 # Output
 
-Response Artifact uses exactly the payload fields in [Artifact Model §7](../domain/02_ARTIFACT_MODEL.md#7-response-artifact): `modelProvider`, `modelName`, `latency` (milliseconds), `estimatedCost` and the other canonical fields. Shared IDs/timestamps belong to the base envelope. Completed execution requires a durable validated Response; failure variants and executionStatus values require D-AUD-04 review. Payloads are immutable after persistence/emission.
+Emit PROMPT / RESPONSE using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/response.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: prompt_stage / prompt / response_stage / response. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented.
 
 ---
 
@@ -190,7 +192,7 @@ The AI Orchestrator succeeds when:
 - Model selection is explainable.
 - Responses are validated.
 - Execution is fully observable.
-- Every execution request produces exactly one Response Artifact.
+- Each completed assistant attempt has one selected final response outcome; response_stage checkpoints/provider retries do not duplicate Message completion.
 
 ---
 
@@ -432,17 +434,7 @@ Invalid responses may be regenerated according to policy.
 
 # Prompt Artifact
 
-Contains
-
-- Prompt ID
-- Prompt Version
-- Template Version
-- Context Version
-- Capability Version
-- Model Configuration
-- Timestamp
-
-Prompt Artifacts are immutable.
+Emit PROMPT / RESPONSE using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/response.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: prompt_stage / prompt / response_stage / response. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented. Prompt success contains actual messages and context/template/capability/model metadata. Model keys remain server-reviewed registry identifiers, not a new provider choice. Tools remain empty in MVP; no public cancel operation is added.
 
 ---
 
@@ -578,7 +570,7 @@ Invalid responses may be regenerated according to execution policy.
 
 # Response Artifact
 
-Response Artifact uses exactly the payload fields in [Artifact Model §7](../domain/02_ARTIFACT_MODEL.md#7-response-artifact): `modelProvider`, `modelName`, `latency` (milliseconds), `estimatedCost` and the other canonical fields. Shared IDs/timestamps belong to the base envelope. Completed execution requires a durable validated Response; failure variants and executionStatus values require D-AUD-04 review. Payloads are immutable after persistence/emission.
+Emit PROMPT / RESPONSE using [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [typed payload schema](../contracts/artifacts/2.0.0/response.schema.json). Result fields live in payload.data; IDs/correlation/producer/stage/schemaVersion/ArtifactStatus live in the envelope. Registered variants: prompt_stage / prompt / response_stage / response. Every checkpoint has exact operationStatus PENDING/PARTIAL/SUCCEEDED/FAILED/CANCELLED/TIMEOUT where allowed by its schema; terminal commits and approved snapshots are SUCCEEDED only. Final downstream use requires VALID + SUCCEEDED and the appropriate final variant, never a partial/error record or eligibility-only knowledge approval. No service-specific payload/error enum may be invented. Successful final response_validation requires passed validation and nonempty generatedResponse; only then can durable Message linkage commit COMPLETED. Other outcomes remain operational checkpoints and cannot complete a Conversation or count as first value.
 
 ---
 
@@ -764,7 +756,7 @@ Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-
 
 ## Workspace lifecycle ownership
 
-The execution pipeline above is per assistant generation attempt, not a Conversation state machine. [Workspace State Management](../prd/02_AI_WORKSPACE_PRD.md#state-management) is canonical: PREPARING_CONTEXT covers context retrieval/validation; GENERATING covers prompt execution/provider retries and response validation; COMPLETED requires durable final response linkage. FAILED/CANCELLED/TIMEOUT terminate only that Message. Response Artifact executionStatus is producer execution metadata, not an independent Conversation state or permission to bypass the Message commit checks; its precise payload enum remains part of the open source-contract alignment. Completing provider execution alone cannot mark a Message COMPLETED before response validation/linkage commits. Conversation persists for later turns. Internal bounded provider retries do not reset a terminal Message; explicit user retry allocates a new attempt. Timeout budgets/cancel API details remain open; see DOCUMENTATION_CHANGELOG.md.
+The execution pipeline above is per assistant generation attempt, not a Conversation state machine. [Workspace State Management](../prd/02_AI_WORKSPACE_PRD.md#state-management) is canonical: PREPARING_CONTEXT covers context retrieval/validation; GENERATING covers prompt execution/provider retries and response validation; COMPLETED requires durable final response linkage. FAILED/CANCELLED/TIMEOUT terminate only that Message. Response Artifact executionStatus is producer execution metadata, not an independent Conversation state or permission to bypass the Message commit checks; its payload operationStatus is defined in the canonical v2 contract, pending Architecture/Engineering review. Completing provider execution alone cannot mark a Message COMPLETED before response validation/linkage commits. Conversation persists for later turns. Internal bounded provider retries do not reset a terminal Message; explicit user retry allocates a new attempt. Timeout budgets/cancel API details remain open; see DOCUMENTATION_CHANGELOG.md.
 
 ---
 
