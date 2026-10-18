@@ -160,3 +160,8 @@ Run `npm --prefix validation test` after installing the pinned dev-only dependen
 ## Task17 — Shared provider invocation boundary
 
 [ADR-011](../../domain/10_AI_PROVIDER_GATEWAY_ADR.md) specifies D-AUD-02's shared Gateway route, pending Architecture/Security review; [Gateway DTOs](../ai-provider/README.md) are ephemeral and separately versioned. No files in the 2.0.0 bundle or Prisma are changed. Gateway produces no artifacts; existing callers retain exact types/producers, error codes, approval and Message lifecycle. Extraction provider execution metadata without a v2 destination belongs in reviewed content-free operational telemetry, never invented PROMPT/RESPONSE payloads or an extra provider ledger. The earlier remaining-owners list records Task16 dependencies; D-AUD-02 now has a specified design with review/runtime gates still open.
+
+
+## Task18 — Proposed explicit import closure
+
+[ADR-012](../../domain/11_IMPORT_LIFECYCLE_ADR.md) specifies D-AUD-07 with review pending. v2.0.0 has no whole-import closure/selected-attempt/frozen-manifest representation; [proposed2.1 import_control extension](2.1.0/README.md) addresses that exact gap using existing type/producer/enums in unified Artifact storage. It is a separately versioned proposal, not an in-place v2 change or approved writer. Existing result/decision/snapshot records stay exact2.0.0; Gateway1.0 and Prisma stay unchanged. D-IMP-LC-01 review, legacy inventory, reader-first rollout and runtime reference/transaction tests are required. Earlier Task16/17 open-routing/closure notes are dated evidence; current specification status is in the decision register.

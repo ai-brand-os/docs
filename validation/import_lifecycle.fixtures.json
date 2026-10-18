@@ -1,0 +1,638 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "6c81f5ae-ceb1-5f85-befc-df7b751e2835",
+      "artifactType": "RAW_INTAKE",
+      "parentArtifactId": null,
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "INGESTION",
+      "producingStage": "intake",
+      "schemaVersion": "2.0.0",
+      "status": "VALID",
+      "createdAt": "2026-10-16T10:00:00Z",
+      "payload": {
+        "variant": "intake",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "9385ae55-60a0-517a-a329-c31b81393846",
+        "attemptNumber": 1,
+        "checkpointNumber": 0,
+        "data": {
+          "rawContentReference": {
+            "objectKey": "tenant-fixture/source",
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "byteLength": 15,
+            "mimeType": "text/html"
+          },
+          "validationResult": {
+            "passed": true,
+            "failedRules": []
+          }
+        },
+        "error": null,
+        "source": {
+          "sourceId": "bf2ef68a-8b60-5cf1-b283-0bd6b2828f41",
+          "sourceType": "url",
+          "originalFilenameOrUrl": "https://example.com/product"
+        }
+      }
+    },
+    {
+      "artifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+      "artifactType": "STRUCTURED_DOCUMENT",
+      "parentArtifactId": "6c81f5ae-ceb1-5f85-befc-df7b751e2835",
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "DOCUMENT_PROCESSING",
+      "producingStage": "quality_validator",
+      "schemaVersion": "2.0.0",
+      "status": "VALID",
+      "createdAt": "2026-10-16T10:00:00Z",
+      "payload": {
+        "variant": "structured_document",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "e668737e-fa46-5d46-af06-2f00de23ef84",
+        "attemptNumber": 1,
+        "checkpointNumber": 0,
+        "data": {
+          "cleanText": "Fixture product",
+          "documentStructure": {
+            "sections": [
+              {
+                "sectionId": "55be438d-113f-572e-88a7-508547ba0d5e",
+                "parentSectionId": null,
+                "heading": "Product",
+                "start": 0,
+                "end": 15
+              }
+            ],
+            "headings": [],
+            "tables": [],
+            "lists": [],
+            "links": []
+          },
+          "metadata": {
+            "title": "Fixture source",
+            "author": null,
+            "publicationDate": null,
+            "sourceUrl": "https://example.com/product",
+            "mimeType": "text/html"
+          },
+          "chunks": [
+            {
+              "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+              "parentDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+              "parentSectionId": "55be438d-113f-572e-88a7-508547ba0d5e",
+              "sequenceNumber": 0,
+              "text": "Fixture product",
+              "language": "en",
+              "estimatedTokenCount": 3,
+              "characterCount": 15,
+              "sourceOffset": 0,
+              "sourceLocation": null,
+              "locationUnavailableReason": "Original offsets not mapped by fixture parser"
+            }
+          ],
+          "language": "en",
+          "processingMetadata": {
+            "pipelineVersion": "1.0.0",
+            "stageTimings": [
+              {
+                "stage": "reader",
+                "durationMs": 1
+              }
+            ]
+          }
+        },
+        "error": null,
+        "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6"
+      }
+    },
+    {
+      "artifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "parentArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "KNOWLEDGE_EXTRACTION",
+      "producingStage": "candidate_builder",
+      "schemaVersion": "2.0.0",
+      "status": "VALID",
+      "createdAt": "2026-10-16T10:00:00Z",
+      "payload": {
+        "variant": "extraction",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "95149efa-ab71-52a0-a34c-96f4c522ce42",
+        "attemptNumber": 1,
+        "checkpointNumber": 0,
+        "data": {
+          "ontologyVersion": "1.1.0",
+          "candidateEntities": [
+            {
+              "entityType": "PRODUCT",
+              "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c"
+            }
+          ],
+          "candidateItems": [
+            {
+              "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9",
+              "change": {
+                "entityType": "PRODUCT",
+                "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+                "fieldPath": "name",
+                "operation": "SET",
+                "proposedValue": "Fixture product",
+                "origin": "IMPORTED",
+                "evidence": [
+                  {
+                    "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+                    "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+                    "sourceLocation": {
+                      "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+                      "page": 1
+                    },
+                    "locationUnavailableReason": null
+                  }
+                ],
+                "manual": null,
+                "derivation": null,
+                "itemProvenance": []
+              },
+              "baseRevisionId": null,
+              "trigger": "IMPORT",
+              "extractionConfidence": {
+                "value": 85,
+                "basis": "Fixture extraction indicator, not calibrated accuracy"
+              },
+              "eligibility": "NOT_EVALUATED",
+              "approvalStatus": "PENDING_REVIEW",
+              "flags": [],
+              "createdAt": "2026-10-16T10:00:00Z"
+            },
+            {
+              "candidateId": "10000000-0000-4000-8000-000000000002",
+              "change": {
+                "entityType": "PRODUCT",
+                "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+                "fieldPath": "description",
+                "operation": "SET",
+                "proposedValue": "Fixture description",
+                "origin": "IMPORTED",
+                "evidence": [
+                  {
+                    "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+                    "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+                    "sourceLocation": {
+                      "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+                      "page": 1
+                    },
+                    "locationUnavailableReason": null
+                  }
+                ],
+                "manual": null,
+                "derivation": null,
+                "itemProvenance": []
+              },
+              "baseRevisionId": null,
+              "trigger": "IMPORT",
+              "extractionConfidence": {
+                "value": 85,
+                "basis": "Fixture extraction indicator, not calibrated accuracy"
+              },
+              "eligibility": "NOT_EVALUATED",
+              "approvalStatus": "PENDING_REVIEW",
+              "flags": [],
+              "createdAt": "2026-10-16T10:00:00Z"
+            }
+          ],
+          "candidateRelationships": [
+            {
+              "relationshipType": "PRODUCES",
+              "source": {
+                "kind": "ENTITY",
+                "entity": {
+                  "entityType": "DOCUMENT",
+                  "entityId": "16b94816-89c0-5eac-8820-15608bb508e6"
+                }
+              },
+              "target": {
+                "kind": "CANDIDATE",
+                "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9"
+              },
+              "evidence": [
+                {
+                  "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+                  "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+                  "sourceLocation": {
+                    "chunkId": "4f1546b6-e333-5f4b-a156-3bec04e1eba9",
+                    "page": 1
+                  },
+                  "locationUnavailableReason": null
+                }
+              ]
+            }
+          ],
+          "provenance": {
+            "pipelineVersion": "1.0.0",
+            "extractionMethod": "RULE",
+            "sourceArtifactId": "61353162-c69b-5dc8-9089-735da3eb5d73",
+            "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6",
+            "capturedAt": "2026-10-16T10:00:00Z"
+          },
+          "extractionConfidence": {
+            "value": null,
+            "basis": null
+          }
+        },
+        "error": null,
+        "sourceDocumentId": "16b94816-89c0-5eac-8820-15608bb508e6"
+      }
+    },
+    {
+      "artifactId": "305f6b99-7a9d-510e-ab38-da75325e1e6d",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "parentArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "KNOWLEDGE_MANAGEMENT",
+      "producingStage": "policy_engine",
+      "schemaVersion": "2.0.0",
+      "status": "VALID",
+      "createdAt": "2026-10-16T10:00:00Z",
+      "payload": {
+        "variant": "governance_stage",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "16cf54bc-b8dc-5856-a382-84e53a588fef",
+        "attemptNumber": 1,
+        "checkpointNumber": 0,
+        "data": {
+          "candidateArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+          "policyVersion": "1.0.0",
+          "eligibleCandidateIds": [
+            "1b48b11a-a5da-58a4-99f5-7d39a7953ed9",
+            "10000000-0000-4000-8000-000000000002"
+          ],
+          "ineligibleCandidates": [],
+          "flags": [],
+          "knowledgeConfidence": {
+            "value": null,
+            "basis": null
+          },
+          "sourceTrustScore": {
+            "value": null,
+            "basis": null
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "artifactId": "10000000-0000-4000-8000-000000000101",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "parentArtifactId": null,
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "KNOWLEDGE_MANAGEMENT",
+      "producingStage": "import_control",
+      "schemaVersion": "2.1.0",
+      "status": "VALID",
+      "createdAt": "2026-10-18T10:00:00Z",
+      "payload": {
+        "variant": "import_control",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "10000000-0000-4000-8000-000000000200",
+        "attemptNumber": 1,
+        "checkpointNumber": 0,
+        "error": null,
+        "data": {
+          "event": "ADMITTED",
+          "sequence": 1,
+          "previousControlArtifactId": null,
+          "epoch": 0,
+          "fence": 0,
+          "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+          "servicePrincipal": null,
+          "operationId": "10000000-0000-4000-8000-000000000301",
+          "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "phase": "SUBMITTED",
+          "stageBindings": [],
+          "retainedArtifactIds": [],
+          "reviewCandidateRefs": [],
+          "governanceArtifactIds": [],
+          "decisionArtifactIds": [],
+          "publicationRevisionIds": [],
+          "reasonCode": "ACCEPTED",
+          "closure": null
+        }
+      }
+    },
+    {
+      "artifactId": "10000000-0000-4000-8000-000000000102",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "parentArtifactId": "10000000-0000-4000-8000-000000000101",
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "KNOWLEDGE_MANAGEMENT",
+      "producingStage": "import_control",
+      "schemaVersion": "2.1.0",
+      "status": "VALID",
+      "createdAt": "2026-10-18T10:00:00Z",
+      "payload": {
+        "variant": "import_control",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "10000000-0000-4000-8000-000000000200",
+        "attemptNumber": 1,
+        "checkpointNumber": 1,
+        "error": null,
+        "data": {
+          "event": "CLAIMED",
+          "sequence": 2,
+          "previousControlArtifactId": "10000000-0000-4000-8000-000000000101",
+          "epoch": 1,
+          "fence": 1,
+          "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+          "servicePrincipal": null,
+          "operationId": "10000000-0000-4000-8000-000000000302",
+          "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "phase": "EXTRACTING",
+          "stageBindings": [
+            {
+              "producingStage": "intake",
+              "invocationId": "9385ae55-60a0-517a-a329-c31b81393846",
+              "minAttemptNumber": 1,
+              "maxAttemptNumber": 3
+            },
+            {
+              "producingStage": "quality_validator",
+              "invocationId": "e668737e-fa46-5d46-af06-2f00de23ef84",
+              "minAttemptNumber": 1,
+              "maxAttemptNumber": 3
+            },
+            {
+              "producingStage": "candidate_builder",
+              "invocationId": "95149efa-ab71-52a0-a34c-96f4c522ce42",
+              "minAttemptNumber": 1,
+              "maxAttemptNumber": 3
+            },
+            {
+              "producingStage": "policy_engine",
+              "invocationId": "16cf54bc-b8dc-5856-a382-84e53a588fef",
+              "minAttemptNumber": 1,
+              "maxAttemptNumber": 3
+            }
+          ],
+          "retainedArtifactIds": [],
+          "reviewCandidateRefs": [],
+          "governanceArtifactIds": [],
+          "decisionArtifactIds": [],
+          "publicationRevisionIds": [],
+          "reasonCode": "IN_PROGRESS",
+          "closure": null
+        }
+      }
+    },
+    {
+      "artifactId": "10000000-0000-4000-8000-000000000103",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "parentArtifactId": "10000000-0000-4000-8000-000000000102",
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "KNOWLEDGE_MANAGEMENT",
+      "producingStage": "import_control",
+      "schemaVersion": "2.1.0",
+      "status": "VALID",
+      "createdAt": "2026-10-18T10:00:00Z",
+      "payload": {
+        "variant": "import_control",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "10000000-0000-4000-8000-000000000200",
+        "attemptNumber": 1,
+        "checkpointNumber": 2,
+        "error": null,
+        "data": {
+          "event": "REVIEW_OPENED",
+          "sequence": 3,
+          "previousControlArtifactId": "10000000-0000-4000-8000-000000000102",
+          "epoch": 1,
+          "fence": 1,
+          "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+          "servicePrincipal": null,
+          "operationId": "10000000-0000-4000-8000-000000000303",
+          "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "phase": "READY_FOR_REVIEW",
+          "stageBindings": [],
+          "retainedArtifactIds": [],
+          "reviewCandidateRefs": [
+            {
+              "candidateArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+              "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9"
+            },
+            {
+              "candidateArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+              "candidateId": "10000000-0000-4000-8000-000000000002"
+            }
+          ],
+          "governanceArtifactIds": [
+            "305f6b99-7a9d-510e-ab38-da75325e1e6d"
+          ],
+          "decisionArtifactIds": [],
+          "publicationRevisionIds": [],
+          "reasonCode": "REVIEW_PENDING",
+          "closure": null
+        }
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "artifactId": "10000000-0000-4000-8000-000000000400",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "parentArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "KNOWLEDGE_MANAGEMENT",
+      "producingStage": "candidate_decision",
+      "schemaVersion": "2.0.0",
+      "status": "VALID",
+      "createdAt": "2026-10-16T10:00:00Z",
+      "payload": {
+        "variant": "candidate_decision",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "3afb25f7-d7b6-551d-85ae-7312739e0c7f",
+        "attemptNumber": 1,
+        "checkpointNumber": 0,
+        "data": {
+          "candidateArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+          "candidateId": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9",
+          "action": "CONFIRM",
+          "reason": null,
+          "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+          "decidedAt": "2026-10-16T10:00:00Z",
+          "expectedRevisionId": null,
+          "operationId": "10000000-0000-4000-8000-000000000600",
+          "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "changes": [],
+          "resultingRevisionId": "10000000-0000-4000-8000-000000000500"
+        },
+        "error": null
+      }
+    },
+    {
+      "artifactId": "10000000-0000-4000-8000-000000000401",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "parentArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+      "conversationId": null,
+      "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "producingService": "KNOWLEDGE_MANAGEMENT",
+      "producingStage": "candidate_decision",
+      "schemaVersion": "2.0.0",
+      "status": "VALID",
+      "createdAt": "2026-10-16T10:00:00Z",
+      "payload": {
+        "variant": "candidate_decision",
+        "operationStatus": "SUCCEEDED",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "invocationId": "3afb25f7-d7b6-551d-85ae-7312739e0c7f",
+        "attemptNumber": 1,
+        "checkpointNumber": 0,
+        "data": {
+          "candidateArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+          "candidateId": "10000000-0000-4000-8000-000000000002",
+          "action": "CONFIRM",
+          "reason": null,
+          "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+          "decidedAt": "2026-10-16T10:00:00Z",
+          "expectedRevisionId": "10000000-0000-4000-8000-000000000500",
+          "operationId": "10000000-0000-4000-8000-000000000601",
+          "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "requestHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "changes": [],
+          "resultingRevisionId": "10000000-0000-4000-8000-000000000501"
+        },
+        "error": null
+      }
+    }
+  ],
+  "publicationEvidence": [
+    {
+      "revisionId": "10000000-0000-4000-8000-000000000500",
+      "decisionArtifactId": "10000000-0000-4000-8000-000000000400",
+      "snapshotArtifactId": "10000000-0000-4000-8000-000000000700",
+      "snapshotParentArtifactId": "10000000-0000-4000-8000-000000000400",
+      "committed": true,
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "expectedRevisionId": null,
+      "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+      "requiredProjectionsReady": true,
+      "optionalIndexReady": false
+    },
+    {
+      "revisionId": "10000000-0000-4000-8000-000000000501",
+      "decisionArtifactId": "10000000-0000-4000-8000-000000000401",
+      "snapshotArtifactId": "10000000-0000-4000-8000-000000000701",
+      "snapshotParentArtifactId": "10000000-0000-4000-8000-000000000401",
+      "committed": true,
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "expectedRevisionId": "10000000-0000-4000-8000-000000000500",
+      "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+      "requiredProjectionsReady": true,
+      "optionalIndexReady": false
+    }
+  ],
+  "claim": {
+    "authorized": true,
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "ownerId": "0c167e3d-6388-5540-a957-25a166285e73",
+    "controlHeadId": "10000000-0000-4000-8000-000000000103",
+    "epoch": 1,
+    "fence": 1,
+    "leaseLive": true,
+    "sourceActive": true,
+    "brandActive": true,
+    "retryRemaining": true,
+    "permanentFailure": false,
+    "forceCloseRequested": false
+  },
+  "closure": {
+    "artifactId": "10000000-0000-4000-8000-000000000104",
+    "artifactType": "KNOWLEDGE_CANDIDATE",
+    "parentArtifactId": "10000000-0000-4000-8000-000000000103",
+    "conversationId": null,
+    "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "producingService": "KNOWLEDGE_MANAGEMENT",
+    "producingStage": "import_control",
+    "schemaVersion": "2.1.0",
+    "status": "VALID",
+    "createdAt": "2026-10-18T10:00:00Z",
+    "payload": {
+      "variant": "import_control",
+      "operationStatus": "SUCCEEDED",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "invocationId": "10000000-0000-4000-8000-000000000200",
+      "attemptNumber": 1,
+      "checkpointNumber": 3,
+      "error": null,
+      "data": {
+        "event": "CLOSED",
+        "sequence": 4,
+        "previousControlArtifactId": "10000000-0000-4000-8000-000000000103",
+        "epoch": 1,
+        "fence": 1,
+        "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+        "servicePrincipal": null,
+        "operationId": "10000000-0000-4000-8000-000000000304",
+        "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "phase": "READY_FOR_REVIEW",
+        "stageBindings": [],
+        "retainedArtifactIds": [
+          "6c81f5ae-ceb1-5f85-befc-df7b751e2835",
+          "61353162-c69b-5dc8-9089-735da3eb5d73",
+          "77486c91-e07b-508e-a18a-5076920aff2d",
+          "305f6b99-7a9d-510e-ab38-da75325e1e6d"
+        ],
+        "reviewCandidateRefs": [],
+        "governanceArtifactIds": [],
+        "decisionArtifactIds": [
+          "10000000-0000-4000-8000-000000000400",
+          "10000000-0000-4000-8000-000000000401"
+        ],
+        "publicationRevisionIds": [
+          "10000000-0000-4000-8000-000000000500",
+          "10000000-0000-4000-8000-000000000501"
+        ],
+        "reasonCode": "ALL_ACCEPTED",
+        "closure": {
+          "publicStatus": "COMPLETED",
+          "outcome": "ALL_ACCEPTED"
+        }
+      }
+    }
+  }
+}

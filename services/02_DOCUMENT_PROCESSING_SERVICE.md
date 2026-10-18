@@ -754,3 +754,8 @@ Consume only policy-validated fetched bytes or scanned quarantine objects. SEC-T
 Run orchestration in the NestJS worker role from the same backend release; execute untrusted parsers/scanners in restricted subprocess/container sandboxes, not on the API event loop. Preserve module input/output artifacts. No Go worker or network microservice boundary is required. Resource limits, no-network parsing, scanning and cleanup remain launch requirements.
 
 [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.
+
+
+## Task18 — Processing success is not import completion
+
+[ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) selects authorized stage attempts/prefixes and defines recoverable versus terminal import failure. Processing emits unchanged PROCESSING_INTERMEDIATE/STRUCTURED_DOCUMENT; only complete VALID+SUCCEEDED structured_document advances extraction. Failed/partial records remain diagnostics, not candidate approval/closure. Recheck current grant/source/lease/fence before writes; expired workers cannot publish late results. No new status table or parser format.

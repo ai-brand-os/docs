@@ -64,31 +64,24 @@ Proposed dedicated-screen entry point, pending [D-IMP-03](../DECISION_REGISTER.m
 
 # Import Job Lifecycle (UX-Facing States)
 
-These states belong to a source import operation, not an assistant Message or a Conversation. COMPLETED here means the import review operation finishes; it never terminates a Workspace container. Concrete mapping across candidate decisions/full-snapshot approvals remains an open implementation/specification item (DOCUMENTATION_CHANGELOG.md R23).
+These states describe the aggregate source import, not a Message, Conversation, individual Artifact or worker lease. [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) is the canonical deterministic resolver and review-closure specification: **Specified — Pending Product/Architecture Review (D-AUD-07)**. The existing public vocabulary is preserved:
 
-The frontend needs a small set of user-friendly states to poll against — not the full Artifact Model pipeline detail. Per `domain/04_DATABASE_DESIGN.md` ADR-001 (single `artifacts` table), the backend derives these states from correlation-scoped artifacts and per-item decisions. A latest-row-only resolver cannot establish aggregate review completion; terminal/partial/failure ordering remains R23 / D-AUD-07. No new status-tracking table is introduced — this is a derived view, not new storage.
-
+```text
+SUBMITTED → VALIDATING → PROCESSING → EXTRACTING → READY_FOR_REVIEW
+                                                    ↓
+                                                 COMPLETED
+Terminal alternatives: FAILED; REJECTED_NO_CANDIDATES
 ```
-SUBMITTED
-    ↓
-VALIDATING        (Ingestion Service gate)
-    ↓
-PROCESSING        (Document Processing pipeline)
-    ↓
-EXTRACTING        (Knowledge Extraction pipeline)
-    ↓
-READY_FOR_REVIEW  (Knowledge Management returned governance-eligible candidates)
-    ↓
-COMPLETED         (user confirmed values into Brand Brain)
 
-Failure states: FAILED (any stage), REJECTED_NO_CANDIDATES (pipeline
-completed but Knowledge Management found zero eligible candidates — not an
-error, just nothing usable was found)
-```
+COMPLETED requires durable closure after every frozen eligible candidate has a terminal human decision and every accepted item has actual committed publication evidence. Reasons distinguish ALL_ACCEPTED, MIXED_DECISIONS and NOTHING_ACCEPTED. All rejected is not NOTHING_EXTRACTED; successful pipeline with zero eligible candidates closes REJECTED_NO_CANDIDATES. Undecided items keep READY_FOR_REVIEW; full coverage waiting for durable closure is FINALIZING reason, still nonterminal. Incremental item publication remains allowed by Gate 2 and never implies whole-import completion.
+
+The resolver uses all authorized selected attempts, frozen candidate refs, immutable decisions, committed revisions and closure evidence; no latest-row-only inference. [Proposed Artifact2.1 control extension](../contracts/artifacts/2.1.0/README.md), pending D-IMP-LC-01, supplies the missing operation/closure representation in the existing artifacts table. Original Artifact2.0 and Gateway1.0 files stay unchanged. No dedicated authoritative ImportJob/status store is added. Readers/writers cannot enable the proposal without review.
+
+FAILED is terminal only after permanent/exhausted/revoked operation closure. Recoverable failure, partial extraction and expired worker lease remain in their existing phase with a typed reason and bounded retry/recovery action. Terminal operations never reopen; explicit later submission uses a new correlation. Partial extraction after required-model failure never enters review or silently succeeds. No new CANCELLED/EXPIRED/ABANDONED/FINALIZING public status is added.
 
 ## Polling Contract
 
-Frontend polls job status on an interval (simple polling, not WebSocket/streaming — matches `01_BRAND_BRAIN_PRD.md`'s existing 30-second import target, which does not require push infrastructure). This is a deliberate MVP simplicity choice: real-time streaming status adds infrastructure complexity with no proportional UX benefit for a ≤30 second wait.
+The existing status GET returns the [versioned safe application projection](../contracts/import-lifecycle/README.md): public status/reason, phase, full candidate counts/pending count, retry/action, terminal flag, closure/publication refs and version/ETag. Polling stops only when terminal=true; no client disconnect or navigation event finishes review, cancels work or releases admission. Concrete interval/request timeouts and generic response/error integration remain D-AUD-08/R22; no new polling transport is introduced. The ~30-second import goal is a performance target, not a worker/provider deadline or observed SLA. Manual fallback can appear after the UX wait without cancelling the durable operation.
 
 ---
 
@@ -151,7 +144,7 @@ From the Knowledge Base screen, a user may upload a single file (PDF, DOCX, Mark
 
 ## FR-4 — Poll Import Job Status
 
-Engineering basis: [D-ENG-01/02](../DECISION_REGISTER.md#preserved-evidence-based-decisions-and-remaining-review-ownership); preserved artifact/application boundary. Detailed state resolver remains Engineering-owned and open.
+Engineering basis: [D-ENG-01/02](../DECISION_REGISTER.md#preserved-evidence-based-decisions-and-remaining-review-ownership); preserved artifact/application boundary. Detailed state resolver is specified in [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md), pending Product/Architecture review and runtime implementation.
 
 ### Description
 
@@ -160,7 +153,7 @@ The frontend polls job status using the Job Lifecycle states defined above.
 ### Acceptance Criteria
 
 - Each state maps to a distinct, plain-language UI message (no raw pipeline/stage names shown to the user).
-- Polling stops automatically on any terminal state (`COMPLETED`, `FAILED`, `REJECTED_NO_CANDIDATES`).
+- Polling stops only for terminal=true with verified durable closure (`COMPLETED`, `FAILED`, `REJECTED_NO_CANDIDATES`); transient failures remain nonterminal.
 
 ## FR-5 — Review & Confirm Extracted Candidates
 
@@ -194,7 +187,7 @@ Unchanged in spirit from `01_BRAND_BRAIN_PRD.md`'s existing fallback behavior, e
 
 ### Acceptance Criteria
 
-- Any pipeline failure (Ingestion validation failure, Document Processing failure, a bounded timeout under the still-pending D-AUD-07 deadline/recovery policy (the 30s UI/performance goal is not a universal worker deadline)) surfaces a clear, non-technical message.
+- Any pipeline failure (Ingestion validation failure, Document Processing failure, a bounded timeout under the review-pending ADR-012 deadline/recovery design and still-unapproved operational values (the 30s UI/performance goal is not a universal worker deadline)) surfaces a clear, non-technical message.
 - User can always proceed manually — import failure never blocks Brand Brain completion.
 
 ---
@@ -395,7 +388,7 @@ Acceptance mapping: import → SEC-AT-01/02/03/04/07; Brand Brain review/edit/re
 
 # Task 11 — Approval-based knowledge improvement
 
-Scoped import extraction remains the MVP automated candidate source; eligible items enter the existing Owner review flow. Rejecting a proposal does not remove an approved fact. Candidate decisions and versioned publication follow the learning lifecycle; whole-import status aggregation remains R23 and UI/admission decisions remain D-IMP-02/03.
+Scoped import extraction remains the MVP automated candidate source; eligible items enter the existing Owner review flow. Rejecting a proposal does not remove an approved fact. Candidate decisions and versioned publication follow the learning lifecycle; whole-import aggregation is specified by ADR-012 / D-AUD-07 with review pending; UI/admission choices remain D-IMP-02/03.
 
 [KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
 

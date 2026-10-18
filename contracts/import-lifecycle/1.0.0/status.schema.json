@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:import-projection:1.0.0",
+  "type": "object",
+  "properties": {
+    "projectionVersion": {
+      "const": "1.0.0"
+    },
+    "importId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "brandId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "status": {
+      "enum": [
+        "SUBMITTED",
+        "VALIDATING",
+        "PROCESSING",
+        "EXTRACTING",
+        "READY_FOR_REVIEW",
+        "COMPLETED",
+        "FAILED",
+        "REJECTED_NO_CANDIDATES"
+      ]
+    },
+    "reasonCode": {
+      "enum": [
+        "ACCEPTED",
+        "IN_PROGRESS",
+        "REVIEW_PENDING",
+        "FINALIZING",
+        "ALL_ACCEPTED",
+        "MIXED_DECISIONS",
+        "NOTHING_ACCEPTED",
+        "NOTHING_EXTRACTED",
+        "PARTIAL_EXECUTION",
+        "RETRY_PENDING",
+        "PROVIDER_TIMEOUT",
+        "LEASE_RECOVERY",
+        "RECOVERY_REQUIRED",
+        "PUBLICATION_RECONCILING",
+        "INTEGRITY_BLOCKED",
+        "PIPELINE_FAILED",
+        "RETRY_EXHAUSTED",
+        "INPUT_UNSAFE",
+        "SOURCE_UNAVAILABLE",
+        "AUTHORIZATION_REVOKED",
+        "POLICY_REVIEW_REQUIRED"
+      ]
+    },
+    "progressPhase": {
+      "enum": [
+        "SUBMITTED",
+        "VALIDATING",
+        "PROCESSING",
+        "EXTRACTING",
+        "READY_FOR_REVIEW"
+      ]
+    },
+    "candidateSummary": {
+      "type": "object",
+      "properties": {
+        "eligible": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "accepted": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "editedAccepted": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "rejected": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "pending": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "invalidated": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        }
+      },
+      "required": [
+        "eligible",
+        "accepted",
+        "editedAccepted",
+        "rejected",
+        "pending",
+        "invalidated"
+      ],
+      "additionalProperties": false
+    },
+    "pendingDecisionCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "retryAvailable": {
+      "type": "boolean"
+    },
+    "nextAction": {
+      "enum": [
+        "WAIT",
+        "REVIEW",
+        "RETRY",
+        "RECONCILE",
+        "MANUAL_ENTRY",
+        "NONE"
+      ]
+    },
+    "terminal": {
+      "type": "boolean"
+    },
+    "closureArtifactId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "publicationRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "maxItems": 10000
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "projectionVersion",
+    "importId",
+    "correlationId",
+    "brandId",
+    "status",
+    "reasonCode",
+    "progressPhase",
+    "candidateSummary",
+    "pendingDecisionCount",
+    "retryAvailable",
+    "nextAction",
+    "terminal",
+    "closureArtifactId",
+    "publicationRefs",
+    "version"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "terminal": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "status": {
+            "enum": [
+              "COMPLETED",
+              "FAILED",
+              "REJECTED_NO_CANDIDATES"
+            ]
+          },
+          "closureArtifactId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "retryAvailable": {
+            "const": false
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "status": {
+            "enum": [
+              "SUBMITTED",
+              "VALIDATING",
+              "PROCESSING",
+              "EXTRACTING",
+              "READY_FOR_REVIEW"
+            ]
+          },
+          "closureArtifactId": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

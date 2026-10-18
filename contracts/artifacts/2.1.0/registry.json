@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2.1.0",
+  "status": "Proposed extension \u2014 Pending Architecture/Engineering Review (D-IMP-LC-01)",
+  "inheritsExactRecordVersions": [
+    "2.0.0"
+  ],
+  "newVariants": [
+    {
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "producingService": "KNOWLEDGE_MANAGEMENT",
+      "producingStage": "import_control",
+      "variant": "import_control",
+      "schemaId": "urn:ai-brand-os:artifact:2.1.0:import-control"
+    }
+  ],
+  "existingRecordSchemasUnchanged": true
+}

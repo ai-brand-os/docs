@@ -1479,3 +1479,8 @@ A Conversation is a persistent multi-turn interaction container, not a business 
 Knowledge improvement reuses candidate artifacts, explicit Owner decisions and immutable approved revisions. Persistent storage, contextual reasoning, future preference memory, verified updates and model fine-tuning are separate mechanisms. No new learning aggregate or alternate business authority is introduced.
 
 [KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
+
+
+## Task18 — Logical import operation
+
+[ADR-012](11_IMPORT_LIFECYCLE_ADR.md) separates pipeline, candidate review, aggregate import, revision publication and worker lease state. Import is a correlation-scoped logical operation derived from unified artifacts, never a new Prisma ImportJob model. [Proposed Artifact2.1 control records](../contracts/artifacts/2.1.0/README.md) add explicit admission/attempt/review-set/closure evidence pending review; statuses are not inferred from the latest Artifact or an approved snapshot alone. Original v2/Gateway1 and manual/no-source initialization are unchanged.

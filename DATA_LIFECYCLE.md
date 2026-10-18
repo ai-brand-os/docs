@@ -126,3 +126,8 @@ Relative document links and heading anchors pass checks, `git diff --check` pass
 ## Task 08 validation update
 
 [ADR-009](domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) supersedes the prior schema-level datasource URL workaround. Exact schema.prisma validates with installed Prisma 7; SQL constraints were tested against generated DDL in private PostgreSQL and rolled back. Current planned schema also includes AuthSession security state; no user-facing feature or identity vendor is added. Historical validation records above describe earlier schema versions; [TASK08_RESULTS.md](validation/TASK08_RESULTS.md) records current commands/results. Production migrations and runtime behavior remain unverified.
+
+
+## Task18 — Import control retention is independent
+
+[ADR-012](domain/11_IMPORT_LIFECYCLE_ADR.md) keeps imported candidates/decisions/control chains and approved knowledge independent of Conversation deletion. Import closure is not physical source/knowledge erasure. Do not delete active control/admission evidence to free a slot, and preserve historical citation/decision/publication refs under approved source/knowledge policy. Review waiting has no newly invented expiry; D-POL-01 and D-IMP-LC-02 retain Legal/Operations/Product/Founder review. Required source/Brand lifecycle revocation blocks late writes and allows only narrow content-free safe closure bookkeeping, never knowledge publication.

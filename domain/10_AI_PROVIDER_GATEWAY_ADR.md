@@ -169,3 +169,8 @@ AT-17-01–17, valid/invalid examples and actual offline results are indexed in 
 Review roles: D-AUD-02 Architecture/Security; D-SEC-02 Security + Legal/privacy + Product; D-GW-01 Architecture/Engineering/Security/Operations plus relevant budget/privacy owners; D-ARCH-01 queue integration; D-ARCH-02 capacity; D-AUD-04 Artifact review; D-AUD-07/D-IMP-02 partial/closure UX; D-AUD-01 history; D-AUD-08 SSE/API integration; D-POL-01/D-SEC-03 retention. Existing Founder product decisions are unchanged.
 
 Implement next: reviewed template/model/policy registries and opaque execution grants; NestJS Gateway/adapter; atomic quota reservations and queue/lease integration; caller artifact mapping and idempotent commits; actual provider/privacy configuration and disclosure; fault/adversarial/tenant/concurrency tests and monitored disable switches. Record exact runtime revision/environment and reviewer evidence before sign-off.
+
+
+## Task18 — Import aggregate lifecycle reference
+
+[ADR-012](11_IMPORT_LIFECYCLE_ADR.md) now specifies D-AUD-07 at review-pending level, preserving this ADR and Gateway1.0.0 unchanged. Provider TIMEOUT/FAILED does not imply terminal import until retry exhaustion/permanent closure; partial deterministic extraction remains unreviewable. Selected stage invocation/attempt ranges and current lease fence bind Gateway results; recheck current grant/source/deletion before Artifact writes. No Gateway success approves facts or closes review. Exact admission interval, partial acceptance/expiry/force-close policy and numeric budgets remain their registered pending decisions.

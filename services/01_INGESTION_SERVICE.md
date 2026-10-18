@@ -399,3 +399,8 @@ Own authenticated intake, quarantined tenant-bound object keys and the restricte
 Run as an internal NestJS module, not a public independently deployed service. Hand accepted operations to the durable PostgreSQL queue through the reviewed atomic enqueue adapter; return correlation for existing polling. Keep fetch policy and quarantine checks. A queue receipt never authorizes a tenant or implies knowledge approval.
 
 [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.
+
+
+## Task18 — Import admission and lifecycle ownership
+
+[ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) owns aggregate status and closure. Ingestion produces existing RAW_INTAKE checkpoints and safe failures only; its success or queue completion never closes an import. KnowledgeImportModule/KM records proposed admission/control events under Brand lock; Ingestion validates current tenant/source/claim and fence before durable writes. Unsafe input leads to controlled failure closure, not provider/parser bypass. One active import through READY_FOR_REVIEW remains D-IMP-02 proposed Founder policy.

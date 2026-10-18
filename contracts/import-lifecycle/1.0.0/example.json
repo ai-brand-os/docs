@@ -1,0 +1,27 @@
+{
+  "projectionVersion": "1.0.0",
+  "importId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+  "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+  "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+  "status": "COMPLETED",
+  "reasonCode": "ALL_ACCEPTED",
+  "progressPhase": "READY_FOR_REVIEW",
+  "candidateSummary": {
+    "eligible": 2,
+    "accepted": 2,
+    "editedAccepted": 0,
+    "rejected": 0,
+    "pending": 0,
+    "invalidated": 0
+  },
+  "pendingDecisionCount": 0,
+  "retryAvailable": false,
+  "nextAction": "NONE",
+  "terminal": true,
+  "closureArtifactId": "10000000-0000-4000-8000-000000000104",
+  "publicationRefs": [
+    "10000000-0000-4000-8000-000000000500",
+    "10000000-0000-4000-8000-000000000501"
+  ],
+  "version": "c82e66fa9347c8d823d70da84c4fdb755733716829e52cbe9220beaa87f10556"
+}

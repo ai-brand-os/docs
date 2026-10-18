@@ -185,3 +185,8 @@ Documentation relative links/heading anchors and git diff whitespace checks pass
 ## Knowledge improvement integration
 
 [KNOWLEDGE_LEARNING_LIFECYCLE.md](KNOWLEDGE_LEARNING_LIFECYCLE.md) specifies candidate review/decision payloads and the proposed read facade, explicit-correction reason/diff records and measurable outcomes. It reuses these immutable snapshots/revisions and existing mutation/restore routes; no new Prisma entity or approval source is introduced. Automatic conversation-derived candidates and inferred preference memory remain later-phase; import extraction is the scoped MVP exception.
+
+
+## Task18 — Import closure and atomic approved state
+
+[ADR-012](domain/11_IMPORT_LIFECYCLE_ADR.md) preserves per-item candidate decision/publication and expectedRevisionId. Under the same Brand-locked transaction, the last terminal review decision may append verified import CLOSED after full frozen-set coverage. Rejection has no resulting revision. Accepted decisions require actual snapshot/BrandBrainRevision/head/completeness/relational/KnowledgeIndex commit; optional future index rebuilds may lag but cannot supply stale context. Lost acknowledgments replay the existing receipt before stale-head rejection, after current authorization. The [proposed2.1 control](contracts/artifacts/2.1.0/README.md) adds closure references, not another value/approval store; review and rollout remain pending.

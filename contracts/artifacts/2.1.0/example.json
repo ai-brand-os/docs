@@ -1,0 +1,57 @@
+{
+  "artifactId": "10000000-0000-4000-8000-000000000104",
+  "artifactType": "KNOWLEDGE_CANDIDATE",
+  "parentArtifactId": "10000000-0000-4000-8000-000000000103",
+  "conversationId": null,
+  "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+  "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+  "producingService": "KNOWLEDGE_MANAGEMENT",
+  "producingStage": "import_control",
+  "schemaVersion": "2.1.0",
+  "status": "VALID",
+  "createdAt": "2026-10-18T10:00:00Z",
+  "payload": {
+    "variant": "import_control",
+    "operationStatus": "SUCCEEDED",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "invocationId": "10000000-0000-4000-8000-000000000200",
+    "attemptNumber": 1,
+    "checkpointNumber": 3,
+    "error": null,
+    "data": {
+      "event": "CLOSED",
+      "sequence": 4,
+      "previousControlArtifactId": "10000000-0000-4000-8000-000000000103",
+      "epoch": 1,
+      "fence": 1,
+      "actorUserId": "0c167e3d-6388-5540-a957-25a166285e73",
+      "servicePrincipal": null,
+      "operationId": "10000000-0000-4000-8000-000000000304",
+      "idempotencyKeyHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "phase": "READY_FOR_REVIEW",
+      "stageBindings": [],
+      "retainedArtifactIds": [
+        "6c81f5ae-ceb1-5f85-befc-df7b751e2835",
+        "61353162-c69b-5dc8-9089-735da3eb5d73",
+        "77486c91-e07b-508e-a18a-5076920aff2d",
+        "305f6b99-7a9d-510e-ab38-da75325e1e6d"
+      ],
+      "reviewCandidateRefs": [],
+      "governanceArtifactIds": [],
+      "decisionArtifactIds": [
+        "10000000-0000-4000-8000-000000000400",
+        "10000000-0000-4000-8000-000000000401"
+      ],
+      "publicationRevisionIds": [
+        "10000000-0000-4000-8000-000000000500",
+        "10000000-0000-4000-8000-000000000501"
+      ],
+      "reasonCode": "ALL_ACCEPTED",
+      "closure": {
+        "publicStatus": "COMPLETED",
+        "outcome": "ALL_ACCEPTED"
+      }
+    }
+  }
+}

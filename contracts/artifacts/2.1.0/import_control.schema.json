@@ -1,0 +1,513 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:artifact:2.1.0:import-control",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "artifactType": {
+      "const": "KNOWLEDGE_CANDIDATE"
+    },
+    "parentArtifactId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "conversationId": {
+      "type": "null"
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "producingService": {
+      "const": "KNOWLEDGE_MANAGEMENT"
+    },
+    "producingStage": {
+      "const": "import_control"
+    },
+    "schemaVersion": {
+      "const": "2.1.0"
+    },
+    "status": {
+      "enum": [
+        "VALID",
+        "ARCHIVED"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "variant": {
+          "const": "import_control"
+        },
+        "operationStatus": {
+          "const": "SUCCEEDED"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "invocationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "attemptNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "checkpointNumber": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "event": {
+              "enum": [
+                "ADMITTED",
+                "CLAIMED",
+                "RETRY_AUTHORIZED",
+                "REVIEW_OPENED",
+                "CLOSED"
+              ]
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647
+            },
+            "previousControlArtifactId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "epoch": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "fence": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "actorUserId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "servicePrincipal": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "operationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "idempotencyKeyHash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "requestHash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "phase": {
+              "enum": [
+                "SUBMITTED",
+                "VALIDATING",
+                "PROCESSING",
+                "EXTRACTING",
+                "READY_FOR_REVIEW"
+              ]
+            },
+            "stageBindings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "producingStage": {
+                    "enum": [
+                      "intake",
+                      "reader",
+                      "cleaner",
+                      "normalizer",
+                      "language_detector",
+                      "metadata_extractor",
+                      "structure_analyzer",
+                      "chunk_generator",
+                      "chunk_optimizer",
+                      "quality_validator",
+                      "information_extraction",
+                      "entity_normalization",
+                      "semantic_interpretation",
+                      "entity_classification",
+                      "relationship_builder",
+                      "candidate_builder",
+                      "schema_validation",
+                      "business_rule_validation",
+                      "ontology_validation",
+                      "duplicate_detection",
+                      "conflict_detection",
+                      "knowledge_merge",
+                      "knowledge_confidence_calculation",
+                      "policy_engine"
+                    ]
+                  },
+                  "invocationId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "minAttemptNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 2147483647
+                  },
+                  "maxAttemptNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 2147483647
+                  }
+                },
+                "required": [
+                  "producingStage",
+                  "invocationId",
+                  "minAttemptNumber",
+                  "maxAttemptNumber"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 10000
+            },
+            "retainedArtifactIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "maxItems": 10000
+            },
+            "reviewCandidateRefs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "candidateArtifactId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "candidateId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "required": [
+                  "candidateArtifactId",
+                  "candidateId"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 10000
+            },
+            "governanceArtifactIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "maxItems": 10000
+            },
+            "decisionArtifactIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "maxItems": 10000
+            },
+            "publicationRevisionIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "maxItems": 10000
+            },
+            "reasonCode": {
+              "enum": [
+                "ACCEPTED",
+                "IN_PROGRESS",
+                "REVIEW_PENDING",
+                "FINALIZING",
+                "ALL_ACCEPTED",
+                "MIXED_DECISIONS",
+                "NOTHING_ACCEPTED",
+                "NOTHING_EXTRACTED",
+                "PARTIAL_EXECUTION",
+                "RETRY_PENDING",
+                "PROVIDER_TIMEOUT",
+                "LEASE_RECOVERY",
+                "RECOVERY_REQUIRED",
+                "PUBLICATION_RECONCILING",
+                "INTEGRITY_BLOCKED",
+                "PIPELINE_FAILED",
+                "RETRY_EXHAUSTED",
+                "INPUT_UNSAFE",
+                "SOURCE_UNAVAILABLE",
+                "AUTHORIZATION_REVOKED",
+                "POLICY_REVIEW_REQUIRED"
+              ]
+            },
+            "closure": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "publicStatus": {
+                      "enum": [
+                        "COMPLETED",
+                        "FAILED",
+                        "REJECTED_NO_CANDIDATES"
+                      ]
+                    },
+                    "outcome": {
+                      "enum": [
+                        "ALL_ACCEPTED",
+                        "MIXED_DECISIONS",
+                        "NOTHING_ACCEPTED",
+                        "NOTHING_EXTRACTED",
+                        "PIPELINE_FAILED",
+                        "RETRY_EXHAUSTED",
+                        "INPUT_UNSAFE",
+                        "SOURCE_UNAVAILABLE",
+                        "AUTHORIZATION_REVOKED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "publicStatus",
+                    "outcome"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "event",
+            "sequence",
+            "previousControlArtifactId",
+            "epoch",
+            "fence",
+            "actorUserId",
+            "servicePrincipal",
+            "operationId",
+            "idempotencyKeyHash",
+            "requestHash",
+            "phase",
+            "stageBindings",
+            "retainedArtifactIds",
+            "reviewCandidateRefs",
+            "governanceArtifactIds",
+            "decisionArtifactIds",
+            "publicationRevisionIds",
+            "reasonCode",
+            "closure"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "actorUserId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "servicePrincipal": {
+                      "type": "null"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "actorUserId": {
+                      "type": "null"
+                    },
+                    "servicePrincipal": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "if": {
+                "properties": {
+                  "event": {
+                    "const": "CLOSED"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "closure": {
+                    "type": "object",
+                    "properties": {
+                      "publicStatus": {
+                        "enum": [
+                          "COMPLETED",
+                          "FAILED",
+                          "REJECTED_NO_CANDIDATES"
+                        ]
+                      },
+                      "outcome": {
+                        "enum": [
+                          "ALL_ACCEPTED",
+                          "MIXED_DECISIONS",
+                          "NOTHING_ACCEPTED",
+                          "NOTHING_EXTRACTED",
+                          "PIPELINE_FAILED",
+                          "RETRY_EXHAUSTED",
+                          "INPUT_UNSAFE",
+                          "SOURCE_UNAVAILABLE",
+                          "AUTHORIZATION_REVOKED"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "publicStatus",
+                      "outcome"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "closure": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "event": {
+                    "const": "ADMITTED"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "sequence": {
+                    "const": 1
+                  },
+                  "previousControlArtifactId": {
+                    "type": "null"
+                  },
+                  "phase": {
+                    "const": "SUBMITTED"
+                  },
+                  "epoch": {
+                    "const": 0
+                  },
+                  "fence": {
+                    "const": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "sequence": {
+                    "type": "integer",
+                    "minimum": 2,
+                    "maximum": 2147483647
+                  },
+                  "previousControlArtifactId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "error": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "variant",
+        "operationStatus",
+        "brandId",
+        "invocationId",
+        "attemptNumber",
+        "checkpointNumber",
+        "data",
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "artifactId",
+    "artifactType",
+    "parentArtifactId",
+    "conversationId",
+    "correlationId",
+    "organizationId",
+    "producingService",
+    "producingStage",
+    "schemaVersion",
+    "status",
+    "createdAt",
+    "payload"
+  ],
+  "additionalProperties": false
+}

@@ -202,7 +202,7 @@ Step 5 — First Generation ("Wow Moment")
 ## Fallback Behavior
 
 - If no Website URL is provided → skip Step 2 and Step 3 entirely, go straight to Step 4 as a plain form.
-- If import fails or times out (>30s) → show a non-blocking notice, fall back to the manual form for all fields.
+- If import fails or exceeds the ~30s UX wait target → show a non-blocking notice and allow manual entry. This UI fallback does not impose a worker deadline, cancel the import, decide pending candidates or release its proposed admission slot; polling/closure follows [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md).
 - Import failure must never prevent onboarding completion.
 
 ## Proposed Time-to-First-Value Goals
@@ -392,3 +392,8 @@ Explicit field correction/save is a reviewed mutation; it must record reason/dif
 # Task 15 — Proposed single-product commercial test
 
 [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md) proposes e-commerce validation using one page URL OR one supported product fact document per import job, plus explicit manual brand/offer facts and Owner approval. Another source is a distinct job under the selected admission rule, not catalog crawling/batch import. Existing mandatory readiness/provenance/versioning and copyable approved Brief contracts remain. A deliverable-level source/claim panel is pending D-GTM-02, not already delivered. Segment, first $29 offer and experiment thresholds remain proposals; no PRD approval is upgraded.
+
+
+## Task18 — Import review versus Brand Brain publication
+
+Import confirmation remains a per-item authorized publication transaction. A successful revision may coexist with undecided import candidates. [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) defines full review coverage, closure, stale-head conflict/replay and proposed admission release; it never allows pending/model-derived knowledge to count as approved. All-rejected review closes with no new revision; manual approved fields remain unchanged unless explicitly confirmed for replacement. No new navigation surface or import format; Founder D-IMP-01/02/03 remain pending.

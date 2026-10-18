@@ -53,7 +53,7 @@ stateDiagram-v2
     Ineligible --> [*]
 ```
 
-These are semantic review outcomes, not ArtifactStatus, MessageStatus or new Prisma enums. No bulk auto-accept, delegated reviewer or automatic decision from ratings is authorized. Exact whole-import terminal-state aggregation and active-job admission remain R23 / D-IMP-02; this fact-level lifecycle does not claim to settle them.
+These are semantic review outcomes, not ArtifactStatus, MessageStatus or new Prisma enums. No bulk auto-accept, delegated reviewer or automatic decision from ratings is authorized. Whole-import aggregation is specified by [ADR-012](domain/11_IMPORT_LIFECYCLE_ADR.md), pending D-AUD-07 Product/Architecture review; exact active-job admission remains D-IMP-02 pending Founder approval. This fact-level lifecycle does not override those gates.
 
 ## Minimum persistence contract — reuse, no new Prisma entities
 
@@ -117,3 +117,8 @@ Required events: CandidateCreated, CandidateEligible/CandidateIneligible, Candid
 ## Review and migration requirements
 
 No Prisma DDL is required. Before enabling the read facade or extended metrics, version candidate/decision JSON schemas, validate existing artifacts without manufacturing absent decisions/evidence/confidence, and label legacy missing fields unknown. Backfill only mechanically derivable references; re-review if interpretation is needed. Preserve historical immutable artifacts using adapters or append-only migration records; validate tenant/reference gateways, idempotency and bounded derived review queries. Deploy readers compatible with old payloads before new writers; rollback disables new writers/facade and retains published revisions. Required runtime tests above and security/provenance release gates remain pending. Formal import UI/concurrency and full import terminal resolver are not silently resolved by this document.
+
+
+## Task18 — Candidate coverage and operation closure
+
+[ADR-012](domain/11_IMPORT_LIFECYCLE_ADR.md) is canonical for import aggregation: one original candidate key, at most one terminal human decision, matching actual publication for accepts and frozen review coverage before durable closure. CONFIRM/EDIT_AND_CONFIRM/REJECT stay exact v2 actions; edited pending values revalidate, later accepted corrections use new manual/restore revisions. Incremental accepted facts may be used while other candidates await review; partial pipeline fragments cannot enter review. D-LEARN-02 facade review and D-IMP-02/03 Founder decisions remain open. No automatic review expiry/discard, training or publication is introduced.

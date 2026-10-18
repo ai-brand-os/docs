@@ -128,3 +128,8 @@ The [pg-boss project](https://github.com/timgit/pg-boss) documents PostgreSQL-ba
 ## Task17 — Shared provider module within ADR-010
 
 [ADR-011](10_AI_PROVIDER_GATEWAY_ADR.md) and [Gateway contracts](../contracts/ai-provider/README.md) specify one DI-only platform module reused by Extraction in the worker role and Orchestrator in the API/worker role. No extra microservice, language, database or provider ledger is introduced. Only Gateway adapters contact the external provider; caller-owned immutable artifacts remain durable receipts. Queue claims, fencing and shared quota reservations must span replicas, not rely on process-local maps. Transport retries and caller regeneration consume one operation budget/deadline; no transaction stays open during external I/O. Ambiguous vendor charges remain possible after crashes/timeouts. Provider, numeric-policy and runtime security/lease/atomic-integration approvals stay D-SEC-02/D-GW-01/D-ARCH-01/02. No infrastructure migration is claimed.
+
+
+## Task18 — Import claims are not business status
+
+[ADR-012](11_IMPORT_LIFECYCLE_ADR.md) defines Brand-locked Artifact admission/attempt/review/closure authority. Queue job identity/visibility/heartbeat/fence and retry scheduling are infrastructure, never import completion. Durable closure releases the proposed D-IMP-02 slot, including review; queue success/lease expiry/client exit cannot release it. Verify closure/receipts on redelivery, recheck grants/deletion/fence before writes and hold no transaction across provider/parser I/O. Atomic enqueue/outbox and distributed claim behavior still require D-ARCH-01 review/integration tests; no infrastructure migration or new microservice.
