@@ -1,6 +1,6 @@
 # Domain Model — AI Brand OS
 
-> Final audit (2026-10-16): Storage cardinality and readiness differ: drafts may have no Voice, offers, Audience, sources or approved facts. Readiness requires one complete approved Product OR Service and Audience plus mandatory manual Voice. D-AUD-06 tracks TARGETS/USES and entity lifecycle projection gaps; conceptual edges are not implemented joins. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Final audit (2026-10-16): Storage cardinality and readiness differ: drafts may have no Voice, offers, Audience, sources or approved facts. Readiness requires one complete approved Product OR Service and Audience plus mandatory manual Voice. Task20 specifies TARGETS/USES and lifecycle mappings in ADR-014; D-AUD-06 is Specified — Pending Architecture/Product Review. Proposed D-REL-01/02/03 gates remain; conceptual edges are not implemented joins. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
@@ -628,7 +628,7 @@ Product
 
 TARGETS
 
-1..N Audiences
+Historical ontology1.1: 1..N Audiences; proposed1.2: 0..N draft/ready, D-REL-02 pending
 
 ---
 
@@ -644,7 +644,7 @@ Product
 
 USES
 
-1 Brand Voice
+Historical conceptual USES: 1 Brand Voice; proposed optional derived 0..1, disabled pending D-REL-02
 
 ---
 
@@ -678,7 +678,7 @@ Service
 
 TARGETS
 
-1..N Audiences
+Historical ontology1.1: 1..N Audiences; proposed1.2: 0..N draft/ready, D-REL-02 pending
 
 ---
 
@@ -686,7 +686,7 @@ Service
 
 USES
 
-1 Brand Voice
+Historical conceptual USES: 1 Brand Voice; proposed optional derived 0..1, disabled pending D-REL-02
 
 ---
 
@@ -804,7 +804,7 @@ Campaign
 
 TARGETS
 
-1..N Audiences
+Historical ontology1.1: 1..N Audiences; proposed1.2: 0..N draft/ready, D-REL-02 pending
 
 ---
 
@@ -864,7 +864,7 @@ Content
 
 USES
 
-1 Brand Voice
+Historical conceptual USES: 1 Brand Voice; proposed optional derived 0..1, disabled pending D-REL-02
 
 ---
 
@@ -1060,7 +1060,7 @@ Storage implementation is defined separately.
 
 Ontology definitions extend these relationships.
 
-Knowledge Graph implementations materialize these relationships.
+MVP uses existing ownership FKs, approved snapshot membership/facts and conditionally versioned explicit edges; no independent Knowledge Graph store. See ADR-014 for each mapping.
 
 ---
 
@@ -1489,3 +1489,10 @@ Knowledge improvement reuses candidate artifacts, explicit Owner decisions and i
 ## Task19 — Representation and evidence value objects
 
 [ADR-013](12_SOURCE_EVIDENCE_MAPPING_ADR.md) distinguishes immutable source identity/content, parsed/normalized/chunk representations, typed evidence and approved field provenance. These are versioned value/reference objects in existing Artifact JSON/private content storage, not new Prisma business models or independent evidence/approval authority. Original Document/source refs remain; page/section/range claims require reproducible representation/parser/digest support. Historical identity can remain while bytes are lawfully unavailable. No inferred semantic value or precise location becomes verified by confidence or approval alone.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+Structural ownership uses existing FKs plus approved snapshot membership; conceptual Knowledge is a typed approved fact, not a new entity table. Updated/Refined/Retired domain words do not create new Prisma status enums. Product/Service TARGETS is an explicit assertion, not inferred from sharing an Organization. Historical ontology1.1 required targets; proposed1.2 allows draft/ready 0..N pending Product review, without adding onboarding fields. USES is optional derived 0..1 under a separately reviewed rule, disabled by default. Global BrandVoice grounding remains unchanged. The ADR contains the complete Active/Reserved and entity lifecycle matrices; future narrative predicates are not registered MVP wire types.

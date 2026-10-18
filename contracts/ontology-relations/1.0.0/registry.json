@@ -1,0 +1,781 @@
+{
+  "registryVersion": "1.0.0",
+  "ontologyVersion": "1.2.0",
+  "status": "Proposed \u2014 Pending Architecture/Product Review",
+  "decisions": [
+    "D-AUD-06",
+    "D-REL-01",
+    "D-REL-02",
+    "D-REL-03"
+  ],
+  "relationships": [
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "ORGANIZATION",
+      "targetEntityType": "BRAND",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "STRUCTURAL",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 1,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "EXISTING_FK_OR_APPROVED_MEMBERSHIP",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "ORGANIZATION",
+      "targetEntityType": "PRODUCT",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "STRUCTURAL",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "EXISTING_FK_OR_APPROVED_MEMBERSHIP",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "ORGANIZATION",
+      "targetEntityType": "SERVICE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "STRUCTURAL",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "EXISTING_FK_OR_APPROVED_MEMBERSHIP",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "ORGANIZATION",
+      "targetEntityType": "AUDIENCE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "STRUCTURAL",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 1,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "EXISTING_FK_OR_APPROVED_MEMBERSHIP",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "ORGANIZATION",
+      "targetEntityType": "DOCUMENT",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "STRUCTURAL",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "EXISTING_FK_OR_APPROVED_MEMBERSHIP",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "ORGANIZATION",
+      "targetEntityType": "COMPETITOR",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "STRUCTURAL",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "EXISTING_FK_OR_APPROVED_MEMBERSHIP",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "BRAND",
+      "targetEntityType": "BRAND_VOICE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "STRUCTURAL",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 1,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "EXISTING_FK_OR_APPROVED_MEMBERSHIP",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "BRAND",
+      "targetEntityType": "KNOWLEDGE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "TARGETS",
+      "sourceEntityType": "PRODUCT",
+      "targetEntityType": "AUDIENCE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "EXPLICIT",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": true,
+      "origins": [
+        "MANUAL",
+        "IMPORTED"
+      ],
+      "approval": "AUTHORIZED_HUMAN",
+      "storage": "APPROVED_SNAPSHOT_EDGES",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "AUTHORIZED_OWNER_EXPLICIT_PREDICATE_REVIEW",
+      "originPolicy": "EXPLICIT_EDGE_ORIGIN_ENUM"
+    },
+    {
+      "relationshipType": "USES",
+      "sourceEntityType": "PRODUCT",
+      "targetEntityType": "BRAND_VOICE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "TARGETS",
+      "sourceEntityType": "SERVICE",
+      "targetEntityType": "AUDIENCE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "EXPLICIT",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": true,
+      "origins": [
+        "MANUAL",
+        "IMPORTED"
+      ],
+      "approval": "AUTHORIZED_HUMAN",
+      "storage": "APPROVED_SNAPSHOT_EDGES",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "AUTHORIZED_OWNER_EXPLICIT_PREDICATE_REVIEW",
+      "originPolicy": "EXPLICIT_EDGE_ORIGIN_ENUM"
+    },
+    {
+      "relationshipType": "USES",
+      "sourceEntityType": "SERVICE",
+      "targetEntityType": "BRAND_VOICE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "PRODUCES",
+      "sourceEntityType": "DOCUMENT",
+      "targetEntityType": "KNOWLEDGE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "ORIGINATES_FROM",
+      "sourceEntityType": "KNOWLEDGE",
+      "targetEntityType": "DOCUMENT",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": "PRODUCES",
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "MAY_DESCRIBE",
+      "sourceEntityType": "KNOWLEDGE",
+      "targetEntityType": "PRODUCT",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "MAY_DESCRIBE",
+      "sourceEntityType": "KNOWLEDGE",
+      "targetEntityType": "SERVICE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "MAY_DESCRIBE",
+      "sourceEntityType": "KNOWLEDGE",
+      "targetEntityType": "AUDIENCE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "MAY_DESCRIBE",
+      "sourceEntityType": "KNOWLEDGE",
+      "targetEntityType": "COMPETITOR",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "MAY_DESCRIBE",
+      "sourceEntityType": "KNOWLEDGE",
+      "targetEntityType": "BRAND_VOICE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "DERIVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "APPROVED_FACT_OR_RULE_VIEW",
+      "enabledByDefault": true,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "EXISTING_AUTHORIZED_RECORD_OR_REVIEWED_RULE",
+      "originPolicy": "INHERIT_RECORD_OR_FACT_PROVENANCE_NOT_AN_EDGE_ORIGIN"
+    },
+    {
+      "relationshipType": "COMPETES_WITH",
+      "sourceEntityType": "COMPETITOR",
+      "targetEntityType": "PRODUCT",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "EXPLICIT",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": true,
+      "origins": [
+        "MANUAL"
+      ],
+      "approval": "AUTHORIZED_HUMAN",
+      "storage": "APPROVED_SNAPSHOT_EDGES",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "AUTHORIZED_OWNER_EXPLICIT_PREDICATE_REVIEW",
+      "originPolicy": "EXPLICIT_EDGE_ORIGIN_ENUM"
+    },
+    {
+      "relationshipType": "COMPETES_WITH",
+      "sourceEntityType": "COMPETITOR",
+      "targetEntityType": "SERVICE",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "EXPLICIT",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": true,
+      "origins": [
+        "MANUAL"
+      ],
+      "approval": "AUTHORIZED_HUMAN",
+      "storage": "APPROVED_SNAPSHOT_EDGES",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "AUTHORIZED_OWNER_EXPLICIT_PREDICATE_REVIEW",
+      "originPolicy": "EXPLICIT_EDGE_ORIGIN_ENUM"
+    },
+    {
+      "relationshipType": "COMPETES_WITH",
+      "sourceEntityType": "COMPETITOR",
+      "targetEntityType": "ORGANIZATION",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Active",
+      "category": "EXPLICIT",
+      "draftCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": 1
+      },
+      "persisted": true,
+      "origins": [
+        "MANUAL"
+      ],
+      "approval": "AUTHORIZED_HUMAN",
+      "storage": "APPROVED_SNAPSHOT_EDGES",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "AUTHORIZED_OWNER_EXPLICIT_PREDICATE_REVIEW",
+      "originPolicy": "EXPLICIT_EDGE_ORIGIN_ENUM"
+    },
+    {
+      "relationshipType": "HAS",
+      "sourceEntityType": "AUDIENCE",
+      "targetEntityType": "PERSONA",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Reserved",
+      "category": "RESERVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "NONE",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "NONE",
+      "originPolicy": "NOT_INSTANTIABLE"
+    },
+    {
+      "relationshipType": "GENERATES",
+      "sourceEntityType": "PRODUCT",
+      "targetEntityType": "CONTENT",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Reserved",
+      "category": "RESERVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "NONE",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "NONE",
+      "originPolicy": "NOT_INSTANTIABLE"
+    },
+    {
+      "relationshipType": "GENERATES",
+      "sourceEntityType": "SERVICE",
+      "targetEntityType": "CONTENT",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Reserved",
+      "category": "RESERVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "NONE",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "NONE",
+      "originPolicy": "NOT_INSTANTIABLE"
+    },
+    {
+      "relationshipType": "MAY_APPEAR_IN",
+      "sourceEntityType": "PRODUCT",
+      "targetEntityType": "CAMPAIGN",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Reserved",
+      "category": "RESERVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "NONE",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "NONE",
+      "originPolicy": "NOT_INSTANTIABLE"
+    },
+    {
+      "relationshipType": "MAY_APPEAR_IN",
+      "sourceEntityType": "SERVICE",
+      "targetEntityType": "CAMPAIGN",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Reserved",
+      "category": "RESERVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "NONE",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "NONE",
+      "originPolicy": "NOT_INSTANTIABLE"
+    },
+    {
+      "relationshipType": "DISTRIBUTES",
+      "sourceEntityType": "CHANNEL",
+      "targetEntityType": "CONTENT",
+      "direction": "SOURCE_TO_TARGET",
+      "status": "Reserved",
+      "category": "RESERVED",
+      "draftCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "readyCardinality": {
+        "min": 0,
+        "max": null
+      },
+      "persisted": false,
+      "origins": [],
+      "approval": "INHERIT_AUTHORITATIVE_RECORD",
+      "storage": "NONE",
+      "enabledByDefault": false,
+      "reconciliation": "REVALIDATE_PINNED_REVISION_NEVER_INFER",
+      "deletion": "FILTER_CURRENT_OVERLAY_RETAIN_HISTORY_SUBJECT_TO_POLICY",
+      "compatibility": "ontology 1.2.0 proposed; legacy graphs NOT_RECORDED",
+      "inverseOf": null,
+      "creationAuthority": "NONE",
+      "originPolicy": "NOT_INSTANTIABLE"
+    }
+  ]
+}

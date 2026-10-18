@@ -798,3 +798,10 @@ One reviewed MVP provider is required, none selected here. D-AUD-02 review, D-SE
 ## Task19 — Literal evidence proposals
 
 [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) requires proposals to preserve genuine source/Document/chunk identity and literal support; model pages/quotes/offsets are untrusted and must verify. Normalized text is not original text, disjoint spans are not one quote, and `$149`/ambiguous dates cannot gain unsupported meaning. Extraction may propose locator/support inputs for KM validation but cannot write authoritative verification/approval or fetch URLs. Existing v2 evidence DTO remains closed; proposed2.2 binding attaches typed evidence by original candidate key/hash. Missing original precision can be warning review with genuine support, invalid references/digests/quotes cannot. Parser retry/stale evidence follows ADR-012 selected attempts and frozen review; mapping success never makes partial extraction complete or approves a fact.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+Extraction may emit existing v2 candidateRelationships only as untrusted proposals. Never create approved edges, infer TARGETS from co-membership or convert approval of an entity field into predicate approval. Retain original proposal DTO digest/Artifact and actual source references; no fabricated evidence offsets/relationship fields. Imported TARGETS needs actual approved supporting fact/value refs and validated Task19 binding, then separate Owner review under D-REL-02. Competitor import remains excluded. Gateway/source-evidence/import contract bundles are unchanged; source deletion/precision remains ADR-013 policy.

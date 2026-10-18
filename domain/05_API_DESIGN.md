@@ -351,3 +351,10 @@ Gateway performs transport/shape/policy enforcement; Extraction performs ontolog
 ## Task19 — Evidence read expansion, no new endpoint
 
 [ADR-013](12_SOURCE_EVIDENCE_MAPPING_ADR.md) and [typed source-evidence contracts](../contracts/source-evidence/README.md) define internal representation/locator/validation data. Existing candidate/revision/provenance readers may return only authorized safe source display metadata, evidence precision/classification and current availability, with bounded inert excerpts when actually retained. No raw manifest, object key, source prompt or new public evidence route is exposed by this proposal. Reauthorize before ETag/cache/historical source reads; no arbitrary URL refetch/remote media rendering. Public facade/error/pagination/UX DTO integration stays D-AUD-08/D-LEARN-02 review, not completed by internal schemas. Candidate writes keep existing approval/expected-head/idempotency and frozen-review guards.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+No new public relationship route, field or archive screen is authorized. Existing expectedRevisionId/Idempotency-Key publication and restore contracts must include reviewed member/edge consequences when the extension is adopted. Relationship-only diff review/transport requires D-REL-02 and D-AUD-08; until approved the writer is disabled. Authorize before idempotency receipt replay; identical committed requests replay even after head advances, conflicting reuse/stale new requests reject. Validate exact registry/type/direction/scoped membership/approval/source refs server-side. Resolve safe 404/403, 409 and 422 using existing API error contracts; do not invent Artifact enum aliases. Selected context refs bind one approved Artifact/revision. Legacy graph-unknown restoration blocks pending explicit migration/preview policy.

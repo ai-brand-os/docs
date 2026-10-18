@@ -402,3 +402,10 @@ Import confirmation remains a per-item authorized publication transaction. A suc
 ## Task19 — Honest source badges and evidence precision
 
 FR-3/10 provenance follows [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md): exact/structural/normalized-only/unavailable evidence labels are separate from confidence and approval. Show actual captured source identity and safe available excerpts/anchors; never normalized offsets as PDF/HTML source coordinates. Lack of precise offsets alone does not reject a legitimate candidate, but forged/digest-invalid evidence is ineligible and deleted required source blocks imported approval. Ambiguous currency/date interpretation stays unresolved or explicit manual correction. No new source format, screen, OCR, monitoring or automatic approval. D-AUD-05/D-EVID-01/02 and existing PRD/policy gates require review.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+FR-REL-01 (specified architecture dependency; not new MVP UI): approved relationship assertions, when Product-authorized, must have stable scoped identity, human decision/provenance, exact snapshot reconstruction and restore. Existing readiness/mandatory facts do not require a TARGETS form or per-offer Audience association. Proposed TARGETS cardinality/USES derivation and predicate review transport remain D-REL-02; archive/reactivation D-REL-03. No candidate/self-approval. Current removal includes reviewed incident-edge removal; history remains subject to retention. Acceptance maps to AT-20-01–30; offline tests do not establish implementation or product approval.

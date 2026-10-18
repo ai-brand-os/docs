@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:artifact:2.3.0:relationship_commit",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "artifactType": {
+      "const": "KNOWLEDGE_CANDIDATE"
+    },
+    "parentArtifactId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "conversationId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "producingService": {
+      "const": "KNOWLEDGE_MANAGEMENT"
+    },
+    "producingStage": {
+      "const": "relationship_commit"
+    },
+    "schemaVersion": {
+      "const": "2.3.0"
+    },
+    "status": {
+      "const": "VALID"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "variant": {
+          "const": "relationship_commit"
+        },
+        "operationStatus": {
+          "const": "SUCCEEDED"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        "invocationId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        "attemptNumber": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "checkpointNumber": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "data": {
+          "$ref": "urn:ai-brand-os:ontology-relations:1.0.0:commit"
+        },
+        "error": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "variant",
+        "operationStatus",
+        "brandId",
+        "invocationId",
+        "attemptNumber",
+        "checkpointNumber",
+        "data",
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "artifactId",
+    "artifactType",
+    "parentArtifactId",
+    "conversationId",
+    "correlationId",
+    "organizationId",
+    "producingService",
+    "producingStage",
+    "schemaVersion",
+    "status",
+    "createdAt",
+    "payload"
+  ],
+  "additionalProperties": false
+}

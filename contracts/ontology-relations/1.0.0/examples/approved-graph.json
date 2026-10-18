@@ -1,0 +1,41 @@
+{
+  "registryVersion": "1.0.0",
+  "ontologyVersion": "1.2.0",
+  "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+  "edges": [
+    {
+      "relationshipType": "TARGETS",
+      "sourceEntityType": "PRODUCT",
+      "sourceEntityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+      "targetEntityType": "AUDIENCE",
+      "targetEntityId": "e1b445e8-490e-55a2-8fdd-28b067188242",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "origin": "MANUAL",
+      "introducingRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+      "lastApprovedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+      "supersedesApprovalRevisionId": null,
+      "approvalDecisionArtifactId": "00000000-0000-4000-8000-000000000050",
+      "supportingFactRefs": [],
+      "evidenceRefs": [],
+      "relationshipId": "rel_6e2dedeb3b123432bbf4883843b5beb2d828ec40012f24086a9caae270b72ba2"
+    }
+  ],
+  "membershipDispositions": [
+    {
+      "entityType": "BRAND_VOICE",
+      "entityId": "a166f727-af2a-5062-8f79-85f5a54a8f05",
+      "disposition": "ACTIVE"
+    },
+    {
+      "entityType": "PRODUCT",
+      "entityId": "8a2c6f9e-4f38-5f81-8bee-2b6595c7cd6c",
+      "disposition": "ACTIVE"
+    },
+    {
+      "entityType": "AUDIENCE",
+      "entityId": "e1b445e8-490e-55a2-8fdd-28b067188242",
+      "disposition": "ACTIVE"
+    }
+  ]
+}

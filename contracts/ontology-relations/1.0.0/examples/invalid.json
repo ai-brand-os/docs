@@ -1,0 +1,32 @@
+[
+  {
+    "name": "cross-tenant",
+    "patch": {
+      "organizationId": "00000000-0000-4000-8000-000000000090"
+    }
+  },
+  {
+    "name": "unknown-predicate",
+    "patch": {
+      "relationshipType": "LIKES"
+    }
+  },
+  {
+    "name": "reversed-target",
+    "patch": {
+      "targetEntityType": "PRODUCT"
+    }
+  },
+  {
+    "name": "forged-id",
+    "patch": {
+      "relationshipId": "rel_0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  {
+    "name": "missing-import-support",
+    "patch": {
+      "origin": "IMPORTED"
+    }
+  }
+]

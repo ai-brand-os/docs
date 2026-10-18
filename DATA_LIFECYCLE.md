@@ -136,3 +136,10 @@ Relative document links and heading anchors pass checks, `git diff --check` pass
 ## Task19 — Source representations and evidence retention
 
 [ADR-013](domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) defines independently retained original/parsed/normalized/chunk bytes, maps, quotes and immutable identity/binding records. D-POL-01 must approve actual source-class schedules and lawful redaction; no new periods are set. Protected identity is not retained content: after lawful source deletion, recheck each representation and show original DELETED/UNKNOWN with only genuinely retained alternatives inspectable. Never promise a digest/old verification receipt makes lost bytes viewable. Cleanup coordinates locks and scans historical/current fact/decision/binding/manifest/parent references; orphan/digest mismatch blocks new publication/restore and alerts. Restore replays deletion; backup expiry stays separate. Conversation purge cannot recursively erase independent imported provenance; no public object/signed URL bypass.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](contracts/ontology-relations/README.md) define the versioned mapping.
+
+Current membership removal and conditional archival differ from lawful physical purge. Proposed snapshots retain historical edge/entity identity while current context filters inactive endpoints. Product removal removes incident current edges atomically; Audience archive (D-REL-03) retains historical edges and never silently retargets offers. Rename preserves IDs; recreate uses a new UUID. Supersession does not erase history; historical restore may be blocked by erased identities or incompatible ontology. Document-byte purge does not cascade approved facts/edges and marks evidence availability honestly. Organization erasure requires authorized reference-aware handling of Restrict/JSON refs and retained records, not blind cascades. Existing proposed active-system and backup policy gates remain unchanged; immutable is not forever-retention.

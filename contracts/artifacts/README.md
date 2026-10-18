@@ -170,3 +170,8 @@ Run `npm --prefix validation test` after installing the pinned dev-only dependen
 ## Task19 — Source evidence precision proposal
 
 [ADR-013](../../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md), [source-evidence1.0](../source-evidence/README.md) and [proposed2.2 wrappers](2.2.0/README.md) define immutable representations, exact coordinates/maps/locators and unique original-candidate binding. v2 sourceEvidence/location/processingMetadata lack required fields and cannot safely carry them by aliases or strings. Existing 2.0.0, proposed2.1, Gateway1.0 and Prisma remain unchanged; no new enum/store/approval is added. Evidence classifications and current availability are separate from confidence/fact approval. D-EVID-01/02 review, historical inventory and reader-before-writer rollout are required; all existing pending decisions remain open.
+
+
+## Task20 — Proposed approved relationship graphs
+
+[ADR-014](../../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md), [registry1.0](../ontology-relations/README.md) and [proposed2.3](2.3.0/README.md) add approved snapshot relationships, one relationship-only approval variant and final context edge refs. All earlier version bundles remain unchanged; no Prisma migration. D-REL-01 version adoption, D-REL-02 product semantics/transport and D-REL-03 archive controls remain pending; writers disabled. Legacy graph absence is NOT_RECORDED, not an inferred empty graph.

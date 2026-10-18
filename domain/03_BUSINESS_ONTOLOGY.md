@@ -1,6 +1,6 @@
 # Business Ontology — AI Brand OS
 
-> Final audit (2026-10-16): D-AUD-03 tracks overlapping company-size buckets (21–50 and 50+), undefined Region/Language vocabularies and numeric confidence policy. Industry/Tone locked vocabularies remain preserved. D-AUD-06 tracks relationship persistence; no undeclared relationship table/graph is implied. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Final audit (2026-10-16): D-AUD-03 tracks overlapping company-size buckets (21–50 and 50+), undefined Region/Language vocabularies and numeric confidence policy. Industry/Tone locked vocabularies remain preserved. Task20 specifies relationship persistence in ADR-014, pending Architecture/Product review D-AUD-06 and D-REL-01/02/03; no undeclared relationship table/graph is implied. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
@@ -251,10 +251,10 @@ Cardinality is read as `Source → Target`. All relationships are directional; a
 | HAS             | Organization      | Competitor                                             | 1 → 0..N                                                   | Active     |
 | HAS             | Brand             | BrandVoice                                             | 1 → 0..1 draft; 1 when ready                              | Active     |
 | HAS             | Brand             | Knowledge                                              | 1 → 0..N                                                   | Active     |
-| TARGETS         | Product           | Audience                                               | 1 → 1..N                                                   | Active     |
-| TARGETS         | Service           | Audience                                               | 1 → 1..N                                                   | Active     |
-| USES            | Product           | BrandVoice                                             | 1 → 0..1 draft; 1 when ready                              | Active     |
-| USES            | Service           | BrandVoice                                             | 1 → 0..1 draft; 1 when ready                              | Active     |
+| TARGETS         | Product           | Audience                                               | Historical1.1: 1..N; proposed1.2: 0..N draft/ready (D-REL-02)                                                   | Active     |
+| TARGETS         | Service           | Audience                                               | Historical1.1: 1..N; proposed1.2: 0..N draft/ready (D-REL-02)                                                   | Active     |
+| USES            | Product           | BrandVoice                                             | Historical1.1 ready=1; proposed1.2 0..1 derived, disabled (D-REL-02)                              | Active     |
+| USES            | Service           | BrandVoice                                             | Historical1.1 ready=1; proposed1.2 0..1 derived, disabled (D-REL-02)                              | Active     |
 | PRODUCES        | Document          | Knowledge                                              | 1 → 0..N (approved facts only)                             | Active     |
 | ORIGINATES FROM | Knowledge         | Document                                               | 0..N → 0..N (manual facts may have no Document)                                                | Active     |
 | MAY DESCRIBE    | Knowledge         | Product / Service / Audience / Competitor / BrandVoice | 0..N → 0..N                                                | Active     |
@@ -301,7 +301,7 @@ These formalize `01_DOMAIN_MODEL.md`'s Domain Invariants section into rules the 
 - Every entity instance must carry exactly one `organizationId`.
 - Every `Knowledge` instance must carry exactly one `brandId`.
 - Every `Brand` instance must carry exactly one `organizationId`.
-- Every `BrandVoice` instance must carry exactly one `brandId`, and every `Brand` must resolve to exactly one `BrandVoice`.
+- Every `BrandVoice` instance must carry exactly one `brandId`, with 0..1 during draft and one valid manual approved Voice required for readiness.
 - Every material fact has one origin: MANUAL (author/time), IMPORTED (same-tenant source Artifact + Document and available location), or DERIVED (pinned input fact revisions/evidence and derivation version). Imported/derived facts may not impersonate manual-only input; a Document is not fabricated for a manual fact. Typed JSON reference validation and retention coordination are mandatory per KNOWLEDGE_PROVENANCE.md.
 - `describesEntityType` on a `Knowledge` instance must reference an **Active** entity type. Candidates referencing a **Reserved** entity type fail Ontology Validation and are routed to `Reject`, not `Human Review` (reserved types have no governance policy defined yet).
 - BrandVoice.toneAttributes requires MANUAL origin; IMPORTED and DERIVED attempts fail. All fact keys must be unique, typed and valid under the revision’s ontology. Approved fact approval/verification refs resolve to same-Brand approved revisions, and derivation refs cannot form cycles.
@@ -483,3 +483,10 @@ Completeness calculation v2 and readiness use [PRODUCT_METRICS.md](../PRODUCT_ME
 ---
 
 # END OF DOCUMENT
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+The table above records ontology1.1 conceptual relationships, not approved storage contracts or deployed functionality. Proposed ontology1.2/registry1.0 explicitly maps all 22 Active and six Reserved endpoint pairs. TARGETS changes from historical1.1 1..N to proposed draft/ready 0..N; USES becomes optional derived draft/ready 0..1. These semantic changes require D-REL-02 Product review and do not silently supersede1.1. Readiness still requires one complete active approved Product OR Service and Audience plus manual Voice/mandatory facts, never a per-offer targeting field. Provenance inverses share one recorded relation; MAY_DESCRIBE is per-fact typed lookup. Reserved relationships remain non-instantiable; Active means conceptual vocabulary, not authorized UI/writer. No generic graph database.

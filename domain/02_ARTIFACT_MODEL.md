@@ -215,3 +215,10 @@ Established shared artifact/lineage/tenant/storage boundaries; nested JSON/statu
 ## Task19 — Proposed typed evidence attachments
 
 [ADR-013](12_SOURCE_EVIDENCE_MAPPING_ADR.md) and [source-evidence1.0](../contracts/source-evidence/README.md) specify the exact fields missing from closed v2 (representation digest/unit/maps/typed locator/availability receipt). [Proposed Artifact2.2](../contracts/artifacts/2.2.0/README.md) adds only representation_manifest (PROCESSING_INTERMEDIATE/DOCUMENT_PROCESSING) and evidence_binding (KNOWLEDGE_CANDIDATE/KNOWLEDGE_MANAGEMENT), not enum/model/approval changes. Existing v2 results/decisions/snapshots and proposed2.1 controls remain immutable; attachments are validated reference dependencies, not ADR-012 state events. Historical bindings resolve through original introducing decision/candidate and unique evidence hash coverage. D-EVID-01 review/reader rollout and runtime reference/transaction tests remain required.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+Artifact2.0 cannot serialize approved relationship edges/dispositions or selected context relationship refs. Separately proposed Artifact2.3 adds exactly approved_snapshot.relationships, relationship_commit and final context.selectedRelationships/relationshipSelection. Earlier closed bundles remain unchanged and version-routed. Canonical authority stays the immutable approved Artifact + BrandBrainRevision, not candidateRelationships or another graph store. Status/producer/type enums and operational error/checkpoint variants remain unchanged. Historical missing edges mean NOT_RECORDED; unknown versions fail safely. D-REL-01 gates rollout.

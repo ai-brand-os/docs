@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:ontology-relations:1.0.0:edge",
+  "type": "object",
+  "properties": {
+    "relationshipId": {
+      "type": "string",
+      "pattern": "^rel_[0-9a-f]{64}$"
+    },
+    "relationshipType": {
+      "enum": [
+        "TARGETS",
+        "COMPETES_WITH"
+      ]
+    },
+    "sourceEntityType": {
+      "enum": [
+        "PRODUCT",
+        "SERVICE",
+        "COMPETITOR"
+      ]
+    },
+    "sourceEntityId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "targetEntityType": {
+      "enum": [
+        "AUDIENCE",
+        "PRODUCT",
+        "SERVICE",
+        "ORGANIZATION"
+      ]
+    },
+    "targetEntityId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "brandId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "origin": {
+      "enum": [
+        "MANUAL",
+        "IMPORTED"
+      ]
+    },
+    "introducingRevisionId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "lastApprovedRevisionId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "supersedesApprovalRevisionId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "approvalDecisionArtifactId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "supportingFactRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "snapshotArtifactId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f-]{36}$"
+          },
+          "revisionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f-]{36}$"
+          },
+          "factKey": {
+            "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factKey"
+          },
+          "valueRevisionId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f-]{36}$"
+          }
+        },
+        "required": [
+          "snapshotArtifactId",
+          "revisionId",
+          "factKey",
+          "valueRevisionId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bindingArtifactId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f-]{36}$"
+          },
+          "evidenceId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "bindingArtifactId",
+          "evidenceId"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "relationshipId",
+    "relationshipType",
+    "sourceEntityType",
+    "sourceEntityId",
+    "targetEntityType",
+    "targetEntityId",
+    "organizationId",
+    "brandId",
+    "origin",
+    "introducingRevisionId",
+    "lastApprovedRevisionId",
+    "supersedesApprovalRevisionId",
+    "approvalDecisionArtifactId",
+    "supportingFactRefs",
+    "evidenceRefs"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "origin": {
+            "const": "IMPORTED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "supportingFactRefs": {
+            "minItems": 1
+          },
+          "evidenceRefs": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "relationshipType": {
+            "const": "COMPETES_WITH"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "origin": {
+            "const": "MANUAL"
+          },
+          "sourceEntityType": {
+            "const": "COMPETITOR"
+          },
+          "targetEntityType": {
+            "enum": [
+              "PRODUCT",
+              "SERVICE",
+              "ORGANIZATION"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "sourceEntityType": {
+            "enum": [
+              "PRODUCT",
+              "SERVICE"
+            ]
+          },
+          "targetEntityType": {
+            "const": "AUDIENCE"
+          }
+        }
+      }
+    }
+  ]
+}

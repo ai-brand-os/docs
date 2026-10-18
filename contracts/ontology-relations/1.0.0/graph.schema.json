@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:ontology-relations:1.0.0:graph",
+  "type": "object",
+  "properties": {
+    "registryVersion": {
+      "const": "1.0.0"
+    },
+    "ontologyVersion": {
+      "const": "1.2.0"
+    },
+    "revisionId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:ai-brand-os:ontology-relations:1.0.0:edge"
+      }
+    },
+    "membershipDispositions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entityType": {
+            "enum": [
+              "BRAND_VOICE",
+              "PRODUCT",
+              "SERVICE",
+              "AUDIENCE",
+              "COMPETITOR"
+            ]
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f-]{36}$"
+          },
+          "disposition": {
+            "enum": [
+              "ACTIVE",
+              "ARCHIVED",
+              "REMOVED"
+            ]
+          }
+        },
+        "required": [
+          "entityType",
+          "entityId",
+          "disposition"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "registryVersion",
+    "ontologyVersion",
+    "revisionId",
+    "edges",
+    "membershipDispositions"
+  ],
+  "additionalProperties": false
+}

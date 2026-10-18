@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:ontology-relations:1.0.0:context-reference",
+  "type": "object",
+  "properties": {
+    "snapshotArtifactId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "revisionId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "relationshipId": {
+      "type": "string",
+      "pattern": "^rel_[0-9a-f]{64}$"
+    },
+    "derivationRule": {
+      "anyOf": [
+        {
+          "const": "USES_SINGLE_APPROVED_VOICE/1.0.0"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "snapshotArtifactId",
+    "revisionId",
+    "relationshipId",
+    "derivationRule"
+  ],
+  "additionalProperties": false
+}

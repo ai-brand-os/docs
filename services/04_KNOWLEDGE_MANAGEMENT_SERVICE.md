@@ -62,7 +62,7 @@ The Knowledge Management Service is responsible for:
 - Confidence calculation
 - Approval workflow
 - Persistence
-- Knowledge Graph updates
+- Approved snapshot relationship validation (conditional D-REL-02)
 - Audit logging
 - Domain event publication
 - Creating a Knowledge Management Job
@@ -468,10 +468,9 @@ Provisional candidates and audit artifacts may be stored, but only human-approve
 
 Persistence targets:
 
-- Knowledge Domain
-- Knowledge Graph
-- Audit Store
-- Version Store
+- Existing business/KnowledgeIndex projections (transactional read models)
+- Artifact approved snapshot and approval records
+- BrandBrainRevision/current head (one canonical version authority)
 
 Candidate Artifacts are never persisted as authoritative knowledge.
 
@@ -519,17 +518,7 @@ Audit records are append-only.
 
 # Knowledge Graph Update
 
-After successful persistence, the Knowledge Graph is synchronized.
-
-Operations include:
-
-- Create Entity
-- Update Entity Version
-- Create Relationship
-- Retire Relationship
-- Update Relationship Version
-
-Graph updates must be transactional with persistence.
+The same publication transaction validates approved members/facts and conditionally explicit edges, inserts the immutable snapshot/revision, updates required projections and switches the head. Structural ownership/provenance views do not need separately stored edges. Optional future caches are rebuildable and may never overrule the snapshot. No independent graph store or post-commit authoritative graph write. See ADR-014 and D-REL-01/02 before enabling relationship-only publication.
 
 ---
 
@@ -671,7 +660,7 @@ Included:
 - Single-owner human review and approval before authoritative persistence
 - Versioning
 - Audit Trail
-- Knowledge Graph synchronization
+- Approved snapshot/projection consistency
 - Domain events
 
 ---
@@ -699,7 +688,7 @@ The Knowledge Management Service is complete when:
 - Only validated knowledge is persisted.
 - Version history is immutable.
 - Audit records are complete.
-- Knowledge Graph stays synchronized.
+- Required projections and approved snapshot/head agree atomically.
 - Policy Engine governs every approval decision.
 - Knowledge Confidence is calculated consistently.
 - Domain events are emitted successfully.
@@ -820,3 +809,10 @@ Keep authorization and atomic revision/head/projection publication in one NestJS
 ## Task19 — Evidence bindings before eligibility
 
 [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) and [source-evidence contracts](../contracts/source-evidence/README.md) specify current tenant/source/digest/location/unit/quote/map/parser validation before review eligibility. KM computes evidence classifications, then records one immutable proposed2.2 evidence_binding per original candidate Artifact/item with exact coverage of legacy evidence tuple hashes; atomically bind it before final policy_engine eligibility. This contains references/receipts, never copied business values or Owner approval. Existing Brand/source/candidate locks enforce uniqueness and serialize with deletion; no new Prisma constraint is assumed. Recheck current availability at publication. Imprecise source location alone may warn; unsupported inference/corruption requires correction, never auto-approval. Historical imported fact lookup follows introducing revision/decision to original binding, never latest repaired mapping. Actual policy/writer/rollout reviews D-EVID-01/02 remain pending.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+Use one immutable approved snapshot and short Brand publication transaction, not independent Knowledge Graph/Audit/Version stores. Preserve approved fact/history authority; proposed Artifact2.3 records explicit relationship edges and membership dispositions in that same snapshot. Structural FKs and provenance views are not separately editable assertions. Relationship-only review is disabled pending Product/transport approval; no fake fact candidate or duplicate governance event. Expected revision, authorized receipt replay, actual approval/source references, required projections and head switch are atomic. Optional caches may lag only with canonical fallback. Restore exact recorded graph into a new revision, reapprove reinstated edges; unknown historical graph blocks until reviewed preview/migration choice. No LLM call inside transaction or unproven exactly-once guarantee.

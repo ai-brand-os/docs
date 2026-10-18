@@ -282,7 +282,7 @@ Retrieve candidate knowledge.
 Possible retrieval strategies
 
 - Vector Search
-- Knowledge Graph Traversal
+- Bounded approved snapshot relationship lookup (conditional D-REL-02; no graph DB)
 - Keyword Search
 - Metadata Filtering
 - Hybrid Retrieval
@@ -508,7 +508,7 @@ The retrieval strategy is configurable.
 Strategy extension points (not all required or delivered in MVP):
 
 - Vector Retrieval
-- Knowledge Graph Retrieval
+- Pinned approved snapshot relationship lookup (conditional D-REL-02)
 - Keyword Retrieval
 - Metadata Filtering
 - Hybrid Retrieval
@@ -789,3 +789,10 @@ Memory selection is retrieval, not model training or approval. Approved Brand Vo
 Use bounded approved-revision structured/keyword/metadata retrieval in PostgreSQL first. Vector/graph/hybrid strategies described above are extension capabilities, not all implemented or mandatory MVP dependencies. If semantic retrieval is required by evaluation, prefer pgvector in PostgreSQL; Qdrant requires a later measured decision. KnowledgeIndex is not an embedding table. Any derived embedding projection requires a separate schema/migration contract and the same tenant/head/deletion guards.
 
 [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+MVP relationship retrieval is bounded JSON lookup from one authorized approved snapshot/revision, not graph-search infrastructure. Proposed final context2.3 selects exact edge/rule refs with truncation metadata; earlier lifecycle/checkpoint/errors remain2.0. Explicit predicate use and derived USES are disabled until D-REL-02; global approved Voice injection remains unchanged. Apply active member/current deletion/Brand archival guards, stale-support filtering and tenant checks; never consume candidates or mixed-revision row values. One-hop ≤32 edges/32 nodes with deterministic type/ID ordering, subject to review. Reject stale/orphan cache authority and use canonical fallback or fail safely. Supporting facts/evidence retain their approved references. Existing approved structured keyword/metadata retrieval still works without explicit edges.

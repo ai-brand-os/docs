@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:artifact:2.3.0:approved_snapshot",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "artifactType": {
+      "const": "APPROVED_KNOWLEDGE"
+    },
+    "parentArtifactId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "conversationId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "producingService": {
+      "const": "KNOWLEDGE_MANAGEMENT"
+    },
+    "producingStage": {
+      "const": "publish_snapshot"
+    },
+    "schemaVersion": {
+      "const": "2.3.0"
+    },
+    "status": {
+      "const": "VALID"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "variant": {
+          "const": "approved_snapshot"
+        },
+        "operationStatus": {
+          "const": "SUCCEEDED"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        "invocationId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^[0-9a-f-]{36}$"
+        },
+        "attemptNumber": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "checkpointNumber": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "revisionId": {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/revisionId"
+            },
+            "ontologyVersion": {
+              "const": "1.2.0"
+            },
+            "members": {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/members"
+            },
+            "facts": {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/facts"
+            },
+            "calculationSelection": {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/calculationSelection"
+            },
+            "changes": {
+              "$ref": "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/changes"
+            },
+            "relationships": {
+              "$ref": "urn:ai-brand-os:ontology-relations:1.0.0:graph"
+            }
+          },
+          "required": [
+            "revisionId",
+            "ontologyVersion",
+            "members",
+            "facts",
+            "calculationSelection",
+            "changes",
+            "relationships"
+          ],
+          "additionalProperties": false
+        },
+        "error": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "variant",
+        "operationStatus",
+        "brandId",
+        "invocationId",
+        "attemptNumber",
+        "checkpointNumber",
+        "data",
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "artifactId",
+    "artifactType",
+    "parentArtifactId",
+    "conversationId",
+    "correlationId",
+    "organizationId",
+    "producingService",
+    "producingStage",
+    "schemaVersion",
+    "status",
+    "createdAt",
+    "payload"
+  ],
+  "additionalProperties": false
+}

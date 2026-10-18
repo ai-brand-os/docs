@@ -348,3 +348,10 @@ KnowledgeIndex remains the relational approved-entity projection. No vector colu
 ## Task19 — Evidence storage and reference integrity
 
 [ADR-013](12_SOURCE_EVIDENCE_MAPPING_ADR.md) uses existing Artifact JSON with [proposed2.2 attachments](../contracts/artifacts/2.2.0/README.md), existing sourceArtifactId/sourceDocumentId and private immutable bytes/text refs. No Prisma migration/model is proposed. Shared Brand/source/candidate write locks enforce one binding per original candidate and exact tuple-hash coverage before eligibility; actual SQL/Prisma has no new JSON uniqueness guarantee. Retention scans historical/current introducing decisions, bindings, maps and representation refs and coordinates deletion with new writers. Content digests are tenant-scoped consistency checks, never cross-tenant dedup authority. Missing/digest-invalid refs block new publication/restore; authorized historical reads mark availability rather than silently rewiring provenance. Reference lookup/index/legacy rollout work needs D-EVID-01 and existing D-POL-01 review.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
+
+No Prisma/DDL change or new join table is proposed for D-AUD-06. Existing ownership FKs establish tenant structure; immutable Artifact JSON records approved explicit edges/membership dispositions and BrandBrainRevision/currentRevisionId selects authority. Small bounded snapshot-edge lookup is sufficient for MVP. Business rows/KnowledgeIndex are projections, not relationship authority. Historical reconstruction uses retained snapshot identities when current rows have been removed; JSON references require authorized application validation and reference-aware purge. Optional future cache is revision/digest-scoped and rebuildable; it cannot override snapshots. Subentity archive controls need D-REL-03; no fictional status columns. PostgreSQL transaction/constraint and authorization integration remain unverified.

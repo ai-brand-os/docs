@@ -122,3 +122,10 @@ No Prisma DDL is required. Before enabling the read facade or extended metrics, 
 ## Task18 — Candidate coverage and operation closure
 
 [ADR-012](domain/11_IMPORT_LIFECYCLE_ADR.md) is canonical for import aggregation: one original candidate key, at most one terminal human decision, matching actual publication for accepts and frozen review coverage before durable closure. CONFIRM/EDIT_AND_CONFIRM/REJECT stay exact v2 actions; edited pending values revalidate, later accepted corrections use new manual/restore revisions. Incremental accepted facts may be used while other candidates await review; partial pipeline fragments cannot enter review. D-LEARN-02 facade review and D-IMP-02/03 Founder decisions remain open. No automatic review expiry/discard, training or publication is introduced.
+
+
+## Task20 — Relationship persistence and lifecycle
+
+**Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](contracts/ontology-relations/README.md) define the versioned mapping.
+
+candidateRelationships remains unapproved model data. Approval of a supporting fact never automatically approves its relationship predicate. Conditional explicit predicate review requires D-REL-02 and one authorized relationship_commit/new approved snapshot; no automatic learning, synthetic relationship fact, or duplicate approval ledger. Exact original proposal digest + Artifact identity may anchor review; array position and mutable names are not identity. Existing import review/closure and manual correction remain unchanged. Historical restore uses recorded edges, never a model guess; new approved facts/edges become visible together under one current revision.

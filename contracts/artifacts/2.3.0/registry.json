@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "2.3.0",
+  "status": "Proposed \u2014 D-REL-01 review required",
+  "variants": [
+    {
+      "variant": "approved_snapshot",
+      "artifactType": "APPROVED_KNOWLEDGE",
+      "producer": "KNOWLEDGE_MANAGEMENT",
+      "stage": "publish_snapshot",
+      "status": "VALID",
+      "operationStatus": "SUCCEEDED"
+    },
+    {
+      "variant": "relationship_commit",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "producer": "KNOWLEDGE_MANAGEMENT",
+      "stage": "relationship_commit",
+      "status": "VALID",
+      "operationStatus": "SUCCEEDED"
+    },
+    {
+      "variant": "context",
+      "artifactType": "PROMPT_CONTEXT",
+      "producer": "CONTEXT_ENGINE",
+      "stage": "context",
+      "status": "VALID",
+      "operationStatus": "SUCCEEDED"
+    }
+  ],
+  "otherStates": "Use unchanged 2.0.0 lifecycle variants; relationship_commit exists only after atomic human approval. Request failures are existing API errors, not successful commits."
+}

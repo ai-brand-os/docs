@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:ontology-relations:1.0.0:commit",
+  "type": "object",
+  "properties": {
+    "operationId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "expectedRevisionId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "resultingRevisionId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "actorId": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f-]{36}$"
+    },
+    "approvedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "idempotencyKeyHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "requestHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relationshipChanges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "relationshipId": {
+            "type": "string",
+            "pattern": "^rel_[0-9a-f]{64}$"
+          },
+          "action": {
+            "enum": [
+              "ADD",
+              "REMOVE",
+              "REAPPROVE"
+            ]
+          }
+        },
+        "required": [
+          "relationshipId",
+          "action"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "membershipChanges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entityType": {
+            "enum": [
+              "BRAND_VOICE",
+              "PRODUCT",
+              "SERVICE",
+              "AUDIENCE",
+              "COMPETITOR"
+            ]
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "^[0-9a-f-]{36}$"
+          },
+          "disposition": {
+            "enum": [
+              "ACTIVE",
+              "ARCHIVED",
+              "REMOVED"
+            ]
+          }
+        },
+        "required": [
+          "entityType",
+          "entityId",
+          "disposition"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "operationId",
+    "expectedRevisionId",
+    "resultingRevisionId",
+    "actorId",
+    "approvedAt",
+    "idempotencyKeyHash",
+    "requestHash",
+    "relationshipChanges",
+    "membershipChanges"
+  ],
+  "additionalProperties": false
+}
