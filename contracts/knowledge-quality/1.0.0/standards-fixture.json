@@ -1,0 +1,34 @@
+{
+  "status": "Representative offline test profile only; not a complete ISO/IANA registry or product support claim",
+  "version": "fixture-1",
+  "sourcePolicy": "See ADR-015 standards references; actual registry pin+digest integration pending D-KQ-02",
+  "countries": [
+    "US",
+    "GB",
+    "IR",
+    "DE",
+    "FR",
+    "CA",
+    "AU",
+    "TW",
+    "IL"
+  ],
+  "countryAliases": {},
+  "tags": [
+    "en",
+    "en-US",
+    "en-GB",
+    "fa",
+    "fa-IR",
+    "fr",
+    "fr-FR",
+    "de",
+    "de-DE",
+    "he",
+    "zh-Hant-TW"
+  ],
+  "languageAliases": {
+    "iw": "he"
+  },
+  "normalization": "Explicit case-insensitive canonical lookup/alias; no underscore repair/private-use inference"
+}

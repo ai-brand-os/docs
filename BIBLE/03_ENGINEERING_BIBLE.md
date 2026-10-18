@@ -517,3 +517,10 @@ END OF DOCUMENT
 ## ADR-009 technology and database audit
 
 Current framework NestJS and ORM Prisma are fixed architecture choices. [ADR-009](../domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md) consolidates their rationale, planned JWT/session security, Prisma 7 configuration and NULL-safe SQL. [MVP_CONSTRAINTS.sql](../sql/MVP_CONSTRAINTS.sql) is the reviewed migration supplement; Prisma scalar-list types/defaults alone do not provide database NOT NULL or cardinality checks. Exact-schema and isolated PostgreSQL results are in validation/TASK08_RESULTS.md. No production migration or authentication provider implementation is implied.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+No new datastore, generic score engine or Prisma change. Proposed quality1.0 and separately gated Artifact2.4 retain exact versions/inputs for append-only replay. Required numeric KnowledgeIndex cannot accept unknown sentinel values: D-KQ-03 proposes conditional rows plus canonical snapshot lookup, requiring Architecture/Operations workload/transaction review before adoption. Nullability/enum migration is deferred until explicitly selected. Existing provider/security/queue/relationship decisions and single-language/single-brand scope remain unchanged.

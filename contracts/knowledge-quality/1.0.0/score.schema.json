@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:knowledge-quality:1.0.0:score",
+  "type": "object",
+  "properties": {
+    "indicator": {
+      "enum": [
+        "EXTRACTION_CONFIDENCE",
+        "KNOWLEDGE_CONFIDENCE",
+        "CONTEXT_QUALITY"
+      ]
+    },
+    "state": {
+      "enum": [
+        "KNOWN",
+        "UNKNOWN",
+        "NOT_EVALUATED",
+        "UNAVAILABLE",
+        "NOT_APPLICABLE",
+        "INVALID"
+      ]
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "formulaVersion": {
+      "enum": [
+        "extraction-checks/1.0.0",
+        "support-checks/1.0.0",
+        "context-coverage/1.0.0"
+      ]
+    },
+    "inputVersion": {
+      "const": "1.0.0"
+    },
+    "inputs": {
+      "type": "object",
+      "properties": {
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "enum": [
+                  "PASS",
+                  "FAIL",
+                  "UNKNOWN",
+                  "UNAVAILABLE",
+                  "NOT_APPLICABLE",
+                  "INVALID"
+                ]
+              },
+              "reason": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "referenceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "required": [
+              "key",
+              "status",
+              "reason",
+              "referenceIds"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "requiredFactRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "selectedFactRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "manifestState": {
+          "enum": [
+            "KNOWN",
+            "UNKNOWN",
+            "NOT_APPLICABLE"
+          ]
+        }
+      },
+      "required": [
+        "checks",
+        "requiredFactRefs",
+        "selectedFactRefs",
+        "manifestState"
+      ],
+      "additionalProperties": false
+    },
+    "explanation": {
+      "type": "object",
+      "properties": {
+        "passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "excluded": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "applicable": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rounding": {
+          "const": "RATIONAL_HALF_UP_INTEGER"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "passed",
+        "failed",
+        "excluded",
+        "applicable",
+        "rounding",
+        "reasons"
+      ],
+      "additionalProperties": false
+    },
+    "inputHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "resultHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policyDecisionArtifactId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "indicator",
+    "state",
+    "value",
+    "formulaVersion",
+    "inputVersion",
+    "inputs",
+    "explanation",
+    "inputHash",
+    "resultHash",
+    "policyDecisionArtifactId"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "KNOWN"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "type": "integer"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "value": {
+            "type": "null"
+          },
+          "explanation": {
+            "properties": {
+              "reasons": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -6,7 +6,8 @@
     "test:gateway": "node ai_provider_gateway.test.cjs",
     "test:import": "node import_lifecycle.test.cjs",
     "test:evidence": "node source_evidence.test.cjs",
-    "test:relations": "node ontology_relations.test.cjs"
+    "test:relations": "node ontology_relations.test.cjs",
+    "test:quality": "node knowledge_quality.test.cjs"
   },
   "devDependencies": {
     "ajv": "8.20.0",

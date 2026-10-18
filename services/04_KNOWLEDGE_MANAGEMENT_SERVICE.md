@@ -2,7 +2,7 @@
 
 > Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits KNOWLEDGE_CANDIDATE / APPROVED_KNOWLEDGE, variants governance_stage / candidate_decision / manual_commit / publication_attempt / approved_snapshot. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
 
-> Final audit (2026-10-16): D-AUD-03 tracks confidence/trust formulas and field vocabulary; D-AUD-06 tracks persisted ontology relationships. Approved means reviewed and structurally validated, not objectively true. [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) specifies R23 / D-AUD-07 whole-import completion, pending Product/Architecture review. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Final audit (2026-10-16): ADR-015 specifies D-AUD-03 pending Product/Architecture review; ADR-014 specifies D-AUD-06 pending Architecture/Product review. Separate D-KQ/D-REL adoption gates remain open. Approved means reviewed and structurally validated, not objectively true. [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) specifies R23 / D-AUD-07 whole-import completion, pending Product/Architecture review. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
 
@@ -388,23 +388,7 @@ MVP merge behavior is an Owner-reviewed proposal: keep approved, replace, edit, 
 
 # Knowledge Confidence
 
-Knowledge Confidence measures trustworthiness rather than extraction quality.
-
-Inputs
-
-- Extraction Confidence
-- Source Reliability
-- Source Freshness
-- Cross-source Agreement
-- Historical Stability
-- Human Approval
-- Ontology Consistency
-
-Range
-
-0–100
-
-Knowledge Confidence is recalculated whenever knowledge changes.
+Proposed Knowledge Confidence is a procedural support-check score, not factual truth/probability or extraction confidence. ADR-015 and knowledge-quality1.0 define exact checks, range0–100 integer, missing states, policy-decision/input/formula versions and append-only replay. Default NOT_EVALUATED; D-KQ-04 must review before use. Reassessment appends a new record; historical scores are not overwritten.
 
 ---
 
@@ -541,23 +525,7 @@ Events are immutable and versioned.
 
 # Source Trust Model
 
-Every source has an associated Trust Score.
-
-MVP
-
-Static trust values configured by policy.
-
-Future
-
-Dynamic trust based on:
-
-- Historical accuracy
-- Cross-source agreement
-- Human feedback
-- Consistency over time
-- Organization-specific policies
-
-Trust Score contributes to Knowledge Confidence.
+Source Trust is proposed categorical reviewed source policy, not an arbitrary static percentage. ACCEPTED_FOR_USE / REVIEW_REQUIRED / REJECTED / UNASSESSED have explicit source/policy/decision references under ADR-015. Legacy numeric sourceTrustScore remains null/null. Source-policy acceptability may be an independently grounded support-check input; Knowledge Confidence never recursively determines Source Trust. Dynamic reputation/accuracy learning remains future and requires empirical evaluation.
 
 ---
 
@@ -637,7 +605,7 @@ Correct extraction does not imply trustworthy knowledge.
 
 ## ADR-005
 
-Source Trust Score influences Knowledge Confidence.
+Source Categorical source-policy acceptability may inform proposed support checks; no numeric trust coefficient.
 
 Reason:
 
@@ -816,3 +784,10 @@ Keep authorization and atomic revision/head/projection publication in one NestJS
 **Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
 
 Use one immutable approved snapshot and short Brand publication transaction, not independent Knowledge Graph/Audit/Version stores. Preserve approved fact/history authority; proposed Artifact2.3 records explicit relationship edges and membership dispositions in that same snapshot. Structural FKs and provenance views are not separately editable assertions. Relationship-only review is disabled pending Product/transport approval; no fake fact candidate or duplicate governance event. Expected revision, authorized receipt replay, actual approval/source references, required projections and head switch are atomic. Optional caches may lag only with canonical fallback. Restore exact recorded graph into a new revision, reapprove reinstated edges; unknown historical graph blocks until reviewed preview/migration choice. No LLM call inside transaction or unproven exactly-once guarantee.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+KM owns proposed support-checks/1.0.0 and categorical source policy. It does not derive Source Trust recursively from Knowledge Confidence or convert exact mapping/Owner approval into probability of truth. All formulas default disabled pending D-KQ-04; check0 is legitimate only as a known result, unknowns are null with reason. Invalid references/type/tenant/manual-origin/ambiguity can block independently; scores only prioritize warnings/review and never publish. Proposed D-KQ-03 conditionally omits KnowledgeIndex rows without all known applicable material-field scores and reads approved snapshot directly; this is an explicit review-gated amendment to unconditional index materialization, not an implemented change. When known, entity confidence=min of field support scores. Required business projections, approved revision/assessment and head switch stay atomic; preserve historical quality/policy versions and idempotency. No arbitrary static trust values, sentinel or second approval ledger.

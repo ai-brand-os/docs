@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:knowledge-quality:1.0.0:assessment",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "1.0.0"
+    },
+    "formulaSetVersion": {
+      "const": "1.0.0"
+    },
+    "inputVersion": {
+      "const": "1.0.0"
+    },
+    "taxonomyVersion": {
+      "enum": [
+        "historical-v1",
+        "company-size-2"
+      ]
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "brandId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "revisionId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "CANDIDATE",
+            "APPROVED_ENTITY",
+            "CONTEXT",
+            "DOCUMENT_METADATA"
+          ]
+        },
+        "subjectArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "subjectKey": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "kind",
+        "subjectArtifactId",
+        "subjectKey"
+      ],
+      "additionalProperties": false
+    },
+    "operationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "scores": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:ai-brand-os:knowledge-quality:1.0.0:score"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bindingArtifactId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "classification": {
+            "enum": [
+              "VERIFIED_EXACT",
+              "VERIFIED_STRUCTURAL",
+              "NORMALIZED_ONLY",
+              "UNAVAILABLE",
+              "INVALID"
+            ]
+          },
+          "availability": {
+            "enum": [
+              "RETAINED",
+              "DELETED",
+              "UNAVAILABLE",
+              "UNKNOWN"
+            ]
+          }
+        },
+        "required": [
+          "bindingArtifactId",
+          "classification",
+          "availability"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "sourcePolicy": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "KNOWN",
+            "UNKNOWN",
+            "NOT_EVALUATED",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE",
+            "INVALID"
+          ]
+        },
+        "assessment": {
+          "anyOf": [
+            {
+              "enum": [
+                "ACCEPTED_FOR_USE",
+                "REVIEW_REQUIRED",
+                "REJECTED",
+                "UNASSESSED"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "policyVersion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "decisionArtifactId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "state",
+        "assessment",
+        "policyVersion",
+        "decisionArtifactId",
+        "reasons"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "KNOWN"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "assessment": {
+                "enum": [
+                  "ACCEPTED_FOR_USE",
+                  "REVIEW_REQUIRED",
+                  "REJECTED",
+                  "UNASSESSED"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "assessment": {
+                "type": "null"
+              },
+              "reasons": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "required": [
+    "contractVersion",
+    "formulaSetVersion",
+    "inputVersion",
+    "taxonomyVersion",
+    "organizationId",
+    "brandId",
+    "revisionId",
+    "subject",
+    "operationId",
+    "asOf",
+    "scores",
+    "evidence",
+    "sourcePolicy"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "subject": {
+            "properties": {
+              "kind": {
+                "const": "DOCUMENT_METADATA"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "scores": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "scores": {
+            "minItems": 1,
+            "maxItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

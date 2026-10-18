@@ -1496,3 +1496,10 @@ Knowledge improvement reuses candidate artifacts, explicit Owner decisions and i
 **Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
 
 Structural ownership uses existing FKs plus approved snapshot membership; conceptual Knowledge is a typed approved fact, not a new entity table. Updated/Refined/Retired domain words do not create new Prisma status enums. Product/Service TARGETS is an explicit assertion, not inferred from sharing an Organization. Historical ontology1.1 required targets; proposed1.2 allows draft/ready 0..N pending Product review, without adding onboarding fields. USES is optional derived 0..1 under a separately reviewed rule, disabled by default. Global BrandVoice grounding remains unchanged. The ADR contains the complete Active/Reserved and entity lifecycle matrices; future narrative predicates are not registered MVP wire types.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+Confidence is an assessment value object about pinned inputs, not a business fact or objective truth. Extraction uncertainty, source-mapping fidelity, categorical source policy, procedural knowledge support, request coverage, completeness and readiness are distinct. No new entity/graph database or automatic learning. Company-size/region/language amendments are pending Product decisions; historical values retain meaning. Quality assessment is append-only metadata in proposed Artifact2.4, never a duplicate approval ledger. Current unknowns cannot be forced into required numeric enum/index columns.

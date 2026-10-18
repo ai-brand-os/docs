@@ -1,6 +1,6 @@
 # Business Ontology — AI Brand OS
 
-> Final audit (2026-10-16): D-AUD-03 tracks overlapping company-size buckets (21–50 and 50+), undefined Region/Language vocabularies and numeric confidence policy. Industry/Tone locked vocabularies remain preserved. Task20 specifies relationship persistence in ADR-014, pending Architecture/Product review D-AUD-06 and D-REL-01/02/03; no undeclared relationship table/graph is implied. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Final audit (2026-10-16): Task21 specifies D-AUD-03 under ADR-015, pending Product/Architecture review; D-KQ-01–05 still gate boundary/profile/formula/storage adoption. Historical company-size overlap and locked vocabulary meanings are preserved. Industry/Tone locked vocabularies remain preserved. Task20 specifies relationship persistence in ADR-014, pending Architecture/Product review D-AUD-06 and D-REL-01/02/03; no undeclared relationship table/graph is implied. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
@@ -145,8 +145,8 @@ Source: Brand Brain PRD §1 (Organization Profile)
 | industry        | enum: `Industry Taxonomy`        | Yes      | both   |
 | companySize     | enum: `1–5 / 6–20 / 21–50 / 50+` | Yes      | manual |
 | websiteUrl      | url                              | No       | manual |
-| primaryRegion   | enum                             | Yes      | manual |
-| primaryLanguage | enum                             | Yes      | manual |
+| primaryRegion   | Historical unspecified enum; proposed market prose D-KQ-02                             | Yes      | manual |
+| primaryLanguage | Historical unspecified enum; proposed one BCP47 tag D-KQ-02                             | Yes      | manual |
 
 ## Brand
 
@@ -231,7 +231,7 @@ Structural attributes only — the actual business content is expressed as class
 | Attribute           | Type                                           | Required | Source                                |
 | ------------------- | ---------------------------------------------- | -------- | ------------------------------------- |
 | describesEntityType | enum: KnowledgeEntityType in schema.prisma (8 described business types; not recursive Knowledge)  | Yes      | system                                |
-| knowledgeConfidence | number 0–100                                   | Yes      | system (Knowledge Management Service) |
+| knowledgeConfidence | Legacy required index Int0–100; proposed conditional known score D-KQ-03                                   | Yes      | system (Knowledge Management Service) |
 | ontologyVersion     | semver                                         | Yes      | system                                |
 | provenance          | Provenance object (see `02_ARTIFACT_MODEL.md`) | Yes      | system                                |
 
@@ -490,3 +490,10 @@ Completeness calculation v2 and readiness use [PRODUCT_METRICS.md](../PRODUCT_ME
 **Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
 
 The table above records ontology1.1 conceptual relationships, not approved storage contracts or deployed functionality. Proposed ontology1.2/registry1.0 explicitly maps all 22 Active and six Reserved endpoint pairs. TARGETS changes from historical1.1 1..N to proposed draft/ready 0..N; USES becomes optional derived draft/ready 0..1. These semantic changes require D-REL-02 Product review and do not silently supersede1.1. Readiness still requires one complete active approved Product OR Service and Audience plus manual Voice/mandatory facts, never a per-offer targeting field. Provenance inverses share one recorded relation; MAY_DESCRIBE is per-fact typed lookup. Reserved relationships remain non-instantiable; Active means conceptual vocabulary, not authorized UI/writer. No generic graph database.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+The machine registry preserves locked Industry/Tone/PrimaryGoal and historical company-size1 exactly. Proposed size2 is 1–5/6–20/21–49/50+, pending D-KQ-01; no reinterpretation or Prisma enum change. Proposed primaryRegion is constrained market prose; primaryLanguage is one registered supported BCP47 tag, distinct from source language, formatting locale and country. D-KQ-02 owns semantics/standards profiles and historical confirmation. All material fields are classified in the registry. Knowledge/source/extraction/context indicators have separate meanings and six explicit missing states. Required KnowledgeIndex integer is a storage limitation, not permission to manufacture confidence: D-KQ-03 proposes conditional index omission/canonical snapshot fallback. No numeric score bypasses human approval or readiness. Ontology1.2 relationship proposal remains independently gated D-REL-01/02/03; this task does not adopt a new ontology version.

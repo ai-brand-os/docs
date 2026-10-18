@@ -101,8 +101,8 @@ Every material field carries explicit MANUAL, IMPORTED or DERIVED origin and ver
 | Industry          | enum (predefined list + "Other") | Yes      | both                     |
 | Company Size      | enum: 1–5 / 6–20 / 21–50 / 50+   | Yes      | manual                   |
 | Website URL       | url                              | No       | manual (triggers import) |
-| Primary Region    | enum                             | Yes      | manual                   |
-| Primary Language  | enum                             | Yes      | manual                   |
+| Primary Region    | Historical unspecified enum; proposed market prose D-KQ-02                             | Yes      | manual                   |
+| Primary Language  | Historical unspecified enum; proposed single BCP47 D-KQ-02                             | Yes      | manual                   |
 
 ## 2. Brand Profile
 
@@ -409,3 +409,10 @@ FR-3/10 provenance follows [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md
 **Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
 
 FR-REL-01 (specified architecture dependency; not new MVP UI): approved relationship assertions, when Product-authorized, must have stable scoped identity, human decision/provenance, exact snapshot reconstruction and restore. Existing readiness/mandatory facts do not require a TARGETS form or per-offer Audience association. Proposed TARGETS cardinality/USES derivation and predicate review transport remain D-REL-02; archive/reactivation D-REL-03. No candidate/self-approval. Current removal includes reviewed incident-edge removal; history remains subject to retention. Acceptance maps to AT-20-01–30; offline tests do not establish implementation or product approval.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+FR-KQ-01 (specified, pending review): show indicator meaning/missing state and actual source precision separately; no generic percentage of truth. Preserve locked taxonomies/manual Tone. Historical company-size1 remains current; proposed size2 boundary requires D-KQ-01 and explicit new confirmation, never relabel old21–50/50+. Primary market prose/single BCP47 output preference are proposed D-KQ-02, not new geography/multilingual workflows. Unknown required values keep setup incomplete; current required Organization fields cannot store invented unknown enum values. All numeric formulas default disabled; source/candidate validation failures block independently and all eligible fact changes require Owner approval. AT-21-01–30 are offline acceptance cases, not runtime delivery or approved UX.

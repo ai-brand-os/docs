@@ -98,3 +98,10 @@ Canonical relative links and heading anchors pass validation; `git diff --check`
 ## Task 15 commercial-test proposal
 
 [GO_TO_MARKET_STRATEGY.md](GO_TO_MARKET_STRATEGY.md) proposes an e-commerce cohort and existing one-source→review→approved revision→grounded draft→copy Brief workflow. Deliverable-level source/claim review is a pending D-GTM-02 PRD/scope interpretation decision, not an included feature added silently to this matrix. If needed, approve an explicit limited amendment and acceptance/security contracts before selling it; otherwise demonstrate only labeled manual assistance/prototype and keep delivered-scope claims accurate. No store connector/crawl, team/multi-brand or automatic monitoring enters MVP. [Pricing](PRICING_EXPERIMENTS.md) and [90-day roadmap](90_DAY_VALIDATION_ROADMAP.md) remain proposed experiments, not approved entitlements or dates.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+Task21 specifies taxonomy/quality contracts for existing Brain review/context/metrics, not a new product feature. Company-size boundary, market/language policy, conditional index/assessment storage and numeric formula/ranking choices remain D-KQ-01–05 proposals. No score threshold authorizes publication, activation or generation; mandatory approved facts and existing request gates stay independent. No multilingual output management, new country/locale fields, automatic source trust or customer quality guarantee is added.

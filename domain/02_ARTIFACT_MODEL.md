@@ -222,3 +222,10 @@ Established shared artifact/lineage/tenant/storage boundaries; nested JSON/statu
 **Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
 
 Artifact2.0 cannot serialize approved relationship edges/dispositions or selected context relationship refs. Separately proposed Artifact2.3 adds exactly approved_snapshot.relationships, relationship_commit and final context.selectedRelationships/relationshipSelection. Earlier closed bundles remain unchanged and version-routed. Canonical authority stays the immutable approved Artifact + BrandBrainRevision, not candidateRelationships or another graph store. Status/producer/type enums and operational error/checkpoint variants remain unchanged. Historical missing edges mean NOT_RECORDED; unknown versions fail safely. D-REL-01 gates rollout.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+Earlier2.0–2.3 schemas remain unchanged. Existing confidence/contextScore {value:null,basis:null} is honest unspecified missing data; do not smuggle new JSON into basis or pretend it already distinguishes six states. Separately proposed Artifact2.4 PROCESSING_INTERMEDIATE/quality_assessment records state/formula/input/asOf/policy/explanation and scoped subject references under D-KQ-03. It is an attachment, not import completion/approval event. Known old indicator fields can reference an actual assessment; Source Trust remains categorical and its numeric legacy field null/null. Score provenance never changes approved fact provenance.

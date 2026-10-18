@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2.4.0",
+  "status": "Proposed — D-KQ-03 Pending Architecture/Engineering Review",
+  "variant": "quality_assessment",
+  "artifactType": "PROCESSING_INTERMEDIATE",
+  "stage": "quality_assessment",
+  "producers": [
+    "DOCUMENT_PROCESSING",
+    "KNOWLEDGE_EXTRACTION",
+    "KNOWLEDGE_MANAGEMENT",
+    "CONTEXT_ENGINE"
+  ],
+  "statusValue": "VALID",
+  "operationStatus": "SUCCEEDED",
+  "importStateEvent": false,
+  "doesNotApproveKnowledge": true
+}

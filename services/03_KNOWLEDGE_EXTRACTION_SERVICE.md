@@ -144,7 +144,7 @@ Understand meaning before classification.
 
 Deterministic Where Possible
 
-Rule-based extraction takes precedence when confidence is high.
+Reviewed deterministic rule precedence must use actual matching/validation criteria; no undefined high-confidence threshold. Proposed extraction-checks/1.0.0 remains disabled pending D-KQ-04.
 
 LLMs should augment, not replace, deterministic logic.
 
@@ -436,13 +436,7 @@ The extraction service calculates only:
 
 Extraction Confidence
 
-Confidence reflects:
-
-- Extraction quality
-- Parsing certainty
-- Rule confidence
-- LLM confidence
-- Evidence completeness
+Proposed extraction-checks/1.0.0 counts four explicit procedural checks; see ADR-015 and canonical knowledge-quality1.0. Formula use is disabled until D-KQ-04 review. Parser/model raw self-rating is not this score. Unknown/unavailable inputs remain null with reasons; no arbitrary LLM/rule weighting or implied calibration.
 
 The service never determines whether knowledge is true.
 
@@ -805,3 +799,10 @@ One reviewed MVP provider is required, none selected here. D-AUD-02 review, D-SE
 **Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
 
 Extraction may emit existing v2 candidateRelationships only as untrusted proposals. Never create approved edges, infer TARGETS from co-membership or convert approval of an entity field into predicate approval. Retain original proposal DTO digest/Artifact and actual source references; no fabricated evidence offsets/relationship fields. Imported TARGETS needs actual approved supporting fact/value refs and validated Task19 binding, then separate Owner review under D-REL-02. Competitor import remains excluded. Gateway/source-evidence/import contract bundles are unchanged; source deletion/precision remains ADR-013 policy.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+Extraction owns only proposed extraction-checks/1.0.0 over literalPreserved, classificationValid, parseUnambiguous and sourceBindingResolved. Exact rational percentage of applicable passed checks is a procedural indicator, not model calibration, Knowledge Confidence or approval. Formula disabled pending D-KQ-04; missing check states stay explicit, never default0. Actual parser/candidate/binding references establish inputs; model self-rating is untrusted metadata, not a PASS source. Preserve locked field taxonomies/manual restrictions and Task19 interpretation warnings. Unapproved2.4 storage is gated D-KQ-03; existing v2 confidence remains null/null when no known reviewed assessment. Edits create new assessments without rewriting original extraction.

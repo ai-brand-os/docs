@@ -1,0 +1,107 @@
+{
+  "artifactId": "21000000-0000-4000-8000-000000000060",
+  "artifactType": "PROCESSING_INTERMEDIATE",
+  "parentArtifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55",
+  "conversationId": null,
+  "correlationId": "877df626-a88c-5683-8066-10173b1123f7",
+  "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+  "producingService": "KNOWLEDGE_MANAGEMENT",
+  "producingStage": "quality_assessment",
+  "schemaVersion": "2.4.0",
+  "status": "VALID",
+  "createdAt": "2026-10-16T10:00:00Z",
+  "payload": {
+    "variant": "quality_assessment",
+    "operationStatus": "SUCCEEDED",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "invocationId": "21000000-0000-4000-8000-000000000061",
+    "attemptNumber": 1,
+    "checkpointNumber": 0,
+    "data": {
+      "contractVersion": "1.0.0",
+      "formulaSetVersion": "1.0.0",
+      "inputVersion": "1.0.0",
+      "taxonomyVersion": "historical-v1",
+      "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+      "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+      "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+      "subject": {
+        "kind": "APPROVED_ENTITY",
+        "subjectArtifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55",
+        "subjectKey": "ORGANIZATION/110824fb-3b48-5417-83b3-b4c348464d94"
+      },
+      "operationId": "21000000-0000-4000-8000-000000000050",
+      "asOf": "2026-10-19T10:00:00Z",
+      "scores": [
+        {
+          "indicator": "KNOWLEDGE_CONFIDENCE",
+          "state": "KNOWN",
+          "value": 100,
+          "formulaVersion": "support-checks/1.0.0",
+          "inputVersion": "1.0.0",
+          "policyDecisionArtifactId": "21000000-0000-4000-8000-000000000040",
+          "inputs": {
+            "checks": [
+              {
+                "key": "supportResolved",
+                "status": "PASS",
+                "reason": null,
+                "referenceIds": [
+                  "21000000-0000-4000-8000-000000000030"
+                ]
+              },
+              {
+                "key": "interpretationResolved",
+                "status": "PASS",
+                "reason": null,
+                "referenceIds": [
+                  "21000000-0000-4000-8000-000000000030"
+                ]
+              },
+              {
+                "key": "verificationCurrent",
+                "status": "PASS",
+                "reason": null,
+                "referenceIds": [
+                  "21000000-0000-4000-8000-000000000030"
+                ]
+              },
+              {
+                "key": "sourcePolicyAcceptable",
+                "status": "PASS",
+                "reason": null,
+                "referenceIds": [
+                  "21000000-0000-4000-8000-000000000030"
+                ]
+              }
+            ],
+            "manifestState": "NOT_APPLICABLE",
+            "requiredFactRefs": [],
+            "selectedFactRefs": []
+          },
+          "explanation": {
+            "passed": 4,
+            "failed": 0,
+            "excluded": 0,
+            "applicable": 4,
+            "rounding": "RATIONAL_HALF_UP_INTEGER",
+            "reasons": []
+          },
+          "inputHash": "f2acd9eee0fd72625d7ed93cfb069fa13a96fa01d34a0a0c7a9982060612f99f",
+          "resultHash": "183ce6b39df9531f220b20be45317cf40b40764311a8e52de86a8666c5c79e93"
+        }
+      ],
+      "evidence": [],
+      "sourcePolicy": {
+        "state": "NOT_EVALUATED",
+        "assessment": null,
+        "policyVersion": null,
+        "decisionArtifactId": null,
+        "reasons": [
+          "SOURCE_POLICY_NOT_EVALUATED"
+        ]
+      }
+    },
+    "error": null
+  }
+}

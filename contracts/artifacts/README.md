@@ -175,3 +175,8 @@ Run `npm --prefix validation test` after installing the pinned dev-only dependen
 ## Task20 — Proposed approved relationship graphs
 
 [ADR-014](../../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md), [registry1.0](../ontology-relations/README.md) and [proposed2.3](2.3.0/README.md) add approved snapshot relationships, one relationship-only approval variant and final context edge refs. All earlier version bundles remain unchanged; no Prisma migration. D-REL-01 version adoption, D-REL-02 product semantics/transport and D-REL-03 archive controls remain pending; writers disabled. Legacy graph absence is NOT_RECORDED, not an inferred empty graph.
+
+
+## Task21 — Proposed quality assessment attachment
+
+[ADR-015](../../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [quality1.0](../knowledge-quality/README.md) propose [Artifact2.4](2.4.0/README.md) for explicit disposition/formula/input/policy/explanation metadata absent from old confidence objects. Existing2.0–2.3/Gateway/Source Evidence/Ontology bundles are unchanged. D-KQ-03 gates readers/references/storage/conditional index and rollout; D-KQ-04/05 gate numeric formulas. These attachments never approve knowledge or drive import lifecycle.

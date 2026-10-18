@@ -293,9 +293,8 @@ Identify document language.
 
 Outputs
 
-- Primary language
-- Secondary languages
-- Confidence score
+- Detected source language string/null under the existing document contract
+- Secondary-language distributions and detector confidence have no dedicated v2 field or reproducible method; omit from persisted v2 rather than inventing a score
 
 Future versions may support multilingual segmentation.
 
@@ -758,3 +757,10 @@ Run orchestration in the NestJS worker role from the same backend release; execu
 ## Task19 — Verifiable representation manifests
 
 [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) is canonical for representations, UTF8/code-point coordinates, transform segment composition and PDF/HTML/structural anchors. Never infer original location from normalized sourceOffset/characterCount. Preserve exact bytes/text hashes, parser/version/config, omitted regions and disjoint input spans; lossy/ambiguous precision becomes normalized-only/unavailable. PDF physical page/text-unit/optional verified bbox are parser-backed, no fabricated pages for DOCX/Markdown; scanned PDFs have NO_TEXT_LAYER without enabled OCR. Inert HTML excludes active/hidden content and declares visibility uncertainty; no live URL verification. Proposed [Artifact2.2 representation_manifest](../contracts/source-evidence/README.md#artifact-extension-and-historical-binding) commits with v2 STRUCTURED_DOCUMENT as a reference attachment, not an import state event. Existing v2/proposed2.1/Gateway1/Prisma are unchanged. No actual parser/renderer deployed or tested by documentation fixtures.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+Document language metadata is observed source content, not Organization.primaryLanguage or market/locale. Current final document/chunk language is string/null; closed v2 has no dedicated detector-confidence/secondary-language distribution field. Do not invent payload fields or place raw classifier confidence into business indicators. No deterministic detector-score formula is supplied by current implementation evidence: raw confidence/method/range is unavailable in persisted v2; new numeric detector diagnostics require a separate reviewed contract. Proposed2.4 DOCUMENT_METADATA assessment may record absent/not-evaluated quality metadata with no fabricated score, not an extraction-check score owned by another service. Exact source fidelity/ambiguity remains Source Evidence1, never numeric factual accuracy. No multilingual segmentation/output feature is activated.

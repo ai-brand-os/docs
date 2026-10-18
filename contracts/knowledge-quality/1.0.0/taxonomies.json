@@ -1,0 +1,538 @@
+{
+  "contractVersion": "1.0.0",
+  "status": "Proposed — Pending Product/Architecture Review",
+  "vocabularies": {
+    "Industry": {
+      "version": "locked-v1",
+      "class": "CLOSED",
+      "owner": "Product; existing Architecture taxonomy governance",
+      "values": [
+        {
+          "key": "ECOMMERCE_RETAIL",
+          "label": "E-commerce & Retail"
+        },
+        {
+          "key": "PROFESSIONAL_SERVICES",
+          "label": "Professional Services"
+        },
+        {
+          "key": "SAAS_TECHNOLOGY",
+          "label": "SaaS & Technology"
+        },
+        {
+          "key": "HEALTH_WELLNESS",
+          "label": "Health & Wellness"
+        },
+        {
+          "key": "FOOD_BEVERAGE",
+          "label": "Food & Beverage"
+        },
+        {
+          "key": "EDUCATION_COACHING",
+          "label": "Education & Coaching"
+        },
+        {
+          "key": "REAL_ESTATE",
+          "label": "Real Estate"
+        },
+        {
+          "key": "FINANCE_INSURANCE",
+          "label": "Finance & Insurance"
+        },
+        {
+          "key": "MARKETING_CREATIVE_AGENCIES",
+          "label": "Marketing & Creative Agencies"
+        },
+        {
+          "key": "FASHION_APPAREL",
+          "label": "Fashion & Apparel"
+        },
+        {
+          "key": "BEAUTY_PERSONAL_CARE",
+          "label": "Beauty & Personal Care"
+        },
+        {
+          "key": "HOME_LIFESTYLE",
+          "label": "Home & Lifestyle"
+        },
+        {
+          "key": "TRAVEL_HOSPITALITY",
+          "label": "Travel & Hospitality"
+        },
+        {
+          "key": "NONPROFIT_COMMUNITY",
+          "label": "Nonprofit & Community"
+        },
+        {
+          "key": "MANUFACTURING_INDUSTRIAL",
+          "label": "Manufacturing & Industrial"
+        },
+        {
+          "key": "OTHER",
+          "label": "Other"
+        }
+      ],
+      "normalization": "Exact storage keys; display labels separate; no implicit Other",
+      "unknown": "Typed UNKNOWN/null only; never write a new Prisma enum",
+      "migration": "Preserve old values; reviewed additive changes only"
+    },
+    "ToneAttribute": {
+      "version": "locked-v1",
+      "class": "CLOSED",
+      "owner": "Product; existing Architecture taxonomy governance",
+      "values": [
+        {
+          "key": "PROFESSIONAL",
+          "label": "Professional"
+        },
+        {
+          "key": "FRIENDLY",
+          "label": "Friendly"
+        },
+        {
+          "key": "BOLD",
+          "label": "Bold"
+        },
+        {
+          "key": "PLAYFUL",
+          "label": "Playful"
+        },
+        {
+          "key": "AUTHORITATIVE",
+          "label": "Authoritative"
+        },
+        {
+          "key": "MINIMAL",
+          "label": "Minimal"
+        },
+        {
+          "key": "EMPATHETIC",
+          "label": "Empathetic"
+        },
+        {
+          "key": "CONFIDENT",
+          "label": "Confident"
+        },
+        {
+          "key": "WITTY",
+          "label": "Witty"
+        },
+        {
+          "key": "FORMAL",
+          "label": "Formal"
+        },
+        {
+          "key": "WARM",
+          "label": "Warm"
+        },
+        {
+          "key": "DIRECT",
+          "label": "Direct"
+        }
+      ],
+      "normalization": "Exact storage keys; display labels separate; no implicit Other",
+      "unknown": "Typed UNKNOWN/null only; never write a new Prisma enum",
+      "migration": "Preserve old values; reviewed additive changes only"
+    },
+    "PrimaryGoal": {
+      "version": "locked-v1",
+      "class": "CLOSED",
+      "owner": "Product; existing Architecture taxonomy governance",
+      "values": [
+        {
+          "key": "AWARENESS",
+          "label": "Awareness"
+        },
+        {
+          "key": "LEAD_GEN",
+          "label": "Lead Gen"
+        },
+        {
+          "key": "SALES",
+          "label": "Sales"
+        },
+        {
+          "key": "RETENTION",
+          "label": "Retention"
+        },
+        {
+          "key": "OTHER",
+          "label": "Other"
+        }
+      ],
+      "normalization": "Exact storage keys; display labels separate; no implicit Other",
+      "unknown": "Typed UNKNOWN/null only; never write a new Prisma enum",
+      "migration": "Preserve old values; reviewed additive changes only"
+    },
+    "CompanySize": {
+      "version": "historical-v1",
+      "class": "CLOSED",
+      "owner": "Product",
+      "values": [
+        {
+          "key": "SIZE_1_5",
+          "label": "1–5"
+        },
+        {
+          "key": "SIZE_6_20",
+          "label": "6–20"
+        },
+        {
+          "key": "SIZE_21_50",
+          "label": "21–50"
+        },
+        {
+          "key": "SIZE_50_PLUS",
+          "label": "50+"
+        }
+      ],
+      "proposedVersion": "company-size-2",
+      "status": "Proposed — D-KQ-01 pending",
+      "proposedValues": [
+        {
+          "key": "SIZE_1_5",
+          "label": "1–5",
+          "min": 1,
+          "max": 5
+        },
+        {
+          "key": "SIZE_6_20",
+          "label": "6–20",
+          "min": 6,
+          "max": 20
+        },
+        {
+          "key": "SIZE_21_49",
+          "label": "21–49",
+          "min": 21,
+          "max": 49
+        },
+        {
+          "key": "SIZE_50_PLUS",
+          "label": "50+",
+          "min": 50,
+          "max": null
+        }
+      ],
+      "unknown": "UNKNOWN/null draft; no projection or mandatory points",
+      "normalization": "No historical relabeling; same key SIZE_50_PLUS is version-qualified",
+      "migration": "Product selection then reviewed enum expansion/new readers/new confirmed revision; old21–50 ambiguous"
+    }
+  },
+  "fields": {
+    "Organization.name": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Organization.industry": {
+      "class": "CLOSED",
+      "validation": "Exact versioned keys; Tone is MANUAL, 2–4 distinct values",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management",
+      "vocabulary": "Industry"
+    },
+    "Organization.companySize": {
+      "class": "CLOSED",
+      "validation": "Exact versioned keys; Tone is MANUAL, 2–4 distinct values",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management",
+      "vocabulary": "CompanySize"
+    },
+    "Organization.websiteUrl": {
+      "class": "CONSTRAINED_STRING",
+      "validation": "Existing URI and egress/security policy; URL identity is not a market/language",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Organization.primaryRegion": {
+      "class": "CONSTRAINED_STRING",
+      "validation": "Trimmed Unicode1–200 code points; no fixed region list; D-KQ-02 pending",
+      "version": "market-description-1 proposed",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Organization.primaryLanguage": {
+      "class": "STANDARD_CODE",
+      "validation": "One registered supported canonical BCP47 tag; D-KQ-02 pending",
+      "version": "language-profile-1 proposed",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Brand.name": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Brand.missionStatement": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Existing Unicode text ≤300 characters; mandatory mission nonblank",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Brand.visionStatement": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Existing Unicode text ≤300 characters; mandatory mission nonblank",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Brand.coreValues": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Brand.sampleWriting": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Brand.primaryGoal": {
+      "class": "CLOSED",
+      "validation": "Exact versioned keys; Tone is MANUAL, 2–4 distinct values",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management",
+      "vocabulary": "PrimaryGoal"
+    },
+    "Brand.successDefinition": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "BrandVoice.toneAttributes": {
+      "class": "CLOSED",
+      "validation": "Exact versioned keys; Tone is MANUAL, 2–4 distinct values",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management",
+      "vocabulary": "ToneAttribute"
+    },
+    "BrandVoice.vocabularyDos": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "BrandVoice.vocabularyDonts": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Product.name": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Product.description": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Product.valueProposition": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Product.keyFeatures": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Product.pricingModel": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Service.name": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Service.description": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Service.valueProposition": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Service.keyFeatures": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Service.pricingModel": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Audience.segmentName": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Audience.description": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Audience.painPoints": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Audience.goals": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Competitor.name": {
+      "class": "CONSTRAINED_STRING_OR_LIST",
+      "validation": "Existing nonempty string/list item validation; no new category list",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Competitor.website": {
+      "class": "CONSTRAINED_STRING",
+      "validation": "Existing URI and egress/security policy; URL identity is not a market/language",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    },
+    "Competitor.differentiationNotes": {
+      "class": "DESCRIPTIVE_TEXT",
+      "validation": "Preserve semantic content; existing PRD/fact constraints and manual/import eligibility",
+      "version": "prd-v1",
+      "normalization": "No translation or interpretation; approved revisions immutable",
+      "unknown": "Absent/unknown mandatory fields fail readiness; optional may be absent",
+      "migration": "New approved revision for semantic edits",
+      "owner": "Product + Knowledge Management"
+    }
+  },
+  "infrastructureAuthorities": [
+    "schema.prisma",
+    "contracts/artifacts/2.0.0/registry.json",
+    "contracts/ontology-relations/1.0.0/registry.json"
+  ],
+  "standardsPolicy": {
+    "country": "Assigned ISO3166-1 alpha2, uppercase; only explicit country fields",
+    "language": "Registered BCP47 canonical tag, one confirmed primaryLanguage; no inferred output preference",
+    "region": "Constrained market prose, not country/locale/address",
+    "locale": "Formatting metadata only",
+    "profile": "Pinned representative offline fixtures, not full standards registry or deployed output allowlist",
+    "activation": "D-KQ-02; full pinned ISO/IANA source+digest and output capabilities required"
+  }
+}

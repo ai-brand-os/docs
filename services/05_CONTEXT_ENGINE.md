@@ -2,7 +2,7 @@
 
 > Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits PROMPT_CONTEXT, variants context_stage / context. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
 
-> Final audit (2026-10-16): D-AUD-01 tracks conversation-history selection/limits, which are not settled by a persistent Conversation. D-AUD-03 tracks Context Score/gating thresholds; neither confidence nor score proves truth or overrides mandatory readiness. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Final audit (2026-10-16): D-AUD-01 tracks conversation-history selection/limits, which are not settled by a persistent Conversation. ADR-015 specifies D-AUD-03 with Product/Architecture review pending; D-KQ-05 gates ranking/coverage and no score gate is approved; neither confidence nor score proves truth or overrides mandatory readiness. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
 
@@ -297,17 +297,7 @@ Purpose
 
 Rank retrieved knowledge by usefulness.
 
-Ranking signals include:
-
-- Semantic similarity
-- Knowledge Confidence
-- Source Trust Score
-- Freshness
-- Business priority
-- Entity importance
-- User intent alignment
-
-Ranking should minimize irrelevant context.
+Proposed rank/1.0.0 uses eligibility, required profile facts, requested entity match, literal-token overlap and stable typed identity tie-breaks. ADR-015 specifies exact ordering/fallback; D-KQ-05 review required. Semantic relevance, numeric confidence/trust weights, freshness decay and arbitrary business priority are not enabled inputs.
 
 ---
 
@@ -423,18 +413,7 @@ Emit PROMPT_CONTEXT using [canonical Artifact v2 contracts](../contracts/artifac
 
 # Context Quality Score
 
-Every generated context receives a quality score.
-
-Signals include:
-
-- Coverage
-- Relevance
-- Confidence
-- Diversity
-- Freshness
-- Compression Quality
-
-The score is used for monitoring and future optimization.
+A context may expose proposed context-coverage/1.0.0, a required-fact coverage proxy. D-KQ-05 review is pending; default NOT_EVALUATED. Unknown request requirements are UNKNOWN, not zero; missing manifest and no applicable requirements differ. Exact formula/inputs/rounding and versioned assessment are in ADR-015/quality1.0. It is monitoring metadata, not a quality/readiness/approval gate, semantic accuracy or compression-quality measurement.
 
 ---
 
@@ -676,7 +655,7 @@ Post-MVP:
 The Context Engine is complete when:
 
 - Prompt Context Artifacts are generated successfully.
-- Context quality is measurable.
+- Context coverage is specified as a reproducible proxy; semantic quality remains empirically unverified.
 - Business Rules are injected correctly.
 - Brand Voice remains consistent.
 - Context size respects configured budgets.
@@ -796,3 +775,10 @@ Use bounded approved-revision structured/keyword/metadata retrieval in PostgreSQ
 **Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](../domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](../contracts/ontology-relations/README.md) define the versioned mapping.
 
 MVP relationship retrieval is bounded JSON lookup from one authorized approved snapshot/revision, not graph-search infrastructure. Proposed final context2.3 selects exact edge/rule refs with truncation metadata; earlier lifecycle/checkpoint/errors remain2.0. Explicit predicate use and derived USES are disabled until D-REL-02; global approved Voice injection remains unchanged. Apply active member/current deletion/Brand archival guards, stale-support filtering and tenant checks; never consume candidates or mixed-revision row values. One-hop ≤32 edges/32 nodes with deterministic type/ID ordering, subject to review. Reject stale/orphan cache authority and use canonical fallback or fail safely. Supporting facts/evidence retain their approved references. Existing approved structured keyword/metadata retrieval still works without explicit edges.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+Context ranking is proposed rank/1.0.0: eligibility first, required-manifest fact flag, requested entity flag, literal-token overlap, then UTF8 typed identity. No unsupported confidence/trust/semantic/freshness coefficients. Missing query/profile uses deterministic identity fallback; unknown required manifest means unknown coverage. Proposed context-coverage/1.0.0 is required-ref intersection/required-ref count, integer half-up, monitoring only. Diversity/freshness are separate descriptive signals, business priority needs actual profile inputs, semantic/compression quality is not evaluated. Prefer whole-fact selection/omission, no claim summarization preserves all meaning. One approved revision pins facts and Task20 relationship refs; current auth/readiness/source/deletion/security gates always apply. No valid context fails safely, never unapproved/generic fallback. Existing D-AUD-01 history and D-GW-01 budgets stay pending.

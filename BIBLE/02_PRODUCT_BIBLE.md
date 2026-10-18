@@ -914,3 +914,10 @@ Effective Date
 ---
 
 # END OF DOCUMENT
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+Region/language under Brand settings are views of the Organization profile semantics, not duplicate independent country/locale/market sources of truth. Proposed primaryRegion is market prose and primaryLanguage one confirmed BCP47 output preference under D-KQ-02; no multilingual-management feature. Product owns pending company-size boundaries and scoring/review messaging. Confidence/coverage/completeness/readiness/accuracy remain separate; high percentages never grant approval or imply measured product benefit.

@@ -129,3 +129,10 @@ No Prisma DDL is required. Before enabling the read facade or extended metrics, 
 **Specified — Pending Architecture/Product Review (D-AUD-06).** [ADR-014](domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md) and [canonical registry/contracts](contracts/ontology-relations/README.md) define the versioned mapping.
 
 candidateRelationships remains unapproved model data. Approval of a supporting fact never automatically approves its relationship predicate. Conditional explicit predicate review requires D-REL-02 and one authorized relationship_commit/new approved snapshot; no automatic learning, synthetic relationship fact, or duplicate approval ledger. Exact original proposal digest + Artifact identity may anchor review; array position and mutable names are not identity. Existing import review/closure and manual correction remain unchanged. Historical restore uses recorded edges, never a model guess; new approved facts/edges become visible together under one current revision.
+
+
+## Task21 — Taxonomy and knowledge-quality contracts
+
+**Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
+
+Feedback/Owner approval is not factual certainty or model training. Extraction-check/support-check/context-coverage formulas are proposed monitoring/review aids, disabled until reviewed. No numeric threshold approves or replaces a fact, chooses a relationship, or activates automatic candidate learning. Source Trust is categorical reviewed policy; evidence fidelity is categorical Source Evidence1. Edited values revalidate and append assessment; original extraction result stays attached to original candidate. Historical unknown confidence stays unknown; accuracy/repeated-error improvement still requires independent evaluation under D-LEARN-01. No new quality-benefit measurement is claimed.

@@ -1,0 +1,231 @@
+[
+  {
+    "contractVersion": "1.0.0",
+    "formulaSetVersion": "1.0.0",
+    "inputVersion": "1.0.0",
+    "taxonomyVersion": "historical-v1",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+    "subject": {
+      "kind": "CANDIDATE",
+      "subjectArtifactId": "77486c91-e07b-508e-a18a-5076920aff2d",
+      "subjectKey": "1b48b11a-a5da-58a4-99f5-7d39a7953ed9"
+    },
+    "operationId": "21000000-0000-4000-8000-000000000050",
+    "asOf": "2026-10-19T10:00:00Z",
+    "scores": [
+      {
+        "indicator": "EXTRACTION_CONFIDENCE",
+        "state": "KNOWN",
+        "value": 100,
+        "formulaVersion": "extraction-checks/1.0.0",
+        "inputVersion": "1.0.0",
+        "policyDecisionArtifactId": "21000000-0000-4000-8000-000000000040",
+        "inputs": {
+          "checks": [
+            {
+              "key": "literalPreserved",
+              "status": "PASS",
+              "reason": null,
+              "referenceIds": [
+                "21000000-0000-4000-8000-000000000030"
+              ]
+            },
+            {
+              "key": "classificationValid",
+              "status": "PASS",
+              "reason": null,
+              "referenceIds": [
+                "21000000-0000-4000-8000-000000000030"
+              ]
+            },
+            {
+              "key": "parseUnambiguous",
+              "status": "PASS",
+              "reason": null,
+              "referenceIds": [
+                "21000000-0000-4000-8000-000000000030"
+              ]
+            },
+            {
+              "key": "sourceBindingResolved",
+              "status": "PASS",
+              "reason": null,
+              "referenceIds": [
+                "21000000-0000-4000-8000-000000000030"
+              ]
+            }
+          ],
+          "manifestState": "NOT_APPLICABLE",
+          "requiredFactRefs": [],
+          "selectedFactRefs": []
+        },
+        "explanation": {
+          "passed": 4,
+          "failed": 0,
+          "excluded": 0,
+          "applicable": 4,
+          "rounding": "RATIONAL_HALF_UP_INTEGER",
+          "reasons": []
+        },
+        "inputHash": "e0529135148f9114893598c5a4408b185ccb8b09d4fbe1e5ec3bd849b3d8d88b",
+        "resultHash": "ac74910e65b370a2279bc3b3f6633dc9a8140d8a28cc030ffc8fcf19932b5558"
+      }
+    ],
+    "evidence": [],
+    "sourcePolicy": {
+      "state": "NOT_EVALUATED",
+      "assessment": null,
+      "policyVersion": null,
+      "decisionArtifactId": null,
+      "reasons": [
+        "SOURCE_POLICY_NOT_EVALUATED"
+      ]
+    }
+  },
+  {
+    "contractVersion": "1.0.0",
+    "formulaSetVersion": "1.0.0",
+    "inputVersion": "1.0.0",
+    "taxonomyVersion": "historical-v1",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+    "subject": {
+      "kind": "APPROVED_ENTITY",
+      "subjectArtifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55",
+      "subjectKey": "ORGANIZATION/110824fb-3b48-5417-83b3-b4c348464d94"
+    },
+    "operationId": "21000000-0000-4000-8000-000000000050",
+    "asOf": "2026-10-19T10:00:00Z",
+    "scores": [
+      {
+        "indicator": "KNOWLEDGE_CONFIDENCE",
+        "state": "KNOWN",
+        "value": 100,
+        "formulaVersion": "support-checks/1.0.0",
+        "inputVersion": "1.0.0",
+        "policyDecisionArtifactId": "21000000-0000-4000-8000-000000000040",
+        "inputs": {
+          "checks": [
+            {
+              "key": "supportResolved",
+              "status": "PASS",
+              "reason": null,
+              "referenceIds": [
+                "21000000-0000-4000-8000-000000000030"
+              ]
+            },
+            {
+              "key": "interpretationResolved",
+              "status": "PASS",
+              "reason": null,
+              "referenceIds": [
+                "21000000-0000-4000-8000-000000000030"
+              ]
+            },
+            {
+              "key": "verificationCurrent",
+              "status": "PASS",
+              "reason": null,
+              "referenceIds": [
+                "21000000-0000-4000-8000-000000000030"
+              ]
+            },
+            {
+              "key": "sourcePolicyAcceptable",
+              "status": "PASS",
+              "reason": null,
+              "referenceIds": [
+                "21000000-0000-4000-8000-000000000030"
+              ]
+            }
+          ],
+          "manifestState": "NOT_APPLICABLE",
+          "requiredFactRefs": [],
+          "selectedFactRefs": []
+        },
+        "explanation": {
+          "passed": 4,
+          "failed": 0,
+          "excluded": 0,
+          "applicable": 4,
+          "rounding": "RATIONAL_HALF_UP_INTEGER",
+          "reasons": []
+        },
+        "inputHash": "f2acd9eee0fd72625d7ed93cfb069fa13a96fa01d34a0a0c7a9982060612f99f",
+        "resultHash": "183ce6b39df9531f220b20be45317cf40b40764311a8e52de86a8666c5c79e93"
+      }
+    ],
+    "evidence": [],
+    "sourcePolicy": {
+      "state": "NOT_EVALUATED",
+      "assessment": null,
+      "policyVersion": null,
+      "decisionArtifactId": null,
+      "reasons": [
+        "SOURCE_POLICY_NOT_EVALUATED"
+      ]
+    }
+  },
+  {
+    "contractVersion": "1.0.0",
+    "formulaSetVersion": "1.0.0",
+    "inputVersion": "1.0.0",
+    "taxonomyVersion": "historical-v1",
+    "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+    "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+    "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+    "subject": {
+      "kind": "CONTEXT",
+      "subjectArtifactId": "5c99414e-7b2d-54a1-9c1c-2537bc4d10f3",
+      "subjectKey": "5c99414e-7b2d-54a1-9c1c-2537bc4d10f3"
+    },
+    "operationId": "21000000-0000-4000-8000-000000000050",
+    "asOf": "2026-10-19T10:00:00Z",
+    "scores": [
+      {
+        "indicator": "CONTEXT_QUALITY",
+        "state": "KNOWN",
+        "value": 67,
+        "formulaVersion": "context-coverage/1.0.0",
+        "inputVersion": "1.0.0",
+        "policyDecisionArtifactId": "21000000-0000-4000-8000-000000000040",
+        "inputs": {
+          "checks": [],
+          "manifestState": "KNOWN",
+          "requiredFactRefs": [
+            "[\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\",\"ORGANIZATION\",\"110824fb-3b48-5417-83b3-b4c348464d94\",\"companySize\",\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\"]",
+            "[\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\",\"ORGANIZATION\",\"110824fb-3b48-5417-83b3-b4c348464d94\",\"industry\",\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\"]",
+            "[\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\",\"ORGANIZATION\",\"110824fb-3b48-5417-83b3-b4c348464d94\",\"name\",\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\"]"
+          ],
+          "selectedFactRefs": [
+            "[\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\",\"ORGANIZATION\",\"110824fb-3b48-5417-83b3-b4c348464d94\",\"industry\",\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\"]",
+            "[\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\",\"ORGANIZATION\",\"110824fb-3b48-5417-83b3-b4c348464d94\",\"name\",\"65b79f52-4109-5536-a4f9-d49a4dcf97b5\"]"
+          ]
+        },
+        "explanation": {
+          "passed": 2,
+          "failed": 1,
+          "excluded": 0,
+          "applicable": 3,
+          "rounding": "RATIONAL_HALF_UP_INTEGER",
+          "reasons": []
+        },
+        "inputHash": "75344ff672db757d514eaf32b12fa65803c8ad10eb81b58567a8eca36f25a0b0",
+        "resultHash": "4e8a9e897628095939f45c67381793ae624f920472e727423fd58815149d7ee3"
+      }
+    ],
+    "evidence": [],
+    "sourcePolicy": {
+      "state": "NOT_EVALUATED",
+      "assessment": null,
+      "policyVersion": null,
+      "decisionArtifactId": null,
+      "reasons": [
+        "SOURCE_POLICY_NOT_EVALUATED"
+      ]
+    }
+  }
+]

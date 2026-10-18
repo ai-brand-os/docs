@@ -1,0 +1,92 @@
+{
+  "contractVersion": "1.0.0",
+  "formulaSetVersion": "1.0.0",
+  "inputVersion": "1.0.0",
+  "status": "Proposed \u2014 D-KQ-04/05 pending",
+  "indicators": [
+    {
+      "indicator": "EXTRACTION_CONFIDENCE",
+      "formulaVersion": "extraction-checks/1.0.0",
+      "owner": "Knowledge Extraction",
+      "enabled": false,
+      "range": [
+        0,
+        100
+      ],
+      "precision": "integer; exact rational round-half-up",
+      "formula": "100 * PASS / applicable named checks",
+      "checks": [
+        "literalPreserved",
+        "classificationValid",
+        "parseUnambiguous",
+        "sourceBindingResolved"
+      ],
+      "weights": "Equal only; custom weights rejected",
+      "purpose": "Procedural support/coverage monitoring, not probability of truth or approval",
+      "recalculate": "New input/source/policy/subject/formula/request; append only"
+    },
+    {
+      "indicator": "KNOWLEDGE_CONFIDENCE",
+      "formulaVersion": "support-checks/1.0.0",
+      "owner": "Knowledge Management",
+      "enabled": false,
+      "range": [
+        0,
+        100
+      ],
+      "precision": "integer; exact rational round-half-up",
+      "formula": "100 * PASS / applicable named checks",
+      "checks": [
+        "supportResolved",
+        "interpretationResolved",
+        "verificationCurrent",
+        "sourcePolicyAcceptable"
+      ],
+      "weights": "Equal only; custom weights rejected",
+      "purpose": "Procedural support/coverage monitoring, not probability of truth or approval",
+      "recalculate": "New input/source/policy/subject/formula/request; append only"
+    },
+    {
+      "indicator": "CONTEXT_QUALITY",
+      "formulaVersion": "context-coverage/1.0.0",
+      "owner": "Context Engine",
+      "enabled": false,
+      "range": [
+        0,
+        100
+      ],
+      "precision": "integer; exact rational round-half-up",
+      "formula": "100 * distinct eligible selected-required intersection / distinct required fact refs",
+      "checks": [],
+      "weights": "Equal only; custom weights rejected",
+      "purpose": "Procedural support/coverage monitoring, not probability of truth or approval",
+      "recalculate": "New input/source/policy/subject/formula/request; append only"
+    }
+  ],
+  "categorical": {
+    "EVIDENCE_QUALITY": [
+      "VERIFIED_EXACT",
+      "VERIFIED_STRUCTURAL",
+      "NORMALIZED_ONLY",
+      "UNAVAILABLE",
+      "INVALID"
+    ],
+    "SOURCE_TRUST": [
+      "ACCEPTED_FOR_USE",
+      "REVIEW_REQUIRED",
+      "REJECTED",
+      "UNASSESSED"
+    ]
+  },
+  "completeness": "Unchanged PRODUCT_METRICS calculation2;80 mandatory/20 optional",
+  "readiness": "Independent mandatory approval/validity and live guards; no score threshold",
+  "rankVersion": "rank/1.0.0",
+  "ranking": [
+    "requiredManifest DESC",
+    "requestedEntity DESC",
+    "literalTokenMatches DESC",
+    "typedIdentity UTF8 ASC"
+  ],
+  "rankEnabled": false,
+  "rankOwner": "Context Engine; D-KQ-05 pending; default typed identity fallback"
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "name": "unknown-with-number",
+    "patch": {
+      "state": "UNKNOWN",
+      "value": 0
+    }
+  },
+  {
+    "name": "negative",
+    "patch": {
+      "value": -1
+    }
+  },
+  {
+    "name": "above-range",
+    "patch": {
+      "value": 101
+    }
+  },
+  {
+    "name": "fractional",
+    "patch": {
+      "value": 66.666
+    }
+  },
+  {
+    "name": "known-null",
+    "patch": {
+      "state": "KNOWN",
+      "value": null
+    }
+  }
+]
