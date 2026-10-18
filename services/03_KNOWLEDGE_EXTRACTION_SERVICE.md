@@ -2,7 +2,7 @@
 
 > Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits KNOWLEDGE_CANDIDATE, variants extraction_stage / extraction. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
 
-> Final audit (2026-10-16): D-AUD-02 is unresolved: this spec excludes AI Orchestrator as a downstream dependency while assigning provider selection exclusively to it. The allowed internal LLM extraction route must be approved before implementing that path; no direct-provider bypass is authorized. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Task17 (2026-10-18): D-AUD-02 is **Specified — Pending Architecture/Security Review**. [ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md) and [Gateway DTO contracts](../contracts/ai-provider/README.md) define the DI-only provider route. Extraction owns deterministic-first logic, extraction templates and semantic/evidence validation; Gateway enforces provider policy and invokes its adapters. No Orchestrator dependency, direct-provider bypass or approval authority is added.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
 
@@ -514,7 +514,7 @@ Direct user access is prohibited.
 
 # Downstream Integrations
 
-Successful extraction results are forwarded only to:
+The internal AI Provider Gateway is an infrastructure dependency for authorized model assistance, not a downstream business-result consumer. Successful extraction results are forwarded only to:
 
 - Knowledge Management Service
 
@@ -560,14 +560,7 @@ Prompt templates should be managed independently from service logic.
 
 The service must not depend on a specific LLM provider.
 
-Supported providers may include:
-
-- OpenAI
-- Anthropic
-- Google Gemini
-- Future providers
-
-Provider selection is handled exclusively by the AI Orchestrator.
+For MVP, one explicitly configured provider must pass D-SEC-02 review; none is selected or approved here. Additional providers are future options. Extraction invokes only the shared internal AI Provider Gateway through [ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md); Gateway selects the extraction model under reviewed purpose policy. Extraction never calls AI Orchestrator or a vendor adapter directly. No provider/model/region fallback is permitted.
 
 ---
 
@@ -785,6 +778,13 @@ Owner-requested single-source import extraction is the scoped MVP candidate-gene
 
 # Task 12 — Lean MVP deployment boundary
 
-Run import extraction asynchronously in the shared NestJS worker role behind replaceable reviewed provider adapters. Durable attempts, schema validation, tenant/evidence checks and operation idempotency remain mandatory. No separate extraction deployment, model service, Go runtime or vector database is required.
+Run import extraction asynchronously in the shared NestJS worker role through the internal AI Provider Gateway and its replaceable reviewed adapters. Durable attempts, schema validation, tenant/evidence checks and operation idempotency remain mandatory. No separate extraction deployment, model service, Go runtime or vector database is required.
 
 [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.
+
+
+## Task17 — Canonical provider invocation and acceptance
+
+[ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md) defines exact extraction/generation sequences, responsibility/policy matrix, partial/failure handling, safe error mapping, total retry/cost limits, lease fencing and cancellation/authorization rechecks before publication. [Gateway DTO contracts](../contracts/ai-provider/README.md) defines exact request/response/null/schema rules and AT-17-01–17. Gateway success is neither human approval nor Message completion. Extraction emits only existing KNOWLEDGE_CANDIDATE; Context/Prompt/Response remain their existing producers. v2.0.0 and Prisma are unchanged. Provider execution metadata absent from extraction payloads belongs only in reviewed content-free operational telemetry, never a new ledger.
+
+One reviewed MVP provider is required, none selected here. D-AUD-02 review, D-SEC-02 disclosure/privacy, D-GW-01 numeric policies and actual runtime/tenant/queue integration evidence remain launch dependencies. Standalone fixture tests do not demonstrate deployed controls. No new endpoint, microservice or product capability is introduced.

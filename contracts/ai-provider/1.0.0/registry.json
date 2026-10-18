@@ -1,0 +1,14 @@
+{
+  "contractVersion": "1.0.0",
+  "status": "Specified \u2014 Pending Architecture/Security Review",
+  "dialect": "https://json-schema.org/draft/2020-12/schema",
+  "schemas": {
+    "request": "urn:ai-brand-os:ai-provider:1.0.0:request",
+    "response": "urn:ai-brand-os:ai-provider:1.0.0:response",
+    "policy": "urn:ai-brand-os:ai-provider:1.0.0:policy",
+    "extraction-output": "urn:ai-brand-os:ai-provider:1.0.0:extraction-output",
+    "generation-output": "urn:ai-brand-os:ai-provider:1.0.0:generation-output"
+  },
+  "externalLocalDependency": "urn:ai-brand-os:artifact:2.0.0:common",
+  "networkResolution": false
+}

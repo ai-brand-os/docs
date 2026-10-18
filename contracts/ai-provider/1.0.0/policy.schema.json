@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:ai-provider:1.0.0:policy",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "1.0.0"
+    },
+    "policyRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "reviewEvidenceRef": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "providerKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "regionKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "priceVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "allowedDataClassifications": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "BUSINESS_INTERNAL",
+          "SENSITIVE_REVIEWED"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true
+    },
+    "fallbackEnabled": {
+      "const": false
+    },
+    "purposes": {
+      "type": "object",
+      "properties": {
+        "KNOWLEDGE_EXTRACTION": {
+          "type": "object",
+          "properties": {
+            "defaultModelKey": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "allowedModelKeys": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true
+            },
+            "limits": {
+              "type": "object",
+              "properties": {
+                "maxInputTokens": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "maxOutputTokens": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "maxOutputBytes": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "timeoutMs": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "maxPhysicalAttempts": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "maxCost": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,9})?$"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "currency"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "maxInputTokens",
+                "maxOutputTokens",
+                "maxOutputBytes",
+                "timeoutMs",
+                "maxPhysicalAttempts",
+                "maxCost"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "defaultModelKey",
+            "allowedModelKeys",
+            "limits"
+          ],
+          "additionalProperties": false
+        },
+        "WORKSPACE_GENERATION": {
+          "type": "object",
+          "properties": {
+            "defaultModelKey": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "allowedModelKeys": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "minItems": 1,
+              "maxItems": 16,
+              "uniqueItems": true
+            },
+            "limits": {
+              "type": "object",
+              "properties": {
+                "maxInputTokens": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "maxOutputTokens": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "maxOutputBytes": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "timeoutMs": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "maxPhysicalAttempts": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 2147483647
+                },
+                "maxCost": {
+                  "type": "object",
+                  "properties": {
+                    "amount": {
+                      "type": "string",
+                      "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,9})?$"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "pattern": "^[A-Z]{3}$"
+                    }
+                  },
+                  "required": [
+                    "amount",
+                    "currency"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "maxInputTokens",
+                "maxOutputTokens",
+                "maxOutputBytes",
+                "timeoutMs",
+                "maxPhysicalAttempts",
+                "maxCost"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "defaultModelKey",
+            "allowedModelKeys",
+            "limits"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "KNOWLEDGE_EXTRACTION",
+        "WORKSPACE_GENERATION"
+      ],
+      "additionalProperties": false
+    },
+    "controls": {
+      "type": "object",
+      "properties": {
+        "maxConcurrentGlobal": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "maxConcurrentPerTenant": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "maxRequestsPerMinutePerTenant": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "maxTokensPerMinutePerTenant": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "maxBackoffMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "idempotencyWindowMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "telemetryRetentionDays": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "costUncertaintyMarginPercent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        }
+      },
+      "required": [
+        "maxConcurrentGlobal",
+        "maxConcurrentPerTenant",
+        "maxRequestsPerMinutePerTenant",
+        "maxTokensPerMinutePerTenant",
+        "maxBackoffMs",
+        "idempotencyWindowMs",
+        "telemetryRetentionDays",
+        "costUncertaintyMarginPercent"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "contractVersion",
+    "policyRef",
+    "reviewEvidenceRef",
+    "providerKey",
+    "regionKey",
+    "priceVersion",
+    "allowedDataClassifications",
+    "fallbackEnabled",
+    "purposes",
+    "controls"
+  ],
+  "additionalProperties": false
+}

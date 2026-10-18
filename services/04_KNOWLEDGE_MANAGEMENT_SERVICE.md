@@ -805,3 +805,8 @@ Knowledge Management owns explicit review decisions, atomic publication, decisio
 Keep authorization and atomic revision/head/projection publication in one NestJS/PostgreSQL transaction boundary. Queue transport does not own approval or import-domain state. Emit/enqueue durable downstream work using reviewed same-transaction integration or outbox/reconciliation; never acknowledge acceptance with unrecoverable enqueue-after-commit. Preserve provenance, audit and revision integrity.
 
 [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.
+
+
+## Task17 — Provider success is never governance approval
+
+[ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md) keeps Gateway outside the knowledge authority. KM has no Gateway/vendor dependency. Extraction validates typed proposals and genuine evidence, emits existing candidate variants, and cannot approve. Only complete VALID + SUCCEEDED extraction results enter the normal governance flow; partial deterministic results after required model assistance fails remain partial, not complete imports. Aggregate partial/closure UX remains D-AUD-07/D-IMP-02. Gateway SUCCEEDED does not satisfy approval, verification or final publication. Recheck human authorization, source/tenant lifecycle and expected head in the existing atomic publication transaction; no new approval table or Artifact v2 change.

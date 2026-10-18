@@ -1,0 +1,40 @@
+{
+  "contractVersion": "1.0.0",
+  "invocationId": "00000000-0000-4000-8000-000000000001",
+  "purpose": "KNOWLEDGE_EXTRACTION",
+  "status": "SUCCEEDED",
+  "providerKey": "fixture-provider",
+  "modelKey": "fixture-model",
+  "output": {
+    "kind": "EXTRACTION_PROPOSALS",
+    "proposals": [
+      {
+        "fieldRef": "product.description",
+        "evidenceId": "00000000-0000-4000-8000-000000000005",
+        "value": "Fixture item",
+        "confidenceIndicator": null
+      }
+    ]
+  },
+  "error": null,
+  "usage": {
+    "inputTokens": null,
+    "outputTokens": null,
+    "basis": "UNKNOWN"
+  },
+  "estimatedCost": null,
+  "latencyMs": 10,
+  "promptTemplateId": "fixture.extract",
+  "promptTemplateVersion": "1.0.0",
+  "policyRef": {
+    "id": "fixture-policy",
+    "version": "1.0.0"
+  },
+  "execution": {
+    "physicalAttempts": 1,
+    "regionKey": "fixture-region",
+    "priceVersion": "fixture-price-1",
+    "vendorRequestDigest": null,
+    "externalChargePossible": true
+  }
+}

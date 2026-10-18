@@ -1,0 +1,60 @@
+{
+  "contractVersion": "1.0.0",
+  "invocationId": "00000000-0000-4000-8000-000000000001",
+  "correlationId": "00000000-0000-4000-8000-000000000002",
+  "organizationId": "00000000-0000-4000-8000-000000000003",
+  "brandId": "00000000-0000-4000-8000-000000000004",
+  "purpose": "WORKSPACE_GENERATION",
+  "caller": "AI_ORCHESTRATOR",
+  "promptTemplateId": "fixture.generate",
+  "promptTemplateVersion": "1.0.0",
+  "trustedInstructionRef": {
+    "registryKey": "fixture.generate.instructions",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "task": {
+    "content": "SYNTHETIC BUSINESS TEXT: fixture item costs 12 units.",
+    "evidence": [],
+    "requestedFieldRefs": [],
+    "dataClassification": "BUSINESS_INTERNAL"
+  },
+  "expectedOutputSchemaRef": "urn:ai-brand-os:ai-provider:1.0.0:generation-output",
+  "requirements": {
+    "capabilityKey": "fixture.generate",
+    "requiredCapabilities": [
+      "TEXT"
+    ],
+    "requestedModelKey": "fixture-model"
+  },
+  "policyRef": {
+    "id": "fixture-policy",
+    "version": "1.0.0"
+  },
+  "limits": {
+    "maxInputTokens": 1000,
+    "maxOutputTokens": 500,
+    "maxOutputBytes": 4096,
+    "timeoutMs": 10000,
+    "maxPhysicalAttempts": 3,
+    "maxCost": {
+      "amount": "0.10",
+      "currency": "USD"
+    }
+  },
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "00000000-0000-4000-8000-000000000008",
+    "requestHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "execution": {
+    "deadlineAt": "2026-10-18T12:00:00Z",
+    "cancellationId": "00000000-0000-4000-8000-000000000009",
+    "workRef": {
+      "kind": "MESSAGE",
+      "id": "00000000-0000-4000-8000-000000000002",
+      "sourceArtifactId": "00000000-0000-4000-8000-000000000006",
+      "jobId": null,
+      "leaseFence": null
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "contractVersion": "1.0.0",
+  "policyRef": {
+    "id": "fixture-policy",
+    "version": "1.0.0"
+  },
+  "reviewEvidenceRef": "FIXTURE_ONLY_NOT_APPROVAL",
+  "providerKey": "fixture-provider",
+  "regionKey": "fixture-region",
+  "priceVersion": "fixture-price-1",
+  "allowedDataClassifications": [
+    "BUSINESS_INTERNAL"
+  ],
+  "fallbackEnabled": false,
+  "purposes": {
+    "KNOWLEDGE_EXTRACTION": {
+      "defaultModelKey": "fixture-model",
+      "allowedModelKeys": [
+        "fixture-model"
+      ],
+      "limits": {
+        "maxInputTokens": 1000,
+        "maxOutputTokens": 500,
+        "maxOutputBytes": 4096,
+        "timeoutMs": 10000,
+        "maxPhysicalAttempts": 3,
+        "maxCost": {
+          "amount": "0.10",
+          "currency": "USD"
+        }
+      }
+    },
+    "WORKSPACE_GENERATION": {
+      "defaultModelKey": "fixture-model",
+      "allowedModelKeys": [
+        "fixture-model"
+      ],
+      "limits": {
+        "maxInputTokens": 1000,
+        "maxOutputTokens": 500,
+        "maxOutputBytes": 4096,
+        "timeoutMs": 10000,
+        "maxPhysicalAttempts": 3,
+        "maxCost": {
+          "amount": "0.10",
+          "currency": "USD"
+        }
+      }
+    }
+  },
+  "controls": {
+    "maxConcurrentGlobal": 4,
+    "maxConcurrentPerTenant": 1,
+    "maxRequestsPerMinutePerTenant": 10,
+    "maxTokensPerMinutePerTenant": 10000,
+    "maxBackoffMs": 1000,
+    "idempotencyWindowMs": 60000,
+    "telemetryRetentionDays": 1,
+    "costUncertaintyMarginPercent": 20
+  }
+}

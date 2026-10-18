@@ -199,17 +199,9 @@ Heavy jobs must never block API requests.
 
 # AI Layer
 
-Providers
+MVP: one explicitly configured and reviewed provider; no vendor is selected or approved here. Additional vendor adapters and self-hosted models are future options. No provider/model/region fallback is allowed.
 
-- OpenAI
-- Claude
-- Gemini
-
-Future
-
-- Self-hosted Models
-
-AI abstraction layer required.
+[ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md) specifies a shared internal NestJS AI Provider Gateway, DI-only in the same API/worker codebase. Extraction owns its templates, deterministic-first decisions and candidate semantics; Orchestrator owns Workspace planning, generation templates/model requests and final Message completion. Both call the [versioned Gateway contract](../contracts/ai-provider/README.md); only Gateway-owned adapters import vendor SDKs or hold credentials. Gateway enforces purpose/tenant policy, total cost/token/deadline/attempt limits and privacy-safe telemetry, with no knowledge access/publication. D-AUD-02 remains pending Architecture/Security review; D-SEC-02 and D-GW-01 remain approval gates. No runtime implementation is claimed.
 
 Never couple business logic to one provider.
 

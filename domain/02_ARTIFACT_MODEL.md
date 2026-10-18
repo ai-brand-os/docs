@@ -205,3 +205,8 @@ Replaces ambiguous field inventories and synthetic manual roots with exact enum/
 Established shared artifact/lineage/tenant/storage boundaries; nested JSON/status inventories were incomplete. Preserve immutable old records and recorded baseline decisions; do not relabel them v2 without reviewed migration.
 
 # END OF DOCUMENT
+
+
+## Task17 — Gateway DTOs are not artifacts
+
+[ADR-011](10_AI_PROVIDER_GATEWAY_ADR.md#artifact-compatibility-and-migration) maps the [internal Gateway DTO](../contracts/ai-provider/README.md) to existing fields. Gateway is not an Artifact producer; no ArtifactType/ProducingService/ArtifactStatus is added. Extraction emits KNOWLEDGE_CANDIDATE only, never fake Workspace context/prompt/response. Missing extraction provider/template metadata stays in reviewed content-free telemetry linked by invocation/correlation; do not add fields or overload pipelineVersion. Orchestrator still owns PROMPT/RESPONSE, actual model/usage/cost and final Message validation. v2.0.0 remains unchanged; any later persisted execution attestation requires a separately versioned reviewed amendment.

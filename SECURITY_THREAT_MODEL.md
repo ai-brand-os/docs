@@ -18,7 +18,10 @@ flowchart LR
     H --> K[Authorized atomic publication]
     K --> A[Approved revision and scoped index]
     A --> C[Context Engine: data only]
-    C --> P[Approved external provider boundary]
+    C --> O[Workspace Orchestrator]
+    O --> G[Shared Gateway: policy, tenant, budgets]
+    E --> G
+    G --> P[Reviewed adapter and external provider boundary]
     P --> R[Untrusted response: safe rendering]
 ```
 
@@ -81,3 +84,10 @@ Pending decisions are registered as D-SEC-01: concrete operational limits and sc
 ## Reference basis
 
 Control design draws on [OWASP SSRF Prevention](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html), [OWASP File Upload](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html) and [OWASP LLM Prompt Injection Prevention](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html). They support destination binding, layered upload defenses and separation of untrusted content from instructions; this project’s launch gates and choices above are proposed engineering requirements, not OWASP certification.
+
+
+## Task17 — Shared invocation enforcement boundary
+
+[ADR-011](domain/10_AI_PROVIDER_GATEWAY_ADR.md) and [Gateway contracts](contracts/ai-provider/README.md) consolidate SEC-T01/04/05/06/07 for both extraction and generation. Authenticate internal callers with an opaque application/worker capability and current tenant/Owner grant; JSON caller IDs are not credentials. Only Gateway-owned adapters hold server secrets/contact providers; Gateway cannot retrieve or mutate approved knowledge. Separate server-loaded reviewed template references from untrusted task data; no model-directed tools, fetches, provider/tenant/policy changes or approval. Enforce minimized permitted data categories, local output schema/byte limits, safe error/telemetry allowlists, finite total attempt/token/time/cost reservations and per-tenant/purpose fairness. Recheck auth/cancel/tombstones/lease after await and before publication; discard late output, account possible charges.
+
+MVP supports one reviewed provider and prohibits alternate provider, region, model or cross-tenant credential fallback. D-SEC-02 remains **Proposed — Pending Approval** for actual vendor/subprocessors/region/retention/training settings and disclosure. D-GW-01 leaves numeric limits, uncertainty, deduplication and telemetry retention pending. AT-17-01–17 are executable offline fixtures, not real egress, injection-resistance, distributed-isolation, privacy or cancellation evidence. Required controls and actual enabled-path integration results remain launch gates; no compliance certification is claimed.

@@ -2,7 +2,7 @@
 
 > Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits PROMPT / RESPONSE, variants prompt_stage / prompt / response_stage / response. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
 
-> Final audit (2026-10-16): D-AUD-02 tracks the missing legal extraction/provider route; current upstream Workspace contracts do not specify an extraction operation. D-AUD-01 tracks multi-turn history input; persisted turns alone do not define the model context window. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Task17 (2026-10-18): D-AUD-02 is **Specified — Pending Architecture/Security Review** under [ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md) and [Gateway DTO contracts](../contracts/ai-provider/README.md). Orchestrator retains Workspace planning, generation templates/model requests, logical retries, final validation and Message completion; provider invocation uses Gateway. Extraction separately calls Gateway, never this Workspace interface. D-AUD-01 history remains open.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
 
@@ -34,11 +34,11 @@ P0
 
 # Purpose
 
-The AI Orchestrator coordinates the complete AI execution lifecycle.
+The AI Orchestrator coordinates the Workspace assistant-generation lifecycle. Extraction has a separate Gateway invocation path.
 
 It transforms a user request into a validated AI response by orchestrating context assembly, prompt construction, model execution and response validation.
 
-The AI Orchestrator is the execution brain of the platform.
+The AI Orchestrator owns Workspace planning and response completion.
 
 ---
 
@@ -127,19 +127,19 @@ Execution Planning
 Context Request
         │
         ▼
+Model Selection under shared policy
+        │
+        ▼
+Tool Selection (empty in MVP)
+        │
+        ▼
 Prompt Builder
         │
         ▼
 Prompt Artifact
         │
         ▼
-Model Selection
-        │
-        ▼
-Tool Selection
-        │
-        ▼
-LLM Execution
+Gateway LLM Execution
         │
         ▼
 Response Validation
@@ -253,19 +253,19 @@ Execution Planning
 Context Request
         │
         ▼
+Model Selection under shared policy
+        │
+        ▼
+Tool Resolution (empty in MVP)
+        │
+        ▼
 Prompt Builder
         │
         ▼
 Prompt Artifact
         │
         ▼
-Model Selection
-        │
-        ▼
-Tool Resolution
-        │
-        ▼
-LLM Execution
+Gateway LLM Execution
         │
         ▼
 Response Validation
@@ -353,7 +353,7 @@ Outputs
 
 Prompt Artifact
 
-Prompt Builder is deterministic.
+Prompt Builder is deterministic. Stage numbers identify responsibilities; policy model/tool resolution must finish before the final PROMPT serialization so its modelConfiguration records the exact authorized request, as shown in the execution diagrams.
 
 ---
 
@@ -390,7 +390,7 @@ Examples
 - Workflow Execution
 - External APIs
 
-Tool usage is capability-driven.
+These tool examples are future-only. MVP uses no external/model-directed tools; existing PROMPT tools remains empty.
 
 ---
 
@@ -398,7 +398,7 @@ Tool usage is capability-driven.
 
 Purpose
 
-Execute the Prompt Artifact using the selected model.
+Execute the Prompt Artifact using the selected model through the shared internal AI Provider Gateway.
 
 Execution records:
 
@@ -409,7 +409,7 @@ Execution records:
 - Provider
 - Retry Count
 
-Execution should support retries according to policy.
+Gateway bounds transport retries; Orchestrator logical retries consume the same remaining operation-wide cost, attempt and deadline budget under [ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md).
 
 ---
 
@@ -479,7 +479,7 @@ The AI Orchestrator accepts requests from:
 - API Layer
 - Future Workflow Engine
 
-Direct LLM access from any other service is prohibited.
+Direct provider SDK/transport access is prohibited in all domain services, including Orchestrator. Only shared Gateway-owned adapters may contact the reviewed provider. Extraction is a separate authorized Gateway caller, not an Orchestrator upstream dependency.
 
 ---
 
@@ -488,7 +488,7 @@ Direct LLM access from any other service is prohibited.
 The AI Orchestrator communicates with:
 
 - Context Engine
-- LLM Provider Adapter
+- Internal AI Provider Gateway (DI-only)
 
 The AI Orchestrator never accesses the Knowledge Domain directly.
 
@@ -538,15 +538,15 @@ Additional providers can be added without changing orchestration logic.
 
 # LLM Provider Adapter
 
-All provider communication passes through a common adapter.
+All provider communication passes through the shared internal AI Provider Gateway, which invokes its private provider adapter. Orchestrator depends on the Gateway interface, not adapter/vendor SDKs. Extraction uses the same platform interface independently.
 
 Responsibilities:
 
 - Request formatting
 - Authentication
-- Retry policy
-- Error normalization
-- Usage collection
+- Vendor response and usage-field normalization
+
+Gateway owns shared policy, caller authorization, budget/deadline enforcement, bounded transport retry/backoff and normalized safe errors. Adapter transport retries are disabled; Orchestrator owns logical regeneration within the same remaining operation budget. See [ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md#reliability-cancellation-and-accounting).
 
 Business logic must never depend on provider-specific APIs.
 
@@ -621,7 +621,7 @@ Context preparation and prompt formatting evolve independently.
 
 ## ADR-002
 
-Provider communication is abstracted through a Provider Adapter.
+Provider communication is abstracted through Gateway-owned Provider Adapters, with [ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md) specifying the shared DI-only invocation boundary. This preserves the original vendor abstraction; it does not route extraction through Workspace.
 
 Reason:
 
@@ -756,7 +756,7 @@ Canonical lifecycle: [DATA_LIFECYCLE.md](../DATA_LIFECYCLE.md). Proposed active-
 
 ## Workspace lifecycle ownership
 
-The execution pipeline above is per assistant generation attempt, not a Conversation state machine. [Workspace State Management](../prd/02_AI_WORKSPACE_PRD.md#state-management) is canonical: PREPARING_CONTEXT covers context retrieval/validation; GENERATING covers prompt execution/provider retries and response validation; COMPLETED requires durable final response linkage. FAILED/CANCELLED/TIMEOUT terminate only that Message. Response Artifact executionStatus is producer execution metadata, not an independent Conversation state or permission to bypass the Message commit checks; its payload operationStatus is defined in the canonical v2 contract, pending Architecture/Engineering review. Completing provider execution alone cannot mark a Message COMPLETED before response validation/linkage commits. Conversation persists for later turns. Internal bounded provider retries do not reset a terminal Message; explicit user retry allocates a new attempt. Timeout budgets/cancel API details remain open; see DOCUMENTATION_CHANGELOG.md.
+The execution pipeline above is per assistant generation attempt, not a Conversation state machine. [Workspace State Management](../prd/02_AI_WORKSPACE_PRD.md#state-management) is canonical: PREPARING_CONTEXT covers context retrieval/validation; GENERATING covers prompt execution/provider retries and response validation; COMPLETED requires durable final response linkage. FAILED/CANCELLED/TIMEOUT terminate only that Message. Gateway terminal status is transport/structural execution metadata, not an independent Conversation state or permission to bypass the Message commit checks; its payload operationStatus is defined in the canonical v2 contract, pending Architecture/Engineering review. Completing provider execution alone cannot mark a Message COMPLETED before response validation/linkage commits. Conversation persists for later turns. Internal bounded provider retries do not reset a terminal Message; explicit user retry allocates a new attempt. Timeout budgets/cancel API details remain open; see DOCUMENTATION_CHANGELOG.md.
 
 ---
 
@@ -771,13 +771,20 @@ Implementation target: NestJS dependency-injected core module with Prisma/Postgr
 
 # Task 10 — Security launch contract
 
-SEC-T01/04/06 require explicitly reviewed providers and fallback destinations, minimal tenant-scoped context, server-only credentials, no model-controlled network/tools or knowledge publication, and pre-release output/stream checks. Recheck authorization/deletion on async completion and streaming. Redact provider errors and logs; safely render output and never auto-fetch model-generated links or images.
+SEC-T01/04/06 require one explicitly reviewed MVP provider and no provider/region/model fallback, minimal tenant-scoped context, server-only credentials, no model-controlled network/tools or knowledge publication, and pre-release output/stream checks. Recheck authorization/deletion on async completion and streaming. Redact provider errors and logs; safely render output and never auto-fetch model-generated links or images.
 
 [SECURITY_THREAT_MODEL.md](../SECURITY_THREAT_MODEL.md) defines mandatory SEC-01–06, threat controls SEC-T01–08 and acceptance scenarios SEC-AT-01–08. These are specified launch gates, not implemented controls or a new approval. Security/Engineering must record enabled-path evidence and resolve provider, parser/limit and operational decisions D-SEC-01/02/03 before release. Optional later defenses cannot replace mandatory isolation, authorization or human approval.
 
 
 # Task 12 — Lean MVP deployment boundary
 
-Run as a NestJS module with reviewed replaceable provider adapters. Normal assistant generation may dispatch directly with persisted Message state/SSE; introduce a queue path for measured capacity/backpressure without making a Conversation terminal. Import provider work runs in the shared worker role. Keep attempts bounded/idempotent, no database transaction held over provider I/O and no unreviewed provider fallback.
+Run as a NestJS module calling the shared internal Gateway and its reviewed replaceable provider adapters. Normal assistant generation may dispatch through Gateway from the API role with persisted Message state/SSE; introduce a queue path for measured capacity/backpressure without making a Conversation terminal. Import provider work runs in the shared worker role. Keep attempts bounded/idempotent, no database transaction held over provider I/O and no unreviewed provider fallback.
 
 [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md) recommends one backend codebase/release with API and worker roles, PostgreSQL-backed jobs, private object storage and isolated parsers. Redis/BullMQ, Qdrant, Go application workers and independent domain microservices are conditional future alternatives. No infrastructure migration or runtime verification is claimed; D-ARCH-01/02 and existing security/policy gates remain pending.
+
+
+## Task17 — Canonical provider invocation and acceptance
+
+[ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md) defines exact extraction/generation sequences, responsibility/policy matrix, partial/failure handling, safe error mapping, total retry/cost limits, lease fencing and cancellation/authorization rechecks before publication. [Gateway DTO contracts](../contracts/ai-provider/README.md) defines exact request/response/null/schema rules and AT-17-01–17. Gateway success is neither human approval nor Message completion. Extraction emits only existing KNOWLEDGE_CANDIDATE; Context/Prompt/Response remain their existing producers. v2.0.0 and Prisma are unchanged. Provider execution metadata absent from extraction payloads belongs only in reviewed content-free operational telemetry, never a new ledger.
+
+One reviewed MVP provider is required, none selected here. D-AUD-02 review, D-SEC-02 disclosure/privacy, D-GW-01 numeric policies and actual runtime/tenant/queue integration evidence remain launch dependencies. Standalone fixture tests do not demonstrate deployed controls. No new endpoint, microservice or product capability is introduced.

@@ -6,7 +6,7 @@ Version: 1.0.0. Recorded: 2026-10-16. Owner: Architecture / Engineering. Status:
 
 The [seven-feature MVP](../MVP_SCOPE.md) needs approved, versioned business facts, asynchronous source processing, persistent conversations and provider calls. It does not need media rendering, crawling, independently deployed domain services or a second implementation language. The existing schema has no vector column or general-purpose queue model; its KnowledgeIndex is a relational approved-entity projection, not an embedding store. Service names define ownership and contracts, not network boundaries.
 
-Recommend Next.js, one NestJS TypeScript backend codebase/release, PostgreSQL/Prisma, private object storage and reviewed AI providers. Run that backend as an HTTP/SSE API role and a durable background worker role using the same release artifact and module contracts. Workers use a PostgreSQL-backed queue adapter, with pg-boss the recommended library pending version, transaction and operational review. Do not build a custom queue engine. Keep isolated parser/scanner execution outside the API process with restricted filesystem/network/credentials. A worker role/process is not a separately owned microservice or second domain database.
+Recommend Next.js, one NestJS TypeScript backend codebase/release, PostgreSQL/Prisma, private object storage and one explicitly configured reviewed MVP AI provider (not selected here). Run that backend as an HTTP/SSE API role and a durable background worker role using the same release artifact and module contracts. Workers use a PostgreSQL-backed queue adapter, with pg-boss the recommended library pending version, transaction and operational review. Do not build a custom queue engine. Keep isolated parser/scanner execution outside the API process with restricted filesystem/network/credentials. A worker role/process is not a separately owned microservice or second domain database.
 
 Start context retrieval with tenant/Brand/current-revision scoped structured approved facts, bounded field selection and keyword/metadata ranking. For the small structured Brand Brain, explicitly selecting mandatory/relevant facts can satisfy contextual generation without embeddings. Validate answer quality/token budgets before release. If vector search is necessary to meet that evaluation, add pgvector in the same PostgreSQL deployment first; it is not assumed installed. Qdrant is a future option requiring measured justification. Raw imported documents and candidates never become generation-retrievable simply because they are stored or embedded.
 
@@ -34,8 +34,9 @@ flowchart TB
     WRK --> OBJ
     WRK --> FETCH[Restricted fetch adapter: validated public destinations]
     WRK --> BOX[Isolated scanner/parser: no network or DB credentials]
-    API --> AI[Reviewed provider adapters]
-    WRK --> AI
+    API --> GW[Shared internal AI Provider Gateway]
+    WRK --> GW
+    GW --> AI[One reviewed provider adapter]
     PG --> RET[Approved-revision retrieval: structured and keyword baseline]
     RET --> API
 ```
@@ -122,3 +123,8 @@ Key risks: shared PostgreSQL failure/queue contention; library/runtime version c
 Before enabling recommended infrastructure: restart during accepted import; kill worker after provider result/before commit; replay duplicate/out-of-order job; deny forged tenant; restore database/queue with deletion tombstones; verify queue outage does not lose accepted work; exercise parser limit/SSRF corpus; confirm new approved revision/context pinning; verify object access/cleanup; load-test pool isolation and queue backlog. Link runtime results to exact revision/environment. This document supplies no passing runtime result.
 
 The [pg-boss project](https://github.com/timgit/pg-boss) documents PostgreSQL-backed Node job processing, transactional integration and retries; compatibility with the selected Prisma/runtime still requires testing. [pgvector](https://github.com/pgvector/pgvector) documents exact and approximate PostgreSQL vector retrieval. [BullMQ idempotency guidance](https://docs.bullmq.io/patterns/idempotent-jobs) supports retry-safe application effects, and [Qdrant multitenancy](https://qdrant.tech/documentation/manage-data/multitenancy/) illustrates additional tenant-filter/index design if that option is adopted. The recommendation and complexity estimates here are project-specific engineering judgments, not vendor guarantees.
+
+
+## Task17 — Shared provider module within ADR-010
+
+[ADR-011](10_AI_PROVIDER_GATEWAY_ADR.md) and [Gateway contracts](../contracts/ai-provider/README.md) specify one DI-only platform module reused by Extraction in the worker role and Orchestrator in the API/worker role. No extra microservice, language, database or provider ledger is introduced. Only Gateway adapters contact the external provider; caller-owned immutable artifacts remain durable receipts. Queue claims, fencing and shared quota reservations must span replicas, not rely on process-local maps. Transport retries and caller regeneration consume one operation budget/deadline; no transaction stays open during external I/O. Ambiguous vendor charges remain possible after crashes/timeouts. Provider, numeric-policy and runtime security/lease/atomic-integration approvals stay D-SEC-02/D-GW-01/D-ARCH-01/02. No infrastructure migration is claimed.

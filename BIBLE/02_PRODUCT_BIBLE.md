@@ -305,7 +305,7 @@ Rather than sending the entire Brand Brain to an LLM, it selects only the most r
 - Context compression
 - Provider-neutral context assembly (final Prompt Builder belongs to AI Orchestrator)
 - Token optimization
-- Provider-neutral context payload (provider adapters belong to AI Orchestrator)
+- Provider-neutral context payload (Workspace execution belongs to AI Orchestrator; provider adapters belong to the shared internal Gateway under [ADR-011](../domain/10_AI_PROVIDER_GATEWAY_ADR.md), pending Architecture/Security review)
 
 The goal is to maximize response quality while minimizing token usage.
 
