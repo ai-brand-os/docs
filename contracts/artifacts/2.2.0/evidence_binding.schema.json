@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:artifact:2.2.0:evidence_binding",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "artifactType": {
+      "const": "KNOWLEDGE_CANDIDATE"
+    },
+    "parentArtifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "conversationId": {
+      "type": "null"
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "producingService": {
+      "const": "KNOWLEDGE_MANAGEMENT"
+    },
+    "producingStage": {
+      "const": "evidence_validation"
+    },
+    "schemaVersion": {
+      "const": "2.2.0"
+    },
+    "status": {
+      "enum": [
+        "VALID",
+        "ARCHIVED"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "variant": {
+          "const": "evidence_binding"
+        },
+        "operationStatus": {
+          "const": "SUCCEEDED"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "invocationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "attemptNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "checkpointNumber": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "data": {
+          "$ref": "urn:ai-brand-os:source-evidence:1.0.0:binding"
+        },
+        "error": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "variant",
+        "operationStatus",
+        "brandId",
+        "invocationId",
+        "attemptNumber",
+        "checkpointNumber",
+        "data",
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "artifactId",
+    "artifactType",
+    "parentArtifactId",
+    "conversationId",
+    "correlationId",
+    "organizationId",
+    "producingService",
+    "producingStage",
+    "schemaVersion",
+    "status",
+    "createdAt",
+    "payload"
+  ],
+  "additionalProperties": false
+}

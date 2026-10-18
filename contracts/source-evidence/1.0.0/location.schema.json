@@ -1,0 +1,527 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:source-evidence:1.0.0:location",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "TEXT_SPAN"
+        },
+        "span": {
+          "type": "object",
+          "properties": {
+            "representationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contentSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "start": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "end": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "unit": {
+              "enum": [
+                "UTF8_BYTE",
+                "UNICODE_CODE_POINT"
+              ]
+            },
+            "quote": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "representationId",
+            "contentSha256",
+            "start",
+            "end",
+            "unit",
+            "quote"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "kind",
+        "span"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "PDF_PAGE_SPAN"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "representationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contentSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "representationId",
+            "contentSha256"
+          ],
+          "additionalProperties": false
+        },
+        "pageNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "textSpan": {
+          "type": "object",
+          "properties": {
+            "representationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contentSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "start": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "end": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "unit": {
+              "const": "UNICODE_CODE_POINT"
+            },
+            "quote": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "representationId",
+            "contentSha256",
+            "start",
+            "end",
+            "unit",
+            "quote"
+          ],
+          "additionalProperties": false
+        },
+        "anchorId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "parser": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+            },
+            "configSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "id",
+            "version",
+            "configSha256"
+          ],
+          "additionalProperties": false
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "coordinateSystem": {
+                  "const": "PDF_POINTS_CROP_TOP_LEFT"
+                },
+                "x": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "y": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "width": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "height": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "pageWidth": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "pageHeight": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              },
+              "required": [
+                "coordinateSystem",
+                "x",
+                "y",
+                "width",
+                "height",
+                "pageWidth",
+                "pageHeight"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "source",
+        "pageNumber",
+        "textSpan",
+        "anchorId",
+        "parser",
+        "bbox"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "HTML_ELEMENT_OR_TEXT_SPAN"
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "representationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contentSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "representationId",
+            "contentSha256"
+          ],
+          "additionalProperties": false
+        },
+        "textSpan": {
+          "type": "object",
+          "properties": {
+            "representationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contentSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "start": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "end": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "unit": {
+              "const": "UNICODE_CODE_POINT"
+            },
+            "quote": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "representationId",
+            "contentSha256",
+            "start",
+            "end",
+            "unit",
+            "quote"
+          ],
+          "additionalProperties": false
+        },
+        "anchorId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "elementId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "parser": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+            },
+            "configSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "id",
+            "version",
+            "configSha256"
+          ],
+          "additionalProperties": false
+        },
+        "displayUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "maxLength": 4096
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "source",
+        "textSpan",
+        "anchorId",
+        "elementId",
+        "parser",
+        "displayUrl"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "STRUCTURAL_SECTION"
+        },
+        "representation": {
+          "type": "object",
+          "properties": {
+            "representationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contentSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "representationId",
+            "contentSha256"
+          ],
+          "additionalProperties": false
+        },
+        "anchorId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      },
+      "required": [
+        "kind",
+        "representation",
+        "anchorId"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "NORMALIZED_ONLY"
+        },
+        "span": {
+          "type": "object",
+          "properties": {
+            "representationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contentSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "start": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "end": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "unit": {
+              "const": "UNICODE_CODE_POINT"
+            },
+            "quote": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "representationId",
+            "contentSha256",
+            "start",
+            "end",
+            "unit",
+            "quote"
+          ],
+          "additionalProperties": false
+        },
+        "originalUnavailableReason": {
+          "enum": [
+            "SOURCE_DELETED",
+            "MAPPING_LOST",
+            "AMBIGUOUS_ORDER",
+            "NO_TEXT_LAYER",
+            "PARSER_UNSUPPORTED",
+            "LEGACY_UNMAPPED",
+            "ORIGINAL_NOT_RETAINED",
+            "UNSUPPORTED_ENCODING",
+            "SOURCE_AVAILABILITY_UNKNOWN"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "span",
+        "originalUnavailableReason"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "UNAVAILABLE"
+        },
+        "representation": {
+          "type": "object",
+          "properties": {
+            "representationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contentSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "representationId",
+            "contentSha256"
+          ],
+          "additionalProperties": false
+        },
+        "reason": {
+          "enum": [
+            "SOURCE_DELETED",
+            "MAPPING_LOST",
+            "AMBIGUOUS_ORDER",
+            "NO_TEXT_LAYER",
+            "PARSER_UNSUPPORTED",
+            "LEGACY_UNMAPPED",
+            "ORIGINAL_NOT_RETAINED",
+            "UNSUPPORTED_ENCODING",
+            "SOURCE_AVAILABILITY_UNKNOWN"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "representation",
+        "reason"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

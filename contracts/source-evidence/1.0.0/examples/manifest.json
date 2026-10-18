@@ -1,0 +1,52 @@
+{
+  "contractVersion": "1.0.0",
+  "sourceId": "19000000-0000-4000-8000-000000000009",
+  "sourceArtifactId": "19000000-0000-4000-8000-000000000004",
+  "sourceDocumentId": "19000000-0000-4000-8000-000000000005",
+  "rawIntakeArtifactId": "19000000-0000-4000-8000-000000000010",
+  "organizationId": "19000000-0000-4000-8000-000000000002",
+  "brandId": "19000000-0000-4000-8000-000000000003",
+  "correlationId": "19000000-0000-4000-8000-000000000011",
+  "capture": {
+    "captureId": "19000000-0000-4000-8000-000000000012",
+    "format": "PLAIN_TEXT",
+    "capturedAt": "2026-10-18T10:00:00Z",
+    "implementation": {
+      "id": "fixture.capture",
+      "version": "1.0.0",
+      "configSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "requestedUrl": null,
+    "finalUrl": null,
+    "redirects": [],
+    "bodyConvention": "EXACT_UPLOAD_BYTES",
+    "mimeType": "text/plain",
+    "charset": "UTF8",
+    "pdfPageCount": null
+  },
+  "representations": [
+    {
+      "representationId": "19000000-0000-4000-8000-000000000001",
+      "kind": "SOURCE",
+      "contentSha256": "b27880e0af1cf3741b3ccc3c8d965693ffe9af9d3bc2b142d6e2b9aa28aba2cb",
+      "byteLength": 12,
+      "encoding": "UTF8",
+      "coordinateSystem": "UNICODE_CODE_POINT",
+      "parentRepresentationIds": [],
+      "transform": {
+        "id": "fixture.capture",
+        "version": "1.0.0",
+        "configSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "contentReference": {
+        "kind": "PRIVATE_OBJECT",
+        "objectKey": "fixture-private/source",
+        "artifactId": null,
+        "jsonPointer": null
+      },
+      "anchors": []
+    }
+  ],
+  "transforms": [],
+  "chunks": []
+}

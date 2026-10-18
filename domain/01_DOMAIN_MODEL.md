@@ -1484,3 +1484,8 @@ Knowledge improvement reuses candidate artifacts, explicit Owner decisions and i
 ## Task18 — Logical import operation
 
 [ADR-012](11_IMPORT_LIFECYCLE_ADR.md) separates pipeline, candidate review, aggregate import, revision publication and worker lease state. Import is a correlation-scoped logical operation derived from unified artifacts, never a new Prisma ImportJob model. [Proposed Artifact2.1 control records](../contracts/artifacts/2.1.0/README.md) add explicit admission/attempt/review-set/closure evidence pending review; statuses are not inferred from the latest Artifact or an approved snapshot alone. Original v2/Gateway1 and manual/no-source initialization are unchanged.
+
+
+## Task19 — Representation and evidence value objects
+
+[ADR-013](12_SOURCE_EVIDENCE_MAPPING_ADR.md) distinguishes immutable source identity/content, parsed/normalized/chunk representations, typed evidence and approved field provenance. These are versioned value/reference objects in existing Artifact JSON/private content storage, not new Prisma business models or independent evidence/approval authority. Original Document/source refs remain; page/section/range claims require reproducible representation/parser/digest support. Historical identity can remain while bytes are lawfully unavailable. No inferred semantic value or precise location becomes verified by confidence or approval alone.

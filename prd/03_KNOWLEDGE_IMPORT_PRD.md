@@ -401,3 +401,8 @@ Scoped import extraction remains the MVP automated candidate source; eligible it
 # Task 15 — Proposed single-product commercial test
 
 [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md) proposes e-commerce validation using one page URL OR one supported product fact document per import job, plus explicit manual brand/offer facts and Owner approval. Another source is a distinct job under the selected admission rule, not catalog crawling/batch import. Existing mandatory readiness/provenance/versioning and copyable approved Brief contracts remain. A deliverable-level source/claim panel is pending D-GTM-02, not already delivered. Segment, first $29 offer and experiment thresholds remain proposals; no PRD approval is upgraded.
+
+
+## Task19 — Evidence gate before review
+
+[ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) adds a specified reference-validation prerequisite to Gate 1: tenant/source IDs, retained representation digest, typed locator/units/bounds/exact quote, parser/capture and transformation lineage. [Classifications/policy](../contracts/source-evidence/README.md) distinguish verified exact/structural, normalized-only, unavailable and invalid; these are not Import/ArtifactStatus values. Imprecise original locations may receive warning review with genuine support; fabricated quotes, source mismatch or unsupported semantic normalization require correction/ineligibility. No model approval. Evidence attachments are dependencies of selected v2 governance, not new ADR-012 state events. Partial failed extraction stays partial; parser retry needs new selected candidate/manifest identity; stale repair cannot replace frozen review or reopen CLOSED. Existing formats, navigation, admission and expiry Founder decisions remain unchanged.

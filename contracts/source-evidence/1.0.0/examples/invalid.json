@@ -1,0 +1,57 @@
+[
+  {
+    "name": "invented PDF page zero",
+    "schema": "location",
+    "value": {
+      "kind": "PDF_PAGE_SPAN",
+      "source": {
+        "representationId": "19000000-0000-4000-8000-000000000001",
+        "contentSha256": "c2410e4fa265af94c989531a3cffa00f52851fcb98fb7d78527418317d098f2b"
+      },
+      "pageNumber": 0,
+      "textSpan": {
+        "representationId": "19000000-0000-4000-8000-000000000050",
+        "contentSha256": "f225b2a17a5e15b3a6e8ac1a146d4aa44d1e13484a7f5cf5b4e536ea9d2e56ba",
+        "start": 0,
+        "end": 10,
+        "unit": "UNICODE_CODE_POINT",
+        "quote": "Price $149"
+      },
+      "anchorId": "page1-unit0",
+      "parser": {
+        "id": "fixture.pdf-parser",
+        "version": "1.0.0",
+        "configSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "bbox": null
+    }
+  },
+  {
+    "name": "unknown JS UTF16 coordinate unit",
+    "schema": "location",
+    "value": {
+      "kind": "TEXT_SPAN",
+      "span": {
+        "representationId": "19000000-0000-4000-8000-000000000001",
+        "contentSha256": "b27880e0af1cf3741b3ccc3c8d965693ffe9af9d3bc2b142d6e2b9aa28aba2cb",
+        "start": 0,
+        "end": 12,
+        "unit": "UTF16",
+        "quote": "Hello source"
+      }
+    }
+  },
+  {
+    "name": "unavailable cannot carry placeholder coordinates",
+    "schema": "location",
+    "value": {
+      "kind": "UNAVAILABLE",
+      "representation": {
+        "representationId": "19000000-0000-4000-8000-000000000001",
+        "contentSha256": "c2410e4fa265af94c989531a3cffa00f52851fcb98fb7d78527418317d098f2b"
+      },
+      "reason": "NO_TEXT_LAYER",
+      "pageNumber": 1
+    }
+  }
+]

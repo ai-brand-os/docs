@@ -287,7 +287,7 @@ Version 1.0.0 duplicated pipeline stages already owned by downstream services, c
 
 ## ADR-002
 
-Duplicate detection at ingestion is based on raw source identity (file hash / URL), not semantic content.
+Duplicate admission detection uses tenant-scoped idempotency/source receipts. A file content hash may identify matching captured bytes within authorized scope; a URL alone is not immutable content identity or proof of duplicate bytes. Every authorized web capture pins exact stored body bytes/digest, requested/final URL and validated redirect metadata under [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md). No cross-tenant digest oracle or semantic deduplication is introduced.
 
 Reason:
 
@@ -404,3 +404,8 @@ Run as an internal NestJS module, not a public independently deployed service. H
 ## Task18 — Import admission and lifecycle ownership
 
 [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) owns aggregate status and closure. Ingestion produces existing RAW_INTAKE checkpoints and safe failures only; its success or queue completion never closes an import. KnowledgeImportModule/KM records proposed admission/control events under Brand lock; Ingestion validates current tenant/source/claim and fence before durable writes. Unsafe input leads to controlled failure closure, not provider/parser bypass. One active import through READY_FOR_REVIEW remains D-IMP-02 proposed Founder policy.
+
+
+## Task19 — Immutable intake identity and capture
+
+[ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) defines exact upload bytes and bounded HTTP content-decoded body before charset decode as source content. Compute existing rawContentReference sha256/byteLength over those actual stored bytes; assign independent tenant source/capture identity, never a mutable URL as version. Preserve privately requested/final URLs, redirects, time/MIME/charset and capture implementation/config. Keep server-only immutable object keys and scan/SSRF/limits; no parsing/semantic work or refetch during evidence verification. Later source/representation attachments use existing source and Document refs, not an expanded RAW_INTAKE2.0 payload. D-SEC-01/D-POL-01 and D-EVID-01 review remain open.

@@ -1,0 +1,46 @@
+{
+  "contractVersion": "1.0.0",
+  "organizationId": "19000000-0000-4000-8000-000000000002",
+  "brandId": "19000000-0000-4000-8000-000000000003",
+  "correlationId": "19000000-0000-4000-8000-000000000011",
+  "sourceArtifactId": "19000000-0000-4000-8000-000000000004",
+  "sourceDocumentId": "19000000-0000-4000-8000-000000000005",
+  "candidateArtifactId": "19000000-0000-4000-8000-000000000006",
+  "candidateId": "19000000-0000-4000-8000-000000000007",
+  "manifestArtifactId": "19000000-0000-4000-8000-000000000008",
+  "policyVersion": "1.0.0",
+  "entries": [
+    {
+      "evidenceId": "19000000-0000-4000-8000-000000000013",
+      "legacyEvidenceHash": "67684d1fee76685892fa34fb2e6208539f8f3f7715f9bd55362f9de46faec6cb",
+      "locators": [
+        {
+          "kind": "TEXT_SPAN",
+          "span": {
+            "representationId": "19000000-0000-4000-8000-000000000001",
+            "contentSha256": "b27880e0af1cf3741b3ccc3c8d965693ffe9af9d3bc2b142d6e2b9aa28aba2cb",
+            "start": 0,
+            "end": 12,
+            "unit": "UNICODE_CODE_POINT",
+            "quote": "Hello source"
+          }
+        }
+      ],
+      "support": {
+        "kind": "LITERAL",
+        "literalTexts": [
+          "Hello source"
+        ],
+        "proposedInterpretation": null,
+        "basis": null,
+        "ambiguityFlags": []
+      },
+      "validation": {
+        "classification": "VERIFIED_EXACT",
+        "validatedAt": "2026-10-18T10:00:00Z",
+        "validatorVersion": "1.0.0",
+        "reasonCodes": []
+      }
+    }
+  ]
+}

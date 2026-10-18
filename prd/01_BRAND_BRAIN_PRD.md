@@ -397,3 +397,8 @@ Explicit field correction/save is a reviewed mutation; it must record reason/dif
 ## Task18 — Import review versus Brand Brain publication
 
 Import confirmation remains a per-item authorized publication transaction. A successful revision may coexist with undecided import candidates. [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) defines full review coverage, closure, stale-head conflict/replay and proposed admission release; it never allows pending/model-derived knowledge to count as approved. All-rejected review closes with no new revision; manual approved fields remain unchanged unless explicitly confirmed for replacement. No new navigation surface or import format; Founder D-IMP-01/02/03 remain pending.
+
+
+## Task19 — Honest source badges and evidence precision
+
+FR-3/10 provenance follows [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md): exact/structural/normalized-only/unavailable evidence labels are separate from confidence and approval. Show actual captured source identity and safe available excerpts/anchors; never normalized offsets as PDF/HTML source coordinates. Lack of precise offsets alone does not reject a legitimate candidate, but forged/digest-invalid evidence is ineligible and deleted required source blocks imported approval. Ambiguous currency/date interpretation stays unresolved or explicit manual correction. No new source format, screen, OCR, monitoring or automatic approval. D-AUD-05/D-EVID-01/02 and existing PRD/policy gates require review.

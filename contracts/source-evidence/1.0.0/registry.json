@@ -1,0 +1,11 @@
+{
+  "contractVersion": "1.0.0",
+  "status": "Specified \u2014 Pending Architecture/Product/Security Review",
+  "schemas": {
+    "location": "urn:ai-brand-os:source-evidence:1.0.0:location",
+    "manifest": "urn:ai-brand-os:source-evidence:1.0.0:manifest",
+    "binding": "urn:ai-brand-os:source-evidence:1.0.0:binding"
+  },
+  "artifactExtension": "2.2.0 proposed; D-EVID-01",
+  "networkResolution": false
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "2.2.0",
+  "status": "Proposed \u2014 Pending Architecture/Engineering Review (D-EVID-01)",
+  "unchangedRecordVersions": [
+    "2.0.0",
+    "2.1.0"
+  ],
+  "attachmentsNotImportStateEvents": true,
+  "variants": [
+    {
+      "variant": "representation_manifest",
+      "artifactType": "PROCESSING_INTERMEDIATE",
+      "producer": "DOCUMENT_PROCESSING",
+      "stage": "evidence_manifest"
+    },
+    {
+      "variant": "evidence_binding",
+      "artifactType": "KNOWLEDGE_CANDIDATE",
+      "producer": "KNOWLEDGE_MANAGEMENT",
+      "stage": "evidence_validation"
+    }
+  ]
+}

@@ -165,3 +165,8 @@ Run `npm --prefix validation test` after installing the pinned dev-only dependen
 ## Task18 — Proposed explicit import closure
 
 [ADR-012](../../domain/11_IMPORT_LIFECYCLE_ADR.md) specifies D-AUD-07 with review pending. v2.0.0 has no whole-import closure/selected-attempt/frozen-manifest representation; [proposed2.1 import_control extension](2.1.0/README.md) addresses that exact gap using existing type/producer/enums in unified Artifact storage. It is a separately versioned proposal, not an in-place v2 change or approved writer. Existing result/decision/snapshot records stay exact2.0.0; Gateway1.0 and Prisma stay unchanged. D-IMP-LC-01 review, legacy inventory, reader-first rollout and runtime reference/transaction tests are required. Earlier Task16/17 open-routing/closure notes are dated evidence; current specification status is in the decision register.
+
+
+## Task19 — Source evidence precision proposal
+
+[ADR-013](../../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md), [source-evidence1.0](../source-evidence/README.md) and [proposed2.2 wrappers](2.2.0/README.md) define immutable representations, exact coordinates/maps/locators and unique original-candidate binding. v2 sourceEvidence/location/processingMetadata lack required fields and cannot safely carry them by aliases or strings. Existing 2.0.0, proposed2.1, Gateway1.0 and Prisma remain unchanged; no new enum/store/approval is added. Evidence classifications and current availability are separate from confidence/fact approval. D-EVID-01/02 review, historical inventory and reader-before-writer rollout are required; all existing pending decisions remain open.

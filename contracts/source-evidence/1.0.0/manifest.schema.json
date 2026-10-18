@@ -1,0 +1,799 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:source-evidence:1.0.0:manifest",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "1.0.0"
+    },
+    "sourceId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sourceArtifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sourceDocumentId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "rawIntakeArtifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "brandId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "capture": {
+      "type": "object",
+      "properties": {
+        "captureId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "format": {
+          "enum": [
+            "PLAIN_TEXT",
+            "MARKDOWN",
+            "DOCX",
+            "PDF",
+            "HTML"
+          ]
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "implementation": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+            },
+            "configSha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "id",
+            "version",
+            "configSha256"
+          ],
+          "additionalProperties": false
+        },
+        "requestedUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "finalUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "redirects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string",
+                "format": "uri"
+              },
+              "to": {
+                "type": "string",
+                "format": "uri"
+              },
+              "status": {
+                "enum": [
+                  301,
+                  302,
+                  303,
+                  307,
+                  308
+                ]
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "status"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 16
+        },
+        "bodyConvention": {
+          "enum": [
+            "EXACT_UPLOAD_BYTES",
+            "HTTP_CONTENT_DECODED_BYTES"
+          ]
+        },
+        "mimeType": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "charset": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pdfPageCount": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "captureId",
+        "format",
+        "capturedAt",
+        "implementation",
+        "requestedUrl",
+        "finalUrl",
+        "redirects",
+        "bodyConvention",
+        "mimeType",
+        "charset",
+        "pdfPageCount"
+      ],
+      "additionalProperties": false
+    },
+    "representations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "representationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "kind": {
+            "enum": [
+              "SOURCE",
+              "PARSED",
+              "NORMALIZED",
+              "CHUNK"
+            ]
+          },
+          "contentSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "byteLength": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "encoding": {
+            "enum": [
+              "BINARY",
+              "UTF8"
+            ]
+          },
+          "coordinateSystem": {
+            "enum": [
+              "BINARY_BYTES",
+              "UNICODE_CODE_POINT"
+            ]
+          },
+          "parentRepresentationIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "maxItems": 16
+          },
+          "transform": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+              },
+              "configSha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "configSha256"
+            ],
+            "additionalProperties": false
+          },
+          "contentReference": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "PRIVATE_OBJECT",
+                  "ARTIFACT_TEXT"
+                ]
+              },
+              "objectKey": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "artifactId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "jsonPointer": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^/"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "objectKey",
+              "artifactId",
+              "jsonPointer"
+            ],
+            "additionalProperties": false,
+            "oneOf": [
+              {
+                "properties": {
+                  "kind": {
+                    "const": "PRIVATE_OBJECT"
+                  },
+                  "objectKey": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  },
+                  "artifactId": {
+                    "type": "null"
+                  },
+                  "jsonPointer": {
+                    "type": "null"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "kind": {
+                    "const": "ARTIFACT_TEXT"
+                  },
+                  "objectKey": {
+                    "type": "null"
+                  },
+                  "artifactId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "jsonPointer": {
+                    "type": "string",
+                    "pattern": "^/"
+                  }
+                }
+              }
+            ]
+          },
+          "anchors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "anchorId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256
+                },
+                "kind": {
+                  "enum": [
+                    "PAGE_TEXT",
+                    "HTML_ELEMENT",
+                    "SECTION",
+                    "TEXT_UNIT"
+                  ]
+                },
+                "pageNumber": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "range": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "start": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "end": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 9007199254740991
+                        },
+                        "unit": {
+                          "const": "UNICODE_CODE_POINT"
+                        }
+                      },
+                      "required": [
+                        "start",
+                        "end",
+                        "unit"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "bbox": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "coordinateSystem": {
+                          "const": "PDF_POINTS_CROP_TOP_LEFT"
+                        },
+                        "x": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "y": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "width": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "height": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "pageWidth": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        },
+                        "pageHeight": {
+                          "type": "number",
+                          "exclusiveMinimum": 0
+                        }
+                      },
+                      "required": [
+                        "coordinateSystem",
+                        "x",
+                        "y",
+                        "width",
+                        "height",
+                        "pageWidth",
+                        "pageHeight"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "readingOrder": {
+                  "enum": [
+                    "VERIFIED",
+                    "AMBIGUOUS",
+                    "NOT_APPLICABLE"
+                  ]
+                },
+                "visibility": {
+                  "enum": [
+                    "VISIBLE",
+                    "EXCLUDED",
+                    "UNKNOWN"
+                  ]
+                }
+              },
+              "required": [
+                "anchorId",
+                "kind",
+                "pageNumber",
+                "range",
+                "bbox",
+                "readingOrder",
+                "visibility"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 1024
+          }
+        },
+        "required": [
+          "representationId",
+          "kind",
+          "contentSha256",
+          "byteLength",
+          "encoding",
+          "coordinateSystem",
+          "parentRepresentationIds",
+          "transform",
+          "contentReference",
+          "anchors"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "SOURCE"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "parentRepresentationIds": {
+                  "maxItems": 0
+                },
+                "contentReference": {
+                  "properties": {
+                    "kind": {
+                      "const": "PRIVATE_OBJECT"
+                    }
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "parentRepresentationIds": {
+                  "minItems": 1
+                },
+                "encoding": {
+                  "const": "UTF8"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "encoding": {
+                  "const": "UTF8"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "coordinateSystem": {
+                  "const": "UNICODE_CODE_POINT"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "coordinateSystem": {
+                  "const": "BINARY_BYTES"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "maxItems": 10000
+    },
+    "transforms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "transformId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "outputRepresentationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inputRepresentationIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "maxItems": 16
+          },
+          "implementation": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+              },
+              "configSha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "version",
+              "configSha256"
+            ],
+            "additionalProperties": false
+          },
+          "classification": {
+            "enum": [
+              "REVERSIBLE",
+              "SPAN_TRACKABLE",
+              "PARTIAL",
+              "LOSSY"
+            ]
+          },
+          "segments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "outputStart": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "outputEnd": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "relation": {
+                  "enum": [
+                    "EXACT",
+                    "TRANSFORMED",
+                    "GAP"
+                  ]
+                },
+                "inputSpans": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "representationId": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "contentSha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      },
+                      "start": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "end": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "unit": {
+                        "const": "UNICODE_CODE_POINT"
+                      },
+                      "quote": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 16384
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "representationId",
+                      "contentSha256",
+                      "start",
+                      "end",
+                      "unit",
+                      "quote"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 64
+                }
+              },
+              "required": [
+                "outputStart",
+                "outputEnd",
+                "relation",
+                "inputSpans"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 10000
+          },
+          "omittedInputSpans": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "representationId": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "contentSha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "start": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "end": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "unit": {
+                  "const": "UNICODE_CODE_POINT"
+                },
+                "quote": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 16384
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "representationId",
+                "contentSha256",
+                "start",
+                "end",
+                "unit",
+                "quote"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 1024
+          }
+        },
+        "required": [
+          "transformId",
+          "outputRepresentationId",
+          "inputRepresentationIds",
+          "implementation",
+          "classification",
+          "segments",
+          "omittedInputSpans"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 10000
+    },
+    "chunks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "chunkId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "representationId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "chunkId",
+          "representationId"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 10000
+    }
+  },
+  "required": [
+    "contractVersion",
+    "sourceId",
+    "sourceArtifactId",
+    "sourceDocumentId",
+    "rawIntakeArtifactId",
+    "organizationId",
+    "brandId",
+    "correlationId",
+    "capture",
+    "representations",
+    "transforms",
+    "chunks"
+  ],
+  "additionalProperties": false
+}

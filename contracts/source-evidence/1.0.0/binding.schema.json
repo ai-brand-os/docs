@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:source-evidence:1.0.0:binding",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "1.0.0"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "brandId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sourceArtifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sourceDocumentId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "candidateArtifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "candidateId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "manifestArtifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidenceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "legacyEvidenceHash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "locators": {
+            "type": "array",
+            "items": {
+              "$ref": "urn:ai-brand-os:source-evidence:1.0.0:location"
+            },
+            "maxItems": 64,
+            "minItems": 1
+          },
+          "support": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "LITERAL",
+                  "INTERPRETED",
+                  "UNRESOLVED"
+                ]
+              },
+              "literalTexts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 16384
+                },
+                "maxItems": 64
+              },
+              "proposedInterpretation": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 16384
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "basis": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "ambiguityFlags": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "CURRENCY_UNKNOWN",
+                    "DATE_LOCALE_UNKNOWN",
+                    "NUMBER_FORMAT_UNKNOWN",
+                    "PHONE_REGION_UNKNOWN",
+                    "URL_SEMANTICS",
+                    "VISIBILITY_UNKNOWN",
+                    "READING_ORDER_UNKNOWN"
+                  ]
+                },
+                "maxItems": 32
+              }
+            },
+            "required": [
+              "kind",
+              "literalTexts",
+              "proposedInterpretation",
+              "basis",
+              "ambiguityFlags"
+            ],
+            "additionalProperties": false
+          },
+          "validation": {
+            "type": "object",
+            "properties": {
+              "classification": {
+                "enum": [
+                  "VERIFIED_EXACT",
+                  "VERIFIED_STRUCTURAL",
+                  "NORMALIZED_ONLY",
+                  "UNAVAILABLE",
+                  "INVALID"
+                ]
+              },
+              "validatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "validatorVersion": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+              },
+              "reasonCodes": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "ORIGINAL_PRECISION_UNAVAILABLE",
+                    "SOURCE_UNAVAILABLE",
+                    "SOURCE_AVAILABILITY_UNKNOWN",
+                    "DIGEST_MISMATCH",
+                    "REFERENCE_INVALID",
+                    "RANGE_INVALID",
+                    "UNIT_INVALID",
+                    "QUOTE_MISMATCH",
+                    "MAP_INVALID",
+                    "PARSER_UNSUPPORTED",
+                    "SEMANTIC_UNRESOLVED",
+                    "STALE_RESULT"
+                  ]
+                },
+                "maxItems": 32
+              }
+            },
+            "required": [
+              "classification",
+              "validatedAt",
+              "validatorVersion",
+              "reasonCodes"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "evidenceId",
+          "legacyEvidenceHash",
+          "locators",
+          "support",
+          "validation"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 128,
+      "minItems": 1
+    }
+  },
+  "required": [
+    "contractVersion",
+    "organizationId",
+    "brandId",
+    "correlationId",
+    "sourceArtifactId",
+    "sourceDocumentId",
+    "candidateArtifactId",
+    "candidateId",
+    "manifestArtifactId",
+    "policyVersion",
+    "entries"
+  ],
+  "additionalProperties": false
+}

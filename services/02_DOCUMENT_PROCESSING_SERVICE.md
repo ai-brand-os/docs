@@ -2,7 +2,7 @@
 
 > Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits PROCESSING_INTERMEDIATE / STRUCTURED_DOCUMENT, variants processing_stage / structured_document. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
 
-> Final audit (2026-10-16): D-AUD-05 tracks source-location mapping through normalization: preserve original evidence; no invented currency/date interpretation or fabricated original offsets. Location availability and transformation maps require an explicit contract. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Task19 (2026-10-18): [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) and [source-evidence contracts](../contracts/source-evidence/README.md) specify D-AUD-05 — Pending Architecture/Product/Security Review. Preserve literal source evidence and explicit units/maps; no invented currency/date meaning, page, offset or quote. Original source bytes/parsed/normalized text are distinct representations. See the decision register for formal review and parser/retention gates.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
 
@@ -223,7 +223,7 @@ Quality Validator
 Structured Document
 ```
 
-Every stage receives exactly one input and produces exactly one output.
+Each registered pipeline stage consumes its authorized input and emits immutable checkpoints/final results. Proposed evidence manifests are separately versioned reference attachments committed with the final structured result, not extra public pipeline stages or competing import state events.
 
 Stages must never mutate previous outputs.
 
@@ -264,8 +264,8 @@ Remove irrelevant or noisy content.
 Responsibilities
 
 - Remove duplicate whitespace
-- Remove hidden characters
-- Remove unsupported control characters
+- Preserve meaning-bearing characters, including Persian/Arabic marks; remove only explicitly configured unsafe controls with recorded omissions
+- Label/escape bidi controls for safe display without changing stored source evidence
 - Normalize line endings
 - Remove empty structural elements
 
@@ -279,17 +279,9 @@ Purpose
 
 Standardize textual representation.
 
-Normalization includes
+Normalization is restricted to declared, mapped text formatting under [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md): pinned Unicode NFC/line-ending/whitespace transformations where safe, preserving exact original bytes and literal text. No automatic NFKC, semantic punctuation/diacritic removal or transliteration.
 
-- Unicode normalization
-- Date normalization
-- Currency normalization
-- URL normalization
-- Phone number normalization
-- Number normalization
-- Punctuation normalization
-
-Normalization should preserve semantic meaning.
+Currency/date/number/phone/URL interpretation is **not** text normalization. `$149` cannot gain a currency code; `01/02/2026` cannot gain a locale/ISO interpretation; no currency conversion, rounding, phone-country insertion or identity-changing URL rewrite. Preserve literal values, mark unresolved interpretation and require supporting evidence or explicit manual correction. D-AUD-03 confidence policy is unchanged.
 
 ---
 
@@ -384,7 +376,9 @@ Every chunk contains
 - Language
 - Estimated Token Count
 - Character Count
-- Source Offset
+- Source Offset (historical v2 field; its units/original mapping are not established by the field alone)
+
+New readers resolve [typed representation/location contracts](../contracts/source-evidence/README.md). Code-point ranges, UTF8 bytes and JS UTF16 indexes must never be mixed. Original mapping is verified only against digest-pinned retained representations; chunk merges keep disjoint spans.
 
 Chunks are immutable.
 
@@ -759,3 +753,8 @@ Run orchestration in the NestJS worker role from the same backend release; execu
 ## Task18 — Processing success is not import completion
 
 [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) selects authorized stage attempts/prefixes and defines recoverable versus terminal import failure. Processing emits unchanged PROCESSING_INTERMEDIATE/STRUCTURED_DOCUMENT; only complete VALID+SUCCEEDED structured_document advances extraction. Failed/partial records remain diagnostics, not candidate approval/closure. Recheck current grant/source/lease/fence before writes; expired workers cannot publish late results. No new status table or parser format.
+
+
+## Task19 — Verifiable representation manifests
+
+[ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) is canonical for representations, UTF8/code-point coordinates, transform segment composition and PDF/HTML/structural anchors. Never infer original location from normalized sourceOffset/characterCount. Preserve exact bytes/text hashes, parser/version/config, omitted regions and disjoint input spans; lossy/ambiguous precision becomes normalized-only/unavailable. PDF physical page/text-unit/optional verified bbox are parser-backed, no fabricated pages for DOCX/Markdown; scanned PDFs have NO_TEXT_LAYER without enabled OCR. Inert HTML excludes active/hidden content and declares visibility uncertainty; no live URL verification. Proposed [Artifact2.2 representation_manifest](../contracts/source-evidence/README.md#artifact-extension-and-historical-binding) commits with v2 STRUCTURED_DOCUMENT as a reference attachment, not an import state event. Existing v2/proposed2.1/Gateway1/Prisma are unchanged. No actual parser/renderer deployed or tested by documentation fixtures.

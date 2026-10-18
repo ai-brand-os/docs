@@ -1,0 +1,23 @@
+{
+  "kind": "HTML_ELEMENT_OR_TEXT_SPAN",
+  "source": {
+    "representationId": "19000000-0000-4000-8000-000000000001",
+    "contentSha256": "4ea17a83e426a02035c394aa22fc01cd7260c235b87728c79f66a735b72c107f"
+  },
+  "textSpan": {
+    "representationId": "19000000-0000-4000-8000-000000000050",
+    "contentSha256": "dff4ec67bd72f843cab6495130699248a946fd5f50433f890d4aa3191beca761",
+    "start": 0,
+    "end": 5,
+    "unit": "UNICODE_CODE_POINT",
+    "quote": "A & B"
+  },
+  "anchorId": "capture/path0/node0",
+  "elementId": "capture/path0/node0",
+  "parser": {
+    "id": "fixture.html-parser",
+    "version": "1.0.0",
+    "configSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "displayUrl": "https://example.test/page"
+}

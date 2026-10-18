@@ -1,0 +1,23 @@
+{
+  "kind": "PDF_PAGE_SPAN",
+  "source": {
+    "representationId": "19000000-0000-4000-8000-000000000001",
+    "contentSha256": "c2410e4fa265af94c989531a3cffa00f52851fcb98fb7d78527418317d098f2b"
+  },
+  "pageNumber": 1,
+  "textSpan": {
+    "representationId": "19000000-0000-4000-8000-000000000050",
+    "contentSha256": "f225b2a17a5e15b3a6e8ac1a146d4aa44d1e13484a7f5cf5b4e536ea9d2e56ba",
+    "start": 0,
+    "end": 10,
+    "unit": "UNICODE_CODE_POINT",
+    "quote": "Price $149"
+  },
+  "anchorId": "page1-unit0",
+  "parser": {
+    "id": "fixture.pdf-parser",
+    "version": "1.0.0",
+    "configSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "bbox": null
+}

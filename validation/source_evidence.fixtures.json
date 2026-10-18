@@ -1,0 +1,15 @@
+{
+  "plain": "Hello source",
+  "unicode": "€ ایران 😀",
+  "combining": "é",
+  "bidi": "قیمت ۱۴۹ تومان؛ السعر ١٤٩",
+  "whitespace": "A   B",
+  "removed": "aHIDDENb",
+  "disjoint": "Alpha---Beta",
+  "htmlCapture": "<div id=\"p\">A &amp; B</div><script>hidden</script>",
+  "htmlParsed": "A & B",
+  "pdfSource": "%PDF-FAKE-SYNTHETIC-NOT-A-REAL-PDF",
+  "pdfParsed": "Price $149",
+  "currency": "$149",
+  "date": "01/02/2026"
+}

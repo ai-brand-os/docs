@@ -114,7 +114,7 @@ Exact types PROCESSING_INTERMEDIATE and STRUCTURED_DOCUMENT; producer DOCUMENT_P
 
 ### Chunk (nested value object, not an independent artifact)
 
-Common Chunk contains text, UUID identity, actual parent Document/section, sequence, language availability, token/character counts, normalized sourceOffset and location/unavailable reason. sourceOffset does not prove an original PDF/HTML location. D-AUD-05 source mapping remains open; null original location with an explicit reason is supported.
+Common Chunk contains text, UUID identity, actual parent Document/section, sequence, language availability, token/character counts, normalized sourceOffset and location/unavailable reason. sourceOffset does not prove an original PDF/HTML location. [ADR-013](12_SOURCE_EVIDENCE_MAPPING_ADR.md) specifies D-AUD-05 mapping with review pending; null original precision with an explicit reason remains supported.
 
 ## 3. Knowledge Candidate Artifact
 
@@ -210,3 +210,8 @@ Established shared artifact/lineage/tenant/storage boundaries; nested JSON/statu
 ## Task17 — Gateway DTOs are not artifacts
 
 [ADR-011](10_AI_PROVIDER_GATEWAY_ADR.md#artifact-compatibility-and-migration) maps the [internal Gateway DTO](../contracts/ai-provider/README.md) to existing fields. Gateway is not an Artifact producer; no ArtifactType/ProducingService/ArtifactStatus is added. Extraction emits KNOWLEDGE_CANDIDATE only, never fake Workspace context/prompt/response. Missing extraction provider/template metadata stays in reviewed content-free telemetry linked by invocation/correlation; do not add fields or overload pipelineVersion. Orchestrator still owns PROMPT/RESPONSE, actual model/usage/cost and final Message validation. v2.0.0 remains unchanged; any later persisted execution attestation requires a separately versioned reviewed amendment.
+
+
+## Task19 — Proposed typed evidence attachments
+
+[ADR-013](12_SOURCE_EVIDENCE_MAPPING_ADR.md) and [source-evidence1.0](../contracts/source-evidence/README.md) specify the exact fields missing from closed v2 (representation digest/unit/maps/typed locator/availability receipt). [Proposed Artifact2.2](../contracts/artifacts/2.2.0/README.md) adds only representation_manifest (PROCESSING_INTERMEDIATE/DOCUMENT_PROCESSING) and evidence_binding (KNOWLEDGE_CANDIDATE/KNOWLEDGE_MANAGEMENT), not enum/model/approval changes. Existing v2 results/decisions/snapshots and proposed2.1 controls remain immutable; attachments are validated reference dependencies, not ADR-012 state events. Historical bindings resolve through original introducing decision/candidate and unique evidence hash coverage. D-EVID-01 review/reader rollout and runtime reference/transaction tests remain required.

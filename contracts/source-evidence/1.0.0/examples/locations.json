@@ -1,0 +1,87 @@
+[
+  {
+    "kind": "TEXT_SPAN",
+    "span": {
+      "representationId": "19000000-0000-4000-8000-000000000001",
+      "contentSha256": "b27880e0af1cf3741b3ccc3c8d965693ffe9af9d3bc2b142d6e2b9aa28aba2cb",
+      "start": 0,
+      "end": 12,
+      "unit": "UNICODE_CODE_POINT",
+      "quote": "Hello source"
+    }
+  },
+  {
+    "kind": "PDF_PAGE_SPAN",
+    "source": {
+      "representationId": "19000000-0000-4000-8000-000000000001",
+      "contentSha256": "c2410e4fa265af94c989531a3cffa00f52851fcb98fb7d78527418317d098f2b"
+    },
+    "pageNumber": 1,
+    "textSpan": {
+      "representationId": "19000000-0000-4000-8000-000000000050",
+      "contentSha256": "f225b2a17a5e15b3a6e8ac1a146d4aa44d1e13484a7f5cf5b4e536ea9d2e56ba",
+      "start": 0,
+      "end": 10,
+      "unit": "UNICODE_CODE_POINT",
+      "quote": "Price $149"
+    },
+    "anchorId": "page1-unit0",
+    "parser": {
+      "id": "fixture.pdf-parser",
+      "version": "1.0.0",
+      "configSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "bbox": null
+  },
+  {
+    "kind": "HTML_ELEMENT_OR_TEXT_SPAN",
+    "source": {
+      "representationId": "19000000-0000-4000-8000-000000000001",
+      "contentSha256": "4ea17a83e426a02035c394aa22fc01cd7260c235b87728c79f66a735b72c107f"
+    },
+    "textSpan": {
+      "representationId": "19000000-0000-4000-8000-000000000050",
+      "contentSha256": "dff4ec67bd72f843cab6495130699248a946fd5f50433f890d4aa3191beca761",
+      "start": 0,
+      "end": 5,
+      "unit": "UNICODE_CODE_POINT",
+      "quote": "A & B"
+    },
+    "anchorId": "capture/path0/node0",
+    "elementId": "capture/path0/node0",
+    "parser": {
+      "id": "fixture.html-parser",
+      "version": "1.0.0",
+      "configSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "displayUrl": "https://example.test/page"
+  },
+  {
+    "kind": "STRUCTURAL_SECTION",
+    "representation": {
+      "representationId": "19000000-0000-4000-8000-000000000050",
+      "contentSha256": "f225b2a17a5e15b3a6e8ac1a146d4aa44d1e13484a7f5cf5b4e536ea9d2e56ba"
+    },
+    "anchorId": "page1-unit0"
+  },
+  {
+    "kind": "NORMALIZED_ONLY",
+    "span": {
+      "representationId": "19000000-0000-4000-8000-000000000050",
+      "contentSha256": "7a690e9c9486fbe6af683ef174bd7724d3ffd17bfdbc53dfe0d7c149e2ad40db",
+      "start": 0,
+      "end": 11,
+      "unit": "UNICODE_CODE_POINT",
+      "quote": "mapped text"
+    },
+    "originalUnavailableReason": "MAPPING_LOST"
+  },
+  {
+    "kind": "UNAVAILABLE",
+    "representation": {
+      "representationId": "19000000-0000-4000-8000-000000000001",
+      "contentSha256": "b27880e0af1cf3741b3ccc3c8d965693ffe9af9d3bc2b142d6e2b9aa28aba2cb"
+    },
+    "reason": "LEGACY_UNMAPPED"
+  }
+]

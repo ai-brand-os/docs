@@ -131,3 +131,8 @@ Relative document links and heading anchors pass checks, `git diff --check` pass
 ## Task18 — Import control retention is independent
 
 [ADR-012](domain/11_IMPORT_LIFECYCLE_ADR.md) keeps imported candidates/decisions/control chains and approved knowledge independent of Conversation deletion. Import closure is not physical source/knowledge erasure. Do not delete active control/admission evidence to free a slot, and preserve historical citation/decision/publication refs under approved source/knowledge policy. Review waiting has no newly invented expiry; D-POL-01 and D-IMP-LC-02 retain Legal/Operations/Product/Founder review. Required source/Brand lifecycle revocation blocks late writes and allows only narrow content-free safe closure bookkeeping, never knowledge publication.
+
+
+## Task19 — Source representations and evidence retention
+
+[ADR-013](domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) defines independently retained original/parsed/normalized/chunk bytes, maps, quotes and immutable identity/binding records. D-POL-01 must approve actual source-class schedules and lawful redaction; no new periods are set. Protected identity is not retained content: after lawful source deletion, recheck each representation and show original DELETED/UNKNOWN with only genuinely retained alternatives inspectable. Never promise a digest/old verification receipt makes lost bytes viewable. Cleanup coordinates locks and scans historical/current fact/decision/binding/manifest/parent references; orphan/digest mismatch blocks new publication/restore and alerts. Restore replays deletion; backup expiry stays separate. Conversation purge cannot recursively erase independent imported provenance; no public object/signed URL bypass.

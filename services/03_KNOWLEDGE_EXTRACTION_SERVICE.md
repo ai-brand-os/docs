@@ -793,3 +793,8 @@ One reviewed MVP provider is required, none selected here. D-AUD-02 review, D-SE
 ## Task18 — Selected extraction and review closure
 
 [ADR-012](../domain/11_IMPORT_LIFECYCLE_ADR.md) specifies aggregate lifecycle, selected stage bindings and frozen review candidates pending D-AUD-07 review. Keep Artifact2.0 and Gateway1.0 serialization unchanged. Required-model failure with deterministic fragments remains PARTIAL plus safe failed-stage evidence; no eligible review set or full-success fallback. Retry within current authorized claim/budget or close failure through the application/KM control boundary. Extraction cannot approve facts, close review or release admission by emitting SUCCEEDED. Partial acceptance policy remains D-IMP-LC-02 pending.
+
+
+## Task19 — Literal evidence proposals
+
+[ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) requires proposals to preserve genuine source/Document/chunk identity and literal support; model pages/quotes/offsets are untrusted and must verify. Normalized text is not original text, disjoint spans are not one quote, and `$149`/ambiguous dates cannot gain unsupported meaning. Extraction may propose locator/support inputs for KM validation but cannot write authoritative verification/approval or fetch URLs. Existing v2 evidence DTO remains closed; proposed2.2 binding attaches typed evidence by original candidate key/hash. Missing original precision can be warning review with genuine support, invalid references/digests/quotes cannot. Parser retry/stale evidence follows ADR-012 selected attempts and frozen review; mapping success never makes partial extraction complete or approves a fact.
