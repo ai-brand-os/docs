@@ -1,0 +1,1493 @@
+{
+  "reviewedGitSha": "08ac353f2752c9b368af8c85afd4ebbcace10bfd",
+  "method": "Full UTF8 file scan/hash; JSON parse/reference extraction; targeted semantic integration review and executable checks, not proof every runtime behavior is implemented.",
+  "files": [
+    {
+      "path": "90_DAY_VALIDATION_ROADMAP.md",
+      "sha256": "fd3f227197fa80509bfd714b24a6c274593d5836a07b755ad63e034dee76353f",
+      "lines": 45
+    },
+    {
+      "path": "ASSUMPTION_REGISTER.md",
+      "sha256": "094dea7d724b512283d5bc7ca1683598be0bbaec1e1126fc24ad287be7abd299",
+      "lines": 68
+    },
+    {
+      "path": "BIBLE/01_PROJECT_BIBLE.md",
+      "sha256": "79ae4565bcc3130c4ee4b4ec14dc001e384da4c1a45d304d03ac8538f7a4ee17",
+      "lines": 929
+    },
+    {
+      "path": "BIBLE/02_PRODUCT_BIBLE.md",
+      "sha256": "f910645d0b75e29f647c44b2ace28b914ea207cc66dd9dc149745fb8bbcc9354",
+      "lines": 935
+    },
+    {
+      "path": "BIBLE/03_ENGINEERING_BIBLE.md",
+      "sha256": "45c8336afe03fdefed7cdf668316f64a2404b51832739dde38c839aaf5579a5f",
+      "lines": 538
+    },
+    {
+      "path": "BIBLE/04_EXECUTION_BIBLE.md",
+      "sha256": "61545a363bb467df73fe7ed64eaf743b6a3c5a189a834c4fd1a5ab1ac759d019",
+      "lines": 718
+    },
+    {
+      "path": "BIBLE/05_AI_MEMORY_BIBLE.md",
+      "sha256": "adf29dbbb7d510d790e0f0d18c465f2a608a73237357606ec227e947176ce6fe",
+      "lines": 438
+    },
+    {
+      "path": "COMMERCIAL_PACKAGING.md",
+      "sha256": "9060c694949f9a61ac7bd8abe6a99d79e37d1860a077be0842a86edfb5fe0441",
+      "lines": 102
+    },
+    {
+      "path": "COMPETITIVE_STRATEGY.md",
+      "sha256": "4004ec2a8341692cbef8f2811d3a2c8525bdf3d624c354213276e229cb942751",
+      "lines": 160
+    },
+    {
+      "path": "DATA_LIFECYCLE.md",
+      "sha256": "331a63a6b96bf39f706023c6fea34a57a900cc469517b3ce06c4b3be797d8668",
+      "lines": 164
+    },
+    {
+      "path": "DECISION_REGISTER.md",
+      "sha256": "a57ed2f083e40ec6e96c3ca88234d1fa9929214ea1d581bc5e3f29754adaf654",
+      "lines": 235
+    },
+    {
+      "path": "DIFFERENTIATION_ROADMAP.md",
+      "sha256": "924e0011fb8e8bdb902dbb23c475c636e5cc30211d436ed16290b284717297ae",
+      "lines": 89
+    },
+    {
+      "path": "DOCUMENTATION_CHANGELOG.md",
+      "sha256": "5679091b042ac65223bdf0d444da738336081277b55bbf3e12dca01503ee0bd7",
+      "lines": 168
+    },
+    {
+      "path": "DOCUMENTATION_GOVERNANCE.md",
+      "sha256": "bfb10ca77cc79743f76cbf0ec036eecaea5badbc365e7a60824950677b83ab07",
+      "lines": 61
+    },
+    {
+      "path": "FINAL_CONSISTENCY_AUDIT.md",
+      "sha256": "e5439b2926f76a2cbbac61ce20f4630ec034b9fd89ced01f64ef9afeebb56c29",
+      "lines": 233
+    },
+    {
+      "path": "GO_TO_MARKET_STRATEGY.md",
+      "sha256": "51d9bf2ca5790bbdf84f9b5b84858824ebeef4739b1fdde89ce330d550ca1f2c",
+      "lines": 95
+    },
+    {
+      "path": "KNOWLEDGE_LEARNING_LIFECYCLE.md",
+      "sha256": "e534c77c30a008924d466cf1c264cdaf325ac36e8953240ce5a8330abbfd3959",
+      "lines": 145
+    },
+    {
+      "path": "KNOWLEDGE_PROVENANCE.md",
+      "sha256": "44369e4ef203d0cae291925648f1936c9c0a539025e42d561b8cd545c1339d6d",
+      "lines": 223
+    },
+    {
+      "path": "MARKET_VALIDATION_PLAN.md",
+      "sha256": "4ab01e75d382b1458de26c9e2df163e2238f4e4dce7df7d2f7197450afa2a16e",
+      "lines": 103
+    },
+    {
+      "path": "MVP_SCOPE.md",
+      "sha256": "4a9a1276961f6cf65d26719f360cb9cf07c73cf6d39ff77ab9ceb747c701d2bd",
+      "lines": 114
+    },
+    {
+      "path": "PRICING_EXPERIMENTS.md",
+      "sha256": "0332717e39f83db402e3b549d26571a8c6ed24ae44cbeb8ecdacfdc8b97741ef",
+      "lines": 62
+    },
+    {
+      "path": "PRODUCT_METRICS.md",
+      "sha256": "f0d903054890961bf32a7f70f766584d9274a99f1a06c307dfd74fc096f7a478",
+      "lines": 174
+    },
+    {
+      "path": "README.md",
+      "sha256": "8ab319a28963920dcb2fd1db45645d6eea2268477ca5521a6dbace4c9db42565",
+      "lines": 99
+    },
+    {
+      "path": "SECURITY_THREAT_MODEL.md",
+      "sha256": "e8ebcedb52fc56cb98c85bab9e7134483fc8f375f8ecb2d5d4b51e8cfdfee642",
+      "lines": 128
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/common.schema.json",
+      "sha256": "fd48e98527ef45c1f606d669406629e0dfe5c369eb15046117338dc01e829555",
+      "lines": 190,
+      "schemaId": "urn:ai-brand-os:ai-provider:1.0.0:common",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error"
+      ]
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/examples/extraction-request.json",
+      "sha256": "d70f9737caedc637d6ac0cfff58939e7064bc5a043cd758e6a5d575057b161e5",
+      "lines": 68,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/examples/generation-request.json",
+      "sha256": "9e801ce5d3dfa7f7fc432a80407f29216da080fc8cca67451e10a63367deec1e",
+      "lines": 60,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/examples/invalid.json",
+      "sha256": "20d51b3a0729707ddc44c607c966cd94e817e3b3afff968af2036b23c653c08d",
+      "lines": 246
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/examples/policy.json",
+      "sha256": "22527d05b21586854bb264303657b3c07310772401df80d035752639595d972e",
+      "lines": 61,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/examples/success-response.json",
+      "sha256": "bd6b74b48c76a7b90d193b218266e16f6978cf6f8b71c771cf75a23468867a6f",
+      "lines": 40,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/extraction-output.schema.json",
+      "sha256": "23c0657a0cc022f14f9a477072eedd547073e6c769142ac71fb83500effda9d1",
+      "lines": 71,
+      "schemaId": "urn:ai-brand-os:ai-provider:1.0.0:extraction-output",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/generation-output.schema.json",
+      "sha256": "9141d2d434619ab78d6352b50dd0e85109e903c90c95a2ad9407d922498e75ce",
+      "lines": 20,
+      "schemaId": "urn:ai-brand-os:ai-provider:1.0.0:generation-output",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/policy.schema.json",
+      "sha256": "22fb9f645c02875d94655efd007889f0859e86c943f12385d7e0aa71248ba531",
+      "lines": 311,
+      "schemaId": "urn:ai-brand-os:ai-provider:1.0.0:policy",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/registry.json",
+      "sha256": "c04a9daa630c9125852471edc3e82f05d2b2e55f82cbfc1a4f5ec63082d22b37",
+      "lines": 14,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/request.schema.json",
+      "sha256": "c96f3bfc0534220eb58ac3569edcc957eb7207a9323357cce40ba66cf8c3c900",
+      "lines": 482,
+      "schemaId": "urn:ai-brand-os:ai-provider:1.0.0:request",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ai-provider/1.0.0/response.schema.json",
+      "sha256": "d272a6c2b6ff4a01ad1025afffa0a5b24ff7fa64dbce0d0669d8ffa8ec6bae9f",
+      "lines": 452,
+      "schemaId": "urn:ai-brand-os:ai-provider:1.0.0:response",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:ai-provider:1.0.0:common#/$defs/extractionOutput",
+        "urn:ai-brand-os:ai-provider:1.0.0:common#/$defs/generationOutput",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error"
+      ]
+    },
+    {
+      "path": "contracts/ai-provider/README.md",
+      "sha256": "c4051c1f39caa52b924e748435663b695aa4e05fae887a4e2864ae1eadff758d",
+      "lines": 89
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/approved_knowledge.schema.json",
+      "sha256": "bb128f719023c6d87901d0cd613f651c013bb6e479707d0f6f6d03cc4026b109",
+      "lines": 221,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:APPROVED_KNOWLEDGE",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/artifact.schema.json",
+      "sha256": "f19ffa12ac212997902cbaee7caf8724d226ba76de85c9dbc99649cd01807bd6",
+      "lines": 808,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:envelope",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:APPROVED_KNOWLEDGE",
+        "urn:ai-brand-os:artifact:2.0.0:KNOWLEDGE_CANDIDATE",
+        "urn:ai-brand-os:artifact:2.0.0:PROCESSING_INTERMEDIATE",
+        "urn:ai-brand-os:artifact:2.0.0:PROMPT",
+        "urn:ai-brand-os:artifact:2.0.0:PROMPT_CONTEXT",
+        "urn:ai-brand-os:artifact:2.0.0:RAW_INTAKE",
+        "urn:ai-brand-os:artifact:2.0.0:RESPONSE",
+        "urn:ai-brand-os:artifact:2.0.0:STRUCTURED_DOCUMENT"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/common.schema.json",
+      "sha256": "4c94b35971e6c72e3bb4922bcad2af8ab2e9335eef52c29e9b30e1e982901eaf",
+      "lines": 4822,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:common",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/candidate",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/change",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/chunk",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/confidence",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/contextProvenance",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/derivation",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityRef",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/entityType",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/fact",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factKey",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factRef",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/flag",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/itemProvenance",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/location",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/manual",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/memory",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/metadata",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/modelConfiguration",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/processingMetadata",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/provenance",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/relationship",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/relationshipEndpoint",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/section",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/sourceEvidence",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/structure",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/validation"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/examples/invalid.json",
+      "sha256": "55c7322e6ec5542848a0d1825f72bd51f2e695e46564ab9569334a4abb92f9ee",
+      "lines": 1876
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/examples/reference-catalog.json",
+      "sha256": "7e894c46dee8aac852c7cb10eef206d3d7faf79cd37391bb67a850596aff009b",
+      "lines": 1427,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/examples/valid.json",
+      "sha256": "6dd8500bfe1220745a873fd18814e40788faa8ef6f6e294df802833e05817256",
+      "lines": 1484
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/knowledge_candidate.schema.json",
+      "sha256": "4bb07f63315a29a5f327b8d5b79f2145c23ab18eed999bedc01437b0eb29fc9a",
+      "lines": 1320,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:KNOWLEDGE_CANDIDATE",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/decision",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/extraction",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/extractionFragment",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/governance",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/governanceFragment",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/manualCommit",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/publicationAttempt"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/processing_intermediate.schema.json",
+      "sha256": "df831e90829e65ac12ce25a1308b27fac7bb558a823b3f1292e60ed9b7a9ab22",
+      "lines": 231,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:PROCESSING_INTERMEDIATE",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/processingFragment"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/prompt.schema.json",
+      "sha256": "5343bcc3d586a40046e71b61f0c044385be87b8f7716f979813eedc276006114",
+      "lines": 445,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:PROMPT",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/prompt",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/promptFragment"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/prompt_context.schema.json",
+      "sha256": "f24cc4fc79588a33fba97add4296e4081ea8b5307ab5b8988c28c88fa2de3803",
+      "lines": 445,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:PROMPT_CONTEXT",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/contextFragment",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/raw_intake.schema.json",
+      "sha256": "8edf44aa52b62daf6a4204e948aa20682560e055a08944bb6f95f3e181a83dc8",
+      "lines": 362,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:RAW_INTAKE",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/objectRef",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/validation"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/registry.json",
+      "sha256": "02d0b8dada0361d504e110f35c084996e49920c265379946524aaf8f8f3017fb",
+      "lines": 302,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/response.schema.json",
+      "sha256": "78e8a64c8b38e405e62892c729d907ba54884dba7dc00270055f587bdad85654",
+      "lines": 445,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:RESPONSE",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/response",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/responseFragment"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.0.0/structured_document.schema.json",
+      "sha256": "dd9ec3a1f682ea04e39a18c791fd7b81dd2bde7701cd715d17e3f1f749489972",
+      "lines": 231,
+      "schemaId": "urn:ai-brand-os:artifact:2.0.0:STRUCTURED_DOCUMENT",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/error",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/processingData",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/processingFragment"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.1.0/README.md",
+      "sha256": "ab2ecdf62a338c16d07fbf4ed31e13914c8cc79a1311008bb07be3dbffdfaa8d",
+      "lines": 50
+    },
+    {
+      "path": "contracts/artifacts/2.1.0/example.json",
+      "sha256": "3564c9dd7be45569a9cfe070b1b6ab2b657a418c448f042bcc07bf3c50b57d81",
+      "lines": 57,
+      "schemaId": null,
+      "schemaVersion": "2.1.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.1.0/import_control.schema.json",
+      "sha256": "03f01dc1f8db3e43e00277c06d593714ddf4a67e3e3c1dd26217c1dcd065dbf0",
+      "lines": 513,
+      "schemaId": "urn:ai-brand-os:artifact:2.1.0:import-control",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.1.0/registry.json",
+      "sha256": "cb6eb762b5156eb43c0fd9fbe99d257c28b8f511af06f0d9d016bc10fa628f6d",
+      "lines": 17,
+      "schemaId": null,
+      "schemaVersion": "2.1.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.2.0/README.md",
+      "sha256": "7294fd3c75703eeb1cf015f05498e88d7a6e26d09d71e86925b10c08667df2dd",
+      "lines": 7
+    },
+    {
+      "path": "contracts/artifacts/2.2.0/evidence_binding.example.json",
+      "sha256": "ad9f0ed2637b4587ac1a917e6e7f65e0f52cf27a03fc5dc995ccf1b4b50a4379",
+      "lines": 68,
+      "schemaId": null,
+      "schemaVersion": "2.2.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.2.0/evidence_binding.schema.json",
+      "sha256": "8de6c1a0abeeb8eda3ae991a4701da0500bb82bf8d1dfee5e236451426ca7731",
+      "lines": 109,
+      "schemaId": "urn:ai-brand-os:artifact:2.2.0:evidence_binding",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:source-evidence:1.0.0:binding"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.2.0/registry.json",
+      "sha256": "416dccd69031c64706a9e851c7766bb9ea08ab44648c0ffb7d346cac2dcf9fab",
+      "lines": 23,
+      "schemaId": null,
+      "schemaVersion": "2.2.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.2.0/representation_manifest.example.json",
+      "sha256": "16b6892fbdc44c4b7b857e525d163157d2e2597f34f0bce6a061cf8de2acf8b9",
+      "lines": 74,
+      "schemaId": null,
+      "schemaVersion": "2.2.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.2.0/representation_manifest.schema.json",
+      "sha256": "336a2931999b60ad18cf9694041b3997fe8999aafc2580aceabd5f3bb18b3377",
+      "lines": 109,
+      "schemaId": "urn:ai-brand-os:artifact:2.2.0:representation_manifest",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:source-evidence:1.0.0:manifest"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.3.0/README.md",
+      "sha256": "671c41a961633aa39396660234526403a23a0a10edd88549c1ef95b1cb5516ca",
+      "lines": 11
+    },
+    {
+      "path": "contracts/artifacts/2.3.0/approved_snapshot.schema.json",
+      "sha256": "a057ee1454e0a22281b6e5409d9ee29cc6877b104c9455f53d726e32805dcf31",
+      "lines": 159,
+      "schemaId": "urn:ai-brand-os:artifact:2.3.0:approved_snapshot",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/calculationSelection",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/changes",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/facts",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/members",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/snapshot/properties/revisionId",
+        "urn:ai-brand-os:ontology-relations:1.0.0:graph"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.3.0/context.schema.json",
+      "sha256": "5506b6231c2c13d3d282b30be02b8e39e100910b9ee27142cd8b28f0ebbe17e0",
+      "lines": 233,
+      "schemaId": "urn:ai-brand-os:artifact:2.3.0:context",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/assemblyVersion",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/brandVoice",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/businessRules",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/contextProfile",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/contextScore",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/evidence",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/memory",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/provenance",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/retrievalStrategy",
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/context/properties/selectedKnowledge",
+        "urn:ai-brand-os:ontology-relations:1.0.0:context-reference"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.3.0/examples/valid.json",
+      "sha256": "16f5f0e09250b96f00e784cafab89e6267a4cb1e7cc81cee873e1fd95fedbebe",
+      "lines": 506
+    },
+    {
+      "path": "contracts/artifacts/2.3.0/registry.json",
+      "sha256": "104847954e6636672be41e8e7f35fd5aee26e702d722853d398e06a7a40fe4f6",
+      "lines": 31,
+      "schemaId": null,
+      "schemaVersion": "2.3.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.3.0/relationship_commit.schema.json",
+      "sha256": "fffd89e48a8665119533aad872014ae3da05026cdb20c0c2505ae9fb8a2658da",
+      "lines": 126,
+      "schemaId": "urn:ai-brand-os:artifact:2.3.0:relationship_commit",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:ontology-relations:1.0.0:commit"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.4.0/README.md",
+      "sha256": "353aeed6d06019384a44a9b0f77b398ce144b9019b51855735bd789fc89abba4",
+      "lines": 11
+    },
+    {
+      "path": "contracts/artifacts/2.4.0/quality_assessment.example.json",
+      "sha256": "9246e7d41d69e47657d1dcee34bce3ab75fcd6d91e0cd573d9ab707315b4e4de",
+      "lines": 107,
+      "schemaId": null,
+      "schemaVersion": "2.4.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.4.0/quality_assessment.schema.json",
+      "sha256": "9b265b77b80cf43de61eea0747bd24b218518e2bf015edbdc3fb4bb25d7184cd",
+      "lines": 124,
+      "schemaId": "urn:ai-brand-os:artifact:2.4.0:quality_assessment",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:knowledge-quality:1.0.0:assessment"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.4.0/registry.json",
+      "sha256": "a90062c2134fa58bc94a63f5caf6744abbd0988f7bb78cbd55eefb6af88d10b6",
+      "lines": 17,
+      "schemaId": null,
+      "schemaVersion": "2.4.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/2.5.0/README.md",
+      "sha256": "2db8319054a3c01b7cc066de73cf17bd1ae2126554dc8767b2d7b33ae88187cc",
+      "lines": 15
+    },
+    {
+      "path": "contracts/artifacts/2.5.0/context.schema.json",
+      "sha256": "6e26dfe13c27b1ace995ce92b45a5eea3b596f76a5181ee67b2c958a95c0fd2d",
+      "lines": 170,
+      "schemaId": "urn:ai-brand-os:artifact:2.5.0:context",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/assemblyVersion",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/brandVoice",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/businessRules",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/contextProfile",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/contextScore",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/evidence",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/memory",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/provenance",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/relationshipSelection",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/retrievalStrategy",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/selectedKnowledge",
+        "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/selectedRelationships",
+        "urn:ai-brand-os:conversation-context:1.0.0:selection"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.5.0/examples/final-2.0.json",
+      "sha256": "6b0728c72b6687bd8d9101a79dcf109401b808e86477fb1ce8bcad8b654b47db",
+      "lines": 90
+    },
+    {
+      "path": "contracts/artifacts/2.5.0/examples/valid.json",
+      "sha256": "44f9ea549c3fab2a365d2abf5fea19b1e33ab6abe672bbea59049517fc7b020e",
+      "lines": 214
+    },
+    {
+      "path": "contracts/artifacts/2.5.0/history_request.schema.json",
+      "sha256": "3818936e96ff705e09e68f7a4a22d32fcadcedb55a36782a8a3306c4a25cf905",
+      "lines": 113,
+      "schemaId": "urn:ai-brand-os:artifact:2.5.0:history_request",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:conversation-context:1.0.0:request"
+      ]
+    },
+    {
+      "path": "contracts/artifacts/2.5.0/registry.json",
+      "sha256": "1dda12a5d164b7c3ad48c56d785f8c9cc56124ad14037c568df7873ceab5d86c",
+      "lines": 22,
+      "schemaId": null,
+      "schemaVersion": "2.5.0",
+      "references": []
+    },
+    {
+      "path": "contracts/artifacts/README.md",
+      "sha256": "7a36dca64f080413dc6c524e58e141b357c860436d20a2f3ee5c60e8ebf3f0c9",
+      "lines": 187
+    },
+    {
+      "path": "contracts/conversation-context/1.0.0/examples/invalid.json",
+      "sha256": "76c574ccbb8452c430f227dcddae9c0c20d27b03bea12e365ed224e94b028a08",
+      "lines": 201
+    },
+    {
+      "path": "contracts/conversation-context/1.0.0/examples/valid.json",
+      "sha256": "59e449bc932d38fdbc84f3a18667eda36fe5465e1afe7eb4d6a4107ac3905634",
+      "lines": 134
+    },
+    {
+      "path": "contracts/conversation-context/1.0.0/policy.schema.json",
+      "sha256": "a22e7f2c3386b9be3c312afa6e0cab18d566b1c2ee4d4063761c3ac6e7bfb0cb",
+      "lines": 147,
+      "schemaId": "urn:ai-brand-os:conversation-context:1.0.0:policy",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/conversation-context/1.0.0/reference.cjs",
+      "sha256": "217edf3f3c00727cb614a0ae44a59e6f2447e66c56d7347e32dbdac71150e68f",
+      "lines": 58
+    },
+    {
+      "path": "contracts/conversation-context/1.0.0/registry.json",
+      "sha256": "1519fdc1ccbec84d5de9143fce7494f767099ede281f237d9a5ddcf2a9e03736",
+      "lines": 24,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/conversation-context/1.0.0/request.schema.json",
+      "sha256": "2ddca027f840d5260d69f218bacf9a1fa65a9af04f28c8af33a03e7e0f824271",
+      "lines": 343,
+      "schemaId": "urn:ai-brand-os:conversation-context:1.0.0:request",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/conversation-context/1.0.0/selection.schema.json",
+      "sha256": "fbb1a53ac22e63f65db3920e36d18bbeca443a806ee4b7676ee9d9be25c5747e",
+      "lines": 254,
+      "schemaId": "urn:ai-brand-os:conversation-context:1.0.0:selection",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/conversation-context/README.md",
+      "sha256": "d6e3049d86d16cd2506339f9d79ecc5e26d3563e6a844931e4a6ee23c4116b39",
+      "lines": 39
+    },
+    {
+      "path": "contracts/import-lifecycle/1.0.0/example.json",
+      "sha256": "0269bee2cb5498a25c145e9437acb6cd4461c8e71264bc541f64e3b0f0c7f521",
+      "lines": 27,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/import-lifecycle/1.0.0/status.schema.json",
+      "sha256": "3e30093157ad68debc65783c7727c411fa96c7e2236b307d821419396846e7bf",
+      "lines": 219,
+      "schemaId": "urn:ai-brand-os:import-projection:1.0.0",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/import-lifecycle/README.md",
+      "sha256": "8347123c0a63886e07ed73fc5cf64bcc67efecce697f76c4a58dde326fab2e3e",
+      "lines": 13
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/assessment.schema.json",
+      "sha256": "c31ba6e23af086260f0fde83aad315dd11c7cbdf9bbedee216cc054fac3704ce",
+      "lines": 263,
+      "schemaId": "urn:ai-brand-os:knowledge-quality:1.0.0:assessment",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:knowledge-quality:1.0.0:score"
+      ]
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/examples/invalid.json",
+      "sha256": "1155d5e5baec79c371d81d601fc99aa9b861cf0c18821c96770103f5db0e6a11",
+      "lines": 34
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/examples/valid.json",
+      "sha256": "3c0c036c87df2ed0a554dbed8ba91e2495120d484ad50a0008e3c08b1db68c50",
+      "lines": 231
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/field-value.schema.json",
+      "sha256": "c540cd6ca63ff28c39b0bdd9c4118b0d78b8b352c2b7a17cab0c1f9dd85c7756",
+      "lines": 61,
+      "schemaId": "urn:ai-brand-os:knowledge-quality:1.0.0:field-value",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/reference.cjs",
+      "sha256": "22af5cee966d7af40773bbe891a508e46a8f154d420143e131604d28e4d10522",
+      "lines": 62
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/score.schema.json",
+      "sha256": "ff454834b0eb51724b93bf7def2eed6d052f7c38ddbcb84e77582e8f7056999b",
+      "lines": 230,
+      "schemaId": "urn:ai-brand-os:knowledge-quality:1.0.0:score",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/scores.json",
+      "sha256": "52f47929fe7a25f475e7ab339326a9c3b8ab7e79e0690bb483c95ae0fc325ae7",
+      "lines": 92,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/standards-fixture.json",
+      "sha256": "87eb9ba9d7c25d1d111a10c6e709f8f021f1651da7b379b6e150dbb7cf0c2137",
+      "lines": 34,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/knowledge-quality/1.0.0/taxonomies.json",
+      "sha256": "131abb8df17f252995fa3d527323b2029d2bf53b9a0944d3d4983b2c6ff5642e",
+      "lines": 538,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/knowledge-quality/README.md",
+      "sha256": "5ab09af635789f366b1f643393504a7d6a0a309646adeff41ce820eed28f0655",
+      "lines": 48
+    },
+    {
+      "path": "contracts/ontology-relations/1.0.0/commit.schema.json",
+      "sha256": "f886d17f735bfa8bd77fb41795937847382d8492340a56038211a0dd44443e93",
+      "lines": 110,
+      "schemaId": "urn:ai-brand-os:ontology-relations:1.0.0:commit",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ontology-relations/1.0.0/context-reference.schema.json",
+      "sha256": "7e2222fc0512b392d66fd3ef9984c933b67fe5de7046b874c60220dcd3751623",
+      "lines": 38,
+      "schemaId": "urn:ai-brand-os:ontology-relations:1.0.0:context-reference",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ontology-relations/1.0.0/edge.schema.json",
+      "sha256": "4c079776b06c5f2d5541d86c58e4de91c0da4fcc7d08d94b6423f56dd9385bfb",
+      "lines": 218,
+      "schemaId": "urn:ai-brand-os:ontology-relations:1.0.0:edge",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:artifact:2.0.0:common#/$defs/factKey"
+      ]
+    },
+    {
+      "path": "contracts/ontology-relations/1.0.0/examples/approved-graph.json",
+      "sha256": "5572f6824d73e92f0097af00a6c3aca1bc6de28012673a1fbb4e00fdc7517783",
+      "lines": 41,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ontology-relations/1.0.0/examples/invalid.json",
+      "sha256": "5a443b61a888061cc96b0dabf5dee023e74fa87172e6feaa555fa94db267edcf",
+      "lines": 32
+    },
+    {
+      "path": "contracts/ontology-relations/1.0.0/graph.schema.json",
+      "sha256": "92264dfd2d5be3ddd5a49514f812aa8debdff7119c87ac5c2c0633c1dff9c262",
+      "lines": 67,
+      "schemaId": "urn:ai-brand-os:ontology-relations:1.0.0:graph",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:ontology-relations:1.0.0:edge"
+      ]
+    },
+    {
+      "path": "contracts/ontology-relations/1.0.0/registry.json",
+      "sha256": "128c8b4e40eb5833b054ae086544036b434731dacba103fd397b7a0624640251",
+      "lines": 781,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/ontology-relations/README.md",
+      "sha256": "57ddc183486ca2e86927f4b31e5bc5bcbdd037f69eef391984a8751b88dd0949",
+      "lines": 27
+    },
+    {
+      "path": "contracts/public-api/1.0.0/cursor.schema.json",
+      "sha256": "87334f667061a33770824cde29366db0c9884c25d0544e9448154c5959e33a3b",
+      "lines": 95,
+      "schemaId": "urn:ai-brand-os:public-api:1.0.0:cursor",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/public-api/1.0.0/error-registry.json",
+      "sha256": "0ca7edacfcca4febe082cd823ea6313ba1c5b516a3b5eebc97c37a65b8a9709d",
+      "lines": 50,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/public-api/1.0.0/examples/invalid.json",
+      "sha256": "4f143496ceb5733b3c95ad6068d4d18bd88b901f0f75bf00d058bc7ed4005e79",
+      "lines": 105
+    },
+    {
+      "path": "contracts/public-api/1.0.0/examples/transport-negative.json",
+      "sha256": "cf1896f058edd310af2cc20effd884ce7059b28a9fa0e214146b30a17c1ef9c6",
+      "lines": 52
+    },
+    {
+      "path": "contracts/public-api/1.0.0/examples/valid.json",
+      "sha256": "41df86fea84febbe910ca33098979d7cad13fbf1076b9e328df2716f3c32cb97",
+      "lines": 1614
+    },
+    {
+      "path": "contracts/public-api/1.0.0/openapi.json",
+      "sha256": "3145983854f31a0e4d20acc5981addb7fd4db2c223a623a07e3d353f576759e3",
+      "lines": 5305,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": [
+        "#/components/responses/Error400",
+        "#/components/responses/Error401",
+        "#/components/responses/Error403",
+        "#/components/responses/Error404",
+        "#/components/responses/Error409",
+        "#/components/responses/Error413",
+        "#/components/responses/Error415",
+        "#/components/responses/Error422",
+        "#/components/responses/Error429",
+        "#/components/responses/Error500",
+        "#/components/responses/Error503",
+        "./schemas.json#/$defs/AudienceCreate",
+        "./schemas.json#/$defs/AudiencePageSuccess",
+        "./schemas.json#/$defs/AudiencePatch",
+        "./schemas.json#/$defs/AuthSuccess",
+        "./schemas.json#/$defs/BrainSuccess",
+        "./schemas.json#/$defs/BrandCreate",
+        "./schemas.json#/$defs/BrandPatch",
+        "./schemas.json#/$defs/BriefSuccess",
+        "./schemas.json#/$defs/CandidatePageSuccess",
+        "./schemas.json#/$defs/CompetitorCreate",
+        "./schemas.json#/$defs/CompetitorPageSuccess",
+        "./schemas.json#/$defs/CompetitorPatch",
+        "./schemas.json#/$defs/ConversationCreate",
+        "./schemas.json#/$defs/ConversationDetailSuccess",
+        "./schemas.json#/$defs/ConversationPageSuccess",
+        "./schemas.json#/$defs/ConversationSuccess",
+        "./schemas.json#/$defs/Decision",
+        "./schemas.json#/$defs/DecisionResultSuccess",
+        "./schemas.json#/$defs/DeleteKnowledge",
+        "./schemas.json#/$defs/DiffSuccess",
+        "./schemas.json#/$defs/Empty",
+        "./schemas.json#/$defs/Error",
+        "./schemas.json#/$defs/FeedbackRequest",
+        "./schemas.json#/$defs/FeedbackSuccess",
+        "./schemas.json#/$defs/FieldHistoryPageSuccess",
+        "./schemas.json#/$defs/ImportAcceptedSuccess",
+        "./schemas.json#/$defs/ImportFile",
+        "./schemas.json#/$defs/ImportStatusSuccess",
+        "./schemas.json#/$defs/ImportURL",
+        "./schemas.json#/$defs/KnowledgeSuccess",
+        "./schemas.json#/$defs/Login",
+        "./schemas.json#/$defs/MessageRequest",
+        "./schemas.json#/$defs/OrganizationPageSuccess",
+        "./schemas.json#/$defs/OrganizationPatch",
+        "./schemas.json#/$defs/OrganizationSuccess",
+        "./schemas.json#/$defs/ProductCreate",
+        "./schemas.json#/$defs/ProductPageSuccess",
+        "./schemas.json#/$defs/ProductPatch",
+        "./schemas.json#/$defs/PublicationSuccess",
+        "./schemas.json#/$defs/RestorePreviewRequest",
+        "./schemas.json#/$defs/RestorePreviewSuccess",
+        "./schemas.json#/$defs/RestoreRequest",
+        "./schemas.json#/$defs/RevisionDetailSuccess",
+        "./schemas.json#/$defs/RevisionPageSuccess",
+        "./schemas.json#/$defs/ServiceCreate",
+        "./schemas.json#/$defs/ServicePageSuccess",
+        "./schemas.json#/$defs/ServicePatch",
+        "./schemas.json#/$defs/Signup",
+        "./schemas.json#/$defs/Verify",
+        "./schemas.json#/$defs/VoicePatch"
+      ]
+    },
+    {
+      "path": "contracts/public-api/1.0.0/reference.cjs",
+      "sha256": "ece90b132fc9947705253ec2f2d9aa0634cf27af7c74118d0d784636a23cfe23",
+      "lines": 28
+    },
+    {
+      "path": "contracts/public-api/1.0.0/routes.json",
+      "sha256": "bb4b361916459b8d19a05fef21dc4eac9f523c9ecd4b9e3fbc523101570636ad",
+      "lines": 680
+    },
+    {
+      "path": "contracts/public-api/1.0.0/schemas.json",
+      "sha256": "91800b502ef5f3a141936f38ae54c8add0e1f9f192ca8626a4463ffb551abeeb",
+      "lines": 5729,
+      "schemaId": "urn:ai-brand-os:public-api:1.0.0",
+      "schemaVersion": null,
+      "references": [
+        "#/$defs/Audience",
+        "#/$defs/AudiencePage",
+        "#/$defs/Auth",
+        "#/$defs/Brain",
+        "#/$defs/Brand",
+        "#/$defs/Brief",
+        "#/$defs/Candidate",
+        "#/$defs/CandidatePage",
+        "#/$defs/Competitor",
+        "#/$defs/CompetitorPage",
+        "#/$defs/Completeness",
+        "#/$defs/Conversation",
+        "#/$defs/ConversationDetail",
+        "#/$defs/ConversationPage",
+        "#/$defs/DecisionResult",
+        "#/$defs/Diff",
+        "#/$defs/DiffEntry",
+        "#/$defs/Fact",
+        "#/$defs/Feedback",
+        "#/$defs/FieldHistoryPage",
+        "#/$defs/FieldValue",
+        "#/$defs/ImportAccepted",
+        "#/$defs/ImportStatus",
+        "#/$defs/Knowledge",
+        "#/$defs/Message",
+        "#/$defs/MessagePage",
+        "#/$defs/Organization",
+        "#/$defs/OrganizationFields",
+        "#/$defs/OrganizationPage",
+        "#/$defs/PageInfo",
+        "#/$defs/Product",
+        "#/$defs/ProductPage",
+        "#/$defs/Publication",
+        "#/$defs/Quality",
+        "#/$defs/Readiness",
+        "#/$defs/RestorePreview",
+        "#/$defs/RetrySend",
+        "#/$defs/Revision",
+        "#/$defs/RevisionDetail",
+        "#/$defs/RevisionPage",
+        "#/$defs/Send",
+        "#/$defs/Service",
+        "#/$defs/ServicePage",
+        "#/$defs/SourceDisplay",
+        "#/$defs/StreamAccepted",
+        "#/$defs/StreamChunk",
+        "#/$defs/StreamCompleted",
+        "#/$defs/StreamFailed",
+        "#/$defs/Voice",
+        "urn:ai-brand-os:import-projection:1.0.0"
+      ]
+    },
+    {
+      "path": "contracts/public-api/1.0.0/telemetry-registry.json",
+      "sha256": "967db231648869ea561202ab09c136f72be64c3d1c3da11ffa47347502acb348",
+      "lines": 142
+    },
+    {
+      "path": "contracts/public-api/1.0.0/telemetry.schema.json",
+      "sha256": "c45890df618b2210aadd1fc97ddf3fd854a83d820f0fea76eafa61ae71ec39c8",
+      "lines": 2526,
+      "schemaId": "urn:ai-brand-os:public-telemetry:1.0.0",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/public-api/COMPATIBILITY.md",
+      "sha256": "6277fb1bfa6d58c09edde2078b45660fa1b0a68736110527aaafd369f402a08c",
+      "lines": 28
+    },
+    {
+      "path": "contracts/public-api/DESIGN_DEPENDENCIES.md",
+      "sha256": "415d568a8998e56e743d2b80db56529e45fbc49c46c42d5c7e43cbd64943cf38",
+      "lines": 14
+    },
+    {
+      "path": "contracts/public-api/ENDPOINT_MATRIX.md",
+      "sha256": "63cc9a9d14a08945f41442faf8e84a769034d0ea8e0a5cf735bdcf227b07bbe7",
+      "lines": 58
+    },
+    {
+      "path": "contracts/public-api/FRONTEND_STATES.md",
+      "sha256": "4bf3f22c90cef31707534a7caa921ff6e55c4cadcecd471f2c68f9245a115928",
+      "lines": 47
+    },
+    {
+      "path": "contracts/public-api/README.md",
+      "sha256": "7e9cd22f5c57a7b147fc336a6e7a1e33a096d435c988720c1bd2650e2edff335",
+      "lines": 13
+    },
+    {
+      "path": "contracts/public-api/TELEMETRY.md",
+      "sha256": "0958ae7b2d35dfaf772ba9c795b490189d115a5bfb777e5186390c010a33eb29",
+      "lines": 42
+    },
+    {
+      "path": "contracts/public-api/pagination.md",
+      "sha256": "860ed854537854c82e1d6e9555dfccac0b290dd4ad835eed740407ff83333f0f",
+      "lines": 23
+    },
+    {
+      "path": "contracts/public-api/streaming.md",
+      "sha256": "a76e4401032aa83e5ecf84d3572c401b0cbb471205f408feae1d28ef86b718fa",
+      "lines": 47
+    },
+    {
+      "path": "contracts/public-api/transport.md",
+      "sha256": "ff1f4e36f5e6de05b023a18605dfd7f83c27cdfa608363c58e94dfd433dd6ecb",
+      "lines": 60
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/binding.schema.json",
+      "sha256": "82f3fbebf37414bbccbeb3a8b3ce82de40d65975853e9070337097e99155cb13",
+      "lines": 211,
+      "schemaId": "urn:ai-brand-os:source-evidence:1.0.0:binding",
+      "schemaVersion": null,
+      "references": [
+        "urn:ai-brand-os:source-evidence:1.0.0:location"
+      ]
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/examples/binding.json",
+      "sha256": "fe364d7818c922b295c5827f5b30bb1d3ae9da0ec0318f5ba6b57749c4b1402e",
+      "lines": 46,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/examples/html-location.json",
+      "sha256": "2424299b6254812bfe1a669db76b98515b017bab5bb9ad3727bbf431604e7c1e",
+      "lines": 23,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/examples/invalid.json",
+      "sha256": "7d66f11a4ebde2023c77229b803078d1e74674eed1040f7eace44b25594d3532",
+      "lines": 57
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/examples/locations.json",
+      "sha256": "f2baa043685cd74fdd003405f5f2e9bbce5ea9ee0bb22a1164a3d8fb857ad546",
+      "lines": 87
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/examples/manifest.json",
+      "sha256": "f59a03fc8b8971a46249a60161a36d1a47ca75cc4ddaf465d505189b990fdfcf",
+      "lines": 52,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/examples/pdf-location.json",
+      "sha256": "b9694f3952f8c71f67429f4082c268a85ee4012fa223ea2a885486823c3a086b",
+      "lines": 23,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/location.schema.json",
+      "sha256": "e262fbb4c2a906d6ca72e9196b677a417ec7eb407fce7663dbe09196c4fd4807",
+      "lines": 527,
+      "schemaId": "urn:ai-brand-os:source-evidence:1.0.0:location",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/manifest.schema.json",
+      "sha256": "be086e623714c5bb2eaf18394141fe20772b8fff70e66fe2ca06d4aec64ec73e",
+      "lines": 799,
+      "schemaId": "urn:ai-brand-os:source-evidence:1.0.0:manifest",
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/source-evidence/1.0.0/registry.json",
+      "sha256": "bfaf94352bfab46e21e092ef732224af6f195e47a05cab76e4eefe03b7fca9ca",
+      "lines": 11,
+      "schemaId": null,
+      "schemaVersion": null,
+      "references": []
+    },
+    {
+      "path": "contracts/source-evidence/README.md",
+      "sha256": "bca4908f8ba62570b5de536caa20fc3909f091004e31b5237ffbafe27eb820a1",
+      "lines": 66
+    },
+    {
+      "path": "design/01_COMPONENT_KIT.md",
+      "sha256": "ede055a17fd41d10c09b994a60deeb57d220d727307d4e99b5a3d320f380afc5",
+      "lines": 193
+    },
+    {
+      "path": "discovery/01_PRODUCT_DISCOVERY.md",
+      "sha256": "6cf7249cee9a87610f2b708f2b1fd9c08c2f7a1b09d75e198c0defbed8be5423",
+      "lines": 484
+    },
+    {
+      "path": "discovery/02_MARKET_RESEARCH.md",
+      "sha256": "84ea204dc0659d9b349579bd86ef0e7326f83a64efe5e90af560a71b5e11fdb4",
+      "lines": 2004
+    },
+    {
+      "path": "discovery/03_COMPETITOR_ANALYSIS.md",
+      "sha256": "cb446097ad96c1176f9314a94d82a942f00129d5aaf7ab4abbb7f9cbc5872ef9",
+      "lines": 1428
+    },
+    {
+      "path": "discovery/04_POSITIONING.md",
+      "sha256": "458198dfda824741a917607b09b08141c4d82f562185ea41b21b8cc24304ab65",
+      "lines": 1080
+    },
+    {
+      "path": "domain/01_DOMAIN_MODEL.md",
+      "sha256": "0b5230bc6264ea4bbd2ac7ef2e88490923e5f1adc06318bea6c2a38d4a00b902",
+      "lines": 1517
+    },
+    {
+      "path": "domain/02_ARTIFACT_MODEL.md",
+      "sha256": "5a783200021228840e8756c77bbe61cfcbec5ebac8b3ca47da66582bf748277c",
+      "lines": 243
+    },
+    {
+      "path": "domain/03_BUSINESS_ONTOLOGY.md",
+      "sha256": "915b3264c372a9b2a6428a4d4840eba12802efe77b620abe4aa36c15f5879527",
+      "lines": 499
+    },
+    {
+      "path": "domain/04_DATABASE_DESIGN.md",
+      "sha256": "1b5a3648eeab34a63e97ff843860dfd6d8c131e7bbdb199d56490c135b77202c",
+      "lines": 376
+    },
+    {
+      "path": "domain/05_API_DESIGN.md",
+      "sha256": "613b5aeee70c91fd0b4b7304e3ab5f6c53242eaf37c7a433914ea4d9a2352c16",
+      "lines": 381
+    },
+    {
+      "path": "domain/06_FUTURE_EXPORT_DESIGN.md",
+      "sha256": "c513af705233d372da93c3de79bbf0af06dc428550a43585786c8e745f4ebb22",
+      "lines": 21
+    },
+    {
+      "path": "domain/08_BACKEND_AUTH_AND_CONSTRAINTS_ADR.md",
+      "sha256": "3528c51907f1b9f77c4d1275a6dd91e97ad91802286e814274f3c41c38a6f0b5",
+      "lines": 58
+    },
+    {
+      "path": "domain/09_LEAN_MVP_ARCHITECTURE_ADR.md",
+      "sha256": "2e4a9f51716bc405e418c440303f324774929bffc0fa3342b5bedaa6abd97070",
+      "lines": 135
+    },
+    {
+      "path": "domain/10_AI_PROVIDER_GATEWAY_ADR.md",
+      "sha256": "3cb3c1bf096ccfe41f790a2581e6bf746b576f579635bd9f066de812969e286c",
+      "lines": 183
+    },
+    {
+      "path": "domain/11_IMPORT_LIFECYCLE_ADR.md",
+      "sha256": "9a4fbaa6d0704921a9da57bc6b95f625d7681d607a827169fa77387c94d9f3ba",
+      "lines": 269
+    },
+    {
+      "path": "domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md",
+      "sha256": "c363ca7660729405d913f11e3a1d70edc19cfae584a13a6cd6313704c2d2fa12",
+      "lines": 147
+    },
+    {
+      "path": "domain/13_ONTOLOGY_RELATIONSHIP_PERSISTENCE_ADR.md",
+      "sha256": "3c1a01b41a676318754dc7841855f11fd40295cdb4c6fb60112a1dca95b27bab",
+      "lines": 130
+    },
+    {
+      "path": "domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md",
+      "sha256": "813bc62dccc57e3e7c3b4931fde9f272a42883fe3b86fd1414bdb2b73b83f437",
+      "lines": 115
+    },
+    {
+      "path": "domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md",
+      "sha256": "8f23cf69889ffdf089c0f2c8132d23c4705d27ef9ae1d912f05743468c67ca75",
+      "lines": 107
+    },
+    {
+      "path": "domain/16_API_AND_FRONTEND_INTEGRATION_ADR.md",
+      "sha256": "f694b59a22488a962c7782eb19aa51ed36204dd84eacee80e40690dede3f990c",
+      "lines": 41
+    },
+    {
+      "path": "prd/01_BRAND_BRAIN_PRD.md",
+      "sha256": "d912f1fcb68f45424c12b8f3d17101cf8b1f553e74e9ef0d4eb0e8b0d85278fa",
+      "lines": 423
+    },
+    {
+      "path": "prd/02_AI_WORKSPACE_PRD.md",
+      "sha256": "496dcddfbd4ba3d709340481314212a0eeec068cf4da03ada7fab63cffb1bddc",
+      "lines": 1240
+    },
+    {
+      "path": "prd/03_KNOWLEDGE_IMPORT_PRD.md",
+      "sha256": "f588ec3c0c109f41201101801cf78e49c07eb990216f485b8a731fc8ba88eaa4",
+      "lines": 420
+    },
+    {
+      "path": "schema.prisma",
+      "sha256": "a05d7b92d3a87b811f530131374fc1de3fb96cb294036dc39e70152923aa6385",
+      "lines": 730
+    },
+    {
+      "path": "services/01_INGESTION_SERVICE.md",
+      "sha256": "d221fa6442e43f09d965ad55b00f3e032cc4c776f04868f3c3595ee6f7cbf356",
+      "lines": 416
+    },
+    {
+      "path": "services/02_DOCUMENT_PROCESSING_SERVICE.md",
+      "sha256": "6987f7c7e90f7b588596947b8462ff9a7661dabcef62520bbfe507f98521b3e1",
+      "lines": 771
+    },
+    {
+      "path": "services/03_KNOWLEDGE_EXTRACTION_SERVICE.md",
+      "sha256": "be58e607ed40bd28e1292fd948db7966930f15ba2e7ddbc76beac91657172035",
+      "lines": 813
+    },
+    {
+      "path": "services/04_KNOWLEDGE_MANAGEMENT_SERVICE.md",
+      "sha256": "9d14e832bd2176d0bb69a30aad8e007efec0dd8548ebfd176b6569dce13c75ec",
+      "lines": 805
+    },
+    {
+      "path": "services/05_CONTEXT_ENGINE.md",
+      "sha256": "7cdf2c2180a7c550d61a99608785c2f4321c62ed59428e66e49094e386e995a0",
+      "lines": 765
+    },
+    {
+      "path": "services/06_AI_ORCHESTRATOR.md",
+      "sha256": "b88f6b7229ef83eb468b0a6b412e76d8fb688b529b2b87bfead148cb6b2fe1dd",
+      "lines": 802
+    },
+    {
+      "path": "sql/CONVERSATION_HISTORY_ORDER_PROPOSAL.sql",
+      "sha256": "6dc1624e7abe1f3a3640119318386d2be250160587c8a0f294e488097cae05f9",
+      "lines": 30
+    },
+    {
+      "path": "sql/MVP_CONSTRAINTS.sql",
+      "sha256": "44411e5249e218a258ed805e24a8ddd879aa4fb7fbdc24fd492d36f8ec0dc59b",
+      "lines": 93
+    },
+    {
+      "path": "validation/FINAL_AUDIT_RESULTS.md",
+      "sha256": "072f335c863fd2adf2abda5f264a3a87257d005f4044b708e19e1cd13fab964d",
+      "lines": 71
+    },
+    {
+      "path": "validation/POSTGRES_CONSTRAINT_TESTS.sql",
+      "sha256": "3ce6ea46cda2a78f9b34b230e7712ff40998f5e769d0b233fa51607307eaa30c",
+      "lines": 112
+    },
+    {
+      "path": "validation/TASK08_RESULTS.md",
+      "sha256": "d829c3b05343a2d814e6ab545cd232e27e71035bc5b6ec3b15b4e022366a63e9",
+      "lines": 78
+    },
+    {
+      "path": "validation/TASK16_RESULTS.md",
+      "sha256": "93c6693ad41ab022a1f8ba5ee82a8d7f66732d3a37f4a31dc823d32ebec24c1e",
+      "lines": 60
+    },
+    {
+      "path": "validation/TASK17_RESULTS.md",
+      "sha256": "de02bfc06418d24e5489c9c5c3409b5b7b147dd9c177fb51759599c79eac4051",
+      "lines": 74
+    },
+    {
+      "path": "validation/TASK18_RESULTS.md",
+      "sha256": "2e0905bcde4372e79e289fddca806496e0f373b46a1ddd69528e0bb543cc3893",
+      "lines": 106
+    },
+    {
+      "path": "validation/TASK19_RESULTS.md",
+      "sha256": "ef5159b54ee4bc7c6faa4e471bb8ad4cfa5750f7687888cd25b437c1b9365d6d",
+      "lines": 113
+    },
+    {
+      "path": "validation/TASK20_RESULTS.md",
+      "sha256": "869752b5264328c135ca325cd03853bb07763c93c546771579888ce44852afee",
+      "lines": 123
+    },
+    {
+      "path": "validation/TASK21_RESULTS.md",
+      "sha256": "b034150b0203bb2c6f88080e42ea3bdc2394e73c89293fd932f677a278f6c243",
+      "lines": 158
+    },
+    {
+      "path": "validation/TASK22_RESULTS.md",
+      "sha256": "348ef15c52b17c3ace7ff97fe53c2800dbb1ce0719168e0e0c7d64e3e5bda439",
+      "lines": 179
+    },
+    {
+      "path": "validation/TASK23_RESULTS.md",
+      "sha256": "b358f7fb2e76ac441985ce809d5103bd00d3f7883ddad28dd96ea183f5f889d2",
+      "lines": 101
+    },
+    {
+      "path": "validation/ai_provider_gateway.test.cjs",
+      "sha256": "984b445814a2aa718c8fb07a45ff292ce36f9b840b8f4237701fe1f007485ee8",
+      "lines": 97
+    },
+    {
+      "path": "validation/artifact_compatibility.cjs",
+      "sha256": "615ee520f9d07882cb4eabf1e543a07a0eda2878f583b866240af52728baec88",
+      "lines": 26
+    },
+    {
+      "path": "validation/artifact_contracts.test.cjs",
+      "sha256": "4709438e8baeca677d3c08bb72742e6fa684c3344e71d532242c0f373ed4bb10",
+      "lines": 146
+    },
+    {
+      "path": "validation/artifact_reference_checks.cjs",
+      "sha256": "29a248c43c7073da05873f4d35c455c6a6000975691998b93d61dcc2251c5506",
+      "lines": 121
+    },
+    {
+      "path": "validation/check_documentation_contracts.py",
+      "sha256": "88791da78bd41379fb6aabd196b19f6dd2ca5a6d62eab53961c48a8ff34ff28d",
+      "lines": 65
+    },
+    {
+      "path": "validation/check_documentation_links.py",
+      "sha256": "b0609a813faafdf247749aee1bc0821ce0933e7a1c789f3bcd683da8cf36cf54",
+      "lines": 61
+    },
+    {
+      "path": "validation/conversation_context.fixtures.cjs",
+      "sha256": "37a56fcf2035f5cdbed6fd05f6b67bc76b1df192a60592370d145a3b53766928",
+      "lines": 12
+    },
+    {
+      "path": "validation/conversation_context.test.cjs",
+      "sha256": "82fff226968d20c99e50ede019c090ec99a8ffa5d51f280b546b7cebe4969c8d",
+      "lines": 62
+    },
+    {
+      "path": "validation/conversation_context_postgres.py",
+      "sha256": "d03d60191954375861c01a67563fa21100b45063f1ba841bea93df96be5ae005",
+      "lines": 91
+    },
+    {
+      "path": "validation/import_lifecycle.cjs",
+      "sha256": "7fe74192530a8c8274fa14452741c40edbc4387c527a9a478edab7d839cca960",
+      "lines": 109
+    },
+    {
+      "path": "validation/import_lifecycle.fixtures.json",
+      "sha256": "d0eea7e2171395947ef424018e3b9ced1e824499dc60f4e32fe81589f0b2f1e5",
+      "lines": 638
+    },
+    {
+      "path": "validation/import_lifecycle.test.cjs",
+      "sha256": "e0bda4d764200b74a5b393842d4c02b10029f189d0e89309fe5690ce58185359",
+      "lines": 57
+    },
+    {
+      "path": "validation/import_lifecycle_postgres.py",
+      "sha256": "8c45fbf237c5446a2ab12df885d1f5e2ab3b3893c2404ab84879023155829c6d",
+      "lines": 71
+    },
+    {
+      "path": "validation/knowledge_quality.fixtures.cjs",
+      "sha256": "fd1586268cfc6aa3bca1a43613460484ac3232f880b8023a67a6bd36e3c949b0",
+      "lines": 15
+    },
+    {
+      "path": "validation/knowledge_quality.test.cjs",
+      "sha256": "9bf08b571631fb4f08792568e2f3852040d6f9a80c1659faf3c1c115ea275c55",
+      "lines": 68
+    },
+    {
+      "path": "validation/ontology_relations.cjs",
+      "sha256": "4d637ab4b76cddab3c45c890a72b2cbe1beb4be60b0279e4bcde0d6e64049f8c",
+      "lines": 68
+    },
+    {
+      "path": "validation/ontology_relations.fixtures.cjs",
+      "sha256": "91db4429513c553134a9dcd4bd0599d363e26525af8471a88b03c9f112afd1f3",
+      "lines": 22
+    },
+    {
+      "path": "validation/ontology_relations.test.cjs",
+      "sha256": "78b7cf65e96b2c3ae19a7259d73f318f6b939b81d26a87814dfc8f9932280c19",
+      "lines": 63
+    },
+    {
+      "path": "validation/package.json",
+      "sha256": "b93cfc05d521092c4ac046a11b5a89457789d79fca582e13821613ec46fdd3a8",
+      "lines": 18
+    },
+    {
+      "path": "validation/public_api.test.cjs",
+      "sha256": "18ab0383795d87d4bda47116a90dea8b53c30df1a1d183267f6051e59fc2e408",
+      "lines": 85
+    },
+    {
+      "path": "validation/public_api_postgres.py",
+      "sha256": "91e7c8f462e55ce8c6118d0fff687b35d5538b8883c0c7261b4620d6e29cb1ed",
+      "lines": 60
+    },
+    {
+      "path": "validation/source_evidence.cjs",
+      "sha256": "c567749baf884861a59058695b73a169017c838e9e0708f8fc919c1c5041d9a1",
+      "lines": 71
+    },
+    {
+      "path": "validation/source_evidence.fixtures.json",
+      "sha256": "5946a20ae89f61b425a544305f711b452a6bf3f60d0eddc912ab32c9d4cc090b",
+      "lines": 15
+    },
+    {
+      "path": "validation/source_evidence.test.cjs",
+      "sha256": "fffebb57ed2231b8e79f54e0b9f22190d6faa4f4665156d6b2ef4534d3e0a971",
+      "lines": 51
+    },
+    {
+      "path": "validation/source_evidence_fixture.cjs",
+      "sha256": "ee594cd0022e54abb657dd6db1130d96c2f91b5ddd3b694dbea0a1e459b93a24",
+      "lines": 26
+    }
+  ]
+}
