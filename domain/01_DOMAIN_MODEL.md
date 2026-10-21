@@ -1503,3 +1503,10 @@ Structural ownership uses existing FKs plus approved snapshot membership; concep
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 Confidence is an assessment value object about pinned inputs, not a business fact or objective truth. Extraction uncertainty, source-mapping fidelity, categorical source policy, procedural knowledge support, request coverage, completeness and readiness are distinct. No new entity/graph database or automatic learning. Company-size/region/language amendments are pending Product decisions; historical values retain meaning. Quality assessment is append-only metadata in proposed Artifact2.4, never a duplicate approval ledger. Current unknowns cannot be forced into required numeric enum/index columns.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+Conversation is persistent scoped container; Message is accepted USER or individual assistant attempt. Proposed immutable sequence/reply association plus acceptance catalog supplies order and reproducible history; current createdAt/UUID/correlation alone does not. History/Working/approved Knowledge are separate concepts, with long-term summaries/preferences out of MVP. Prior assistant claims remain unverified historical text even when originally grounded; selected current approved revision controls business facts. No new business entity/Memory Service or lifecycle enum; proposed sequence storage and metadata adoption await review.

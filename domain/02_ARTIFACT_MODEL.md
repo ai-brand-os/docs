@@ -229,3 +229,10 @@ Artifact2.0 cannot serialize approved relationship edges/dispositions or selecte
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 Earlier2.0–2.3 schemas remain unchanged. Existing confidence/contextScore {value:null,basis:null} is honest unspecified missing data; do not smuggle new JSON into basis or pretend it already distinguishes six states. Separately proposed Artifact2.4 PROCESSING_INTERMEDIATE/quality_assessment records state/formula/input/asOf/policy/explanation and scoped subject references under D-KQ-03. It is an attachment, not import completion/approval event. Known old indicator fields can reference an actual assessment; Source Trust remains categorical and its numeric legacy field null/null. Score provenance never changes approved fact provenance.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+Closed PROMPT_CONTEXT2.0/2.3 has no cutoff/catalog/selected Message manifest; no transcript may be smuggled into WORKING.notes. Separately proposed2.5 adds PROMPT/history_request (AI_ORCHESTRATOR/history_acceptance; successful acceptance only) and final PROMPT_CONTEXT/context.conversationHistory. Existing final PROMPT/RESPONSE2.0 already represent exact wire/context/revision/result links. All new receipts/context carry Conversation ownership and purge with that generation history; parents pointing to independent approved knowledge do not authorize deleting it. Old fields absent means HISTORY_NOT_RECORDED, not empty. Earlier2.0–2.4/Gateway1/quality1 remain unchanged, no new ArtifactType/status/role.

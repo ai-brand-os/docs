@@ -2,7 +2,7 @@
 
 > Task16 (2026-10-17): [canonical Artifact v2 contracts](../contracts/artifacts/README.md) and the [registered schemas](../contracts/artifacts/2.0.0/artifact.schema.json) define exact envelope/payload/stage/status/error structure. This service emits PROMPT_CONTEXT, variants context_stage / context. D-AUD-04 is specified with conformance evidence, **pending Architecture/Engineering review**, not Approved. Existing product/provider/history/policy decisions remain open.
 
-> Final audit (2026-10-16): D-AUD-01 tracks conversation-history selection/limits, which are not settled by a persistent Conversation. ADR-015 specifies D-AUD-03 with Product/Architecture review pending; D-KQ-05 gates ranking/coverage and no score gate is approved; neither confidence nor score proves truth or overrides mandatory readiness. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Final audit (2026-10-16): ADR-016 specifies D-AUD-01 history selection/limits with Product/Architecture/Security review pending; persistence alone does not include history. ADR-015 specifies D-AUD-03 with Product/Architecture review pending; D-KQ-05 gates ranking/coverage and no score gate is approved; neither confidence nor score proves truth or overrides mandatory readiness. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Final audit (2026-10-16): “Intake/Processing/Extraction/Knowledge Management/Context Assembly/AI Execution Job” means a logical correlated operation/status view, not an additional Prisma domain table. Queue transport state is infrastructure-owned under [ADR-010](../domain/09_LEAN_MVP_ARCHITECTURE_ADR.md). Current working text requires integrated review; historical approval footers are not current sign-off.
 
@@ -341,30 +341,7 @@ Brand Voice is retrieved from the Knowledge Domain.
 
 Purpose
 
-Select additional contextual memory.
-
-Memory Types
-
-Knowledge Memory
-
-Approved organizational knowledge.
-
-Working Memory
-
-Temporary execution state for the current request.
-
-Conversation Memory
-
-Multi-turn conversational history.
-
-Organizational Memory
-
-Reusable organizational preferences and reusable assets.
-
-The MVP includes:
-
-- Knowledge Memory
-- Working Memory
+Select approved Knowledge Memory, bounded authorized Conversation History and attempt-local Working Memory under ADR-016/history1.0. Workspace HistoryReader supplies frozen ordered catalog; Context selects whole turns under reviewed policy. Conversation History is existing MVP multi-turn input, not inferred long-term Conversation Memory. Summaries/preferences/organizational memory/background agents/cross-conversation search remain excluded. No independent Memory Service.
 
 ---
 
@@ -374,15 +351,7 @@ Purpose
 
 Reduce context size without losing important information.
 
-Compression strategies
-
-- Remove redundancy
-- Merge similar facts
-- Summarize low-priority knowledge
-- Preserve critical evidence
-- Preserve provenance
-
-Compression must never change business meaning.
+MVP uses bounded whole-fact/whole-turn selection, exact duplicate omission and safe failure; never silently summarize/merge/truncate business meaning or current request. Reviewed history budget drops oldest whole turns and stops at the first nonfitting newer turn. Compression quality is not measured or enabled by this contract. See ADR-016/015; no persistent summary fallback.
 
 ---
 
@@ -640,7 +609,7 @@ Included:
 
 Post-MVP:
 
-- Conversation Memory
+- Inferred long-term Conversation Memory/summaries (bounded stored Message history is MVP under ADR-016)
 - Organizational Memory
 - Adaptive Context Profiles
 - Predictive Retrieval
@@ -758,7 +727,7 @@ SEC-T01/04/06/07 require tenant/Brand/current-approved-revision filters before r
 
 # Task 11 — Approval-based knowledge improvement
 
-Memory selection is retrieval, not model training or approval. Approved Brand Voice belongs to business knowledge; inferred personal preferences are future scope. Each generation pins the current approved revision at context preparation and records it in the context artifact; an older in-flight attempt may finish on its pinned revision. New requests cannot mix old caches with the new head. No standalone Memory Engine contract or hidden preference store is implied.
+Memory selection is retrieval, not model training or approval. Approved Brand Voice belongs to business knowledge; inferred personal preferences are future scope. Each generation uses the approved revision pinned at Workspace acceptance and records it in the context artifact; an older in-flight attempt may finish on its pinned revision. New requests cannot mix old caches with the new head. No standalone Memory Engine contract or hidden preference store is implied.
 
 [KNOWLEDGE_LEARNING_LIFECYCLE.md](../KNOWLEDGE_LEARNING_LIFECYCLE.md) defines the MVP/later boundary, minimum payload/API contracts, correction acceptance, independently reviewed factual accuracy, staleness and paired repeated-error metrics, plus KL-AT-01–14 acceptance scenarios. This is specified behavior pending review/implementation evidence, not a claim of training, automatic accuracy improvement or new approval.
 
@@ -782,3 +751,10 @@ MVP relationship retrieval is bounded JSON lookup from one authorized approved s
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 Context ranking is proposed rank/1.0.0: eligibility first, required-manifest fact flag, requested entity flag, literal-token overlap, then UTF8 typed identity. No unsupported confidence/trust/semantic/freshness coefficients. Missing query/profile uses deterministic identity fallback; unknown required manifest means unknown coverage. Proposed context-coverage/1.0.0 is required-ref intersection/required-ref count, integer half-up, monitoring only. Diversity/freshness are separate descriptive signals, business priority needs actual profile inputs, semantic/compression quality is not evaluated. Prefer whole-fact selection/omission, no claim summarization preserves all meaning. One approved revision pins facts and Task20 relationship refs; current auth/readiness/source/deletion/security gates always apply. No valid context fails safely, never unapproved/generic fallback. Existing D-AUD-01 history and D-GW-01 budgets stay pending.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+HistoryReader belongs to Workspace repository boundary and supplies one frozen scoped catalog; Context never reconstructs timeline from timestamp precision or queries a separate Memory Service. Combine selected approved facts/relationships from the acceptance-pinned revision with bounded whole prior turns; do not repin at later preparation. Captured pending/failed assistants cannot become answers later in the same request. Preserve one recent chronological suffix, stop at first nonfitting turn, no partial truncation or semantic summary. Proposed2.5 final context adds conversationHistory refs/budget/exclusions, not transcript in WORKING.notes. Reviewed exact tokenizer/template/model budget is mandatory; unknown count, oversized current/mandatory context or unavailable required history fails safely. Current-only fallback must be explicitly reviewed/disclosed. D-KQ coverage formulas stay disabled; history count/recency is not truth or approved-fact coverage. Recheck live access/deletion/readiness and selected message hashes; no deleted prompt rehydration.

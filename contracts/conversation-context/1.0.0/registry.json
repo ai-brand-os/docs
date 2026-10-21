@@ -1,0 +1,24 @@
+{
+  "contractVersion": "1.0.0",
+  "status": "Specified \u2014 Pending Product/Architecture/Security Review",
+  "ordering": "Positive BIGINT acceptance slots; decimal JSON; cutoff current USER sequence minus one plus frozen catalog",
+  "roles": [
+    "USER",
+    "ASSISTANT"
+  ],
+  "eligibleAssistantStatus": "COMPLETED",
+  "selection": "Recent chronological whole-turn suffix, at most one latest successful assistant at capture; stop at first nonfitting newer turn",
+  "partialTruncation": false,
+  "summaries": false,
+  "automaticKnowledgeLearning": false,
+  "independentMemoryService": false,
+  "productionDefaults": null,
+  "gates": [
+    "D-HIST-01",
+    "D-HIST-02",
+    "D-HIST-03",
+    "D-HIST-04",
+    "D-GW-01",
+    "D-AUD-08"
+  ]
+}

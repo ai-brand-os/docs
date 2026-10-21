@@ -106,3 +106,10 @@ Reader-first rollout: inventory actual stored labels/numbers/basis, implement ve
 | D-KQ-05 | Product + Architecture + Context owner: rank/coverage manifest formulas and explainability; no quality/activation gate, weights or threshold enabled |
 
 All Founder-owned and Task16–20 gates remain pending as recorded. [Task21 results](../validation/TASK21_RESULTS.md) lists exact offline tests/checks and runtime/empirical gaps. Specification Delivery is the typed, reviewable proposal and reproducible cases; adoption, actual registry integration, transaction/security tests and calibrated quality benefits remain unverified.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+ADR-016 specifies a separately bounded history input and proposed2.5 context metadata. History inclusion/recency/token usage does not alter quality1.0 formulas, completeness/readiness, approved fact coverage manifest or empirical accuracy. All D-KQ-01–05 gates stay pending; no quality formula is enabled by history tests. References across history/facts/relationships must share one acceptance-pinned approved revision; past assistant prose stays untrusted. Existing quality1.0/proposed Artifact2.4 bundles remain unchanged.

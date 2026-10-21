@@ -174,3 +174,10 @@ Implement next: reviewed template/model/policy registries and opaque execution g
 ## Task18 — Import aggregate lifecycle reference
 
 [ADR-012](11_IMPORT_LIFECYCLE_ADR.md) now specifies D-AUD-07 at review-pending level, preserving this ADR and Gateway1.0.0 unchanged. Provider TIMEOUT/FAILED does not imply terminal import until retry exhaustion/permanent closure; partial deterministic extraction remains unreviewable. Selected stage invocation/attempt ranges and current lease fence bind Gateway results; recheck current grant/source/deletion before Artifact writes. No Gateway success approves facts or closes review. Exact admission interval, partial acceptance/expiry/force-close policy and numeric budgets remain their registered pending decisions.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+ADR-016 proposes history1.0/Artifact2.5 without changing Gateway1.0. Orchestrator supplies reviewed generation template's data-only task.content and existing trustedInstructionRef; Gateway never queries Message history, selects approved business facts or appends another current user message. Actual provider wire uses existing SYSTEM/USER roles, historical role labels are untrusted data. Exact model/tokenizer/template/serialization partition checks and final whole-wire counts require D-GW-01 review; fixture byte counts are not production estimates. Authorization/deletion/privacy checks remain before invocation/publication, and no alternate provider/tool/memory capability is authorized.

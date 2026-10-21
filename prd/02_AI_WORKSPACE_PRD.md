@@ -1,6 +1,6 @@
 # PRD — AI Workspace
 
-> Final audit (2026-10-16): D-AUD-01 tracks multi-turn history inclusion/window/truncation; no implemented Memory Service or implicit conversation learning is established. D-AUD-08 tracks stream recovery and metric presentation transport. Current Context Visibility remains unchanged pending D-GTM-02. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Final audit (2026-10-16): ADR-016 specifies D-AUD-01 history/order/budget/retry rules pending Product/Architecture/Security review; no implemented Memory Service or implicit learning is established. D-AUD-08 tracks stream recovery and metric presentation transport. Current Context Visibility remains unchanged pending D-GTM-02. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Scope authority (2026-10-13): [MVP_SCOPE.md](../MVP_SCOPE.md). This document specifies intended behavior; design approval does not establish implementation. Historical decisions and long-term concepts do not expand MVP.
 
@@ -162,9 +162,9 @@ The AI Workspace depends on:
 - Context Engine
 - Authentication
 - Organizations
-- Memory Service
+- Workspace-owned Conversation History Reader (in-process repository boundary; no independent Memory Service)
 
-Without these services, the workspace cannot operate correctly.
+Without these modules, the workspace cannot operate correctly.
 
 ---
 
@@ -847,7 +847,7 @@ Allowed integrations:
 - Conversation Service
 - Context Engine
 - AI Orchestrator
-- Memory Service
+- Workspace-owned Conversation History Reader (in-process; no separate Memory Service)
 
 Direct database access to Brand Brain is prohibited.
 
@@ -1226,3 +1226,10 @@ Acceptance mapping: import → SEC-AT-01/02/03/04/07; Brand Brain review/edit/re
 # Task 15 — Proposed deliverable evidence/claim review, pending approval
 
 [GO_TO_MARKET_STRATEGY.md](../GO_TO_MARKET_STRATEGY.md) step6 proposes a limited material-claim→approved-fact/source mapping with revision/as-of identity and unsupported/conflicting/unknown-verification warnings. This is not already committed Source Viewer/Context Inspector functionality and does not change current MVP scope by implication. D-GTM-02 requires Product/Architecture/Security review of mapping completeness, uncertainty labels, tenant-authorized source access, safe rendering and acceptance tests before delivery claims or paid offers include it. If demonstrated manually, label prototype/assisted rather than automated. No claim of comprehensive semantic detection or guaranteed truth is allowed. The proposed blinded native-project comparison gives both arms identical evidence and Owner corrections; it is an experiment, not a passing performance result.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+FR-HIST-01 (specified, pending review): every accepted generation pins one authorized ready approved Brain revision and a bounded frozen prior-message catalog/cutoff; persistence alone never implies history inclusion. Workspace accepts/persists USER and ASSISTANT attempt under Conversation lock; HistoryReader loads stored authorized rows; Context selects whole recent turns; Orchestrator composes once and invokes Gateway. Accepted ordering/assistant association requires proposed D-HIST-01 storage, not timestamp/UUID guesses. Only captured COMPLETED assistant final text is eligible; failed/pending/partial answers excluded, prior user question may remain unanswered. Retry preserves original USER/catalog/revision with new assistant ID/correlation after terminal state; conditional regeneration is new attempt/current pin for latest user only, no new UI/route. Numeric history budgets/fallback/transport semantics need D-HIST-02/03 and D-AUD-08/D-REV-02 review. Single-response SSE and nine MessageStatus values unchanged; Conversation never becomes terminal from one response. Deleted/revoked content is denied before egress/stream/publication; no automatic knowledge/preference/summary learning. AT-22-01–36 are offline cases, not runtime delivery.

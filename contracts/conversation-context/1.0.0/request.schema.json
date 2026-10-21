@@ -1,0 +1,343 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:conversation-context:1.0.0:request",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "1.0.0"
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "conversationId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "organizationId",
+        "brandId",
+        "conversationId"
+      ],
+      "additionalProperties": false
+    },
+    "actorUserId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "operationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "kind": {
+      "enum": [
+        "NEW",
+        "TERMINAL_RETRY",
+        "REGENERATE"
+      ]
+    },
+    "originalRequestArtifactId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "acceptedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "currentUserMessageId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "assistantMessageId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "currentUserSequence": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]*$"
+    },
+    "currentUserContentSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "historyCutoff": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)$"
+    },
+    "revision": {
+      "type": "object",
+      "properties": {
+        "revisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "revisionId",
+        "approvedArtifactId"
+      ],
+      "additionalProperties": false
+    },
+    "policyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policyDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "idempotencyKeyHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "requestHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "history": {
+      "type": "object",
+      "properties": {
+        "availability": {
+          "enum": [
+            "RECORDED",
+            "LEGACY_UNORDERED"
+          ]
+        },
+        "scanLowerSequence": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "olderPrefixOmitted": {
+          "type": "boolean"
+        },
+        "roster": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "messageId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "sequence": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]*$"
+              },
+              "role": {
+                "enum": [
+                  "USER",
+                  "ASSISTANT"
+                ]
+              },
+              "status": {
+                "enum": [
+                  "DRAFT",
+                  "SUBMITTING",
+                  "QUEUED",
+                  "PREPARING_CONTEXT",
+                  "GENERATING",
+                  "COMPLETED",
+                  "FAILED",
+                  "CANCELLED",
+                  "TIMEOUT"
+                ]
+              },
+              "replyToUserMessageId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "contentSha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "responseArtifactId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "approvedRevisionId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "messageId",
+              "sequence",
+              "role",
+              "status",
+              "replyToUserMessageId",
+              "contentSha256",
+              "responseArtifactId",
+              "approvedRevisionId"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "role": {
+                      "const": "USER"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "status": {
+                      "const": "COMPLETED"
+                    },
+                    "replyToUserMessageId": {
+                      "type": "null"
+                    },
+                    "responseArtifactId": {
+                      "type": "null"
+                    },
+                    "approvedRevisionId": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "replyToUserMessageId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "const": "COMPLETED"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "contentSha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "contentSha256": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "availability",
+        "scanLowerSequence",
+        "olderPrefixOmitted",
+        "roster"
+      ],
+      "additionalProperties": false
+    },
+    "catalogHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "scope",
+    "actorUserId",
+    "operationId",
+    "kind",
+    "originalRequestArtifactId",
+    "acceptedAt",
+    "currentUserMessageId",
+    "assistantMessageId",
+    "currentUserSequence",
+    "currentUserContentSha256",
+    "historyCutoff",
+    "revision",
+    "policyId",
+    "policyDigest",
+    "idempotencyKeyHash",
+    "requestHash",
+    "history",
+    "catalogHash"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "NEW"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "originalRequestArtifactId": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "originalRequestArtifactId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      }
+    }
+  ]
+}

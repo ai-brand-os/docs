@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:artifact:2.5.0:context",
+  "type": "object",
+  "properties": {
+    "artifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "artifactType": {
+      "const": "PROMPT_CONTEXT"
+    },
+    "parentArtifactId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "conversationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "correlationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "producingService": {
+      "const": "CONTEXT_ENGINE"
+    },
+    "producingStage": {
+      "const": "context"
+    },
+    "schemaVersion": {
+      "const": "2.5.0"
+    },
+    "status": {
+      "const": "VALID"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "variant": {
+          "const": "context"
+        },
+        "operationStatus": {
+          "const": "SUCCEEDED"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "invocationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "attemptNumber": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "checkpointNumber": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "assemblyVersion": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/assemblyVersion"
+            },
+            "retrievalStrategy": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/retrievalStrategy"
+            },
+            "contextProfile": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/contextProfile"
+            },
+            "selectedKnowledge": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/selectedKnowledge"
+            },
+            "businessRules": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/businessRules"
+            },
+            "brandVoice": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/brandVoice"
+            },
+            "memory": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/memory"
+            },
+            "evidence": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/evidence"
+            },
+            "provenance": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/provenance"
+            },
+            "contextScore": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/contextScore"
+            },
+            "selectedRelationships": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/selectedRelationships"
+            },
+            "relationshipSelection": {
+              "$ref": "urn:ai-brand-os:artifact:2.3.0:context#/properties/payload/properties/data/properties/relationshipSelection"
+            },
+            "conversationHistory": {
+              "$ref": "urn:ai-brand-os:conversation-context:1.0.0:selection"
+            }
+          },
+          "required": [
+            "assemblyVersion",
+            "retrievalStrategy",
+            "contextProfile",
+            "selectedKnowledge",
+            "businessRules",
+            "brandVoice",
+            "memory",
+            "evidence",
+            "provenance",
+            "contextScore",
+            "selectedRelationships",
+            "relationshipSelection",
+            "conversationHistory"
+          ],
+          "additionalProperties": false
+        },
+        "error": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "variant",
+        "operationStatus",
+        "brandId",
+        "invocationId",
+        "attemptNumber",
+        "checkpointNumber",
+        "data",
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "artifactId",
+    "artifactType",
+    "parentArtifactId",
+    "conversationId",
+    "correlationId",
+    "organizationId",
+    "producingService",
+    "producingStage",
+    "schemaVersion",
+    "status",
+    "createdAt",
+    "payload"
+  ],
+  "additionalProperties": false
+}

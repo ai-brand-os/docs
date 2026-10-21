@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "2.5.0",
+  "status": "Proposed \u2014 D-HIST-04 review required",
+  "variants": [
+    {
+      "variant": "history_request",
+      "artifactType": "PROMPT",
+      "producer": "AI_ORCHESTRATOR",
+      "stage": "history_acceptance",
+      "meaning": "Acceptance committed, not generation success"
+    },
+    {
+      "variant": "context",
+      "artifactType": "PROMPT_CONTEXT",
+      "producer": "CONTEXT_ENGINE",
+      "stage": "context",
+      "meaning": "Final context with selected history references"
+    }
+  ],
+  "unchanged": "Final PROMPT/RESPONSE2.0, earlier checkpoints/errors, all prior bundles/Gateway1/quality1",
+  "noNewArtifactType": true
+}

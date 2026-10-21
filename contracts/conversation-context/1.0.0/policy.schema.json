@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:conversation-context:1.0.0:policy",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "1.0.0"
+    },
+    "policyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewEvidenceRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewed": {
+      "type": "boolean"
+    },
+    "providerModelSnapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tokenizerId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tokenizerVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tokenizerSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "serializationVersion": {
+      "const": "1.0.0"
+    },
+    "meterKind": {
+      "enum": [
+        "EXACT",
+        "PROVEN_UPPER_BOUND"
+      ]
+    },
+    "providerWindow": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "maxInputTokens": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "trustedCap": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "currentCap": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "approvedCap": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "historyCap": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "outputReserve": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "serializationCap": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "safetyReserve": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647
+    },
+    "maxCandidateTurns": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "maxCandidateMessages": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "currentOnlyAllowed": {
+      "type": "boolean"
+    },
+    "templateId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "templateVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trustedInstructionSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "maxCandidateBytes": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "contractVersion",
+    "policyId",
+    "reviewEvidenceRef",
+    "reviewed",
+    "providerModelSnapshot",
+    "tokenizerId",
+    "tokenizerVersion",
+    "tokenizerSha256",
+    "serializationVersion",
+    "meterKind",
+    "providerWindow",
+    "maxInputTokens",
+    "trustedCap",
+    "currentCap",
+    "approvedCap",
+    "historyCap",
+    "outputReserve",
+    "serializationCap",
+    "safetyReserve",
+    "maxCandidateTurns",
+    "maxCandidateMessages",
+    "currentOnlyAllowed",
+    "templateId",
+    "templateVersion",
+    "trustedInstructionSha256",
+    "maxCandidateBytes"
+  ],
+  "additionalProperties": false
+}

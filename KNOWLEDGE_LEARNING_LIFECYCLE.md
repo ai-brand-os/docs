@@ -136,3 +136,10 @@ candidateRelationships remains unapproved model data. Approval of a supporting f
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 Feedback/Owner approval is not factual certainty or model training. Extraction-check/support-check/context-coverage formulas are proposed monitoring/review aids, disabled until reviewed. No numeric threshold approves or replaces a fact, chooses a relationship, or activates automatic candidate learning. Source Trust is categorical reviewed policy; evidence fidelity is categorical Source Evidence1. Edited values revalidate and append assessment; original extraction result stays attached to original candidate. Historical unknown confidence stays unknown; accuracy/repeated-error improvement still requires independent evaluation under D-LEARN-01. No new quality-benefit measurement is claimed.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+Bounded authorized Conversation History is an explicit existing Workspace input under ADR-016, not long-term conversation memory, summaries, preference extraction or candidate mining. No separate Memory Service. History usage does not generate approved facts/candidates automatically or train a model. Explicit supported Owner correction/manual approval remains the only path to change business knowledge; conversation-owned raw artifacts are not silently treated as imported source evidence. Deletion denies history/working buffers and receipts without erasing independently approved Brain facts.

@@ -1,0 +1,201 @@
+[
+  {
+    "name": "negative-cutoff",
+    "schema": "request",
+    "value": {
+      "contractVersion": "1.0.0",
+      "scope": {
+        "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "conversationId": "22000000-0000-4000-8000-000000000001"
+      },
+      "actorUserId": "22000000-0000-4000-8000-000000000002",
+      "operationId": "22000000-0000-4000-8000-000000000302",
+      "kind": "NEW",
+      "originalRequestArtifactId": null,
+      "acceptedAt": "2026-10-21T10:00:00Z",
+      "currentUserMessageId": "22000000-0000-4000-8000-000000000102",
+      "assistantMessageId": "22000000-0000-4000-8000-000000000202",
+      "currentUserSequence": "3",
+      "currentUserContentSha256": "6f6cb2379d5b20df39599b65ae7501a6f4c565e7913217e30b492f871872eabd",
+      "historyCutoff": "-1",
+      "revision": {
+        "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "approvedArtifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55"
+      },
+      "policyId": "fixture-history-policy",
+      "policyDigest": "70a8b31a338e1b653fd3433f24ffb57ea676863a8718800173493227a3eec81b",
+      "idempotencyKeyHash": "9a88bddc3086f55377d3eac77d1a8a2aeab59ec1426d064a013aca41a66ae057",
+      "requestHash": "574c82644e3d8774c1231bf1f39c9b9348c2feff60c44f0522639e95df3a888f",
+      "history": {
+        "availability": "RECORDED",
+        "scanLowerSequence": "1",
+        "olderPrefixOmitted": false,
+        "roster": [
+          {
+            "messageId": "22000000-0000-4000-8000-000000000101",
+            "sequence": "1",
+            "role": "USER",
+            "status": "COMPLETED",
+            "replyToUserMessageId": null,
+            "contentSha256": "02ecd63e4f1632ff673d8ebfb0709c5e520a2a64a77644369eab86c5c833a796",
+            "responseArtifactId": null,
+            "approvedRevisionId": null
+          },
+          {
+            "messageId": "22000000-0000-4000-8000-000000000201",
+            "sequence": "2",
+            "role": "ASSISTANT",
+            "status": "COMPLETED",
+            "replyToUserMessageId": "22000000-0000-4000-8000-000000000101",
+            "contentSha256": "76f7a94aa28f4bf29cf440ce3938e8a9ad928803c71f3a98164d0e970792c5a2",
+            "responseArtifactId": "22000000-0000-4000-8000-000000010001",
+            "approvedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5"
+          }
+        ]
+      },
+      "catalogHash": "e5b2f716690608917de933b624808296c10e0f48f473e4b3b2cfca6858dd0b77"
+    }
+  },
+  {
+    "name": "floating-sequence",
+    "schema": "request",
+    "value": {
+      "contractVersion": "1.0.0",
+      "scope": {
+        "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "conversationId": "22000000-0000-4000-8000-000000000001"
+      },
+      "actorUserId": "22000000-0000-4000-8000-000000000002",
+      "operationId": "22000000-0000-4000-8000-000000000302",
+      "kind": "NEW",
+      "originalRequestArtifactId": null,
+      "acceptedAt": "2026-10-21T10:00:00Z",
+      "currentUserMessageId": "22000000-0000-4000-8000-000000000102",
+      "assistantMessageId": "22000000-0000-4000-8000-000000000202",
+      "currentUserSequence": 3,
+      "currentUserContentSha256": "6f6cb2379d5b20df39599b65ae7501a6f4c565e7913217e30b492f871872eabd",
+      "historyCutoff": "2",
+      "revision": {
+        "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "approvedArtifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55"
+      },
+      "policyId": "fixture-history-policy",
+      "policyDigest": "70a8b31a338e1b653fd3433f24ffb57ea676863a8718800173493227a3eec81b",
+      "idempotencyKeyHash": "9a88bddc3086f55377d3eac77d1a8a2aeab59ec1426d064a013aca41a66ae057",
+      "requestHash": "574c82644e3d8774c1231bf1f39c9b9348c2feff60c44f0522639e95df3a888f",
+      "history": {
+        "availability": "RECORDED",
+        "scanLowerSequence": "1",
+        "olderPrefixOmitted": false,
+        "roster": [
+          {
+            "messageId": "22000000-0000-4000-8000-000000000101",
+            "sequence": "1",
+            "role": "USER",
+            "status": "COMPLETED",
+            "replyToUserMessageId": null,
+            "contentSha256": "02ecd63e4f1632ff673d8ebfb0709c5e520a2a64a77644369eab86c5c833a796",
+            "responseArtifactId": null,
+            "approvedRevisionId": null
+          },
+          {
+            "messageId": "22000000-0000-4000-8000-000000000201",
+            "sequence": "2",
+            "role": "ASSISTANT",
+            "status": "COMPLETED",
+            "replyToUserMessageId": "22000000-0000-4000-8000-000000000101",
+            "contentSha256": "76f7a94aa28f4bf29cf440ce3938e8a9ad928803c71f3a98164d0e970792c5a2",
+            "responseArtifactId": "22000000-0000-4000-8000-000000010001",
+            "approvedRevisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5"
+          }
+        ]
+      },
+      "catalogHash": "e5b2f716690608917de933b624808296c10e0f48f473e4b3b2cfca6858dd0b77"
+    }
+  },
+  {
+    "name": "missing-request-reference",
+    "schema": "selection",
+    "value": {
+      "contractVersion": "1.0.0",
+      "requestArtifactId": null,
+      "catalogHash": "e5b2f716690608917de933b624808296c10e0f48f473e4b3b2cfca6858dd0b77",
+      "scope": {
+        "organizationId": "110824fb-3b48-5417-83b3-b4c348464d94",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "conversationId": "22000000-0000-4000-8000-000000000001"
+      },
+      "currentUserMessageId": "22000000-0000-4000-8000-000000000102",
+      "assistantMessageId": "22000000-0000-4000-8000-000000000202",
+      "historyCutoff": "2",
+      "revision": {
+        "revisionId": "65b79f52-4109-5536-a4f9-d49a4dcf97b5",
+        "approvedArtifactId": "f582410f-fab1-5b62-bdc6-efb1c597ae55"
+      },
+      "policyDigest": "70a8b31a338e1b653fd3433f24ffb57ea676863a8718800173493227a3eec81b",
+      "included": [
+        {
+          "messageId": "22000000-0000-4000-8000-000000000101",
+          "sequence": "1",
+          "contentSha256": "02ecd63e4f1632ff673d8ebfb0709c5e520a2a64a77644369eab86c5c833a796"
+        },
+        {
+          "messageId": "22000000-0000-4000-8000-000000000201",
+          "sequence": "2",
+          "contentSha256": "76f7a94aa28f4bf29cf440ce3938e8a9ad928803c71f3a98164d0e970792c5a2"
+        }
+      ],
+      "excluded": [],
+      "selectedUserTurnIds": [
+        "22000000-0000-4000-8000-000000000101"
+      ],
+      "currentOnly": false,
+      "reasons": [],
+      "budgetUsage": {
+        "trustedTokens": 96,
+        "currentTokens": 10,
+        "approvedTokens": 63,
+        "historyTokens": 80,
+        "serializationTokens": 383,
+        "totalInputTokens": 632,
+        "outputReserve": 500,
+        "safetyReserve": 500
+      },
+      "selectionHash": "a691d7e60db3276acab4ee78421ec944b3b6ec75e682a5d7d6388e09bab966e4"
+    }
+  },
+  {
+    "name": "unknown-tokenizer-confidence",
+    "schema": "policy",
+    "value": {
+      "contractVersion": "1.0.0",
+      "policyId": "fixture-history-policy",
+      "reviewEvidenceRef": "SYNTHETIC-REVIEW-NOT-APPROVAL",
+      "reviewed": true,
+      "providerModelSnapshot": "fixture-byte-model/1",
+      "tokenizerId": "fixture-utf8-bytes",
+      "tokenizerVersion": "1.0.0",
+      "tokenizerSha256": "363d9d58550da9295eaace341d0244ad21ad2b18a4fc3679c93f9ed762afcbe8",
+      "templateId": "fixture-history-data-template",
+      "templateVersion": "1.0.0",
+      "trustedInstructionSha256": "9aa6c3b947f9cbb2936de07b2b0c77b26701331bb2121cf4d2eea95a8b318cc9",
+      "serializationVersion": "1.0.0",
+      "meterKind": "GUESS",
+      "providerWindow": 10000,
+      "maxInputTokens": 9000,
+      "trustedCap": 256,
+      "currentCap": 256,
+      "approvedCap": 1000,
+      "historyCap": 4000,
+      "outputReserve": 500,
+      "serializationCap": 1000,
+      "safetyReserve": 500,
+      "maxCandidateTurns": 20,
+      "maxCandidateMessages": 100,
+      "maxCandidateBytes": 50000,
+      "currentOnlyAllowed": false
+    }
+  }
+]

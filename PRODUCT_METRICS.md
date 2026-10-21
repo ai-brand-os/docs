@@ -160,3 +160,10 @@ The proposed e-commerce-only first20 interviews would prospectively amend EXP-01
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 Completeness calculation2, 14 mandatory80/optional20 weights, readiness, original activation events and TTFV goals remain unchanged. Extraction/support-check scores and Context coverage are proposed separate indicators, not extra points, calibrated accuracy, activation or readiness thresholds. Unknown required company size/market/language earns no valid mandatory slot; historical taxonomy interpretation is preserved until reviewed new confirmation. Even context coverage100 or confidence100 cannot bypass missing mandatory facts, authorization, Owner approval, source validity or current deletion. No new quality/activation target is approved; D-KQ-04/05 and existing D-LEARN-01 own evaluation/review.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+History receipt acceptance SUCCEEDED, context preparation, tokens/history-message count or SSE connection is not first value, factual accuracy, completeness or activation. Original qualifying presented grounded output/readiness/TTFV rules remain unchanged. Record pinned approved revision as before; proposed history counts/cutoff/exclusions are restricted operational audit only, not new quality weights, goals or score. D-KQ-05 formulas remain disabled; no benefit claim from adding older turns or current-only fallback.

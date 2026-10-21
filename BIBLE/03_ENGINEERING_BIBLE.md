@@ -524,3 +524,10 @@ Current framework NestJS and ORM Prisma are fixed architecture choices. [ADR-009
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 No new datastore, generic score engine or Prisma change. Proposed quality1.0 and separately gated Artifact2.4 retain exact versions/inputs for append-only replay. Required numeric KnowledgeIndex cannot accept unknown sentinel values: D-KQ-03 proposes conditional rows plus canonical snapshot lookup, requiring Architecture/Operations workload/transaction review before adoption. Nullability/enum migration is deferred until explicitly selected. Existing provider/security/queue/relationship decisions and single-language/single-brand scope remain unchanged.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+Bounded conversation history is part of the existing Workspace MVP, separate from excluded long-term memory. Use Workspace Application + in-process HistoryReader/repository → Context selection → Orchestrator → Gateway, no independently deployed Memory Service or circular history/provider dependency. Conversation locking/order/reply and frozen metadata require proposed storage/Artifact2.5 review; no Prisma or deployed migration here. Model/tokenizer/template budget policy remains D-GW-01 with no production defaults. Deletion/authorization guards precede egress/stream/commit, required Message lifecycle and single-response SSE stay unchanged.

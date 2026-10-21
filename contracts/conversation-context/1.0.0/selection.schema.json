@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:conversation-context:1.0.0:selection",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "const": "1.0.0"
+    },
+    "requestArtifactId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "catalogHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "conversationId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "organizationId",
+        "brandId",
+        "conversationId"
+      ],
+      "additionalProperties": false
+    },
+    "currentUserMessageId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "assistantMessageId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "historyCutoff": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)$"
+    },
+    "revision": {
+      "type": "object",
+      "properties": {
+        "revisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedArtifactId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "revisionId",
+        "approvedArtifactId"
+      ],
+      "additionalProperties": false
+    },
+    "policyDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "included": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequence": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]*$"
+          },
+          "contentSha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "messageId",
+          "sequence",
+          "contentSha256"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "messageId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reason": {
+            "enum": [
+              "NOT_COMPLETED",
+              "FAILED",
+              "CANCELLED",
+              "TIMEOUT",
+              "UNSELECTED_ATTEMPT",
+              "EMPTY",
+              "BUDGET_OMITTED"
+            ]
+          }
+        },
+        "required": [
+          "messageId",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "selectedUserTurnIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "currentOnly": {
+      "type": "boolean"
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "budgetUsage": {
+      "type": "object",
+      "properties": {
+        "trustedTokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "currentTokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "approvedTokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "historyTokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "serializationTokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "totalInputTokens": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "outputReserve": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "safetyReserve": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        }
+      },
+      "required": [
+        "trustedTokens",
+        "currentTokens",
+        "approvedTokens",
+        "historyTokens",
+        "serializationTokens",
+        "totalInputTokens",
+        "outputReserve",
+        "safetyReserve"
+      ],
+      "additionalProperties": false
+    },
+    "selectionHash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "wireSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "contractVersion",
+    "requestArtifactId",
+    "catalogHash",
+    "scope",
+    "currentUserMessageId",
+    "assistantMessageId",
+    "historyCutoff",
+    "revision",
+    "policyDigest",
+    "included",
+    "excluded",
+    "selectedUserTurnIds",
+    "currentOnly",
+    "reasons",
+    "budgetUsage",
+    "selectionHash",
+    "wireSha256"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "currentOnly": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "included": {
+            "maxItems": 0
+          },
+          "selectedUserTurnIds": {
+            "maxItems": 0
+          },
+          "reasons": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

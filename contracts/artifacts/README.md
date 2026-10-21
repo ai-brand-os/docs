@@ -180,3 +180,8 @@ Run `npm --prefix validation test` after installing the pinned dev-only dependen
 ## Task21 — Proposed quality assessment attachment
 
 [ADR-015](../../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [quality1.0](../knowledge-quality/README.md) propose [Artifact2.4](2.4.0/README.md) for explicit disposition/formula/input/policy/explanation metadata absent from old confidence objects. Existing2.0–2.3/Gateway/Source Evidence/Ontology bundles are unchanged. D-KQ-03 gates readers/references/storage/conditional index and rollout; D-KQ-04/05 gate numeric formulas. These attachments never approve knowledge or drive import lifecycle.
+
+
+## Task22 — Proposed bounded conversation history
+
+[ADR-016](../../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0](../conversation-context/README.md) propose [Artifact2.5](2.5.0/README.md) for acceptance receipt/frozen catalog and final context selection. Final PROMPT/RESPONSE2.0 and Gateway1 can already represent actual trusted SYSTEM/untrusted USER-data wire. All previous bundles stay unchanged; no new ArtifactType/status/role or automatic memory. D-HIST-01–04 and existing budget/transport/privacy review gates remain.

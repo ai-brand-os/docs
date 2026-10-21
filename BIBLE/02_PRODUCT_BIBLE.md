@@ -91,7 +91,7 @@ Components:
   ├── Knowledge Extraction Service
   └── Knowledge Management Service
 - Context Engine
-- Memory Engine
+- Context-owned Knowledge/Working selection and Workspace bounded HistoryReader; inferred long-term Memory Engine is future
 
 Every other module depends on this layer.
 
@@ -195,7 +195,7 @@ The Core Domain consists of four components.
   ├── Knowledge Extraction Service
   └── Knowledge Management Service
 - Context Engine
-- Memory Engine
+- Context-owned Knowledge/Working selection and Workspace bounded HistoryReader; inferred long-term Memory Engine is future
 
 ---
 
@@ -546,7 +546,7 @@ The following modules support the platform but do not contain business intellige
 - Settings
 - File Storage
 - Notifications
-- Context Engine memory selection in MVP; standalone preference/conversation-memory service is a future design, with history inclusion policy pending D-AUD-01
+- Context Engine memory selection in MVP; standalone preference/conversation-memory service is a future design, with bounded history specified in ADR-016, pending D-AUD-01 Product/Architecture/Security review
 
 ---
 
@@ -921,3 +921,10 @@ Effective Date
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 Region/language under Brand settings are views of the Organization profile semantics, not duplicate independent country/locale/market sources of truth. Proposed primaryRegion is market prose and primaryLanguage one confirmed BCP47 output preference under D-KQ-02; no multilingual-management feature. Product owns pending company-size boundaries and scoring/review messaging. Confidence/coverage/completeness/readiness/accuracy remain separate; high percentages never grant approval or imply measured product benefit.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+Existing multi-turn Workspace needs bounded authorized prior messages, not merely persisted history. Approved Knowledge, Conversation History and attempt-local Working Memory are MVP contract inputs; generated summaries/preferences/background memory agents/cross-conversation search remain future. No autonomous conversation learning or automatic business-fact approval. Current-only fallback/orphan-user behavior/latest-turn retry/concurrent acceptance and conditional regeneration require D-HIST/Product review; no new UI or broader capability. History remains untrusted and subordinate to the selected approved Brain facts.

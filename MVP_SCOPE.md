@@ -105,3 +105,10 @@ Canonical relative links and heading anchors pass validation; `git diff --check`
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 Task21 specifies taxonomy/quality contracts for existing Brain review/context/metrics, not a new product feature. Company-size boundary, market/language policy, conditional index/assessment storage and numeric formula/ranking choices remain D-KQ-01–05 proposals. No score threshold authorizes publication, activation or generation; mandatory approved facts and existing request gates stay independent. No multilingual output management, new country/locale fields, automatic source trust or customer quality guarantee is added.
+
+
+## Task22 — Bounded conversation history
+
+**Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](contracts/conversation-context/README.md) define canonical rules and pending gates.
+
+MVP-05 includes bounded ordered persisted conversation history for coherent follow-ups, subject to reviewed context budgets and live guards. This resolves the inclusion specification, not implementation or formal approval. Long-term conversation summaries/preferences, semantic search, background memory agents, autonomous actions and automatic business learning remain excluded. New receipt/context/order storage, fallback and retry/regeneration semantics are D-HIST-01–04 proposals; no new customer feature/route or production default.
