@@ -1,0 +1,5729 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:public-api:1.0.0",
+  "$defs": {
+    "UUID": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "Sequence": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,18}$"
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": false
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "enum": [
+                "MALFORMED_REQUEST",
+                "INVALID_CURSOR",
+                "AUTHENTICATION_REQUIRED",
+                "REQUEST_ORIGIN_REJECTED",
+                "ACTION_NOT_PERMITTED",
+                "RESOURCE_NOT_FOUND",
+                "REVISION_CONFLICT",
+                "IDEMPOTENCY_CONFLICT",
+                "OPERATION_IN_PROGRESS",
+                "ALREADY_EXISTS",
+                "ALREADY_DECIDED",
+                "DUPLICATE_FEEDBACK",
+                "ATTEMPT_CONFLICT",
+                "PRECONDITION_FAILED",
+                "PAYLOAD_TOO_LARGE",
+                "UNSUPPORTED_MEDIA_TYPE",
+                "VALIDATION_FAILED",
+                "SOURCE_REJECTED",
+                "KNOWLEDGE_NOT_READY",
+                "UNSUPPORTED_CONTRACT",
+                "HISTORY_UNAVAILABLE",
+                "PREVIEW_INVALID",
+                "RATE_LIMITED",
+                "INTERNAL_ERROR",
+                "DEPENDENCY_UNAVAILABLE",
+                "POLICY_UNAVAILABLE"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "retryable": {
+              "type": "boolean"
+            },
+            "retryAfterSeconds": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "fields": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "enum": [
+                      "REQUIRED",
+                      "INVALID",
+                      "UNKNOWN_FIELD",
+                      "TOO_LONG",
+                      "UNSUPPORTED"
+                    ]
+                  },
+                  "message": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "path",
+                  "code",
+                  "message"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "requestId",
+            "retryable",
+            "retryAfterSeconds",
+            "fields"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "Completeness": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "NO_APPROVED_HEAD",
+            "PERSISTED"
+          ]
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "missingMandatoryFields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "ontologyVersion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calculationVersion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calculatedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "state",
+        "score",
+        "missingMandatoryFields",
+        "ontologyVersion",
+        "calculationVersion",
+        "calculatedAt"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "NO_APPROVED_HEAD"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "score": {
+                "const": 0
+              },
+              "ontologyVersion": {
+                "type": "null"
+              },
+              "calculationVersion": {
+                "type": "null"
+              },
+              "calculatedAt": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "ontologyVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "calculationVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "calculatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Readiness": {
+      "type": "object",
+      "properties": {
+        "effectiveReady": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "effectiveReady",
+        "reasons"
+      ],
+      "additionalProperties": false
+    },
+    "Quality": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "KNOWN",
+            "UNKNOWN",
+            "UNAVAILABLE",
+            "NOT_EVALUATED",
+            "NOT_APPLICABLE",
+            "INVALID"
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "formulaVersion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "state",
+        "value",
+        "formulaVersion"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "KNOWN"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "formulaVersion": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "OrganizationFields": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "industry": {
+          "enum": [
+            "ECOMMERCE_RETAIL",
+            "PROFESSIONAL_SERVICES",
+            "SAAS_TECHNOLOGY",
+            "HEALTH_WELLNESS",
+            "FOOD_BEVERAGE",
+            "EDUCATION_COACHING",
+            "REAL_ESTATE",
+            "FINANCE_INSURANCE",
+            "MARKETING_CREATIVE_AGENCIES",
+            "FASHION_APPAREL",
+            "BEAUTY_PERSONAL_CARE",
+            "HOME_LIFESTYLE",
+            "TRAVEL_HOSPITALITY",
+            "NONPROFIT_COMMUNITY",
+            "MANUFACTURING_INDUSTRIAL",
+            "OTHER"
+          ]
+        },
+        "companySize": {
+          "enum": [
+            "SIZE_1_5",
+            "SIZE_6_20",
+            "SIZE_21_50",
+            "SIZE_50_PLUS"
+          ]
+        },
+        "websiteUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primaryRegion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primaryLanguage": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name",
+        "industry",
+        "companySize",
+        "websiteUrl",
+        "primaryRegion",
+        "primaryLanguage"
+      ],
+      "additionalProperties": false
+    },
+    "OrganizationPatch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "industry": {
+          "enum": [
+            "ECOMMERCE_RETAIL",
+            "PROFESSIONAL_SERVICES",
+            "SAAS_TECHNOLOGY",
+            "HEALTH_WELLNESS",
+            "FOOD_BEVERAGE",
+            "EDUCATION_COACHING",
+            "REAL_ESTATE",
+            "FINANCE_INSURANCE",
+            "MARKETING_CREATIVE_AGENCIES",
+            "FASHION_APPAREL",
+            "BEAUTY_PERSONAL_CARE",
+            "HOME_LIFESTYLE",
+            "TRAVEL_HOSPITALITY",
+            "NONPROFIT_COMMUNITY",
+            "MANUFACTURING_INDUSTRIAL",
+            "OTHER"
+          ]
+        },
+        "companySize": {
+          "enum": [
+            "SIZE_1_5",
+            "SIZE_6_20",
+            "SIZE_21_50",
+            "SIZE_50_PLUS"
+          ]
+        },
+        "websiteUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primaryRegion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primaryLanguage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "required": [
+            "industry"
+          ]
+        },
+        {
+          "required": [
+            "companySize"
+          ]
+        },
+        {
+          "required": [
+            "websiteUrl"
+          ]
+        },
+        {
+          "required": [
+            "primaryRegion"
+          ]
+        },
+        {
+          "required": [
+            "primaryLanguage"
+          ]
+        }
+      ]
+    },
+    "OrganizationCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "industry": {
+          "enum": [
+            "ECOMMERCE_RETAIL",
+            "PROFESSIONAL_SERVICES",
+            "SAAS_TECHNOLOGY",
+            "HEALTH_WELLNESS",
+            "FOOD_BEVERAGE",
+            "EDUCATION_COACHING",
+            "REAL_ESTATE",
+            "FINANCE_INSURANCE",
+            "MARKETING_CREATIVE_AGENCIES",
+            "FASHION_APPAREL",
+            "BEAUTY_PERSONAL_CARE",
+            "HOME_LIFESTYLE",
+            "TRAVEL_HOSPITALITY",
+            "NONPROFIT_COMMUNITY",
+            "MANUFACTURING_INDUSTRIAL",
+            "OTHER"
+          ]
+        },
+        "companySize": {
+          "enum": [
+            "SIZE_1_5",
+            "SIZE_6_20",
+            "SIZE_21_50",
+            "SIZE_50_PLUS"
+          ]
+        },
+        "websiteUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primaryRegion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primaryLanguage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "industry",
+        "companySize",
+        "websiteUrl",
+        "primaryRegion",
+        "primaryLanguage",
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "Organization": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "industry": {
+          "enum": [
+            "ECOMMERCE_RETAIL",
+            "PROFESSIONAL_SERVICES",
+            "SAAS_TECHNOLOGY",
+            "HEALTH_WELLNESS",
+            "FOOD_BEVERAGE",
+            "EDUCATION_COACHING",
+            "REAL_ESTATE",
+            "FINANCE_INSURANCE",
+            "MARKETING_CREATIVE_AGENCIES",
+            "FASHION_APPAREL",
+            "BEAUTY_PERSONAL_CARE",
+            "HOME_LIFESTYLE",
+            "TRAVEL_HOSPITALITY",
+            "NONPROFIT_COMMUNITY",
+            "MANUFACTURING_INDUSTRIAL",
+            "OTHER"
+          ]
+        },
+        "companySize": {
+          "enum": [
+            "SIZE_1_5",
+            "SIZE_6_20",
+            "SIZE_21_50",
+            "SIZE_50_PLUS"
+          ]
+        },
+        "websiteUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primaryRegion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primaryLanguage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "name",
+        "industry",
+        "companySize",
+        "websiteUrl",
+        "primaryRegion",
+        "primaryLanguage",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "BrandFields": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missionStatement": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "visionStatement": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coreValues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sampleWriting": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primaryGoal": {
+          "anyOf": [
+            {
+              "enum": [
+                "AWARENESS",
+                "LEAD_GEN",
+                "SALES",
+                "RETENTION",
+                "OTHER"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "successDefinition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "missionStatement",
+        "visionStatement",
+        "coreValues",
+        "sampleWriting",
+        "primaryGoal",
+        "successDefinition"
+      ],
+      "additionalProperties": false
+    },
+    "BrandPatch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missionStatement": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "visionStatement": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coreValues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sampleWriting": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primaryGoal": {
+          "anyOf": [
+            {
+              "enum": [
+                "AWARENESS",
+                "LEAD_GEN",
+                "SALES",
+                "RETENTION",
+                "OTHER"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "successDefinition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "required": [
+            "missionStatement"
+          ]
+        },
+        {
+          "required": [
+            "visionStatement"
+          ]
+        },
+        {
+          "required": [
+            "coreValues"
+          ]
+        },
+        {
+          "required": [
+            "sampleWriting"
+          ]
+        },
+        {
+          "required": [
+            "primaryGoal"
+          ]
+        },
+        {
+          "required": [
+            "successDefinition"
+          ]
+        }
+      ]
+    },
+    "BrandCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missionStatement": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "visionStatement": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coreValues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sampleWriting": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primaryGoal": {
+          "anyOf": [
+            {
+              "enum": [
+                "AWARENESS",
+                "LEAD_GEN",
+                "SALES",
+                "RETENTION",
+                "OTHER"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "successDefinition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "missionStatement",
+        "visionStatement",
+        "coreValues",
+        "sampleWriting",
+        "primaryGoal",
+        "successDefinition",
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "Brand": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missionStatement": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "visionStatement": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coreValues": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sampleWriting": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "primaryGoal": {
+          "anyOf": [
+            {
+              "enum": [
+                "AWARENESS",
+                "LEAD_GEN",
+                "SALES",
+                "RETENTION",
+                "OTHER"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "successDefinition": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "name",
+        "missionStatement",
+        "visionStatement",
+        "coreValues",
+        "sampleWriting",
+        "primaryGoal",
+        "successDefinition",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "VoiceFields": {
+      "type": "object",
+      "properties": {
+        "toneAttributes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "PROFESSIONAL",
+              "FRIENDLY",
+              "BOLD",
+              "PLAYFUL",
+              "AUTHORITATIVE",
+              "MINIMAL",
+              "EMPATHETIC",
+              "CONFIDENT",
+              "WITTY",
+              "FORMAL",
+              "WARM",
+              "DIRECT"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "vocabularyDos": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "vocabularyDonts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "toneAttributes",
+        "vocabularyDos",
+        "vocabularyDonts"
+      ],
+      "additionalProperties": false
+    },
+    "VoicePatch": {
+      "type": "object",
+      "properties": {
+        "toneAttributes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "PROFESSIONAL",
+              "FRIENDLY",
+              "BOLD",
+              "PLAYFUL",
+              "AUTHORITATIVE",
+              "MINIMAL",
+              "EMPATHETIC",
+              "CONFIDENT",
+              "WITTY",
+              "FORMAL",
+              "WARM",
+              "DIRECT"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "vocabularyDos": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "vocabularyDonts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "toneAttributes"
+          ]
+        },
+        {
+          "required": [
+            "vocabularyDos"
+          ]
+        },
+        {
+          "required": [
+            "vocabularyDonts"
+          ]
+        }
+      ]
+    },
+    "VoiceCreate": {
+      "type": "object",
+      "properties": {
+        "toneAttributes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "PROFESSIONAL",
+              "FRIENDLY",
+              "BOLD",
+              "PLAYFUL",
+              "AUTHORITATIVE",
+              "MINIMAL",
+              "EMPATHETIC",
+              "CONFIDENT",
+              "WITTY",
+              "FORMAL",
+              "WARM",
+              "DIRECT"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "vocabularyDos": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "vocabularyDonts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "toneAttributes",
+        "vocabularyDos",
+        "vocabularyDonts",
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "Voice": {
+      "type": "object",
+      "properties": {
+        "toneAttributes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "PROFESSIONAL",
+              "FRIENDLY",
+              "BOLD",
+              "PLAYFUL",
+              "AUTHORITATIVE",
+              "MINIMAL",
+              "EMPATHETIC",
+              "CONFIDENT",
+              "WITTY",
+              "FORMAL",
+              "WARM",
+              "DIRECT"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "vocabularyDos": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "vocabularyDonts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "toneAttributes",
+        "vocabularyDos",
+        "vocabularyDonts",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "ProductFields": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueProposition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keyFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "pricingModel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "valueProposition",
+        "keyFeatures",
+        "pricingModel"
+      ],
+      "additionalProperties": false
+    },
+    "ProductPatch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueProposition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keyFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "pricingModel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "required": [
+            "description"
+          ]
+        },
+        {
+          "required": [
+            "valueProposition"
+          ]
+        },
+        {
+          "required": [
+            "keyFeatures"
+          ]
+        },
+        {
+          "required": [
+            "pricingModel"
+          ]
+        }
+      ]
+    },
+    "ProductCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueProposition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keyFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "pricingModel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "valueProposition",
+        "keyFeatures",
+        "pricingModel",
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueProposition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keyFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "pricingModel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "valueProposition",
+        "keyFeatures",
+        "pricingModel",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "ServiceFields": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueProposition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keyFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "pricingModel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "valueProposition",
+        "keyFeatures",
+        "pricingModel"
+      ],
+      "additionalProperties": false
+    },
+    "ServicePatch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueProposition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keyFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "pricingModel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "required": [
+            "description"
+          ]
+        },
+        {
+          "required": [
+            "valueProposition"
+          ]
+        },
+        {
+          "required": [
+            "keyFeatures"
+          ]
+        },
+        {
+          "required": [
+            "pricingModel"
+          ]
+        }
+      ]
+    },
+    "ServiceCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueProposition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keyFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "pricingModel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "valueProposition",
+        "keyFeatures",
+        "pricingModel",
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "Service": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueProposition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keyFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "pricingModel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "valueProposition",
+        "keyFeatures",
+        "pricingModel",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "AudienceFields": {
+      "type": "object",
+      "properties": {
+        "segmentName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "painPoints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "segmentName",
+        "description",
+        "painPoints",
+        "goals"
+      ],
+      "additionalProperties": false
+    },
+    "AudiencePatch": {
+      "type": "object",
+      "properties": {
+        "segmentName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "painPoints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "segmentName"
+          ]
+        },
+        {
+          "required": [
+            "description"
+          ]
+        },
+        {
+          "required": [
+            "painPoints"
+          ]
+        },
+        {
+          "required": [
+            "goals"
+          ]
+        }
+      ]
+    },
+    "AudienceCreate": {
+      "type": "object",
+      "properties": {
+        "segmentName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "painPoints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "segmentName",
+        "description",
+        "painPoints",
+        "goals",
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "Audience": {
+      "type": "object",
+      "properties": {
+        "segmentName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "painPoints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "segmentName",
+        "description",
+        "painPoints",
+        "goals",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "CompetitorFields": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "website": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "differentiationNotes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "website",
+        "differentiationNotes"
+      ],
+      "additionalProperties": false
+    },
+    "CompetitorPatch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "website": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "differentiationNotes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "name"
+          ]
+        },
+        {
+          "required": [
+            "website"
+          ]
+        },
+        {
+          "required": [
+            "differentiationNotes"
+          ]
+        }
+      ]
+    },
+    "CompetitorCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "website": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "differentiationNotes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "website",
+        "differentiationNotes",
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "Competitor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "website": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "differentiationNotes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "name",
+        "website",
+        "differentiationNotes",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "Signup": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 1
+        },
+        "organization": {
+          "$ref": "#/$defs/OrganizationFields"
+        }
+      },
+      "required": [
+        "email",
+        "password",
+        "organization"
+      ],
+      "additionalProperties": false
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ],
+      "additionalProperties": false
+    },
+    "Empty": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "Auth": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tokenType": {
+          "const": "Bearer"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sessionExpiresAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "userId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "accessToken",
+        "tokenType",
+        "expiresAt",
+        "sessionExpiresAt",
+        "userId",
+        "organizationId"
+      ],
+      "additionalProperties": false
+    },
+    "Brain": {
+      "type": "object",
+      "properties": {
+        "brand": {
+          "$ref": "#/$defs/Brand"
+        },
+        "voice": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Voice"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currentRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "completeness": {
+          "$ref": "#/$defs/Completeness"
+        },
+        "readiness": {
+          "$ref": "#/$defs/Readiness"
+        }
+      },
+      "required": [
+        "brand",
+        "voice",
+        "currentRevisionId",
+        "completeness",
+        "readiness"
+      ],
+      "additionalProperties": false
+    },
+    "Publication": {
+      "type": "object",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "newRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "completeness": {
+          "$ref": "#/$defs/Completeness"
+        },
+        "readiness": {
+          "$ref": "#/$defs/Readiness"
+        },
+        "outcome": {
+          "enum": [
+            "INITIALIZED",
+            "PUBLISHED",
+            "REJECTED"
+          ]
+        }
+      },
+      "required": [
+        "resourceId",
+        "newRevisionId",
+        "completeness",
+        "readiness",
+        "outcome"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "PUBLISHED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "newRevisionId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "newRevisionId": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "DeleteKnowledge": {
+      "type": "object",
+      "properties": {
+        "expectedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "Brief": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "isPartial": {
+          "type": "boolean"
+        },
+        "missingSections": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "id",
+        "brandId",
+        "approvedRevisionId",
+        "text",
+        "isPartial",
+        "missingSections"
+      ],
+      "additionalProperties": false
+    },
+    "SourceDisplay": {
+      "type": "object",
+      "properties": {
+        "documentId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "availability": {
+          "enum": [
+            "AVAILABLE",
+            "UNAVAILABLE",
+            "DELETED",
+            "RESTRICTED"
+          ]
+        },
+        "precision": {
+          "enum": [
+            "EXACT",
+            "STRUCTURAL",
+            "NORMALIZED_ONLY",
+            "UNAVAILABLE",
+            "INVALID"
+          ]
+        },
+        "locationLabel": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "excerpt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "documentId",
+        "label",
+        "availability",
+        "precision",
+        "locationLabel",
+        "excerpt"
+      ],
+      "additionalProperties": false
+    },
+    "FieldValue": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "ORGANIZATION"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "name"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "ORGANIZATION"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "industry"
+            },
+            "value": {
+              "enum": [
+                "ECOMMERCE_RETAIL",
+                "PROFESSIONAL_SERVICES",
+                "SAAS_TECHNOLOGY",
+                "HEALTH_WELLNESS",
+                "FOOD_BEVERAGE",
+                "EDUCATION_COACHING",
+                "REAL_ESTATE",
+                "FINANCE_INSURANCE",
+                "MARKETING_CREATIVE_AGENCIES",
+                "FASHION_APPAREL",
+                "BEAUTY_PERSONAL_CARE",
+                "HOME_LIFESTYLE",
+                "TRAVEL_HOSPITALITY",
+                "NONPROFIT_COMMUNITY",
+                "MANUFACTURING_INDUSTRIAL",
+                "OTHER"
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "ORGANIZATION"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "companySize"
+            },
+            "value": {
+              "enum": [
+                "SIZE_1_5",
+                "SIZE_6_20",
+                "SIZE_21_50",
+                "SIZE_50_PLUS"
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "ORGANIZATION"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "websiteUrl"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https?://"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "ORGANIZATION"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "primaryRegion"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "ORGANIZATION"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "primaryLanguage"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "name"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "missionStatement"
+            },
+            "value": {
+              "type": "string",
+              "maxLength": 300
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "visionStatement"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 300
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "coreValues"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "sampleWriting"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "primaryGoal"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "AWARENESS",
+                    "LEAD_GEN",
+                    "SALES",
+                    "RETENTION",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "successDefinition"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND_VOICE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "toneAttributes"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "PROFESSIONAL",
+                  "FRIENDLY",
+                  "BOLD",
+                  "PLAYFUL",
+                  "AUTHORITATIVE",
+                  "MINIMAL",
+                  "EMPATHETIC",
+                  "CONFIDENT",
+                  "WITTY",
+                  "FORMAL",
+                  "WARM",
+                  "DIRECT"
+                ]
+              },
+              "minItems": 2,
+              "maxItems": 4,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND_VOICE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "vocabularyDos"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "BRAND_VOICE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "vocabularyDonts"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "PRODUCT"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "name"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "PRODUCT"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "description"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "PRODUCT"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "valueProposition"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "PRODUCT"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "keyFeatures"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "PRODUCT"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "pricingModel"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "SERVICE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "name"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "SERVICE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "description"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "SERVICE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "valueProposition"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "SERVICE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "keyFeatures"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "SERVICE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "pricingModel"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "AUDIENCE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "segmentName"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "AUDIENCE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "description"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "AUDIENCE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "painPoints"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "AUDIENCE"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "goals"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "COMPETITOR"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "name"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "COMPETITOR"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "website"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https?://"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "COMPETITOR"
+            },
+            "entityId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "fieldPath": {
+              "const": "differentiationNotes"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entityType",
+            "entityId",
+            "fieldPath",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Fact": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "$ref": "#/$defs/FieldValue"
+        },
+        "origin": {
+          "enum": [
+            "MANUAL",
+            "IMPORTED",
+            "DERIVED"
+          ]
+        },
+        "approvalStatus": {
+          "const": "APPROVED"
+        },
+        "valueRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "supersedesValueRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approvedByUserId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastVerifiedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceDisplay"
+          }
+        },
+        "quality": {
+          "$ref": "#/$defs/Quality"
+        },
+        "reviewFlags": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "STALE",
+              "CONTRADICTORY",
+              "VERIFICATION_UNKNOWN",
+              "SOURCE_UNAVAILABLE"
+            ]
+          }
+        }
+      },
+      "required": [
+        "field",
+        "origin",
+        "approvalStatus",
+        "valueRevisionId",
+        "supersedesValueRevisionId",
+        "approvedByUserId",
+        "approvedAt",
+        "lastVerifiedAt",
+        "sources",
+        "quality",
+        "reviewFlags"
+      ],
+      "additionalProperties": false
+    },
+    "Knowledge": {
+      "type": "object",
+      "properties": {
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "currentRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Fact"
+          }
+        },
+        "completeness": {
+          "$ref": "#/$defs/Completeness"
+        },
+        "readiness": {
+          "$ref": "#/$defs/Readiness"
+        }
+      },
+      "required": [
+        "brandId",
+        "currentRevisionId",
+        "facts",
+        "completeness",
+        "readiness"
+      ],
+      "additionalProperties": false
+    },
+    "Revision": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "revisionNumber": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "previousRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "restoredFromRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approvedByUserId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "changeReason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "completeness": {
+          "$ref": "#/$defs/Completeness"
+        }
+      },
+      "required": [
+        "id",
+        "brandId",
+        "revisionNumber",
+        "previousRevisionId",
+        "restoredFromRevisionId",
+        "approvedByUserId",
+        "approvedAt",
+        "changeReason",
+        "completeness"
+      ],
+      "additionalProperties": false
+    },
+    "RevisionDetail": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "$ref": "#/$defs/Revision"
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Fact"
+          }
+        }
+      },
+      "required": [
+        "revision",
+        "facts"
+      ],
+      "additionalProperties": false
+    },
+    "DiffEntry": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "ADDED",
+            "CHANGED",
+            "REMOVED",
+            "VERIFIED",
+            "MEMBERSHIP_CHANGED",
+            "PROVENANCE_CHANGED"
+          ]
+        },
+        "before": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "after": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Fact"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "before",
+        "after"
+      ],
+      "additionalProperties": false
+    },
+    "Diff": {
+      "type": "object",
+      "properties": {
+        "fromRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "toRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DiffEntry"
+          }
+        }
+      },
+      "required": [
+        "fromRevisionId",
+        "toRevisionId",
+        "changes"
+      ],
+      "additionalProperties": false
+    },
+    "Verify": {
+      "type": "object",
+      "properties": {
+        "factKeys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "expectedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "factKeys",
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "RestorePreviewRequest": {
+      "type": "object",
+      "properties": {
+        "expectedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "correctedFacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FieldValue"
+          }
+        }
+      },
+      "required": [
+        "expectedRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "RestoreRequest": {
+      "type": "object",
+      "properties": {
+        "expectedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previewDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "correctedFacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FieldValue"
+          }
+        },
+        "acknowledgements": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "REMOVALS",
+              "SOURCE_UNAVAILABLE",
+              "ONTOLOGY_MIGRATION"
+            ]
+          }
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "expectedRevisionId",
+        "previewDigest",
+        "acknowledgements",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "RestorePreview": {
+      "type": "object",
+      "properties": {
+        "sourceRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expectedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previewDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DiffEntry"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "completeness": {
+          "$ref": "#/$defs/Completeness"
+        },
+        "readiness": {
+          "$ref": "#/$defs/Readiness"
+        }
+      },
+      "required": [
+        "sourceRevisionId",
+        "expectedRevisionId",
+        "previewDigest",
+        "changes",
+        "warnings",
+        "completeness",
+        "readiness"
+      ],
+      "additionalProperties": false
+    },
+    "ImportURL": {
+      "type": "object",
+      "properties": {
+        "sourceType": {
+          "const": "url"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://"
+        }
+      },
+      "required": [
+        "sourceType",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "ImportFile": {
+      "type": "object",
+      "properties": {
+        "sourceType": {
+          "const": "file"
+        },
+        "file": {
+          "type": "string",
+          "format": "binary"
+        }
+      },
+      "required": [
+        "sourceType",
+        "file"
+      ],
+      "additionalProperties": false
+    },
+    "ImportAccepted": {
+      "type": "object",
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "acceptedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "correlationId",
+        "brandId",
+        "acceptedAt"
+      ],
+      "additionalProperties": false
+    },
+    "ImportStatus": {
+      "$ref": "urn:ai-brand-os:import-projection:1.0.0"
+    },
+    "Candidate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "field": {
+          "$ref": "#/$defs/FieldValue"
+        },
+        "decision": {
+          "enum": [
+            "PENDING",
+            "CONFIRM",
+            "EDIT_AND_CONFIRM",
+            "REJECT",
+            "INVALIDATED"
+          ]
+        },
+        "eligibility": {
+          "const": "HUMAN_REVIEW_REQUIRED"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceDisplay"
+          }
+        },
+        "quality": {
+          "$ref": "#/$defs/Quality"
+        },
+        "contradictions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Fact"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "field",
+        "decision",
+        "eligibility",
+        "sources",
+        "quality",
+        "contradictions"
+      ],
+      "additionalProperties": false
+    },
+    "Decision": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "enum": [
+                "confirm",
+                "delete"
+              ]
+            },
+            "expectedRevisionId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "action",
+            "expectedRevisionId"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "edit"
+            },
+            "value": {
+              "$ref": "#/$defs/FieldValue"
+            },
+            "expectedRevisionId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "action",
+            "value",
+            "expectedRevisionId"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DecisionResult": {
+      "type": "object",
+      "properties": {
+        "candidateId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "action": {
+          "enum": [
+            "confirm",
+            "edit",
+            "delete"
+          ]
+        },
+        "newRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "$ref": "#/$defs/ImportStatus"
+        }
+      },
+      "required": [
+        "candidateId",
+        "action",
+        "newRevisionId",
+        "status"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "action": {
+                "const": "delete"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "newRevisionId": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "newRevisionId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ConversationCreate": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Conversation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastActivityAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "brandId",
+        "title",
+        "lastActivityAt",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "role": {
+          "enum": [
+            "USER",
+            "ASSISTANT"
+          ]
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "SUBMITTING",
+            "QUEUED",
+            "PREPARING_CONTEXT",
+            "GENERATING",
+            "COMPLETED",
+            "FAILED",
+            "CANCELLED",
+            "TIMEOUT"
+          ]
+        },
+        "sequence": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,18}$"
+        },
+        "replyToUserMessageId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operationId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlationId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "approvedRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retryAvailable": {
+          "type": "boolean"
+        },
+        "failureCode": {
+          "anyOf": [
+            {
+              "enum": [
+                "GENERATION_FAILED",
+                "GENERATION_TIMEOUT",
+                "GENERATION_CANCELLED"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "feedback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Feedback"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contextLimitation": {
+          "anyOf": [
+            {
+              "enum": [
+                "NONE",
+                "HISTORY_LIMITED",
+                "CURRENT_REQUEST_ONLY"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "status",
+        "sequence",
+        "replyToUserMessageId",
+        "operationId",
+        "correlationId",
+        "approvedRevisionId",
+        "content",
+        "createdAt",
+        "retryAvailable",
+        "failureCode",
+        "feedback",
+        "contextLimitation"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "const": "USER"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "COMPLETED"
+              },
+              "content": {
+                "type": "string",
+                "minLength": 1
+              },
+              "replyToUserMessageId": {
+                "type": "null"
+              },
+              "retryAvailable": {
+                "const": false
+              },
+              "contextLimitation": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "replyToUserMessageId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "operationId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "correlationId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "approvedRevisionId": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "COMPLETED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "type": "string",
+                "minLength": 1
+              },
+              "failureCode": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "content": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "const": "ASSISTANT"
+              },
+              "status": {
+                "const": "COMPLETED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "contextLimitation": {
+                "enum": [
+                  "NONE",
+                  "HISTORY_LIMITED",
+                  "CURRENT_REQUEST_ONLY"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Send": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "content"
+      ],
+      "additionalProperties": false
+    },
+    "RetrySend": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryOfOperationId": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "content",
+        "retryOfOperationId"
+      ],
+      "additionalProperties": false
+    },
+    "FeedbackRequest": {
+      "type": "object",
+      "properties": {
+        "rating": {
+          "enum": [
+            "helpful",
+            "not_helpful"
+          ]
+        }
+      },
+      "required": [
+        "rating"
+      ],
+      "additionalProperties": false
+    },
+    "Feedback": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "messageId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "rating": {
+          "enum": [
+            "HELPFUL",
+            "NOT_HELPFUL"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "messageId",
+        "rating",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    },
+    "PageInfo": {
+      "type": "object",
+      "properties": {
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hasMore": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "nextCursor",
+        "hasMore"
+      ],
+      "additionalProperties": false
+    },
+    "OrganizationPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Organization"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        }
+      },
+      "required": [
+        "items",
+        "page"
+      ],
+      "additionalProperties": false
+    },
+    "ProductPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Product"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        },
+        "currentRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "page",
+        "currentRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "ServicePage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Service"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        },
+        "currentRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "page",
+        "currentRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "AudiencePage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Audience"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        },
+        "currentRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "page",
+        "currentRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "CompetitorPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Competitor"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        },
+        "currentRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "page",
+        "currentRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "RevisionPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Revision"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        }
+      },
+      "required": [
+        "items",
+        "page"
+      ],
+      "additionalProperties": false
+    },
+    "FieldHistoryPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Fact"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        }
+      },
+      "required": [
+        "items",
+        "page"
+      ],
+      "additionalProperties": false
+    },
+    "CandidatePage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Candidate"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        },
+        "currentRevisionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "page",
+        "currentRevisionId"
+      ],
+      "additionalProperties": false
+    },
+    "ConversationPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Conversation"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        }
+      },
+      "required": [
+        "items",
+        "page"
+      ],
+      "additionalProperties": false
+    },
+    "MessagePage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Message"
+          }
+        },
+        "page": {
+          "$ref": "#/$defs/PageInfo"
+        }
+      },
+      "required": [
+        "items",
+        "page"
+      ],
+      "additionalProperties": false
+    },
+    "ConversationDetail": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "$ref": "#/$defs/Conversation"
+        },
+        "messages": {
+          "$ref": "#/$defs/MessagePage"
+        },
+        "recoveredAttempt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Message"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "conversation",
+        "messages",
+        "recoveredAttempt"
+      ],
+      "additionalProperties": false
+    },
+    "StreamAccepted": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "const": "accepted"
+        },
+        "operationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "userMessageId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assistantMessageId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "correlationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "approvedRevisionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "const": "QUEUED"
+        }
+      },
+      "required": [
+        "event",
+        "operationId",
+        "userMessageId",
+        "assistantMessageId",
+        "correlationId",
+        "approvedRevisionId",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "StreamChunk": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "const": "chunk"
+        },
+        "operationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assistantMessageId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contextLimitation": {
+          "enum": [
+            "NONE",
+            "HISTORY_LIMITED",
+            "CURRENT_REQUEST_ONLY"
+          ]
+        }
+      },
+      "required": [
+        "event",
+        "operationId",
+        "assistantMessageId",
+        "index",
+        "text",
+        "contextLimitation"
+      ],
+      "additionalProperties": false
+    },
+    "StreamCompleted": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "const": "completed"
+        },
+        "operationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assistantMessageId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "const": "COMPLETED"
+        },
+        "finalChunkCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contextLimitation": {
+          "enum": [
+            "NONE",
+            "HISTORY_LIMITED",
+            "CURRENT_REQUEST_ONLY"
+          ]
+        }
+      },
+      "required": [
+        "event",
+        "operationId",
+        "assistantMessageId",
+        "status",
+        "finalChunkCount",
+        "content",
+        "contextLimitation"
+      ],
+      "additionalProperties": false
+    },
+    "StreamFailed": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "const": "failed"
+        },
+        "operationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assistantMessageId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "enum": [
+            "FAILED",
+            "TIMEOUT",
+            "CANCELLED"
+          ]
+        },
+        "code": {
+          "enum": [
+            "GENERATION_FAILED",
+            "GENERATION_TIMEOUT",
+            "GENERATION_CANCELLED"
+          ]
+        },
+        "retryAvailable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "event",
+        "operationId",
+        "assistantMessageId",
+        "status",
+        "code",
+        "retryAvailable"
+      ],
+      "additionalProperties": false
+    },
+    "StreamEvent": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/StreamAccepted"
+        },
+        {
+          "$ref": "#/$defs/StreamChunk"
+        },
+        {
+          "$ref": "#/$defs/StreamCompleted"
+        },
+        {
+          "$ref": "#/$defs/StreamFailed"
+        }
+      ]
+    },
+    "AuthSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Auth"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "OrganizationPageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/OrganizationPage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "OrganizationSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Organization"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "PublicationSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Publication"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "BrainSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Brain"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "ProductPageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/ProductPage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "ServicePageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/ServicePage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "AudiencePageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/AudiencePage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "CompetitorPageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/CompetitorPage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "BriefSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Brief"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "ImportAcceptedSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/ImportAccepted"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "ImportStatusSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/ImportStatus"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "CandidatePageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/CandidatePage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "DecisionResultSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/DecisionResult"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "ConversationSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Conversation"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "ConversationPageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/ConversationPage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "ConversationDetailSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/ConversationDetail"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "FeedbackSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Feedback"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "KnowledgeSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Knowledge"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "RevisionPageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/RevisionPage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "RevisionDetailSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/RevisionDetail"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "FieldHistoryPageSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/FieldHistoryPage"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "DiffSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/Diff"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "RestorePreviewSuccess": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "const": true
+        },
+        "data": {
+          "$ref": "#/$defs/RestorePreview"
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "requestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "contractVersion": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "requestId",
+            "contractVersion"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "success",
+        "data",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "MessageRequest": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Send"
+        },
+        {
+          "$ref": "#/$defs/RetrySend"
+        }
+      ],
+      "description": "RetrySend disabled unless D-API-06/D-HIST-03 approved; Send is ordinary new USER turn."
+    }
+  }
+}

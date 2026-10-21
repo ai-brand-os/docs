@@ -8,7 +8,8 @@
     "test:evidence": "node source_evidence.test.cjs",
     "test:relations": "node ontology_relations.test.cjs",
     "test:quality": "node knowledge_quality.test.cjs",
-    "test:history": "node conversation_context.test.cjs"
+    "test:history": "node conversation_context.test.cjs",
+    "test:public-api": "node public_api.test.cjs"
   },
   "devDependencies": {
     "ajv": "8.20.0",

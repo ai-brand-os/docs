@@ -806,3 +806,8 @@ Extraction may emit existing v2 candidateRelationships only as untrusted proposa
 **Specified — Pending Product/Architecture Review (D-AUD-03).** [ADR-015](../domain/14_KNOWLEDGE_QUALITY_AND_TAXONOMY_ADR.md) and [canonical quality1.0 contracts](../contracts/knowledge-quality/README.md) define semantics, versions, calculations and review gates.
 
 Extraction owns only proposed extraction-checks/1.0.0 over literalPreserved, classificationValid, parseUnambiguous and sourceBindingResolved. Exact rational percentage of applicable passed checks is a procedural indicator, not model calibration, Knowledge Confidence or approval. Formula disabled pending D-KQ-04; missing check states stay explicit, never default0. Actual parser/candidate/binding references establish inputs; model self-rating is untrusted metadata, not a PASS source. Preserve locked field taxonomies/manual restrictions and Task19 interpretation warnings. Unapproved2.4 storage is gated D-KQ-03; existing v2 confidence remains null/null when no known reviewed assessment. Edits create new assessments without rewriting original extraction.
+
+
+## Task23 — Public controller adapter boundary
+
+[ADR-017](../domain/16_API_AND_FRONTEND_INTEGRATION_ADR.md) and [canonical public contracts](../contracts/public-api/README.md), D-AUD-08 **Specified — Pending Product/Architecture/Frontend/Security Review**. Internal candidates/quality/evidence remain proposals. Public candidate adapter returns safe scoped field/source/indicator projection, never prompt/provider metadata or inferred approval. Core services remain DI-only; old Artifact/Gateway/import/evidence/ontology/quality/history contracts unchanged. No implemented runtime control claimed.

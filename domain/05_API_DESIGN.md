@@ -1,6 +1,6 @@
 # API Design — AI Brand OS
 
-> Final audit (2026-10-16): D-AUD-08 tracks remaining request/response DTOs, pagination/error/SSE recovery and validated telemetry transport. Endpoint inventory is not a complete executable API. The existing candidate PATCH route is retained; R23 / D-AUD-07 owns aggregate import outcomes. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
+> Task23 (2026-10-21): [ADR-017](16_API_AND_FRONTEND_INTEGRATION_ADR.md) and [public API1.0](../contracts/public-api/README.md) supply canonical proposed DTO/transport/UI contracts and a [46-operation matrix](../contracts/public-api/ENDPOINT_MATRIX.md). D-AUD-08 is Specified — Pending Product/Architecture/Frontend/Security Review. The inventory below is preserved; route presence is not adoption or runtime evidence. Creation identity storage, telemetry transport, authentic history ordering and relationship restore remain gated. R23 / D-AUD-07 owns aggregate import outcomes. See [final-audit decisions](../DECISION_REGISTER.md#final-audit-decisions) for options and ownership.
 
 > Approval evidence audit (2026-10-13): [DECISION_REGISTER.md](../DECISION_REGISTER.md). Recorded baseline engineering decisions are preserved. Approved labels do not sign off pending import product choices D-IMP-01/02/03, later integrated PRD revisions, or proposed legal/operational retention periods. Dependency/release gates remain disclosed.
 
@@ -171,7 +171,7 @@ Everything not listed here is DI-only, per the Core Architectural Clarification.
 
 ## Error Format
 
-Inherited unchanged from `03_ENGINEERING_BIBLE.md`:
+Historical minimal envelope from Engineering Bible (preserved below for context). The canonical proposed full Error DTO/status mapping and success envelope are now [public transport](../contracts/public-api/transport.md); D-API-03/07 require compatibility review before adoption:
 
 ```json
 {
@@ -371,4 +371,11 @@ No new public scoring, country, locale or multi-language API is introduced. Exis
 
 **Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
 
-Existing send/retry/status/history routes require an internal accepted operation reference/current USER/assistant/correlation/catalog/cutoff/revision binding; this task adds no new public route or regeneration/cancellation/SSE recovery promise. D-AUD-08/D-HIST-03 owns exact DTO/error/cursor/fallback disclosure. Scoped key/body replay returns original accepted IDs/pin after live reauthorization; changed body conflicts, stale terminal retry/older-turn branching rejects. Keyset history pagination pins frozen receipt/catalog rather than live timestamp OFFSET. Current request is serialized once; user-supplied tenant/sequence/provider/approval/cutoff/policy flags cannot authorize acceptance. Proposal internal error reasons map through existing safe domain/API errors, not invented Artifact error enums.
+Existing send/retry/status/history routes require an internal accepted operation reference/current USER/assistant/correlation/catalog/cutoff/revision binding; this task adds no new public route or regeneration/cancellation/SSE recovery promise. D-AUD-08/D-HIST-03 owns exact DTO/error/cursor/fallback disclosure. Scoped key/body replay returns original accepted IDs/pin after live reauthorization; changed body conflicts, stale terminal retry/older-turn branching rejects. AI-input history traversal pins frozen receipt/catalog; public UI message pagination uses a separate bounded read snapshot and sequence order, never live timestamp OFFSET. Current request is serialized once; user-supplied tenant/sequence/provider/approval/cutoff/policy flags cannot authorize acceptance. Proposal internal error reasons map through existing safe domain/API errors, not invented Artifact error enums.
+
+
+## Task23 — Canonical typed public surface
+
+[OpenAPI3.1](../contracts/public-api/1.0.0/openapi.json), [closed DTOs](../contracts/public-api/1.0.0/schemas.json) and [matrix](../contracts/public-api/ENDPOINT_MATRIX.md) define all38 core + eight already-incorporated provenance operations. Proposed candidate facade/optional knowledge filtering and relationship edit expansion remain outside enabled inventory. Public source/rating/action aliases are explicitly mapped; exact Prisma enums exposed unchanged otherwise. Shared auth/errors/keyed mutation/pagination/stream profiles are normative for every row. No additional public endpoint.
+
+GET Conversation proposes operationId query or X-Accepted-Request-Key header and recoveredAttempt outside paginated messages, including current status/IDs/feedback/final text only when durable. This is a review-gated DTO amendment for lost acceptance/final acknowledgements. New ordinary send body remains content; terminal retry adds retryOfOperationId only under D-API-06/D-HIST-03. No public regeneration/cancel/reconnect or Last-Event-ID replay. Brand/knowledge null confidence, readiness and approved snapshots remain independent. Telemetry acknowledgement transport is an explicit unresolved gap D-API-05, not a newly approved route. D-API-01–07, current PRDs and all prior Founder/architecture/security/policy gates remain pending.

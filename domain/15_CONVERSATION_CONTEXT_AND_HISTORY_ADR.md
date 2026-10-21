@@ -100,3 +100,8 @@ History-selection metadata reports included IDs, omitted reasons, catalog range 
 | D-HIST-04 | Architecture/Engineering/Security + Operations/Legal for retention: Artifact2.5 receipt/selection, trusted reference/uniqueness/atomicity, raw-prompt ownership/reader rollout/rollback; no new Memory store or retention period |
 
 D-AUD-01 is specified, not Approved. Preserve D-AUD-08, D-REV-02, D-GW-01, D-KQ-01–05, D-POL-01, D-SEC-01/02/03, D-ARCH-01/02, D-GTM-02 and all Founder decisions. [AT-22-01–36 and actual checks](../validation/TASK22_RESULTS.md) demonstrate offline selection/binding rules and isolated database mechanisms, not deployed history coherence, model behavior or privacy/production correctness. Specification Delivery is met as a reviewable proposal; formal adoption/runtime readiness is not claimed.
+
+
+## Task23 — Proposed public adapter integration
+
+[ADR-017](16_API_AND_FRONTEND_INTEGRATION_ADR.md) and [API contracts](../contracts/public-api/README.md) specify public DTO/error/pagination/SSE/read recovery semantics under D-AUD-08, **pending Product/Architecture/Frontend/Security review**. Existing1.0 and Artifact bundles unchanged; this adapter specification does not approve D-HIST-01–04, D-IMP-01/02/03, D-IMP-LC-01/02, D-REV-02, D-ARCH-01, D-POL-01 or any prior gate. No new public retry/cancel/reconnect/regeneration route, new status authority or transport implementation. Earlier dated mentions of unfilled D-AUD-08 contracts are superseded at specification level only; runtime/adoption review remains.

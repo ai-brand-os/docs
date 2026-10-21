@@ -186,3 +186,8 @@ Effective Date
 ---
 
 # END OF DOCUMENT
+
+
+## Task23 — Integration behavior and missing dependencies
+
+[Frontend state matrix](../contracts/public-api/FRONTEND_STATES.md) defines request/focus/error/loading/screen-reader behavior in existing views. [Design dependency register](../contracts/public-api/DESIGN_DEPENDENCIES.md) records unavailable external Foundations/full kit/Ember values and pending Design/Frontend review, no fabricated colors or links. All Organization switching/context-reset behavior above belongs to Phase2; MVP shows one static label only. Proposed fallback controls are not visual approval or a new screen. D-API-04 and D-IMP-03 remain pending.

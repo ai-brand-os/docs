@@ -167,3 +167,8 @@ Completeness calculation2, 14 mandatory80/optional20 weights, readiness, origina
 **Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](contracts/conversation-context/README.md) define canonical rules and pending gates.
 
 History receipt acceptance SUCCEEDED, context preparation, tokens/history-message count or SSE connection is not first value, factual accuracy, completeness or activation. Original qualifying presented grounded output/readiness/TTFV rules remain unchanged. Record pinned approved revision as before; proposed history counts/cutoff/exclusions are restricted operational audit only, not new quality weights, goals or score. D-KQ-05 formulas remain disabled; no benefit claim from adding older turns or current-only fallback.
+
+
+## Task23 — Public adapter and frontend contract
+
+[ADR-017](domain/16_API_AND_FRONTEND_INTEGRATION_ADR.md) and [public API1.0 contracts](contracts/public-api/README.md) specify D-AUD-08 — **Specified — Pending Product/Architecture/Frontend/Security Review**, not Approved or implemented. All13 existing event names remain canonical, including ImportCompleted=eligible review readiness (not closure) and GenerationRequested=accepted generation. Seven added events specify review/decisions/closure/final outcomes/feedback/deletion. Every event has typed required IDs, privacy/consent, server timestamps and dedupe in the registry. OutputPresented/initial setup/review presentation signals have **no approved transport** in the route inventory: D-API-05 blocks their instrumentation; no inference from GET or completed generation, no new route. Targets/exclusions/readiness unchanged.

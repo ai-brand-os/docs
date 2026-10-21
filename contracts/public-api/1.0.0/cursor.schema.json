@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:public-api:1.0.0:cursor",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": "1.0.0"
+    },
+    "keyId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "principalId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "organizationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "brandId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "routeId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resourceId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "filterHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "snapshotId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "lastKey": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "maxItems": 3
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "version",
+    "keyId",
+    "principalId",
+    "organizationId",
+    "brandId",
+    "routeId",
+    "resourceId",
+    "filterHash",
+    "limit",
+    "snapshotId",
+    "lastKey",
+    "expiresAt"
+  ],
+  "additionalProperties": false
+}

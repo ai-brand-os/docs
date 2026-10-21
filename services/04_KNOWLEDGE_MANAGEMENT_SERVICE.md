@@ -798,3 +798,8 @@ KM owns proposed support-checks/1.0.0 and categorical source policy. It does not
 **Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
 
 Workspace history selection does not call KM to automatically mine/approve facts, preferences or summaries. KM remains the sole authorized business review/publication owner; conversational assertions/old assistant claims are not approved knowledge or import evidence. Existing manual correction flow may record independently confirmed Owner business input; no new learning channel or retention reference from approved knowledge to raw Conversation artifacts is introduced. Selected revision authority remains immutable during a generation; no score/history length bypasses review.
+
+
+## Task23 — Public controller adapter boundary
+
+[ADR-017](../domain/16_API_AND_FRONTEND_INTEGRATION_ADR.md) and [canonical public contracts](../contracts/public-api/README.md), D-AUD-08 **Specified — Pending Product/Architecture/Frontend/Security Review**. Application adapter accepts typed explicit manual/candidate changes and expected head/key; this module independently validates actual source/approval/ref/tenant and publishes atomically. Public safe history/restore projections do not enable unsupported relationship edits. Core services remain DI-only; old Artifact/Gateway/import/evidence/ontology/quality/history contracts unchanged. No implemented runtime control claimed.

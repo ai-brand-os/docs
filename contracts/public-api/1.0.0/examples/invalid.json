@@ -1,0 +1,105 @@
+[
+  {
+    "name": "missing required",
+    "schema": "Send",
+    "value": {}
+  },
+  {
+    "name": "unknown property",
+    "schema": "Send",
+    "value": {
+      "content": "x",
+      "organizationId": "23000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "wrong feedback enum",
+    "schema": "FeedbackRequest",
+    "value": {
+      "rating": "HELPFUL"
+    }
+  },
+  {
+    "name": "unknown score is not zero",
+    "schema": "Quality",
+    "value": {
+      "state": "UNKNOWN",
+      "value": 0,
+      "formulaVersion": null
+    }
+  },
+  {
+    "name": "wrong import kind",
+    "schema": "ImportURL",
+    "value": {
+      "sourceType": "website",
+      "url": "https://example.invalid"
+    }
+  },
+  {
+    "name": "empty patch",
+    "schema": "BrandPatch",
+    "value": {
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "wrong tone count",
+    "schema": "VoicePatch",
+    "value": {
+      "expectedRevisionId": "23000000-0000-4000-8000-000000000001",
+      "toneAttributes": [
+        "FRIENDLY"
+      ]
+    }
+  },
+  {
+    "name": "invalid SSE enum",
+    "schema": "StreamFailed",
+    "value": {
+      "event": "failed",
+      "operationId": "23000000-0000-4000-8000-000000000001",
+      "assistantMessageId": "23000000-0000-4000-8000-000000000001",
+      "status": "ERROR",
+      "code": "GENERATION_FAILED",
+      "retryAvailable": false
+    }
+  },
+  {
+    "name": "unapproved fallback",
+    "schema": "MessageRequest",
+    "value": {
+      "content": "x",
+      "allowCurrentOnly": true
+    }
+  },
+  {
+    "name": "forged approval",
+    "schema": "BrandPatch",
+    "value": {
+      "name": "x",
+      "expectedRevisionId": null,
+      "approvedAt": "2026-10-21T10:00:00Z"
+    }
+  },
+  {
+    "name": "failed assistant cannot expose partial as final",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "FAILED",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": "partial unvalidated answer",
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": false,
+      "failureCode": "GENERATION_FAILED",
+      "feedback": null,
+      "contextLimitation": null
+    }
+  }
+]

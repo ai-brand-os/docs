@@ -928,3 +928,8 @@ Region/language under Brand settings are views of the Organization profile seman
 **Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
 
 Existing multi-turn Workspace needs bounded authorized prior messages, not merely persisted history. Approved Knowledge, Conversation History and attempt-local Working Memory are MVP contract inputs; generated summaries/preferences/background memory agents/cross-conversation search remain future. No autonomous conversation learning or automatic business-fact approval. Current-only fallback/orphan-user behavior/latest-turn retry/concurrent acceptance and conditional regeneration require D-HIST/Product review; no new UI or broader capability. History remains untrusted and subordinate to the selected approved Brain facts.
+
+
+## Task23 — Public API integration review
+
+[ADR-017](../domain/16_API_AND_FRONTEND_INTEGRATION_ADR.md) and [public contracts](../contracts/public-api/README.md) provide proposed typed adapters, UI transitions and minimized telemetry for the same seven features/sole Owner. D-AUD-08 is Specified — Pending Product/Architecture/Frontend/Security Review. Framework, DI/module boundaries, human approval and single-response SSE preserved; API contract delivery is not infrastructure migration, working telemetry, accessible visual-design proof or runtime security approval.

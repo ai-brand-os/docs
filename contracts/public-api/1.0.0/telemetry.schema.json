@@ -1,0 +1,2526 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-brand-os:public-telemetry:1.0.0",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "OnboardingStarted"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "onboardingInstanceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "startedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "eligibility": {
+              "enum": [
+                "INITIAL",
+                "EXCLUDED_TEST",
+                "EXISTING_BRAIN"
+              ]
+            }
+          },
+          "required": [
+            "startedAt",
+            "eligibility"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "OnboardingInterrupted"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "onboardingInstanceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "enum": [
+                "EXIT",
+                "INACTIVITY"
+              ]
+            },
+            "lastActivityAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "reason",
+            "lastActivityAt"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "OnboardingResumed"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "onboardingInstanceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "startedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "startedAt"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "BrandBrainRevisionApproved"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "revisionId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "previousRevisionId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "ontologyVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "calculationVersion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "completenessScore": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "missingMandatoryFields": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "calculatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "revisionId",
+            "previousRevisionId",
+            "ontologyVersion",
+            "calculationVersion",
+            "completenessScore",
+            "missingMandatoryFields",
+            "calculatedAt"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "BrandBrainReadinessEvaluated"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "revisionId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "effectiveReady": {
+              "type": "boolean"
+            },
+            "readinessReasons": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "evaluatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "revisionId",
+            "effectiveReady",
+            "readinessReasons",
+            "evaluatedAt"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "ImportSubmitted"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "correlationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "sourceType": {
+              "enum": [
+                "url",
+                "file"
+              ]
+            },
+            "submittedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "correlationId",
+            "sourceType",
+            "submittedAt"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "ImportCompleted"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "correlationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "completedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "status": {
+              "const": "READY_FOR_REVIEW"
+            }
+          },
+          "required": [
+            "correlationId",
+            "completedAt",
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "ImportFailed"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "correlationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "failedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "code": {
+              "enum": [
+                "PIPELINE_FAILED",
+                "RETRY_EXHAUSTED",
+                "INPUT_UNSAFE",
+                "SOURCE_UNAVAILABLE",
+                "AUTHORIZATION_REVOKED"
+              ]
+            }
+          },
+          "required": [
+            "correlationId",
+            "failedAt",
+            "code"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "GenerationRequested"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "outputId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "conversationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "approvedRevisionId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "effectiveReady": {
+              "const": true
+            },
+            "mode": {
+              "const": "context_aware"
+            }
+          },
+          "required": [
+            "outputId",
+            "conversationId",
+            "approvedRevisionId",
+            "effectiveReady",
+            "mode"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "OutputPresented"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "outputId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "kind": {
+              "enum": [
+                "workspace_response",
+                "brand_brief"
+              ]
+            },
+            "approvedRevisionId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "factKeys": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 1
+            },
+            "validationResult": {
+              "const": "VALID"
+            },
+            "approvedContextPresent": {
+              "const": true
+            },
+            "isPartial": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "outputId",
+            "kind",
+            "approvedRevisionId",
+            "factKeys",
+            "validationResult",
+            "approvedContextPresent",
+            "isPartial"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "OutputUsabilityConfirmed"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "outputId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "action": {
+              "enum": [
+                "helpful",
+                "usable",
+                "copied"
+              ]
+            },
+            "actionId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "success": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "outputId",
+            "action",
+            "actionId",
+            "success"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "QualifiedFirstValue"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "outputId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "kind": {
+              "enum": [
+                "workspace_response",
+                "brand_brief"
+              ]
+            },
+            "approvedRevisionId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "presentationEventId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "startedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "qualifiedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "elapsedMs": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "outputId",
+            "kind",
+            "approvedRevisionId",
+            "presentationEventId",
+            "startedAt",
+            "qualifiedAt",
+            "elapsedMs"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "OnboardingWindowClosed"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "onboardingInstanceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "outcome": {
+              "enum": [
+                "qualified",
+                "not_activated",
+                "unmeasurable"
+              ]
+            },
+            "closedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "outcome",
+            "closedAt"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "ReviewOpened"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "correlationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "reviewVisitId": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "required": [
+            "correlationId",
+            "reviewVisitId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "CandidateDecisionRecorded"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "correlationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "candidateId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "decisionId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "action": {
+              "enum": [
+                "confirm",
+                "edit",
+                "delete"
+              ]
+            },
+            "newRevisionId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "correlationId",
+            "candidateId",
+            "decisionId",
+            "action",
+            "newRevisionId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "ImportClosed"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "correlationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "status": {
+              "enum": [
+                "COMPLETED",
+                "FAILED",
+                "REJECTED_NO_CANDIDATES"
+              ]
+            },
+            "accepted": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "editedAccepted": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "rejected": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "invalidated": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "correlationId",
+            "status",
+            "accepted",
+            "editedAccepted",
+            "rejected",
+            "invalidated"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "GenerationCompleted"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "outputId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "conversationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "approvedRevisionId": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "required": [
+            "outputId",
+            "conversationId",
+            "approvedRevisionId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "GenerationFailed"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "outputId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "conversationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "status": {
+              "enum": [
+                "FAILED",
+                "CANCELLED",
+                "TIMEOUT"
+              ]
+            }
+          },
+          "required": [
+            "outputId",
+            "conversationId",
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "FeedbackSubmitted"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "feedbackId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "outputId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "rating": {
+              "enum": [
+                "HELPFUL",
+                "NOT_HELPFUL"
+              ]
+            }
+          },
+          "required": [
+            "feedbackId",
+            "outputId",
+            "rating"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "eventName": {
+          "const": "ConversationDeletionRequested"
+        },
+        "eventVersion": {
+          "const": "1.0.0"
+        },
+        "contractVersion": {
+          "const": "1.0.0"
+        },
+        "eventId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "serverRecordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "organizationId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "brandId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "onboardingInstanceId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browserSessionId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "consentState": {
+          "enum": [
+            "PERMITTED",
+            "NOT_REQUIRED"
+          ]
+        },
+        "cohort": {
+          "enum": [
+            "INITIAL_ONBOARDING",
+            "EXISTING",
+            "INTERNAL_TEST"
+          ]
+        },
+        "attribution": {
+          "enum": [
+            "DIRECT",
+            "UNKNOWN"
+          ]
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "requestedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "conversationId",
+            "requestedAt"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "eventName",
+        "eventVersion",
+        "contractVersion",
+        "eventId",
+        "occurredAt",
+        "serverRecordedAt",
+        "accountId",
+        "organizationId",
+        "brandId",
+        "onboardingInstanceId",
+        "browserSessionId",
+        "consentState",
+        "cohort",
+        "attribution",
+        "data"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

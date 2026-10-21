@@ -1,0 +1,52 @@
+[
+  {
+    "name": "oversized-input",
+    "layer": "ingress",
+    "expected": 413
+  },
+  {
+    "name": "unsafe-cursor",
+    "layer": "cursor",
+    "expected": 400
+  },
+  {
+    "name": "broken-sse-framing",
+    "layer": "stream",
+    "expected": 400
+  },
+  {
+    "name": "unknown-stream-event",
+    "layer": "stream",
+    "expected": 400
+  },
+  {
+    "name": "wrong-content-type",
+    "layer": "ingress",
+    "expected": 415
+  },
+  {
+    "name": "partial-message-transport",
+    "layer": "stream",
+    "expected": "recovering"
+  },
+  {
+    "name": "late-events-after-deletion",
+    "layer": "stream",
+    "expected": 404
+  },
+  {
+    "name": "unauthorized-revision-reference",
+    "layer": "authorization",
+    "expected": 404
+  },
+  {
+    "name": "unavailable-approved-knowledge",
+    "layer": "acceptance",
+    "expected": 422
+  },
+  {
+    "name": "unapproved-generation-fallback",
+    "layer": "schema",
+    "expected": false
+  }
+]

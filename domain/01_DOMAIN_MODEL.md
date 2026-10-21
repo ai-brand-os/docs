@@ -1510,3 +1510,8 @@ Confidence is an assessment value object about pinned inputs, not a business fac
 **Specified — Pending Product/Architecture/Security Review (D-AUD-01), 2026-10-21.** [ADR-016](../domain/15_CONVERSATION_CONTEXT_AND_HISTORY_ADR.md) and [history1.0 contracts](../contracts/conversation-context/README.md) define canonical rules and pending gates.
 
 Conversation is persistent scoped container; Message is accepted USER or individual assistant attempt. Proposed immutable sequence/reply association plus acceptance catalog supplies order and reproducible history; current createdAt/UUID/correlation alone does not. History/Working/approved Knowledge are separate concepts, with long-term summaries/preferences out of MVP. Prior assistant claims remain unverified historical text even when originally grounded; selected current approved revision controls business facts. No new business entity/Memory Service or lifecycle enum; proposed sequence storage and metadata adoption await review.
+
+
+## Task23 — Public projection boundary
+
+[ADR-017](16_API_AND_FRONTEND_INTEGRATION_ADR.md) and [public API1.0](../contracts/public-api/README.md) define gated application DTOs, not new domain or Artifact authorities. No Prisma/model migration here. Conversation-create idempotency storage and mutable-list snapshot cache are explicit D-API-03/02 proposals; ADR-016 ordering/migration remains D-HIST-01. Read recovery/public feedback maps actual authorized durable state. Existing retention/reference/approval rules unchanged.

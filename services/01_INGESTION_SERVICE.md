@@ -409,3 +409,8 @@ Run as an internal NestJS module, not a public independently deployed service. H
 ## Task19 — Immutable intake identity and capture
 
 [ADR-013](../domain/12_SOURCE_EVIDENCE_MAPPING_ADR.md) defines exact upload bytes and bounded HTTP content-decoded body before charset decode as source content. Compute existing rawContentReference sha256/byteLength over those actual stored bytes; assign independent tenant source/capture identity, never a mutable URL as version. Preserve privately requested/final URLs, redirects, time/MIME/charset and capture implementation/config. Keep server-only immutable object keys and scan/SSRF/limits; no parsing/semantic work or refetch during evidence verification. Later source/representation attachments use existing source and Document refs, not an expanded RAW_INTAKE2.0 payload. D-SEC-01/D-POL-01 and D-EVID-01 review remain open.
+
+
+## Task23 — Public controller adapter boundary
+
+[ADR-017](../domain/16_API_AND_FRONTEND_INTEGRATION_ADR.md) and [canonical public contracts](../contracts/public-api/README.md), D-AUD-08 **Specified — Pending Product/Architecture/Frontend/Security Review**. KnowledgeImport controller owns multipart/URL DTO/202; this module retains actual byte/MIME/quarantine/scan/redirect policy checks. Unsafe inputs map safe public errors, never internal URLs/traces. Core services remain DI-only; old Artifact/Gateway/import/evidence/ontology/quality/history contracts unchanged. No implemented runtime control claimed.

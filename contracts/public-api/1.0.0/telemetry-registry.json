@@ -1,0 +1,142 @@
+[
+  {
+    "name": "OnboardingStarted",
+    "version": "1.0.0",
+    "trigger": "Validated initial setup presentation",
+    "producer": "Application telemetry adapter",
+    "dedupeIdentity": "instance"
+  },
+  {
+    "name": "OnboardingInterrupted",
+    "version": "1.0.0",
+    "trigger": "Exit or reviewed inactivity monitor",
+    "producer": "Application telemetry adapter",
+    "dedupeIdentity": "instance"
+  },
+  {
+    "name": "OnboardingResumed",
+    "version": "1.0.0",
+    "trigger": "Validated reentry same instance",
+    "producer": "Application telemetry adapter",
+    "dedupeIdentity": "instance"
+  },
+  {
+    "name": "BrandBrainRevisionApproved",
+    "version": "1.0.0",
+    "trigger": "After atomic approval commit; first occurrence is first approved Brain",
+    "producer": "KM outbox",
+    "dedupeIdentity": "revision"
+  },
+  {
+    "name": "BrandBrainReadinessEvaluated",
+    "version": "1.0.0",
+    "trigger": "Actual approval/archival/compatibility evaluation",
+    "producer": "KM/application outbox",
+    "dedupeIdentity": "evaluation"
+  },
+  {
+    "name": "ImportSubmitted",
+    "version": "1.0.0",
+    "trigger": "Admission commits",
+    "producer": "KnowledgeImport outbox",
+    "dedupeIdentity": "import"
+  },
+  {
+    "name": "ImportCompleted",
+    "version": "1.0.0",
+    "trigger": "Eligible frozen review set established, NOT closure",
+    "producer": "KnowledgeImport outbox",
+    "dedupeIdentity": "import"
+  },
+  {
+    "name": "ImportFailed",
+    "version": "1.0.0",
+    "trigger": "Durable failure closure",
+    "producer": "KnowledgeImport outbox",
+    "dedupeIdentity": "import"
+  },
+  {
+    "name": "GenerationRequested",
+    "version": "1.0.0",
+    "trigger": "Accepted USER/assistant/receipt commits; canonical generation accepted name",
+    "producer": "Workspace outbox",
+    "dedupeIdentity": "operation"
+  },
+  {
+    "name": "OutputPresented",
+    "version": "1.0.0",
+    "trigger": "Authorized server validates UI final readable-output acknowledgement",
+    "producer": "Application telemetry adapter",
+    "dedupeIdentity": "presentation"
+  },
+  {
+    "name": "OutputUsabilityConfirmed",
+    "version": "1.0.0",
+    "trigger": "Accepted optional usability/copy/helpful action on presented valid output",
+    "producer": "Application telemetry adapter",
+    "dedupeIdentity": "action"
+  },
+  {
+    "name": "QualifiedFirstValue",
+    "version": "1.0.0",
+    "trigger": "First valid OutputPresented join once per initial instance",
+    "producer": "Cohort processor",
+    "dedupeIdentity": "instance"
+  },
+  {
+    "name": "OnboardingWindowClosed",
+    "version": "1.0.0",
+    "trigger": "Mature start+7day cohort under measurement version",
+    "producer": "Cohort processor",
+    "dedupeIdentity": "instance"
+  },
+  {
+    "name": "ReviewOpened",
+    "version": "1.0.0",
+    "trigger": "Validated display of authorized frozen review set",
+    "producer": "Application telemetry adapter",
+    "dedupeIdentity": "review visit"
+  },
+  {
+    "name": "CandidateDecisionRecorded",
+    "version": "1.0.0",
+    "trigger": "Immutable decision/publication transaction commits",
+    "producer": "KM outbox",
+    "dedupeIdentity": "decision"
+  },
+  {
+    "name": "ImportClosed",
+    "version": "1.0.0",
+    "trigger": "Verified durable CLOSED projection commits",
+    "producer": "KnowledgeImport outbox",
+    "dedupeIdentity": "closure"
+  },
+  {
+    "name": "GenerationCompleted",
+    "version": "1.0.0",
+    "trigger": "Validated final RESPONSE + Message COMPLETED commit",
+    "producer": "Workspace outbox",
+    "dedupeIdentity": "operation"
+  },
+  {
+    "name": "GenerationFailed",
+    "version": "1.0.0",
+    "trigger": "Durable terminal assistant failure; not transport disconnect",
+    "producer": "Workspace outbox",
+    "dedupeIdentity": "operation"
+  },
+  {
+    "name": "FeedbackSubmitted",
+    "version": "1.0.0",
+    "trigger": "Unique vote transaction commits",
+    "producer": "Workspace outbox",
+    "dedupeIdentity": "feedback"
+  },
+  {
+    "name": "ConversationDeletionRequested",
+    "version": "1.0.0",
+    "trigger": "Tombstone+purge request commits",
+    "producer": "Workspace outbox",
+    "dedupeIdentity": "deletion"
+  }
+]

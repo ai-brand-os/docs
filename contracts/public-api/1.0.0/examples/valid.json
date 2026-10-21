@@ -1,0 +1,1614 @@
+[
+  {
+    "name": "post /api/v1/auth/signup",
+    "schema": "Signup",
+    "value": {
+      "email": "fixture@example.invalid",
+      "password": "fixture",
+      "organization": {
+        "name": "fixture",
+        "industry": "ECOMMERCE_RETAIL",
+        "companySize": "SIZE_1_5",
+        "websiteUrl": null,
+        "primaryRegion": "fixture",
+        "primaryLanguage": "fixture"
+      }
+    }
+  },
+  {
+    "name": "response post /api/v1/auth/signup",
+    "schema": "AuthSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "accessToken": "fixture",
+        "tokenType": "Bearer",
+        "expiresAt": "2026-10-21T10:00:00Z",
+        "sessionExpiresAt": "2026-10-21T10:00:00Z",
+        "userId": "23000000-0000-4000-8000-000000000001",
+        "organizationId": "23000000-0000-4000-8000-000000000001"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/auth/login",
+    "schema": "Login",
+    "value": {
+      "email": "fixture@example.invalid",
+      "password": "fixture"
+    }
+  },
+  {
+    "name": "response post /api/v1/auth/login",
+    "schema": "AuthSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "accessToken": "fixture",
+        "tokenType": "Bearer",
+        "expiresAt": "2026-10-21T10:00:00Z",
+        "sessionExpiresAt": "2026-10-21T10:00:00Z",
+        "userId": "23000000-0000-4000-8000-000000000001",
+        "organizationId": "23000000-0000-4000-8000-000000000001"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/auth/refresh",
+    "schema": "Empty",
+    "value": {}
+  },
+  {
+    "name": "response post /api/v1/auth/refresh",
+    "schema": "AuthSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "accessToken": "fixture",
+        "tokenType": "Bearer",
+        "expiresAt": "2026-10-21T10:00:00Z",
+        "sessionExpiresAt": "2026-10-21T10:00:00Z",
+        "userId": "23000000-0000-4000-8000-000000000001",
+        "organizationId": "23000000-0000-4000-8000-000000000001"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/auth/logout",
+    "schema": "Empty",
+    "value": {}
+  },
+  {
+    "name": "response get /api/v1/organizations",
+    "schema": "OrganizationPageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        }
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/organizations/{id}",
+    "schema": "OrganizationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "name": "fixture",
+        "industry": "ECOMMERCE_RETAIL",
+        "companySize": "SIZE_1_5",
+        "websiteUrl": null,
+        "primaryRegion": "fixture",
+        "primaryLanguage": "fixture",
+        "id": "23000000-0000-4000-8000-000000000001"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "patch /api/v1/organizations/{id}",
+    "schema": "OrganizationPatch",
+    "value": {
+      "expectedRevisionId": null,
+      "name": "fixture"
+    }
+  },
+  {
+    "name": "response patch /api/v1/organizations/{id}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/organizations/{id}/brand",
+    "schema": "BrandCreate",
+    "value": {
+      "name": "fixture",
+      "missionStatement": "fixture",
+      "visionStatement": null,
+      "coreValues": [],
+      "sampleWriting": null,
+      "primaryGoal": null,
+      "successDefinition": null,
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response post /api/v1/organizations/{id}/brand",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/organizations/{id}/brand",
+    "schema": "BrainSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "brand": {
+          "name": "fixture",
+          "missionStatement": "fixture",
+          "visionStatement": null,
+          "coreValues": [],
+          "sampleWriting": null,
+          "primaryGoal": null,
+          "successDefinition": null,
+          "id": "23000000-0000-4000-8000-000000000001"
+        },
+        "voice": null,
+        "currentRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": []
+        }
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "patch /api/v1/organizations/{id}/brand",
+    "schema": "BrandPatch",
+    "value": {
+      "expectedRevisionId": null,
+      "name": "fixture"
+    }
+  },
+  {
+    "name": "response patch /api/v1/organizations/{id}/brand",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "patch /api/v1/organizations/{id}/brand/voice",
+    "schema": "VoicePatch",
+    "value": {
+      "expectedRevisionId": null,
+      "toneAttributes": [
+        "PROFESSIONAL",
+        "FRIENDLY"
+      ]
+    }
+  },
+  {
+    "name": "response patch /api/v1/organizations/{id}/brand/voice",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/products",
+    "schema": "ProductCreate",
+    "value": {
+      "name": "fixture",
+      "description": "fixture",
+      "valueProposition": "fixture",
+      "keyFeatures": [],
+      "pricingModel": null,
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/products",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/products",
+    "schema": "ProductPageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        },
+        "currentRevisionId": null
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "patch /api/v1/brands/{id}/products/{productId}",
+    "schema": "ProductPatch",
+    "value": {
+      "expectedRevisionId": null,
+      "name": "fixture"
+    }
+  },
+  {
+    "name": "response patch /api/v1/brands/{id}/products/{productId}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "delete /api/v1/brands/{id}/products/{productId}",
+    "schema": "DeleteKnowledge",
+    "value": {
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response delete /api/v1/brands/{id}/products/{productId}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/services",
+    "schema": "ServiceCreate",
+    "value": {
+      "name": "fixture",
+      "description": "fixture",
+      "valueProposition": "fixture",
+      "keyFeatures": [],
+      "pricingModel": null,
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/services",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/services",
+    "schema": "ServicePageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        },
+        "currentRevisionId": null
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "patch /api/v1/brands/{id}/services/{serviceId}",
+    "schema": "ServicePatch",
+    "value": {
+      "expectedRevisionId": null,
+      "name": "fixture"
+    }
+  },
+  {
+    "name": "response patch /api/v1/brands/{id}/services/{serviceId}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "delete /api/v1/brands/{id}/services/{serviceId}",
+    "schema": "DeleteKnowledge",
+    "value": {
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response delete /api/v1/brands/{id}/services/{serviceId}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/audiences",
+    "schema": "AudienceCreate",
+    "value": {
+      "segmentName": "fixture",
+      "description": "fixture",
+      "painPoints": [
+        "fixture"
+      ],
+      "goals": [],
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/audiences",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/audiences",
+    "schema": "AudiencePageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        },
+        "currentRevisionId": null
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "patch /api/v1/brands/{id}/audiences/{audienceId}",
+    "schema": "AudiencePatch",
+    "value": {
+      "expectedRevisionId": null,
+      "segmentName": "fixture"
+    }
+  },
+  {
+    "name": "response patch /api/v1/brands/{id}/audiences/{audienceId}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "delete /api/v1/brands/{id}/audiences/{audienceId}",
+    "schema": "DeleteKnowledge",
+    "value": {
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response delete /api/v1/brands/{id}/audiences/{audienceId}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/competitors",
+    "schema": "CompetitorCreate",
+    "value": {
+      "name": null,
+      "website": null,
+      "differentiationNotes": null,
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/competitors",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/competitors",
+    "schema": "CompetitorPageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        },
+        "currentRevisionId": null
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "patch /api/v1/brands/{id}/competitors/{competitorId}",
+    "schema": "CompetitorPatch",
+    "value": {
+      "expectedRevisionId": null,
+      "name": null
+    }
+  },
+  {
+    "name": "response patch /api/v1/brands/{id}/competitors/{competitorId}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "delete /api/v1/brands/{id}/competitors/{competitorId}",
+    "schema": "DeleteKnowledge",
+    "value": {
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response delete /api/v1/brands/{id}/competitors/{competitorId}",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/brief",
+    "schema": "BriefSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "id": "fixture",
+        "brandId": "23000000-0000-4000-8000-000000000001",
+        "approvedRevisionId": null,
+        "text": "fixture",
+        "isPartial": false,
+        "missingSections": []
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/import",
+    "schema": "ImportURL",
+    "value": {
+      "sourceType": "url",
+      "url": "https://example.invalid"
+    }
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/import",
+    "schema": "ImportAcceptedSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "correlationId": "23000000-0000-4000-8000-000000000001",
+        "brandId": "23000000-0000-4000-8000-000000000001",
+        "acceptedAt": "2026-10-21T10:00:00Z"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/import-jobs/{correlationId}",
+    "schema": "ImportStatusSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "projectionVersion": "1.0.0",
+        "importId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+        "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+        "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+        "status": "COMPLETED",
+        "reasonCode": "ALL_ACCEPTED",
+        "progressPhase": "READY_FOR_REVIEW",
+        "candidateSummary": {
+          "eligible": 2,
+          "accepted": 2,
+          "editedAccepted": 0,
+          "rejected": 0,
+          "pending": 0,
+          "invalidated": 0
+        },
+        "pendingDecisionCount": 0,
+        "retryAvailable": false,
+        "nextAction": "NONE",
+        "terminal": true,
+        "closureArtifactId": "10000000-0000-4000-8000-000000000104",
+        "publicationRefs": [
+          "10000000-0000-4000-8000-000000000500",
+          "10000000-0000-4000-8000-000000000501"
+        ],
+        "version": "c82e66fa9347c8d823d70da84c4fdb755733716829e52cbe9220beaa87f10556"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/import-jobs/{correlationId}/candidates",
+    "schema": "CandidatePageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        },
+        "currentRevisionId": null
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "patch /api/v1/brands/{id}/import-jobs/{correlationId}/candidates/{candidateId}",
+    "schema": "Decision",
+    "value": {
+      "action": "confirm",
+      "expectedRevisionId": null
+    }
+  },
+  {
+    "name": "response patch /api/v1/brands/{id}/import-jobs/{correlationId}/candidates/{candidateId}",
+    "schema": "DecisionResultSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "candidateId": "23000000-0000-4000-8000-000000000001",
+        "action": "confirm",
+        "newRevisionId": "23000000-0000-4000-8000-000000000001",
+        "status": {
+          "projectionVersion": "1.0.0",
+          "importId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+          "correlationId": "22e2be6e-d09d-5f46-9796-65d1d86418c1",
+          "brandId": "9f6e2f57-fe50-5e51-8050-6f586cd59161",
+          "status": "COMPLETED",
+          "reasonCode": "ALL_ACCEPTED",
+          "progressPhase": "READY_FOR_REVIEW",
+          "candidateSummary": {
+            "eligible": 2,
+            "accepted": 2,
+            "editedAccepted": 0,
+            "rejected": 0,
+            "pending": 0,
+            "invalidated": 0
+          },
+          "pendingDecisionCount": 0,
+          "retryAvailable": false,
+          "nextAction": "NONE",
+          "terminal": true,
+          "closureArtifactId": "10000000-0000-4000-8000-000000000104",
+          "publicationRefs": [
+            "10000000-0000-4000-8000-000000000500",
+            "10000000-0000-4000-8000-000000000501"
+          ],
+          "version": "c82e66fa9347c8d823d70da84c4fdb755733716829e52cbe9220beaa87f10556"
+        }
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/conversations",
+    "schema": "ConversationCreate",
+    "value": {}
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/conversations",
+    "schema": "ConversationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "id": "23000000-0000-4000-8000-000000000001",
+        "brandId": "23000000-0000-4000-8000-000000000001",
+        "title": null,
+        "lastActivityAt": "2026-10-21T10:00:00Z",
+        "createdAt": "2026-10-21T10:00:00Z"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/conversations",
+    "schema": "ConversationPageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        }
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/conversations/{id}",
+    "schema": "ConversationDetailSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "conversation": {
+          "id": "23000000-0000-4000-8000-000000000001",
+          "brandId": "23000000-0000-4000-8000-000000000001",
+          "title": null,
+          "lastActivityAt": "2026-10-21T10:00:00Z",
+          "createdAt": "2026-10-21T10:00:00Z"
+        },
+        "messages": {
+          "items": [],
+          "page": {
+            "nextCursor": null,
+            "hasMore": false
+          }
+        },
+        "recoveredAttempt": null
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/conversations/{id}/messages",
+    "schema": "MessageRequest",
+    "value": {
+      "content": "fixture"
+    }
+  },
+  {
+    "name": "post /api/v1/messages/{id}/feedback",
+    "schema": "FeedbackRequest",
+    "value": {
+      "rating": "helpful"
+    }
+  },
+  {
+    "name": "response post /api/v1/messages/{id}/feedback",
+    "schema": "FeedbackSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "id": "23000000-0000-4000-8000-000000000001",
+        "messageId": "23000000-0000-4000-8000-000000000001",
+        "rating": "HELPFUL",
+        "createdAt": "2026-10-21T10:00:00Z"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/knowledge",
+    "schema": "KnowledgeSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "brandId": "23000000-0000-4000-8000-000000000001",
+        "currentRevisionId": null,
+        "facts": [],
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": []
+        }
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/revisions",
+    "schema": "RevisionPageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        }
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/revisions/{revisionId}",
+    "schema": "RevisionDetailSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "revision": {
+          "id": "23000000-0000-4000-8000-000000000001",
+          "brandId": "23000000-0000-4000-8000-000000000001",
+          "revisionNumber": 1,
+          "previousRevisionId": null,
+          "restoredFromRevisionId": null,
+          "approvedByUserId": "23000000-0000-4000-8000-000000000001",
+          "approvedAt": "2026-10-21T10:00:00Z",
+          "changeReason": "fixture",
+          "completeness": {
+            "state": "NO_APPROVED_HEAD",
+            "score": 0,
+            "missingMandatoryFields": [
+              "Brand.name"
+            ],
+            "ontologyVersion": null,
+            "calculationVersion": null,
+            "calculatedAt": null
+          }
+        },
+        "facts": []
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/field-history",
+    "schema": "FieldHistoryPageSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "items": [],
+        "page": {
+          "nextCursor": null,
+          "hasMore": false
+        }
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "response get /api/v1/brands/{id}/revision-diff",
+    "schema": "DiffSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "fromRevisionId": "23000000-0000-4000-8000-000000000001",
+        "toRevisionId": "23000000-0000-4000-8000-000000000001",
+        "changes": []
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/knowledge/verify",
+    "schema": "Verify",
+    "value": {
+      "factKeys": [
+        "fixture"
+      ],
+      "expectedRevisionId": "23000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/knowledge/verify",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/revisions/{revisionId}/restore-preview",
+    "schema": "RestorePreviewRequest",
+    "value": {
+      "expectedRevisionId": "23000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/revisions/{revisionId}/restore-preview",
+    "schema": "RestorePreviewSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "sourceRevisionId": "23000000-0000-4000-8000-000000000001",
+        "expectedRevisionId": "23000000-0000-4000-8000-000000000001",
+        "previewDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "changes": [],
+        "warnings": [],
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": []
+        }
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "post /api/v1/brands/{id}/revisions/{revisionId}/restore",
+    "schema": "RestoreRequest",
+    "value": {
+      "expectedRevisionId": "23000000-0000-4000-8000-000000000001",
+      "previewDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "acknowledgements": [],
+      "reason": "fixture"
+    }
+  },
+  {
+    "name": "response post /api/v1/brands/{id}/revisions/{revisionId}/restore",
+    "schema": "PublicationSuccess",
+    "value": {
+      "success": true,
+      "data": {
+        "resourceId": "23000000-0000-4000-8000-000000000001",
+        "newRevisionId": null,
+        "completeness": {
+          "state": "NO_APPROVED_HEAD",
+          "score": 0,
+          "missingMandatoryFields": [
+            "Brand.name"
+          ],
+          "ontologyVersion": null,
+          "calculationVersion": null,
+          "calculatedAt": null
+        },
+        "readiness": {
+          "effectiveReady": false,
+          "reasons": [
+            "MANDATORY_FIELDS_MISSING"
+          ]
+        },
+        "outcome": "INITIALIZED"
+      },
+      "meta": {
+        "requestId": "23000000-0000-4000-8000-000000000001",
+        "contractVersion": "1.0.0"
+      }
+    }
+  },
+  {
+    "name": "stream accepted",
+    "schema": "StreamAccepted",
+    "value": {
+      "event": "accepted",
+      "operationId": "23000000-0000-4000-8000-000000000001",
+      "userMessageId": "23000000-0000-4000-8000-000000000001",
+      "assistantMessageId": "23000000-0000-4000-8000-000000000001",
+      "correlationId": "23000000-0000-4000-8000-000000000001",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000001",
+      "status": "QUEUED"
+    }
+  },
+  {
+    "name": "stream chunk",
+    "schema": "StreamChunk",
+    "value": {
+      "event": "chunk",
+      "operationId": "23000000-0000-4000-8000-000000000001",
+      "assistantMessageId": "23000000-0000-4000-8000-000000000001",
+      "index": 0,
+      "text": "Final answer",
+      "contextLimitation": "NONE"
+    }
+  },
+  {
+    "name": "stream completed",
+    "schema": "StreamCompleted",
+    "value": {
+      "event": "completed",
+      "operationId": "23000000-0000-4000-8000-000000000001",
+      "assistantMessageId": "23000000-0000-4000-8000-000000000001",
+      "status": "COMPLETED",
+      "finalChunkCount": 1,
+      "content": "Final answer",
+      "contextLimitation": "NONE"
+    }
+  },
+  {
+    "name": "assistant lifecycle DRAFT",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "DRAFT",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": null,
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": false,
+      "failureCode": null,
+      "feedback": null,
+      "contextLimitation": null
+    }
+  },
+  {
+    "name": "assistant lifecycle SUBMITTING",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "SUBMITTING",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": null,
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": false,
+      "failureCode": null,
+      "feedback": null,
+      "contextLimitation": null
+    }
+  },
+  {
+    "name": "assistant lifecycle QUEUED",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "QUEUED",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": null,
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": false,
+      "failureCode": null,
+      "feedback": null,
+      "contextLimitation": null
+    }
+  },
+  {
+    "name": "assistant lifecycle PREPARING_CONTEXT",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "PREPARING_CONTEXT",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": null,
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": false,
+      "failureCode": null,
+      "feedback": null,
+      "contextLimitation": null
+    }
+  },
+  {
+    "name": "assistant lifecycle GENERATING",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "GENERATING",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": null,
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": false,
+      "failureCode": null,
+      "feedback": null,
+      "contextLimitation": null
+    }
+  },
+  {
+    "name": "assistant lifecycle COMPLETED",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "COMPLETED",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": "A validated durable final answer",
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": false,
+      "failureCode": null,
+      "feedback": null,
+      "contextLimitation": "NONE"
+    }
+  },
+  {
+    "name": "assistant lifecycle FAILED",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "FAILED",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": null,
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": true,
+      "failureCode": "GENERATION_FAILED",
+      "feedback": null,
+      "contextLimitation": null
+    }
+  },
+  {
+    "name": "assistant lifecycle CANCELLED",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "CANCELLED",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": null,
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": true,
+      "failureCode": "GENERATION_CANCELLED",
+      "feedback": null,
+      "contextLimitation": null
+    }
+  },
+  {
+    "name": "assistant lifecycle TIMEOUT",
+    "schema": "Message",
+    "value": {
+      "id": "23000000-0000-4000-8000-000000000002",
+      "role": "ASSISTANT",
+      "status": "TIMEOUT",
+      "sequence": "2",
+      "replyToUserMessageId": "23000000-0000-4000-8000-000000000001",
+      "operationId": "23000000-0000-4000-8000-000000000002",
+      "correlationId": "23000000-0000-4000-8000-000000000002",
+      "approvedRevisionId": "23000000-0000-4000-8000-000000000002",
+      "content": null,
+      "createdAt": "2026-10-21T10:00:00Z",
+      "retryAvailable": true,
+      "failureCode": "GENERATION_TIMEOUT",
+      "feedback": null,
+      "contextLimitation": null
+    }
+  }
+]
